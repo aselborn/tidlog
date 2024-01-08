@@ -144,31 +144,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="row min-vh-100 justify-content-center align-items-center">
       <div class="col-lg-5">
         <div class="form-wrap border rounded p-4">
-          <h1>Sign up</h1>
+          <h1>Skapa konto</h1>
           <p>Fyll i för att registrera</p>
           <!-- form starts here -->
           <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" novalidate>
             <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
+              <label for="username" class="form-label">Användarnamn</label>
               <input type="text" class="form-control" name="username" id="username" value="<?= $username; ?>">
               <small class="text-danger"><?= $username_err; ?></small>
             </div>
             <div class="mb-3">
-              <label for="email" class="form-label">Email Address</label>
+              <label for="email" class="form-label">Epost</label>
               <input type="email" class="form-control" name="email" id="email" value="<?= $email; ?>">
               <small class="text-danger"><?= $email_err; ?></small>
             </div>
             <div class="mb-2">
-              <label for="password" class="form-label">Password</label>
+              <label for="password" class="form-label">Lösenord</label>
               <input type="password" class="form-control" name="password" id="password" value="<?= $password; ?>">
               <small class="text-danger"><?= $password_err; ?></small>
             </div>
-            <!-- <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="togglePassword">
-              <label for="togglePassword" class="form-check-label">Show Password</label>
-            </div> -->
+           
             <div class="mb-3">
-              <input type="submit" class="btn btn-primary form-control" name="submit" value="Sign Up">
+              <input type="submit" class="btn btn-primary form-control" name="submit" value="Registrera konto">
             </div>
             <p class="mb-0">Har du redan ett konto? <a href="./login.php">Log In</a></p>
           </form>

@@ -1,118 +1,58 @@
-<?php
+<?php 
+    include_once "./config.php";
+    include_once "./dbmanager.php";
 
-//addtime.php
-# Include connection
-require_once "./config.php";
-require_once "./managesession.php"
+    $errors = [];
+    $data = [];
 
-// $connect = new PDO("mysql:host=localhost;dbname=testing", "root", "");
+    $form_data = array();
 
-// $data = array(
-//  ':first_name'  => $_POST["first_name"],
-//  ':last_name'  => $_POST["last_name"]
-// ); 
+    
 
-// $query = "
-//  INSERT INTO tbl_sample 
-// (first_name, last_name) 
-// VALUES (:first_name, :last_name)
-// ";
+    if (empty($_POST['job_date'])) {
+        $errors['job_date'] = 'Datum måste anges.';
+    }
 
-// $statement = $connect->prepare($query);
+    if (empty($_POST['job_hour'])) {
+        $errors['job_hour'] = 'Tid.';
+    }
 
-// if($statement->execute($data))
-// {
-//  $output = array(
-//   'first_name' => $_POST['first_name'],
-//   'last_name'  => $_POST['last_name']
-//  );
+    if (empty($_POST['job_description'])) {
+        $errors['job_description'] = 'Beskrivning.';
+    }
 
-//  echo json_encode($output);
-// }
+    if (!empty($errors)) {
+        $data['success'] = false;
+        $data['errors'] = $errors;
+    } else {
+        $data['success'] = true;
+        $data['message'] = 'Success!';
+    }
+
+
+    $form_data["job_date"] = $_POST['job_date'];
+    $form_data["job_hour"] = $_POST['job_hour'];
+    $form_data["job_fastighet"] = $_POST['job_fastighet'];
+    $form_data["job_description"] = $_POST['job_description'];
+    $form_data["job_username"] = $_POST['job_username'];
+
+    $sql = "INSERT INTO jobs (job_date, job_hour, job_fastighet, job_description, job_username)";
+    $sql .= "VALUES (?, ?, ?, ?, ?)";
+
+    $stmt = $link->prepare($sql);
+    $stmt->bind_param("sssss", $jobdate, $jobhour,$jobfastighet, $jobdescription,$jobusername);
+
+    $jobdate=$form_data["job_date"];
+    $jobhour=$form_data["job_hour"];
+    $jobfastighet=$form_data["job_fastighet"];
+    $jobdescription=$form_data["job_description"];
+    $jobusername= $form_data["job_username"];
+
+    $stmt->execute();
+    $stmt->close();
+
+
+
+    echo json_encode($form_data);
 
 ?>
-
-<html>
- <head>
-  <title>How to Use Ajax PHP to Append Last Inserted Data to HTML Tables | Using AJAX to append database rows to HTML tables</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
- </head>
- <body>
-  <div class="container">
-   <br />
-   <br />
-   <h2 align="center">How to Use Ajax PHP to Append Last Inserted Data to HTML Tables</h2><br />
-   <h3 align="center">Add Details</h3>
-   <br />
-   <form method="post" id="add_details">
-    <div class="form-group ">
-     <label>Datum</label>
-     <input type="text" name="date_executed" class="form-control" required />
-    </div>
-    <div class="form-group">
-     <label>Last Name</label>
-     <input type="text" name="last_name" class="form-control" required />
-    </div>
-    <div class="form-group">
-     <input type="submit" name="add" id="add" class="btn btn-success" value="Add" />
-    </div>
-   </form>
-   <br />
-   <h3 align="center">View Details</h3>
-   <br />
-   <table class="table table-striped table-bordered">
-    <thead>
-     <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
-     </tr>
-    </thead>
-    <tbody id="table_data">
-    <?php
-    foreach($result as $row)
-    {
-     echo '
-     <tr>
-      <td>'.$row["first_name"].'</td>
-      <td>'.$row["last_name"].'</td>
-     </tr>
-     ';
-    }
-    ?>
-    </tbody>
-   </table>
-  </div>
- </body>
-</html>
-
-<script>
-$(document).ready(function(){
- 
- $('#add_details').on('submit', function(event){
-  event.preventDefault();
-  $.ajax({
-   url:"insert.php",
-   method:"POST",
-   data:$(this).serialize(),
-   dataType:"json",
-   beforeSend:function(){
-    $('#add').attr('disabled', 'disabled');
-   },
-   success:function(data){
-    $('#add').attr('disabled', false);
-    if(data.first_name)
-    {
-     var html = '<tr>';
-     html += '<td>'+data.first_name+'</td>';
-     html += '<td>'+data.last_name+'</td></tr>';
-     $('#table_data').prepend(html);
-     $('#add_details')[0].reset();
-    }
-   }
-  })
- });
- 
-});
-</script>

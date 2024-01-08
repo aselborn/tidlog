@@ -1,5 +1,9 @@
 <?php
 define("DB_SERVER", "localhost");
+// define("DB_USERNAME", "selborn_se");
+// define("DB_PASSWORD", "2mDJxZP5");
+// define("DB_NAME", "selborn_se");
+
 define("DB_USERNAME", "anders");
 define("DB_PASSWORD", "lytill53");
 define("DB_NAME", "tidlog");
