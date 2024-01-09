@@ -5,6 +5,8 @@ $isSession = session_start();
 require_once "./managesession.php";
 require_once "./dbmanager.php";
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -29,26 +31,43 @@ require_once "./dbmanager.php";
     <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"]?>">
     
     <div class="container mt-4">
+        <div class="row text-align-center">
+        <h2>Registrera jobb nedan</h2>
+        </div>
         <div class="row">
             <div class="col">
-                <label class="label-primary form-label">Utförda jobb av
+                <label class="label-primary form-label">Utförda av
                     <strong><?= htmlspecialchars($_SESSION["username"]);?></strong> </label>
             </div>
 
             <div class="row">
+              <div class="col-md-4">
+                <label class="label-text">Ange år.</label>
+              </div>
+            </div>
+
+            <div class="row">
+
                 <div class="col">
-                    <table class="table" id="jobTable">
-                        <thead>Tidlogg</thead>
+                    <table class="table table-hover table-striped" id="jobTable">
+                        <thead class="table-dark">Tidlogg</thead>
                         <th>Datum</th>
                         <th>Timmar</th>
+                        <th>Fastighet</th>
                         <th>Beskrivning</th>
                         <tbody>
                         <?php 
+                          //Läser data ur databas.
                           $db = new DbManager();
-                          $data = $db->query("select * from users")->fetchAll();
-                          for ($i = 1; $i < 10; $i++) {
-                            echo "<tr>" . "<td>2020-01-01</td> <td>2</td> <td>en kommentar</td>" . "</tr>\n";
-              
+                          $ant_tim = 0;
+                          $data = $db->query("select * from jobs where job_username = ? order by job_date desc ", array($_SESSION["username"]))->fetchAll();
+                          foreach ($data as $row) {
+                            $dtdat = date_create($row["job_date"]);
+                            $dt = date_format($dtdat,"Y-m-d");
+                            $jobId = $row["JobId"];
+                            echo "<tr id='$jobId' ><td>".$dt."</td><td>".$row["job_hour"]."</td><td>".$row["job_fastighet"]."</td><td>".$row["job_description"]."</td></tr>";
+                            $ant_tim += $row["job_hour"];
+
                           }
                         ?>
                         </tbody>
@@ -56,9 +75,20 @@ require_once "./dbmanager.php";
                 </div>
             </div>
 
-            <hr />
+            <div class="row">
+              <div class="col-6">
+                <strong>
+                  <label id="lblInfo" class="label-primary">Totalt antal registrerade timmar under <?php echo date('M Y'); ?> : <?php echo $ant_tim ?></label>
+                </strong>
+              </div>
+              <div class="col-6">
+                <label id="lblInfo" class="label-primary">Totalt antal registrerade timmar : <?php echo "10" ?></label>
+              </div>
+            </div>
+
+            
             <form action="addtime.php" method="POST" id="frmInput">
-                <div class="row">
+                <div class="row mt-4">
 
                     <div class="col-sm-2">
                         <div class="form-group">
@@ -141,11 +171,45 @@ $(document).ready(function() {
     }).done(function (data) {
         console.log(data);
 
-        addToTable(data);
+        window.location.reload();
 
     });
-
     event.preventDefault();
+  });
+
+  //Ladda om sida, istället för att posta till tabell.
+  // $(document).ajaxStop(function(){
+  //   window.location.reload();
+  // });
+
+  //en användare klickar på en rad. hämta data.
+   $(document).on('click', "#jobTable tbody tr", function(){
+
+      var jobId = $(this).closest('tr').attr('id');
+      var formdata = {"jobId" : jobId};
+      $.ajax({
+        type: "POST",
+        url: "getrecord.php",
+        data: formdata,
+        dataType: "json",
+        encode: true,
+    }).done(function (data) {
+
+        console.log(data);
+        $("#job_date").val(data.job_date);
+        $("#job_hour").val(data.job_hour) ;
+        $("#job_fastighet").val(data.job_fastighet);
+        $("#job_description").val(data.job_description)  ;
+    });
+
+   });
+
+   //Markera den rad som användaren klickar på.
+   $('table tr').each(function(a,b){
+    $(b).click(function(){
+         $('table tr').css('background','#ffffff');
+         $(this).css('background','#37bade'); //Denna färg sätts.
+    });
   });
 
 });
