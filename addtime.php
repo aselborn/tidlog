@@ -36,7 +36,7 @@
     $form_data["job_description"] = $_POST['job_description'];
     $form_data["job_username"] = $_POST['job_username'];
 
-    $sql = "INSERT INTO jobs (job_date, job_hour, job_fastighet, job_description, job_username)";
+    $sql = "INSERT INTO tidlog_jobs (job_date, job_hour, job_fastighet, job_description, job_username)";
     $sql .= "VALUES (?, ?, ?, ?, ?)";
 
     $stmt = $link->prepare($sql);

@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $username_err = "Användarnamn kan endast bestå av bokstäver, nummer och symboler som '@', '_', or '-'.";
     } else {
       # Prepare a select statement
-      $sql = "SELECT id FROM users WHERE username = ?";
+      $sql = "SELECT id FROM tidlog_users WHERE username = ?";
 
       if ($stmt = mysqli_prepare($link, $sql)) {
         # Bind variables to the statement as parameters
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $email_err = "Please enter a valid email address.";
     } else {
       # Prepare a select statement
-      $sql = "SELECT id FROM users WHERE email = ?";
+      $sql = "SELECT id FROM tidlog_users WHERE email = ?";
 
       if ($stmt = mysqli_prepare($link, $sql)) {
         # Bind variables to the statement as parameters
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   # Check input errors before inserting data into database
   if (empty($username_err) && empty($email_err) && empty($password_err)) {
     # Prepare an insert statement
-    $sql = "INSERT INTO users(username, email, password) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO tidlog_users(username, email, password) VALUES (?, ?, ?)";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
       # Bind varibales to the prepared statement as parameters
@@ -134,9 +134,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User login system</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-  <link rel="stylesheet" href="./css/main.css">
-  <link rel="shortcut icon" href="./img/favicon-16x16.png" type="image/x-icon">
-  <script defer src="./js/script.js"></script>
+  
+  
+  
 </head>
 
 <body>

@@ -57,7 +57,7 @@
 
 
         public function delete_jobid($jobId){
-            $sql = "delete from jobs where jobId = ?";
+            $sql = "delete from tidlog_jobs where jobId = ?";
             $stmt =$this->connection->prepare($sql);
             $stmt->bind_param("s", $jobId);
             $stmt->execute();

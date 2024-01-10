@@ -28,6 +28,16 @@ require_once "./dbmanager.php";
 
 <body>
     
+<!-- <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</nav> -->
+
     <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"]?>">
     
     <div class="container mt-4">
@@ -51,18 +61,18 @@ require_once "./dbmanager.php";
                 <div class="col">
                     <table class="table table-hover table-striped" id="jobTable">
                         <thead class="table-dark">Tidlogg</thead>
-                        <th>Datum</th>
-                        <th>Utfört av</th>
-                        <th>Timmar</th>
-                        <th>Fastighet</th>
-                        <th>Beskrivning</th>
+                        <th scope="col" class="table-primary">Datum</th>
+                        <th scope="col"  class="table-primary">Utfört av</th>
+                        <th scope="col" class="table-primary">Timmar</th>
+                        <th scope="col" class="table-primary">Fastighet</th>
+                        <th scope="col" class="table-primary">Beskrivning</th>
                         <tbody>
                         <?php 
                           //Läser data ur databas.
                           $db = new DbManager();
                           $ant_tim = 0;
                           //$data = $db->query("select * from jobs where job_username = ? order by job_date desc ", array($_SESSION["username"]))->fetchAll();
-                          $data = $db->query("select * from jobs order by job_date desc ")->fetchAll();
+                          $data = $db->query("select * from tidlog_jobs order by job_date desc ")->fetchAll();
                           foreach ($data as $row) {
                             $dtdat = date_create($row["job_date"]);
                             $dt = date_format($dtdat,"Y-m-d");

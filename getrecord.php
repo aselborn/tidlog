@@ -8,7 +8,7 @@
     $form_data = array();
 
     $db = new DbManager();
-    $data = $db->query("select * from jobs where jobId = ? ", array($jobId))->fetchAll();
+    $data = $db->query("select * from tidlog_jobs where jobId = ? ", array($jobId))->fetchAll();
 
     foreach ($data as $row) {
         $dtdat = date_create($row["job_date"]);
