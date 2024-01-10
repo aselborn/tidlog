@@ -2,6 +2,7 @@
 
     include_once "./config.php";
     include_once "./dbmanager.php";
+    
 
     $jobId = $_POST['jobId'];
     $form_data = array();

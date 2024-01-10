@@ -56,6 +56,13 @@
         }
 
 
+        public function delete_jobid($jobId){
+            $sql = "delete from jobs where jobId = ?";
+            $stmt =$this->connection->prepare($sql);
+            $stmt->bind_param("s", $jobId);
+            $stmt->execute();
+        }
+
         public function fetchAll($callback = null) {
             $params = array();
             $row = array();

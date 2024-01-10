@@ -52,6 +52,7 @@ require_once "./dbmanager.php";
                     <table class="table table-hover table-striped" id="jobTable">
                         <thead class="table-dark">Tidlogg</thead>
                         <th>Datum</th>
+                        <th>Utfört av</th>
                         <th>Timmar</th>
                         <th>Fastighet</th>
                         <th>Beskrivning</th>
@@ -60,12 +61,20 @@ require_once "./dbmanager.php";
                           //Läser data ur databas.
                           $db = new DbManager();
                           $ant_tim = 0;
-                          $data = $db->query("select * from jobs where job_username = ? order by job_date desc ", array($_SESSION["username"]))->fetchAll();
+                          //$data = $db->query("select * from jobs where job_username = ? order by job_date desc ", array($_SESSION["username"]))->fetchAll();
+                          $data = $db->query("select * from jobs order by job_date desc ")->fetchAll();
                           foreach ($data as $row) {
                             $dtdat = date_create($row["job_date"]);
                             $dt = date_format($dtdat,"Y-m-d");
                             $jobId = $row["JobId"];
-                            echo "<tr id='$jobId' ><td>".$dt."</td><td>".$row["job_hour"]."</td><td>".$row["job_fastighet"]."</td><td>".$row["job_description"]."</td></tr>";
+
+
+                            echo "<tr id='$jobId' ><td>".$dt."</td><td>"
+                            .$row["job_username"]."</td><td>"
+                            .$row["job_hour"]."</td><td>"
+                            .$row["job_fastighet"]."</td><td>"
+                            .$row["job_description"]."</td></tr>";
+                            
                             $ant_tim += $row["job_hour"];
 
                           }
@@ -139,8 +148,13 @@ require_once "./dbmanager.php";
                         </div>
 
                     </div>
-                    <div class="col-md-12 mt-4">
-                        <input type="submit" class="btn btn-success btn-send" value="Spara.">
+                    <div class="col-md-8 mt-4">
+                        <input type="submit" id="btnSave" class="btn btn-primary btn-send" value="Spara">
+                        <input type="button" id="btnNew" class="btn btn-primary btn-send disabled" value="Registrera ny">
+                        <input type="button" id="btnDelete" class="btn btn-warning btn-send disabled" value="Radera" >
+                    </div>
+                    <div class="col-md-4 mt-4 text-end ">
+                        <input type="button" id="btnLogOut" class="btn btn-primary btn-send float-right" value="Logga ut">
                     </div>
                 </div>
             </form>
@@ -153,6 +167,8 @@ require_once "./dbmanager.php";
 <script>
 $(document).ready(function() {
    
+    var jobId = "";
+
     $("#frmInput").submit(function (event) {
     var formData = {
       job_date: $("#job_date").val(),
@@ -175,17 +191,15 @@ $(document).ready(function() {
 
     });
     event.preventDefault();
+
   });
 
-  //Ladda om sida, istället för att posta till tabell.
-  // $(document).ajaxStop(function(){
-  //   window.location.reload();
-  // });
-
-  //en användare klickar på en rad. hämta data.
+ 
+  //en användare klickar på en rad. hämta data för den raden.
    $(document).on('click', "#jobTable tbody tr", function(){
 
-      var jobId = $(this).closest('tr').attr('id');
+      jobId = $(this).closest('tr').attr('id');
+
       var formdata = {"jobId" : jobId};
       $.ajax({
         type: "POST",
@@ -204,12 +218,59 @@ $(document).ready(function() {
 
    });
 
+    //RADERA
+    $("#btnDelete").on('click', function(){
+
+        var formdata = {"jobId" : jobId};
+        $.ajax({
+            type: "POST",
+            url: "delete.php",
+            data: formdata,
+            dataType: "json",
+            encode: true,
+        }).done(function (data) {
+
+            console.log(data);
+            window.location.reload();
+        });
+
+    });
+
+   //logga ut
+   $("#btnLogOut").on('click', function(e){
+        window.location.href = "./logout.php";
+   });
    //Markera den rad som användaren klickar på.
    $('table tr').each(function(a,b){
+
+    var jobId = ($(this).attr('id'));
+
     $(b).click(function(){
          $('table tr').css('background','#ffffff');
          $(this).css('background','#37bade'); //Denna färg sätts.
+
+         $("#btnSave").prop("value", "Uppdatera");
+
+         $("#btnDelete").removeClass('disabled');
+         $("#btnDelete").addClass('enabled');
+
+         $("#btnNew").removeClass('disabled');
+         $("#btnNew").addClass('enabled');
+         
     });
+
+    $("#btnSave").prop("value", "Spara");
+
+    $("#btnDelete").removeClass('enabled');
+    $("#btnDelete").addClass('disabled');
+
+    $("#btnNew").removeClass('enabled');
+    $("#btnNew").addClass('disabled');
+
+  });
+
+  $("#btnNew").on('click', function(){
+    window.location.reload();
   });
 
 });
