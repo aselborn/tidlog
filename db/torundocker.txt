@@ -1,0 +1,3 @@
+[https://dbschema.com/2020/03/31/mysql/how-to-run-mysql-in-docker/]
+
+docker run --name=mysql1 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql/mysql-server:8.0
