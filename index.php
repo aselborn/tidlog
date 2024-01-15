@@ -194,39 +194,24 @@ require_once "./dbmanager.php";
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <?php
-                     
+                        $pageLink = "";
+
                         $total_pages = ceil( $num_rows / $result_per_page );
                         if ($page>=2){
-                            echo "<li class='page-item'><a class='page-link' href='index.php?page=" .($page - 1).">Tidigare </a></li>";
+                            echo "<li class='page-item'><a class='page-link' href='#'>Previous</a></li>";
                         }
                         for ($i=1; $i<=$total_pages; $i++) {
-                            
-                            if ($i == $page) {
-                                echo "<li class='page-item active'><a class='page-link' href='index.php?page=".$page + "'>$i</a></li>";
-                            } else {
-                                echo "<li class='page-item'><a class='page-link' href='index.php?page=".$page + "'>$i</a></li>";
+                            if ($i == $page){
+                                echo "<li class='page-item active'><a class='page-link' href='#'>1</a></li>";
+
+                            } else{
+                                echo "<li class='page-item'><a class='page-link' href='#'>2</a></li>";
                             }
-                            
                         }
+                        echo "<li class='page-item'><a class='page-link' href='#'>Next</a></li>";
                     ?>
                 </ul>
-                <!-- <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Tidigare</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Senare</a>
-                    </li>
-                </ul> -->
+              
             </nav>
 
             <!-- <div class="pagination">
