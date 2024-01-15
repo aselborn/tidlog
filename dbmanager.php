@@ -19,6 +19,14 @@
             
         }
 
+        public function getRowCount()
+        {
+            $sql = "select count(*) as count from tidlog_jobs";
+            $result = $this->connection->query($sql);
+            $row = $result->fetch_assoc();
+            return (int)$row["count"];
+        }
+
         public function query($query) {
             if (!$this->query_closed) {
                 $this->query->close();

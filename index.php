@@ -5,7 +5,20 @@ $isSession = session_start();
 require_once "./managesession.php";
 require_once "./dbmanager.php";
 
+    if (!isset ($_GET['page']) ) {  
+        $page = 1;  
+    } else {  
+        $page = $_GET['page'];  
+    }  
 
+    $db = new DbManager();
+    $result_per_page = 5;
+
+    $page_first_result = ($page-1) * $result_per_page; 
+    $num_rows = $db->getRowCount();
+    
+
+    $number_of_page = ceil($num_rows / $result_per_page);
 
 ?>
 
@@ -24,19 +37,15 @@ require_once "./dbmanager.php";
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="./js/totable.js"></script>
     
+    <script src="./js/index.js"></script>
+
+
+
 </head>
 
+
+
 <body>
-    
-<!-- <nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-  </ul>
-</nav> -->
 
     <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"]?>">
     
@@ -50,29 +59,39 @@ require_once "./dbmanager.php";
                     <strong><?= htmlspecialchars($_SESSION["username"]);?></strong> </label>
             </div>
 
-            <div class="row">
-              <div class="col-md-4">
-                <label class="label-text">Ange år.</label>
-              </div>
-            </div>
+            <!-- <div class="row">
+                <div class="col-md-6 border">
+                    <div class ="d-flex w-25 ">
+                        <select id="selYear" class="form-select bg-white  " >
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                    </select>  
+                    <button type="input" name="byt" />
+                    </div>
+                </div>
+            </div> -->
 
-            <div class="row">
+            <div class="row mt-4">
 
                 <div class="col">
                     <table class="table table-hover table-striped" id="jobTable">
-                        <thead class="table-dark">Tidlogg</thead>
-                        <th scope="col" class="table-primary">Datum</th>
-                        <th scope="col"  class="table-primary">Utfört av</th>
-                        <th scope="col" class="table-primary">Timmar</th>
-                        <th scope="col" class="table-primary">Fastighet</th>
-                        <th scope="col" class="table-primary">Beskrivning</th>
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" class="table-primary">Datum</th>
+                                <th scope="col"  class="table-primary">Utfört av</th>
+                                <th scope="col" class="table-primary">Timmar</th>
+                                <th scope="col" class="table-primary">Fastighet</th>
+                                <th scope="col" class="table-primary">Beskrivning</th>
+                            </tr>
+                        </thead>
                         <tbody>
                         <?php 
                           //Läser data ur databas.
-                          $db = new DbManager();
+                          
                           $ant_tim = 0;
                           //$data = $db->query("select * from jobs where job_username = ? order by job_date desc ", array($_SESSION["username"]))->fetchAll();
-                          $data = $db->query("select * from tidlog_jobs order by job_date desc ")->fetchAll();
+                          $data = $db->query("select * from tidlog_jobs order by job_date desc LIMIT " .$page_first_result. ',' .$result_per_page )->fetchAll();
+                          
                           foreach ($data as $row) {
                             $dtdat = date_create($row["job_date"]);
                             $dt = date_format($dtdat,"Y-m-d");
@@ -88,6 +107,9 @@ require_once "./dbmanager.php";
                             $ant_tim += $row["job_hour"];
 
                           }
+
+                          
+
                         ?>
                         </tbody>
                     </table>
@@ -168,122 +190,78 @@ require_once "./dbmanager.php";
                     </div>
                 </div>
             </form>
+            
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <?php
+                     
+                        $total_pages = ceil( $num_rows / $result_per_page );
+                        if ($page>=2){
+                            echo "<li class='page-item'><a class='page-link' href='index.php?page=" .($page - 1).">Tidigare </a></li>";
+                        }
+                        for ($i=1; $i<=$total_pages; $i++) {
+                            
+                            if ($i == $page) {
+                                echo "<li class='page-item active'><a class='page-link' href='index.php?page=".$page + "'>$i</a></li>";
+                            } else {
+                                echo "<li class='page-item'><a class='page-link' href='index.php?page=".$page + "'>$i</a></li>";
+                            }
+                            
+                        }
+                    ?>
+                </ul>
+                <!-- <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#">Tidigare</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Senare</a>
+                    </li>
+                </ul> -->
+            </nav>
+
+            <!-- <div class="pagination">
+
+                <?php 
+                    
+                    $pageLink = "";
+                    if ($page >=2 ){
+                        echo "<a href='index.php?page=" .($page - 1)."> prev </a>";
+                    }
+                    for ($i=1; $i<=$total_pages; $i++) {   
+                        if ($i == $page) {   
+                            $pageLink .= "<a class = 'active' href='index1.php?page="  
+                                                              .$i."'>".$i." </a>";   
+                        }               
+                        else  {   
+                            $pageLink .= "<a href='index.php?page=".$i."'>   
+                                                              ".$i." </a>";     
+                        }   
+                      };     
+                      echo $pageLink;   
+                
+                      if($page<$total_pages){   
+                          echo "<a href='index.php?page=".($page+1)."'>  Next </a>";   
+                      }   
+
+                ?>
+
+            </div> -->
         </div>
     </div>
-    </div>
+    
    
 </body>
 
-<script>
-$(document).ready(function() {
-   
-    var jobId = "";
 
-    $("#frmInput").submit(function (event) {
-    var formData = {
-      job_date: $("#job_date").val(),
-      job_hour: $("#job_hour").val(),
-      job_fastighet: $("#job_fastighet").val(),
-      job_description: $("#job_description").val(),
-      job_username : $("#hidUserName").val()
-    };
-
-    $.ajax({
-        type: "POST",
-        url: "addtime.php",
-        data: formData,
-        dataType: "json",
-        encode: true,
-    }).done(function (data) {
-        console.log(data);
-
-        window.location.reload();
-
-    });
-    event.preventDefault();
-
-  });
-
- 
-  //en användare klickar på en rad. hämta data för den raden.
-   $(document).on('click', "#jobTable tbody tr", function(){
-
-      jobId = $(this).closest('tr').attr('id');
-
-      var formdata = {"jobId" : jobId};
-      $.ajax({
-        type: "POST",
-        url: "getrecord.php",
-        data: formdata,
-        dataType: "json",
-        encode: true,
-    }).done(function (data) {
-
-        console.log(data);
-        $("#job_date").val(data.job_date);
-        $("#job_hour").val(data.job_hour) ;
-        $("#job_fastighet").val(data.job_fastighet);
-        $("#job_description").val(data.job_description)  ;
-    });
-
-   });
-
-    //RADERA
-    $("#btnDelete").on('click', function(){
-
-        var formdata = {"jobId" : jobId};
-        $.ajax({
-            type: "POST",
-            url: "delete.php",
-            data: formdata,
-            dataType: "json",
-            encode: true,
-        }).done(function (data) {
-
-            console.log(data);
-            window.location.reload();
-        });
-
-    });
-
-   //logga ut
-   $("#btnLogOut").on('click', function(e){
-        window.location.href = "./logout.php";
-   });
-   //Markera den rad som användaren klickar på.
-   $('table tr').each(function(a,b){
-
-    var jobId = ($(this).attr('id'));
-
-    $(b).click(function(){
-         $('table tr').css('background','#ffffff');
-         $(this).css('background','#37bade'); //Denna färg sätts.
-
-         $("#btnSave").prop("value", "Uppdatera");
-
-         $("#btnDelete").removeClass('disabled');
-         $("#btnDelete").addClass('enabled');
-
-         $("#btnNew").removeClass('disabled');
-         $("#btnNew").addClass('enabled');
-         
-    });
-
-    $("#btnSave").prop("value", "Spara");
-
-    $("#btnDelete").removeClass('enabled');
-    $("#btnDelete").addClass('disabled');
-
-    $("#btnNew").removeClass('enabled');
-    $("#btnNew").addClass('disabled');
-
-  });
-
-  $("#btnNew").on('click', function(){
-    window.location.reload();
-  });
-
-});
-</script>
 
 </html>
