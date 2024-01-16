@@ -191,56 +191,33 @@ require_once "./dbmanager.php";
                 </div>
             </form>
             
-            <nav aria-label="Page navigation">
+        <div class="mt-3">
+        <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <?php
                         $pageLink = "";
 
                         $total_pages = ceil( $num_rows / $result_per_page );
                         if ($page>=2){
-                            echo "<li class='page-item'><a class='page-link' href='#'>Previous</a></li>";
+                            echo "<li class='page-item'><a class='page-link' href='index.php?page=" .($page -1) . "'>Föregående</a></li>";
                         }
                         for ($i=1; $i<=$total_pages; $i++) {
                             if ($i == $page){
-                                echo "<li class='page-item active'><a class='page-link' href='#'>1</a></li>";
+                                echo "<li class='page-item active'><a class='page-link' href='index.php?page=" .$i . "'>" .$i . "</a></li>";
 
                             } else{
-                                echo "<li class='page-item'><a class='page-link' href='#'>2</a></li>";
+                                echo "<li class='page-item'><a class='page-link' href='index.php?page=" .$i . "'>" .$i . "</a></li>";
                             }
                         }
-                        echo "<li class='page-item'><a class='page-link' href='#'>Next</a></li>";
+
+                        if ($total_pages > $page ){
+                            echo "<li class='page-item'><a class='page-link' href='index.php?page=" .($page +1) . "'>Nästa</a></li>";
+                        }
+                        
                     ?>
                 </ul>
               
             </nav>
-
-            <!-- <div class="pagination">
-
-                <?php 
-                    
-                    $pageLink = "";
-                    if ($page >=2 ){
-                        echo "<a href='index.php?page=" .($page - 1)."> prev </a>";
-                    }
-                    for ($i=1; $i<=$total_pages; $i++) {   
-                        if ($i == $page) {   
-                            $pageLink .= "<a class = 'active' href='index1.php?page="  
-                                                              .$i."'>".$i." </a>";   
-                        }               
-                        else  {   
-                            $pageLink .= "<a href='index.php?page=".$i."'>   
-                                                              ".$i." </a>";     
-                        }   
-                      };     
-                      echo $pageLink;   
-                
-                      if($page<$total_pages){   
-                          echo "<a href='index.php?page=".($page+1)."'>  Next </a>";   
-                      }   
-
-                ?>
-
-            </div> -->
         </div>
     </div>
     
