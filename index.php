@@ -48,6 +48,7 @@ require_once "./dbmanager.php";
 <body>
 
     <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"]?>">
+    <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">
     
     <div class="container mt-4">
         <div class="row text-align-center">
@@ -181,7 +182,7 @@ require_once "./dbmanager.php";
 
                     </div>
                     <div class="col-md-8 mt-4">
-                        <input type="submit" id="btnSave" class="btn btn-primary btn-send" value="Spara">
+                        <input type="button" id="btnSave" class="btn btn-primary btn-send" value="Spara">
                         <input type="button" id="btnNew" class="btn btn-primary btn-send disabled" value="Registrera ny">
                         <input type="button" id="btnDelete" class="btn btn-warning btn-send disabled" value="Radera" >
                     </div>
@@ -196,24 +197,27 @@ require_once "./dbmanager.php";
                 <ul class="pagination">
                     <?php
                         $pageLink = "";
-
+                        
                         $total_pages = ceil( $num_rows / $result_per_page );
-                        if ($page>=2){
-                            echo "<li class='page-item'><a class='page-link' href='index.php?page=" .($page -1) . "'>Föregående</a></li>";
-                        }
-                        for ($i=1; $i<=$total_pages; $i++) {
-                            if ($i == $page){
-                                echo "<li class='page-item active'><a class='page-link' href='index.php?page=" .$i . "'>" .$i . "</a></li>";
 
-                            } else{
-                                echo "<li class='page-item'><a class='page-link' href='index.php?page=" .$i . "'>" .$i . "</a></li>";
+                        if ($total_pages > 1){
+                            
+                            if ($page>=2){
+                                echo "<li class='page-item'><a class='page-link' href='index.php?page=" .($page -1) . "'>Föregående</a></li>";
+                            }
+                            for ($i=1; $i<=$total_pages; $i++) {
+                                if ($i == $page){
+                                    echo "<li class='page-item active'><a class='page-link' href='index.php?page=" .$i . "'>" .$i . "</a></li>";
+    
+                                } else{
+                                    echo "<li class='page-item'><a class='page-link' href='index.php?page=" .$i . "'>" .$i . "</a></li>";
+                                }
+                            }
+    
+                            if ($total_pages > $page ){
+                                echo "<li class='page-item'><a class='page-link' href='index.php?page=" .($page +1) . "'>Nästa</a></li>";
                             }
                         }
-
-                        if ($total_pages > $page ){
-                            echo "<li class='page-item'><a class='page-link' href='index.php?page=" .($page +1) . "'>Nästa</a></li>";
-                        }
-                        
                     ?>
                 </ul>
               

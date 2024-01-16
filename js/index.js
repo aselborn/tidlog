@@ -28,7 +28,55 @@ $(document).ready(function() {
 
   });
 
- 
+  //Hanterar spara och uppdatera.
+  $("#btnSave").on('click', function()
+  {
+    var title = $("#btnSave").val();
+    if (title === 'Spara'){
+        saveOrUpdate(true)
+    }
+
+    if (title === 'Uppdatera'){
+        saveOrUpdate(false);
+    }
+
+  });
+
+
+  function saveOrUpdate(isSave)
+  {
+    var script = ""
+    var formData = {
+        JobId : jobId,
+        job_date: $("#job_date").val(),
+        job_hour: $("#job_hour").val(),
+        job_fastighet: $("#job_fastighet").val(),
+        job_description: $("#job_description").val(),
+        job_username : $("#hidUserName").val()
+      };
+
+      if (isSave === true){
+        script = 'addtime.php';
+      } else{
+        script = 'update.php';
+      }
+
+  
+      $.ajax({
+          type: "POST",
+          url: script,
+          data: formData,
+          dataType: "json",
+          encode: true,
+      }).done(function (data) {
+
+          console.log(data);
+          window.location.reload();
+  
+      });
+  }
+
+  
   //en användare klickar på en rad. hämta data för den raden.
    $(document).on('click', "#jobTable tbody tr", function(){
 
@@ -74,6 +122,8 @@ $(document).ready(function() {
    $("#btnLogOut").on('click', function(e){
         window.location.href = "./logout.php";
    });
+   
+   
    //Markera den rad som användaren klickar på.
    $('table tr').each(function(a,b){
 
