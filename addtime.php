@@ -48,11 +48,17 @@
     $jobdescription=$form_data["job_description"];
     $jobusername= $form_data["job_username"];
 
-    $stmt->execute();
-    $stmt->close();
+    try {
+        if (strlen($jobdescription) == 0){
+            throw new Exception("Du måste ange en arbetsbeskrivning!");
+        }
 
+        $stmt->execute();
+        $stmt->close();
+        echo json_encode($form_data);
 
-
-    echo json_encode($form_data);
+    } catch (Exception $e) {
+        echo json_encode(array('error' => $e->getMessage()));
+    }
 
 ?>

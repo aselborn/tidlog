@@ -71,6 +71,12 @@ $(document).ready(function() {
       }).done(function (data) {
 
           console.log(data);
+
+          if (data.error !== undefined){
+            $("#lblMissingData").empty() ;
+            $("#lblMissingData").val("kalle anka") ;
+          }
+
           window.location.reload();
   
       });
@@ -111,7 +117,6 @@ $(document).ready(function() {
             dataType: "json",
             encode: true,
         }).done(function (data) {
-
             console.log(data);
             window.location.reload();
         });

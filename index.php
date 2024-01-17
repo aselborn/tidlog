@@ -181,19 +181,24 @@ require_once "./dbmanager.php";
                         </div>
 
                     </div>
-                    <div class="col-md-8 mt-4">
+                    <div class="col-md-5 mt-4 border">
                         <input type="button" id="btnSave" class="btn btn-primary btn-send" value="Spara">
                         <input type="button" id="btnNew" class="btn btn-primary btn-send disabled" value="Registrera ny">
                         <input type="button" id="btnDelete" class="btn btn-warning btn-send disabled" value="Radera" >
+                        
+                    </div>
+                    <div class="col-md-3 mt-4 border">
+                        <label id="lblMissingData" class="text-danger form-label"></label>
                     </div>
                     <div class="col-md-4 mt-4 text-end ">
+                        
                         <input type="button" id="btnLogOut" class="btn btn-primary btn-send float-right" value="Logga ut">
                     </div>
                 </div>
             </form>
             
         <div class="mt-3">
-        <nav aria-label="Page navigation">
+            <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <?php
                         $pageLink = "";
@@ -223,6 +228,7 @@ require_once "./dbmanager.php";
               
             </nav>
         </div>
+        
     </div>
     
    
