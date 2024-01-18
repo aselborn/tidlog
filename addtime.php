@@ -53,6 +53,10 @@
             throw new Exception("Du måste ange en arbetsbeskrivning!");
         }
 
+        if ($jobdate > new DateTime()){
+            throw new Exception("Du kan inte registrera i framtiden.");
+        }
+
         $stmt->execute();
         $stmt->close();
         echo json_encode($form_data);

@@ -9,3 +9,5 @@ CREATE TABLE `tidlog_jobs` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`JobId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 ;
+
+alter table tidlog_jobs add column job_saved TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER job_date ;

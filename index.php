@@ -188,7 +188,7 @@ require_once "./dbmanager.php";
                         
                     </div>
                     <div class="col-md-3 mt-4 border">
-                        <label id="lblMissingData" class="text-danger form-label"></label>
+                        <label id="lblMissingData" class="text-danger form-label invisible">Data saknas, kan inte spara.</label>
                     </div>
                     <div class="col-md-4 mt-4 text-end ">
                         

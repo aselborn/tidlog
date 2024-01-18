@@ -46,6 +46,8 @@ $(document).ready(function() {
   function saveOrUpdate(isSave)
   {
     var script = ""
+    const currentDate = new Date();
+
     var formData = {
         JobId : jobId,
         job_date: $("#job_date").val(),
@@ -73,8 +75,14 @@ $(document).ready(function() {
           console.log(data);
 
           if (data.error !== undefined){
-            $("#lblMissingData").empty() ;
-            $("#lblMissingData").val("kalle anka") ;
+            // $("#lblMissingData").empty() ;
+            // $("#lblMissingData").val("kalle anka") ;
+
+            alert(data.error);
+
+            // $("#lblMissingData").removeClass('invisible');
+            // $("#lblMissingData").addClass('visible');
+
           }
 
           window.location.reload();
