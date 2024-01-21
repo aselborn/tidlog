@@ -72,7 +72,7 @@
         }
 
         public function update_jobid($jobId, $datum, $timmar, $fastighet, $beskrivning){
-            
+
             $sql = "update tidlog_jobs SET job_date = ?, job_hour = ?, job_fastighet = ?, job_description = ?
                 WHERE JobId = ?";
                 
@@ -81,6 +81,21 @@
             $stmt->execute();
         }
 
+
+        public function total_hours (){
+            
+            $sql = "SELECT SUM(job_hour) AS total_hours FROM tidlog_jobs;";
+            $result = $this->connection->query($sql);
+            $row = $result->fetch_assoc();
+            return (int)$row["total_hours"];
+        }
+
+        public function total_hours_for_month (){
+            $sql = "select SUM(job_hour) AS total_hours from tidlog_jobs where (tidlog_jobs.job_date between  DATE_FORMAT(NOW() ,'%Y-%m-01') AND NOW() )";
+            $result = $this->connection->query($sql);
+            $row = $result->fetch_assoc();
+            return (int)$row["total_hours"];
+        }
 
         public function fetchAll($callback = null) {
             $params = array();

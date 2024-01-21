@@ -2,6 +2,7 @@
 $(document).ready(function() {
    
     var jobId = "";
+    var saved_by = "";
 
     $("#frmInput").submit(function (event) {
     var formData = {
@@ -54,7 +55,8 @@ $(document).ready(function() {
         job_hour: $("#job_hour").val(),
         job_fastighet: $("#job_fastighet").val(),
         job_description: $("#job_description").val(),
-        job_username : $("#hidUserName").val()
+        job_username : $("#hidUserName").val(),
+        job_savedby : saved_by
       };
 
       if (isSave === true){
@@ -75,13 +77,8 @@ $(document).ready(function() {
           console.log(data);
 
           if (data.error !== undefined){
-            // $("#lblMissingData").empty() ;
-            // $("#lblMissingData").val("kalle anka") ;
-
+        
             alert(data.error);
-
-            // $("#lblMissingData").removeClass('invisible');
-            // $("#lblMissingData").addClass('visible');
 
           }
 
@@ -95,6 +92,7 @@ $(document).ready(function() {
    $(document).on('click', "#jobTable tbody tr", function(){
 
       jobId = $(this).closest('tr').attr('id');
+      saved_by = $(this).closest('tr').find("td:eq(1)").text();
 
       var formdata = {"jobId" : jobId};
       $.ajax({
@@ -106,10 +104,13 @@ $(document).ready(function() {
     }).done(function (data) {
 
         console.log(data);
+
         $("#job_date").val(data.job_date);
         $("#job_hour").val(data.job_hour) ;
         $("#job_fastighet").val(data.job_fastighet);
         $("#job_description").val(data.job_description)  ;
+
+        
     });
 
    });
@@ -147,6 +148,7 @@ $(document).ready(function() {
          $(this).css('background','#37bade'); //Denna färg sätts.
 
          $("#btnSave").prop("value", "Uppdatera");
+         
 
          $("#btnDelete").removeClass('disabled');
          $("#btnDelete").addClass('enabled');

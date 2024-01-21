@@ -19,7 +19,8 @@ require_once "./dbmanager.php";
     
 
     $number_of_page = ceil($num_rows / $result_per_page);
-
+    $pagetitle = "Page Specific Title Text";
+    include ('master.php');
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +37,7 @@ require_once "./dbmanager.php";
     <link rel="shortcut icon" href="./img/favicon-16x16.png" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="./js/totable.js"></script>
-    
+    <link rel="stylesheet" href="./style/tidlog.css">
     <script src="./js/index.js"></script>
 
 
@@ -60,26 +61,14 @@ require_once "./dbmanager.php";
                     <strong><?= htmlspecialchars($_SESSION["username"]);?></strong> </label>
             </div>
 
-            <!-- <div class="row">
-                <div class="col-md-6 border">
-                    <div class ="d-flex w-25 ">
-                        <select id="selYear" class="form-select bg-white  " >
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                    </select>  
-                    <button type="input" name="byt" />
-                    </div>
-                </div>
-            </div> -->
-
             <div class="row mt-4">
 
                 <div class="col">
-                    <table class="table table-hover table-striped" id="jobTable">
+                    <table class="table table-hover table-striped " id="jobTable">
                         <thead class="table-dark">
                             <tr>
                                 <th scope="col" class="table-primary">Datum</th>
-                                <th scope="col"  class="table-primary">Utfört av</th>
+                                <th scope="col" class="table-primary">Utfört av</th>
                                 <th scope="col" class="table-primary">Timmar</th>
                                 <th scope="col" class="table-primary">Fastighet</th>
                                 <th scope="col" class="table-primary">Beskrivning</th>
@@ -89,7 +78,7 @@ require_once "./dbmanager.php";
                         <?php 
                           //Läser data ur databas.
                           
-                          $ant_tim = 0;
+                          
                           //$data = $db->query("select * from jobs where job_username = ? order by job_date desc ", array($_SESSION["username"]))->fetchAll();
                           $data = $db->query("select * from tidlog_jobs order by job_date desc LIMIT " .$page_first_result. ',' .$result_per_page )->fetchAll();
                           
@@ -104,13 +93,8 @@ require_once "./dbmanager.php";
                             .$row["job_hour"]."</td><td>"
                             .$row["job_fastighet"]."</td><td>"
                             .$row["job_description"]."</td></tr>";
-                            
-                            $ant_tim += $row["job_hour"];
 
                           }
-
-                          
-
                         ?>
                         </tbody>
                     </table>
@@ -120,11 +104,11 @@ require_once "./dbmanager.php";
             <div class="row">
               <div class="col-6">
                 <strong>
-                  <label id="lblInfo" class="label-primary">Totalt antal registrerade timmar under <?php echo date('M Y'); ?> : <?php echo $ant_tim ?></label>
+                  <label id="lblInfo" class="label-primary">Totalt antal registrerade timmar under <?php echo date('M Y'); ?> : <?php echo $db->total_hours_for_month(); ?></label>
                 </strong>
               </div>
               <div class="col-6">
-                <label id="lblInfo" class="label-primary">Totalt antal registrerade timmar : <?php echo "10" ?></label>
+                <label id="lblInfo" class="label-primary">Totalt antal registrerade timmar : <?php echo $db->total_hours(); ?></label>
               </div>
             </div>
 
@@ -146,14 +130,23 @@ require_once "./dbmanager.php";
                             <label id="lblTimmar" class="label-primary">Timmar</label>
                             <select id="job_hour" class="form-select" name="job_hour">
                                 <option value="1">1</option>
+                                <option value="1.5">1.5</option>
                                 <option value="2">2</option>
+                                <option value="2.5">2.5</option>
                                 <option value="3">3</option>
+                                <option value="3.5">3.5</option>
                                 <option value="4">4</option>
+                                <option value="4.5">4.5</option>
                                 <option value="5">5</option>
+                                <option value="5.5">5.5</option>
                                 <option value="6">6</option>
+                                <option value="6.5">6.5</option>
                                 <option value="7">7</option>
+                                <option value="7.5">7.5</option>
                                 <option value="8">8</option>
+                                <option value="8.5">8.5</option>
                                 <option value="9">9</option>
+                                <option value="9.5">9.5</option>
                                 <option value="10">10</option>
                             </select>
                         </div>

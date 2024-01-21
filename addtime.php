@@ -48,18 +48,21 @@
     $jobdescription=$form_data["job_description"];
     $jobusername= $form_data["job_username"];
 
+    $startDate = strtotime(date('Y-m-d', strtotime($jobdate) ) );
+    $currentDate = strtotime(date('Y-m-d'));
+
     try {
         if (strlen($jobdescription) == 0){
             throw new Exception("Du måste ange en arbetsbeskrivning!");
         }
 
-        if ($jobdate > new DateTime()){
+        if ($startDate > $currentDate) {
             throw new Exception("Du kan inte registrera i framtiden.");
         }
 
         $stmt->execute();
         $stmt->close();
-        echo json_encode($form_data);
+        echo  json_encode($form_data);
 
     } catch (Exception $e) {
         echo json_encode(array('error' => $e->getMessage()));
