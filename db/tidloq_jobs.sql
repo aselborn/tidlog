@@ -11,3 +11,4 @@ CREATE TABLE `tidlog_jobs` (
 ) ENGINE=InnoDB AUTO_INCREMENT=12 ;
 
 alter table tidlog_jobs add column job_saved TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER job_date ;
+alter table tidlog_jobs modify column `job_hour` decimal(10,1) NOT NULL;
