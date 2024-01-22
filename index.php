@@ -36,59 +36,51 @@ $number_of_page = ceil($num_rows / $result_per_page);
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="./style/tidlog.css">
+    <link rel="stylesheet" href="./style/style.css">
+    
 
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="./js/totable.js"></script>
-    <link rel="stylesheet" href="./style/tidlog.css">
-    <link rel="stylesheet" href="./style/style.css">
     <script src="./js/index.js"></script>
 
 </head>
 
+    <body>
+
+        <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
+        <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">
 
 
-<body>
-
-    <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
-    <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">
-
-    <!--PAGE CONTENT-->
-    <div class="wrapper d-flex align-items-stretch">
-        <nav id="sidebar">
-            <div class="custom-menu">
-                <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                </button>
+        <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-auto bg-light sticky-top">
+                <div class="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center sticky-top">
+                <a href="/" class="d-block p-3 link-dark text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+                    <i class="bi-calendar-check fs-1"></i>
+                </a>
+                <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 px-3 align-items-center">
+                    <li class="nav-item">
+                        <a href="./pages/report.php" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
+                            <i class="bi-card-text fs-1"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
+                            <i class="bi-people fs-1"></i>
+                        </a>
+                    </li>
+                </ul>
+                
             </div>
-            <div class="img bg-wrap text-center py-4" style="background-image: url(bilder/bg_1.jpg);">
-                <div class="user-logo">
-                    <div class="img" style="background-image: url(bilder/logo.jpg);"></div>
-                    <h3><?= htmlspecialchars($_SESSION["username"]); ?></h3>
-                </div>
-            </div>
-            <ul class="list-unstyled components mb-5">
-                <li class="active">
-                    <a href="#"><span class="fa fa-home mr-3"></span>Startsida</a>
-                </li>
-                <li>
-                    <a href="#"><span class="fa fa-trophy mr-3"></span>Sammanställning</a>
-                </li>
-                <li>
-                    <a href="#"><span class="fa fa-cog mr-3"></span>Inställningar</a>
-                </li>
-                <li>
-                    <a href="#"><span class="fa fa-sign-out mr-3"></span>Logga ut</a>
-                </li>
-            </ul>
-
-        </nav>
-
-        <!-- Page Content  -->
-        <div id="content" class="p-4 p-md-5 pt-5">
-
-            <div class="container mt-4">
-                <div class="row text-align-center">
-                    <h2>Registrera jobb nedan</h2>
-                </div>
+        </div>
+        <div class="col-sm  min-vh-100 border">
+            <!-- content -->
+            <h2>Tidsregistrering</h2>
+            <hr />
+            <div class="container ">
+                
                 <div class="row">
                     <div class="col">
                         <label class="label-primary form-label">Utförda av
@@ -252,9 +244,10 @@ $number_of_page = ceil($num_rows / $result_per_page);
 
                 </div>
 
-            </div>
         </div>
-
+    </div>
+</div>
+            
 
 
 </body>
