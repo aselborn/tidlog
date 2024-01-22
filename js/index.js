@@ -60,9 +60,9 @@ $(document).ready(function() {
       };
 
       if (isSave === true){
-        script = 'addtime.php';
+        script = 'code/addtime.php';
       } else{
-        script = 'update.php';
+        script = 'code/update.php';
       }
 
   
@@ -97,7 +97,7 @@ $(document).ready(function() {
       var formdata = {"jobId" : jobId};
       $.ajax({
         type: "POST",
-        url: "getrecord.php",
+        url: "code/getrecord.php",
         data: formdata,
         dataType: "json",
         encode: true,

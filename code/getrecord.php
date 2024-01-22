@@ -1,8 +1,8 @@
 <?php 
 
-    include_once "./config.php";
-    include_once "./dbmanager.php";
-    require "./managesession.php";
+    include_once "config.php";
+    include_once "dbmanager.php";
+    require "managesession.php";
 
     $jobId = $_POST['jobId'];
     $form_data = array();

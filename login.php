@@ -9,7 +9,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == TRUE) {
 }
 
 # Include connection
-require_once "./config.php";
+require_once "./code/config.php";
 
 # Define variables and initialize with empty values
 $user_login_err = $user_password_err = $login_err = "";
