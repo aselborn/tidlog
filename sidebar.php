@@ -1,6 +1,21 @@
 <?php 
 
+    define('MY_ROOT_PATH', $_SERVER['SERVER_NAME']. '/tidlog/');
 
+    $path = $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF'];
+    $sf = $_SERVER['PHP_SELF'];
+    
+    // switch($_SERVER['SERVER_NAME']){
+    //     case 'localhost':
+    //             define('MY_ROOT_PATH', $_SERVER['SERVER_NAME']);
+    //         break;
+
+    //         case 'www.selborn.se':
+    //             define('MY_ROOT_PATH',$_SERVER['SERVER_NAME']);
+    //         break;
+    //   }
+
+      
 ?>
 
 <!DOCTYPE html>
@@ -31,22 +46,22 @@
         <div class="row">
             <div class="col-sm-auto bg-light sticky-top">
                 <div class="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center sticky-top">
-                <a href="http://localhost/tidlog/index.php" class="d-block p-3 link-dark text-decoration-none" title="Hem" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+                <a href="../index.php" class="d-block p-3 link-dark text-decoration-none" title="Hem" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
                     <i class="bi-calendar-check fs-1"></i>
                 </a>
                 <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 px-3 align-items-center">
                     <li class="nav-item">
-                        <a href="http://localhost/tidlog/pages/report.php" class="nav-link py-3 px-2" title="Sammanställning" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Sammanställnig">
+                        <a href="../tidlog/pages/report.php" class="nav-link py-3 px-2" title="Sammanställning" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Sammanställnig">
                             <i class="bi-card-text fs-1"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="http://localhost/tidlog/pages/settings.php" class="nav-link py-3 px-2" title="Inställnigar" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="inställningar">
+                        <a href="../pages/tidlog/settings.php" class="nav-link py-3 px-2" title="Inställnigar" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="inställningar">
                             <i class="bi-people fs-1"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="http://localhost/tidlog/logout.php" class="nav-link py-3 px-2" title="logga ut" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="logga ut">
+                        <a href="../logout.php" class="nav-link py-3 px-2" title="logga ut" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="logga ut">
                             <i class="bi-door-open fs-1"></i>
                         </a>
                     </li>

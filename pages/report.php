@@ -9,7 +9,7 @@
     </head>
 
     <body>
-        <?php include("sidebar.php") ?>
+        <?php include("../sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
             <h2>Sammanställning</h2>

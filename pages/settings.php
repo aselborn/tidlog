@@ -9,7 +9,7 @@
     </head>
 
     <body>
-        <?php include("sidebar.php") ?>
+        <?php include("../sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
             <h2>Inställningar för ditt konto <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong></h2>

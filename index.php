@@ -53,7 +53,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
         <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">
 
-        <?php include("./pages/sidebar.php") ?>
+        <?php include("sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
             <!-- content -->
