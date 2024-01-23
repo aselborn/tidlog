@@ -1,10 +1,10 @@
 <?php 
 
 # If user is not logged in then redirect him to login page
-// if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== TRUE) {
-//     echo "<script>" . "window.location.href='./login.php';" . "</script>";
-//     exit;
-//   }
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== TRUE) {
+    echo "<script>" . "window.location.href='./login.php';" . "</script>";
+    exit;
+  }
   
   //Kolla om sessionen löpt ut...
   if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 900) {

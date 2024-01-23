@@ -1,5 +1,6 @@
 <?php 
-
+    if (!isset($_SESSION)) { session_start(); }
+    
     include_once "config.php";
     include_once "dbmanager.php";
     require "managesession.php";

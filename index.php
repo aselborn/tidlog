@@ -1,6 +1,6 @@
 <?php
 # Initialize the session
-$isSession = session_start();
+if (!isset($_SESSION)) { session_start(); }
 
 require_once "./code/managesession.php";
 require_once "./code/dbmanager.php";
@@ -45,6 +45,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
     <script src="./js/totable.js"></script>
     <script src="./js/index.js"></script>
 
+
 </head>
 
     <body>
@@ -52,29 +53,8 @@ $number_of_page = ceil($num_rows / $result_per_page);
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
         <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">
 
+        <?php include("./pages/sidebar.php") ?>
 
-        <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-auto bg-light sticky-top">
-                <div class="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center sticky-top">
-                <a href="/" class="d-block p-3 link-dark text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
-                    <i class="bi-calendar-check fs-1"></i>
-                </a>
-                <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 px-3 align-items-center">
-                    <li class="nav-item">
-                        <a href="./pages/report.php" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
-                            <i class="bi-card-text fs-1"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
-                            <i class="bi-people fs-1"></i>
-                        </a>
-                    </li>
-                </ul>
-                
-            </div>
-        </div>
         <div class="col-sm  min-vh-100 border">
             <!-- content -->
             <h2>Tidsregistrering</h2>
@@ -87,7 +67,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                             <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong> </label>
                     </div>
 
-                    <div class="row mt-4">
+                    <div class="row mt-3">
 
                         <div class="col">
                             <table class="table table-hover table-striped " id="jobTable">
@@ -125,21 +105,8 @@ $number_of_page = ceil($num_rows / $result_per_page);
                             </table>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-6">
-                            <strong>
-                                <label id="lblInfo" class="label-primary">Totalt antal registrerade timmar under <?php echo date('M Y'); ?> : <?php echo $db->total_hours_for_month(); ?></label>
-                            </strong>
-                        </div>
-                        <div class="col-6">
-                            <label id="lblInfo" class="label-primary">Totalt antal registrerade timmar : <?php echo $db->total_hours(); ?></label>
-                        </div>
-                    </div>
-
-
                     <form action="addtime.php" method="POST" id="frmInput">
-                        <div class="row mt-4">
+                        <div class="row mt-1">
 
                             <div class="col-sm-2">
                                 <div class="form-group">
@@ -195,19 +162,19 @@ $number_of_page = ceil($num_rows / $result_per_page);
                                 </div>
 
                             </div>
-                            <div class="col-md-5 mt-4 border">
+                            <div class="col-md-5 mt-4 ">
                                 <input type="button" id="btnSave" class="btn btn-primary btn-send" value="Spara">
                                 <input type="button" id="btnNew" class="btn btn-primary btn-send disabled" value="Registrera ny">
                                 <input type="button" id="btnDelete" class="btn btn-warning btn-send disabled" value="Radera">
 
                             </div>
-                            <div class="col-md-3 mt-4 border">
+                            <div class="col-md-3 mt-4 ">
                                 <label id="lblMissingData" class="text-danger form-label invisible">Data saknas, kan inte spara.</label>
                             </div>
-                            <div class="col-md-4 mt-4 text-end ">
+                            <!-- <div class="col-md-4 mt-4 text-end ">
 
                                 <input type="button" id="btnLogOut" class="btn btn-primary btn-send float-right" value="Logga ut">
-                            </div>
+                            </div> -->
                         </div>
                     </form>
 
