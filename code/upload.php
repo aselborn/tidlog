@@ -1,7 +1,11 @@
 <?php 
     if (!isset($_SESSION)) { session_start(); }
     require_once "config.php";
+    require_once "dbmanager.php";
     require_once "managesession.php";
+
+    $dbM = new DbManager(); 
+    $user = $_SESSION["username"];
 
     if(isset($_POST["submit"])){ 
         $status = 'error'; 
@@ -17,8 +21,8 @@
                 $imgContent = addslashes(file_get_contents($image)); 
              
                 // Insert image content into database 
-                $insert = $db->query("INSERT into images (image, created) VALUES ('$imgContent', NOW())"); 
-                 
+                //$insert = $db->query("UPDATE tidlog_jobs SET tidlog(image, created) VALUES ('$imgContent', NOW())"); 
+                $insert= $dbM->update_user_image($user, $imgContent);
                 if($insert){ 
                     $status = 'success'; 
                     $statusMsg = "File uploaded successfully."; 

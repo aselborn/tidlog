@@ -71,16 +71,29 @@
             $stmt->execute();
         }
 
+        public function update_user_image($userName, $imageObject)
+        {
+            $sql = "UPDATE tidlog_users SET tidlog_userimage = ? WHERE username = ?";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("ss", $userName, $imageObject);
+            $stmt->execute();
+        }
+
         public function update_jobid($jobId, $datum, $timmar, $fastighet, $beskrivning){
 
             $sql = "update tidlog_jobs SET job_date = ?, job_hour = ?, job_fastighet = ?, job_description = ?
                 WHERE JobId = ?";
                 
             $stmt =$this->connection->prepare($sql);
+            
             $stmt->bind_param("sssss", $datum, $timmar, $fastighet, $beskrivning, $jobId);
             $stmt->execute();
         }
 
+        public function update_password($userName, $oldPwd, $newPwd)
+        {
+
+        }
 
         public function total_hours (){
             

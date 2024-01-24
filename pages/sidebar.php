@@ -41,7 +41,7 @@
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
         <script src="../js/totable.js"></script>
         <script src="../js/index.js"></script>
-
+        <script src="./js/settings.js"></script>
     </head>
 
     <div class="container-fluid">

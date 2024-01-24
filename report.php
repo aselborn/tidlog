@@ -6,6 +6,7 @@
 <html lang="en">
     <head>
         <title>Sammanställning</title>
+        
     </head>
 
     <body>
@@ -14,7 +15,7 @@
         <div class="col-sm  min-vh-100 border">
             <h2>Sammanställning för användare : <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong></h2>
             <hr />
-            <div>
+            <div class="container border" >
                 
             </div>
         </div>
