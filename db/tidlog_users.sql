@@ -7,3 +7,4 @@ CREATE TABLE `tidlog_users` (
   `last_login` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+alter table tidlog_users add column tidlog_userimage blob;
