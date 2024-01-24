@@ -22,7 +22,7 @@
                             <div class="card-header">
                                 <h3 class="mb-0">Hantera lösenord</h3>
                                 <div class="card-body">
-                                    <form class="form" role="form" autocomplete="off">
+                                    <form class="form" role="form" autocomplete="off" method="POST" action="util.php?user=anders&pwd=nisse">
                                         <div class="form-group">
                                             <label for="lblChangePwd" class="form-control-sm">Nuvarande lösenord</label>
                                             <input type="password" class="form-control" id="idCurrentPassword"></input>

@@ -7,10 +7,13 @@ include_once "dbmanager.php";
 require "managesession.php";
 
     $user = $_SESSION["username"];
+    //util.php?user=anders&pwd=nisse
+    $usr = $_POST["user"];
+    $pwd = $_POST["pwd"];
 
-    $db = new DbManager();
-    $db = new DbManager();
-    
+    echo $usr;
+
+    $db = new DbManager();   
     
 
     $pwd = $db->query("select password from tidlog_users where username = ? ", array($user))->fetchAll();
@@ -19,12 +22,12 @@ require "managesession.php";
 
     $user_password = 'kalleanka';
 
-    if (password_verify($user_password, $encodedPwd))
-    {
-        echo "\nPassord är ok!";
-    } else {
-        echo "\nPassord är INTE ok!";
-    }
+    // if (password_verify($user_password, $encodedPwd))
+    // {
+    //     echo "\nPassord är ok!";
+    // } else {
+    //     echo "\nPassord är INTE ok!";
+    // }
 
     //$data = $db->query("Update tidlog_users SET password = ? WHERE userName = ?", array($jobId))->fetchAll();
 ?>
