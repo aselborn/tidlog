@@ -20,7 +20,6 @@ $num_rows = $db->getRowCount();
 
 $number_of_page = ceil($num_rows / $result_per_page);
 
-
 ?>
 
 <!DOCTYPE html>

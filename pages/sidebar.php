@@ -7,16 +7,7 @@
     
     $sf = $_SERVER['PHP_SELF'];
     
-    // switch($_SERVER['SERVER_NAME']){
-    //     case 'localhost':
-    //             define('MY_ROOT_PATH', $_SERVER['SERVER_NAME']);
-    //         break;
-
-    //         case 'www.selborn.se':
-    //             define('MY_ROOT_PATH',$_SERVER['SERVER_NAME']);
-    //         break;
-    //   }
-
+    $usr = $_SESSION["username"];
       
 ?>
 

@@ -1,12 +1,26 @@
-$(document).ready(function() {
 
-    $("#btnChange").on('click', function(){
-        var currentPwdDb = getPassword('nisse');
+
+    // $("#btnChange").on('click', function(){
+
+    //     var userName = '<?php echo $userName; ?>';
         
-        checkPwd(currentPwdDb);
-    });
 
-    
+
+    //     var currentPwdDb = getPassword(userName);
+    //     checkPwd(currentPwdDb);
+    // });
+
+    function checkCurrentPassword(usr, oldPwd){
+       let xhr = new XMLHttpRequest();
+       let url = './code/util.php';
+       
+    }
+
+
+    function ChangePassword(usr){
+        alert(usr);
+    }
+
 
     function checkPwd(currentUser){
         
@@ -29,4 +43,3 @@ $(document).ready(function() {
     }
 
     
-});

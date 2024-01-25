@@ -27,6 +27,17 @@
             return (int)$row["count"];
         }
 
+        public function getRowCountForUser($user)
+        {
+            $sql = "select count(*) as count from tidlog_jobs where job_username = ?";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("s", $user);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $rows = $result->fetch_assoc()["count"];
+            return $rows ;
+        }
+
         public function query($query) {
             if (!$this->query_closed) {
                 $this->query->close();

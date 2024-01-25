@@ -28,7 +28,7 @@
                                             <input type="password" class="form-control" id="idCurrentPassword"></input>
                                             <label for="lblChangePwd" class="form-control-sm">Nytt Lösenord</label>
                                             <input type="password" class="form-control" id="idNewPassword"></input>
-                                            <input type="button" class="button btn-success mt-2" id="btnChange" value="Ändra Lösenord"></input>
+                                            <input type="button" class="button btn-success mt-2" id="btnChange" onclick="ChangePassword(<?php echo $_SESSION['username'] ?>);" value="Ändra Lösenord"></input>
                                             <hr />
                                             <label for="lblChangePwd" class="form-control-sm">Min bild</label>
                                             
@@ -68,4 +68,25 @@
             </div> -->
         </div>
     </body>
+    <script>
+        $(document).ready(function() {
+            $("#btnChange").on('click', function(){
+
+                var usr = "<?php echo $_SESSION['username'] ?>"
+                var oldPassword, newPassword;
+                
+                oldPassword = $("#idCurrentPassword").val();
+
+                var old_pwd_ok = checkCurrentPassword(usr, oldPassword);
+
+                if (!oldPassword){
+                    alert('Du har angivit ett felaktigt befintligt lösenord. Testa igen.');
+                    return;
+                }
+
+                ChangePassword(usr);
+            });
+        });
+        
+    </script>
 </html>
