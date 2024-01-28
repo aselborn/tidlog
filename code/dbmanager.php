@@ -29,12 +29,14 @@
 
         public function getRowCountForUser($user)
         {
-            $sql = "select count(*) as count from tidlog_jobs where job_username = ?";
+            $sql = "select count(*) as count, sum(job_hour) from tidlog_jobs where job_username = ?";
             $stmt = $this->connection->prepare($sql);
             $stmt->bind_param("s", $user);
             $stmt->execute();
             $result = $stmt->get_result();
+            
             $rows = $result->fetch_assoc()["count"];
+
             return $rows ;
         }
 
@@ -86,9 +88,26 @@
         {
             $sql = "UPDATE tidlog_users SET tidlog_userimage = ? WHERE username = ?";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("ss", $userName, $imageObject);
+            $stmt->bind_param("ss",  $imageObject, $userName);
             $stmt->execute();
+
+            return $stmt;
         }
+
+        public function get_user_image($username)
+        {
+            $sql = "SELECT tidlog_userimage FROM tidlog.tidlog_users where username =  ?";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("s",  $username);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            
+            
+             $row = $result->fetch_column();
+             return $row;
+        }
+
 
         public function update_jobid($jobId, $datum, $timmar, $fastighet, $beskrivning){
 

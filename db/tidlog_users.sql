@@ -8,3 +8,5 @@ CREATE TABLE `tidlog_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 alter table tidlog_users add column tidlog_userimage blob;
+ALTER TABLE `tidlog`.`tidlog_users` 
+CHANGE COLUMN `tidlog_userimage` `tidlog_userimage` LONGBLOB NULL DEFAULT NULL ;

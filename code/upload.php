@@ -15,7 +15,7 @@
             $fileType = pathinfo($fileName, PATHINFO_EXTENSION); 
              
             // Allow certain file formats 
-            $allowTypes = array('jpg','png','jpeg','gif'); 
+            $allowTypes = array('jpg','png','jpeg','gif', 'JPG', 'JPEG', 'GIF', 'PNG'); 
             if(in_array($fileType, $allowTypes)){ 
                 $image = $_FILES['image']['tmp_name']; 
                 $imgContent = addslashes(file_get_contents($image)); 

@@ -22,6 +22,11 @@
     }
 
 
+    function UploadImage(imageData)
+    {
+
+    }
+
     function checkPwd(currentUser){
         
         var currentPwdDb = getPassword(currentUser)

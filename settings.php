@@ -1,6 +1,12 @@
 <?php
     if (!isset($_SESSION)) { session_start(); }
     require_once "./code/managesession.php";
+    require_once "./code/dbmanager.php";
+
+    $user = $_SESSION['username'];
+
+    $db = new DbManager();
+    $usrImg = $db->get_user_image($user);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,13 +37,14 @@
                                             <input type="button" class="button btn-success mt-2" id="btnChange" onclick="ChangePassword(<?php echo $_SESSION['username'] ?>);" value="Ändra Lösenord"></input>
                                             <hr />
                                             <label for="lblChangePwd" class="form-control-sm">Min bild</label>
-                                            
+                                            <!-- <img src='data:image;base64,".base64_encode($row["image"])."' style='height:180px;width:200px;margin-left:22px;' </img> -->
+                                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $usrImg ).'"/>'; ?>
                                         </div>
                                     </form>
-                                    <form action="./code/upload.php" method="post" enctype="multipart/form-data">
+                                    <form id="frmUploadImage" action="./code/upload.php" method="post" enctype="multipart/form-data">
                                         <label>Välj en profilbild:</label>
-                                        <input type="file" name="image">
-                                        <input type="submit" name="submit" value="Ladda upp">
+                                        <input type="file" name="image" id="fileData" accept="image/*">
+                                        <input type="submit" name="submit" value="Ladda upp" id="btnUpladImage">
                                     </form>
                                 </div>
                             </div>
@@ -69,7 +76,7 @@
         </div>
     </body>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function(e) {
             $("#btnChange").on('click', function(){
 
                 var usr = "<?php echo $_SESSION['username'] ?>"
@@ -86,6 +93,40 @@
 
                 ChangePassword(usr);
             });
+
+            $("#frmUploadImage").on('submit', function(e){
+                e.preventDefault();
+                
+                $.ajax({
+                    type: 'POST',
+                    url: './code/Upload.php',
+                    dataType: 'json',
+                    data: new FormData(this), contentType: false,
+                        cach: false,
+                        processData: false,
+
+                    success: function(data){
+                        alert('ok');
+                    }
+
+                });
+                
+            });
+
+            // $("#btnUpladImage").on('click', function (){
+            //     event.preventDefault();
+
+            //     $.ajax({
+            //         type: 'POST',
+            //         url: './code/Upload.php',
+            //         dataType: 'json',
+            //         data: $(this).closest("form").serialize(),
+
+            //         success: function (){
+            //             alert('ok');
+            //         }
+            //     });
+            // });
         });
         
     </script>
