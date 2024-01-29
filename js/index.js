@@ -93,6 +93,8 @@ $(document).ready(function() {
 
       jobId = $(this).closest('tr').attr('id');
       saved_by = $(this).closest('tr').find("td:eq(1)").text();
+      
+      $(this).addClass('selected').siblings().removeClass('selected'); 
 
       var formdata = {"jobId" : jobId};
       $.ajax({

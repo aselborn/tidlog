@@ -40,9 +40,8 @@ $number_of_page = ceil($num_rows / $result_per_page);
     <link rel="stylesheet" href="./style/style.css">
     
 
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="./js/totable.js"></script>
-    <script src="./js/index.js"></script>
+    
+    
 
 
 </head>
@@ -69,7 +68,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                     <div class="row mt-3">
 
                         <div class="col">
-                            <table class="table table-hover table-striped " id="jobTable">
+                            <table class="table table-hover table-striped table-custom" id="jobTable">
                                 <thead class="table-dark">
                                     <tr>
                                         <th scope="col" class="table-primary">Datum</th>

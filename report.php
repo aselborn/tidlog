@@ -32,41 +32,74 @@
             <h2>Sammanställning för användare : <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong></h2>
             <hr />
             <div class="container border" >
-            <div class="row mt-3">
-
-            <div class="col">
-                    <table class="table table-hover table-striped " id="jobTable">
-                        <thead class="table-dark">
-                            <tr>
-                                <th scope="col" class="table-primary">Datum</th>
-                                <th scope="col" class="table-primary">Timmar</th>
-                                <th scope="col" class="table-primary">Fastighet</th>
-                                <th scope="col" class="table-primary">Beskrivning</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            //Läser data ur databas.
-
-                            $data = $db->query("SELECT * from tidlog_jobs WHERE job_username = ? Order by job_date DESC LIMIT " .$page_first_result . "," .$result_per_page , array($user))->fetchAll() ;
-                            
-
-                            foreach ($data as $row) {
-                                $dtdat = date_create($row["job_date"]);
-                                $dt = date_format($dtdat, "Y-m-d");
-                                $jobId = $row["JobId"];
-
-
-                                echo "<tr id='$jobId' ><td>" . $dt . "</td><td>"
-                                    . $row["job_hour"] . "</td><td>"
-                                    . $row["job_fastighet"] . "</td><td>"
-                                    . $row["job_description"] . "</td></tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                <div class="row mt-2">
+                    <div class="col-8">
+                        <div class="d-inline-flex p-1 gap-2">
+                            <label for="dtFom">Från</label>
+                            <input type="text" class="form-control" id="dtFom" ></input>
+                            <label for="dtTom">Till</label>
+                            <input type="text" class="form-control" id="dtTom" ></input>
+                            <label for="job_fastighet" class="label-primary">Fastighet</label>
+                                    <select id="job_fastighet" class="form-select" name="job_fastighet">
+                                        <option value="T7">T7</option>
+                                        <option value="U9">U9</option>
+                                    </select>
+                            <input type="button" id="btnFilter" class="btn btn-success" value="Filtrera">
+                        </div>
+                    </col>
+                    
+                    
                 </div>
-                <div class="mt-3">
+                <div class="row mt-3">
+                    <div class="col">
+                        <table class="table table-hover table-striped " id="jobTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col" class="table-primary">Datum</th>
+                                    <th scope="col" class="table-primary">Timmar</th>
+                                    <th scope="col" class="table-primary">Fastighet</th>
+                                    <th scope="col" class="table-primary">Beskrivning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                //Läser data ur databas.
+
+                                $data = $db->query("SELECT * from tidlog_jobs WHERE job_username = ? Order by job_date DESC LIMIT " .$page_first_result . "," .$result_per_page , array($user))->fetchAll() ;
+                                $timT7 = 0;
+                                $timU9=0;
+
+                                foreach ($data as $row) {
+                                    $dtdat = date_create($row["job_date"]);
+                                    $dt = date_format($dtdat, "Y-m-d");
+                                    $jobId = $row["JobId"];
+
+                                    if (strcmp($row["job_fastighet"], "T7") == 0 ){
+                                        $timT7 += $row["job_hour"];
+                                    } else {
+                                        $timU9 +=$row["job_hour"];
+                                    }
+                                    
+
+                                
+
+                                    echo "<tr id='$jobId' ><td>" . $dt . "</td><td>"
+                                        . $row["job_hour"] . "</td><td>"
+                                        . $row["job_fastighet"] . "</td><td>"
+                                        . $row["job_description"] . "</td></tr>";
+                                }
+                                ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th scope="row">Totalt timmar</th>
+                                    <td>T7 : <strong><?php echo $timT7 ?></strong></td>
+                                    <td>U9 : <strong><?php echo $timU9 ?></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="mt-3">
                         <nav aria-label="Page navigation">
                             <ul class="pagination">
                                 <?php
