@@ -34,6 +34,7 @@ $(document).ready(function() {
                 
                 var jsondata = JSON.parse(response);
 
+<<<<<<< HEAD
                 if (jsondata.error !== undefined){
                     alert(jsondata.error); //gör detta till en text på sidan istället.
                     return;
@@ -51,6 +52,14 @@ $(document).ready(function() {
                     });
 
                     $("#navigationDiv").remove();
+=======
+                if (jsondata.filtered_report.length > 0){
+                    $("#jobTable").find('tbody').remove();
+                    jsondata.filtered_report.forEach(element => {                    
+                        console.log(element.job_description);
+
+                    });
+>>>>>>> 5d322e118db7c24accce47b4340c9be299f5ad45
     
                 }
                 
