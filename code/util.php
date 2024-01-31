@@ -21,7 +21,15 @@ if (isset($_POST["nameOfFunction"])){
         $dtTom = $_POST["tomDate"];
         $fastighet  =$_POST["fastighet"];
 
-        $data = $db->query("select * from tidlog_jobs WHERE job_username = ? and job_date BETWEEN ? and ? and job_fastighet = ?", array($user, $dtFom, $dtTom, $fastighet))->fetchAll();
+        $data = null;
+
+        if (strcmp($fastighet, 'Alla') == 0){
+            $data = $db->query("select * from tidlog_jobs WHERE job_username = ? and job_date BETWEEN ? and ? ORDER BY job_date DESC", array($user, $dtFom, $dtTom))->fetchAll();
+        } else{
+            $data = $db->query("select * from tidlog_jobs WHERE job_username = ? and job_date BETWEEN ? and ? and job_fastighet = ? ORDER BY job_date DESC", array($user, $dtFom, $dtTom, $fastighet))->fetchAll();
+        }
+
+        
         $resultSet = array();
 
         try{

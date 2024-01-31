@@ -34,12 +34,15 @@ $(document).ready(function() {
                 
                 var jsondata = JSON.parse(response);
 
-                response.forEach(element => {
-                    
-                    console.log(element.job_description);
+                if (jsondata.filtered_report.length > 0){
+                    $("#jobTable").find('tbody').remove();
+                    jsondata.filtered_report.forEach(element => {                    
+                        console.log(element.job_description);
 
-                });
-
+                    });
+    
+                }
+                
             }
 
         });
