@@ -33,7 +33,8 @@
             <hr />
             <div class="container border" >
                 <div class="row mt-2">
-                    <div class="col-8">
+                    
+                    <div class="col-10">
                         <div class="d-inline-flex p-1 gap-2">
                             <label for="dtFom">Från</label>
                             <input type="text" class="form-control" id="dtFom" ></input>
@@ -43,13 +44,14 @@
                                     <select id="job_fastighet" class="form-select" name="job_fastighet">
                                         <option value="T7">T7</option>
                                         <option value="U9">U9</option>
+                                        <option value="Alla">Alla</option>
                                     </select>
                             <input type="button" id="btnFilter" class="btn btn-success" value="Filtrera">
+                            
                         </div>
-                    </col>
-                    
-                    
+                    </div>
                 </div>
+                
                 <div class="row mt-3">
                     <div class="col">
                         <table class="table table-hover table-striped " id="jobTable">
@@ -99,7 +101,7 @@
                             </tfoot>
                         </table>
                     </div>
-                    <div class="mt-3">
+                    <div class="mt-3" id="navigationDiv">
                         <nav aria-label="Page navigation">
                             <ul class="pagination">
                                 <?php

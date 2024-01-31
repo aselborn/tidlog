@@ -34,12 +34,26 @@ $(document).ready(function() {
                 
                 var jsondata = JSON.parse(response);
 
-                response.forEach(element => {
+                if (jsondata.error !== undefined){
+                    alert(jsondata.error); //gör detta till en text på sidan istället.
+                    return;
+                }
+
+                if (jsondata.filtered_report.length > 0){
                     
-                    console.log(element.job_description);
+                    $("#jobTable").find("tr:gt(0)").remove();
 
-                });
+                    jsondata.filtered_report.forEach(element => {                    
+                        console.log(element.job_description);
 
+                        $("#jobTable tbody").append("<tr><td>" + element.job_date + "</td><td>" + element.job_hour +"</td><td>"+ element.job_fastighet +"</td><td>" + element.job_description + "</td></tr>");
+
+                    });
+
+                    $("#navigationDiv").remove();
+    
+                }
+                
             }
 
         });
