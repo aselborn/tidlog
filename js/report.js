@@ -34,7 +34,6 @@ $(document).ready(function() {
                 
                 var jsondata = JSON.parse(response);
 
-<<<<<<< HEAD
                 if (jsondata.error !== undefined){
                     alert(jsondata.error); //gör detta till en text på sidan istället.
                     return;
@@ -44,22 +43,25 @@ $(document).ready(function() {
                     
                     $("#jobTable").find("tr:gt(0)").remove();
 
+                    var totHourT7 = 0;
+                    var totU9 =0;
+
                     jsondata.filtered_report.forEach(element => {                    
                         console.log(element.job_description);
+                        
+                        if (element.job_fastighet === "T7")
+                            totHourT7 += element.job_hour;
+                        if (element.job_fastighet === "U9")
+                            totU9 += element.job_hour;
 
                         $("#jobTable tbody").append("<tr><td>" + element.job_date + "</td><td>" + element.job_hour +"</td><td>"+ element.job_fastighet +"</td><td>" + element.job_description + "</td></tr>");
 
+
                     });
 
+                    //Footer.
+                    
                     $("#navigationDiv").remove();
-=======
-                if (jsondata.filtered_report.length > 0){
-                    $("#jobTable").find('tbody').remove();
-                    jsondata.filtered_report.forEach(element => {                    
-                        console.log(element.job_description);
-
-                    });
->>>>>>> 5d322e118db7c24accce47b4340c9be299f5ad45
     
                 }
                 
