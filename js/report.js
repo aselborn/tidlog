@@ -39,10 +39,10 @@ $(document).ready(function() {
                     return;
                 }
 
+                $("#jobTable").find("tr:gt(0)").remove();
+                
                 if (jsondata.filtered_report.length > 0){
                     
-                    $("#jobTable").find("tr:gt(0)").remove();
-
                     var totHourT7 = 0;
                     var totU9 =0;
 

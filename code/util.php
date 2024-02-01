@@ -38,6 +38,7 @@ if (isset($_POST["nameOfFunction"])){
                 $resultSet[] = $row;
             }
             
+            
             echo json_encode(['filtered_report' => $resultSet]);
 
         } catch(Exception $e){
