@@ -16,6 +16,7 @@
       $result_per_page = 10;
       $page_first_result = ($page - 1) * $result_per_page;
       $num_rows = $db->getRowCountForUser($user);
+      $total_registrations = $db->total_registrations_for_user($user);
 
 ?>
 <!DOCTYPE html>
@@ -27,13 +28,13 @@
 
     <body>
         <?php include("./pages/sidebar.php") ?>
-
+        <?php echo '<input type="hidden" id="totalRowCount" value="' . htmlspecialchars(strval($total_registrations)) . '" />'."\n";?>
         <div class="col-sm  min-vh-100 border">
             <h2>Sammanställning för användare : <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong></h2>
             <hr />
             <div class="container border" >
+                
                 <div class="row mt-2">
-                    
                     <div class="col-10">
                         <div class="d-inline-flex p-1 gap-2">
                             <label for="dtFom">Från</label>
@@ -47,11 +48,13 @@
                                         <option value="Alla">Alla</option>
                                     </select>
                             <input type="button" id="btnFilter" class="btn btn-success" value="Filtrera">
-                            
+                            <strong><label for="lblErrorLabel" class="form-label custom_error" id="lblErrorLabel"></label></strong>
                         </div>
                     </div>
                 </div>
-                
+                <div class="row mt-2">
+                    <strong><label class="label-primary" id="lblTotalCount"></label></strong>
+                </div>
                 <div class="row mt-3">
                     <div class="col">
                         <table class="table table-hover table-striped " id="jobTable">
@@ -70,8 +73,10 @@
                                 $data = $db->query("SELECT * from tidlog_jobs WHERE job_username = ? Order by job_date DESC LIMIT " .$page_first_result . "," .$result_per_page , array($user))->fetchAll() ;
                                 $timT7 = 0;
                                 $timU9=0;
+                                $rowCount = 0;
 
                                 foreach ($data as $row) {
+                                    $rowCount++;
                                     $dtdat = date_create($row["job_date"]);
                                     $dt = date_format($dtdat, "Y-m-d");
                                     $jobId = $row["JobId"];
@@ -81,8 +86,6 @@
                                     } else {
                                         $timU9 +=$row["job_hour"];
                                     }
-                                    
-
                                 
 
                                     echo "<tr id='$jobId' ><td>" . $dt . "</td><td>"
@@ -90,6 +93,9 @@
                                         . $row["job_fastighet"] . "</td><td>"
                                         . $row["job_description"] . "</td></tr>";
                                 }
+
+                                // echo '<input type="hidden" id="totalRowCount" value="' . htmlspecialchars(strval($rowCount)) . '" />'."\n";
+
                                 ?>
                             </tbody>
                             <tfoot>

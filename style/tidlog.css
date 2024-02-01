@@ -9,4 +9,8 @@
         background-color: yellow;
     }
 }
+
+.custom_error {
+    white-space: nowrap;
+}
     

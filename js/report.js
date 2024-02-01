@@ -9,6 +9,9 @@ $(document).ready(function() {
     $("#dtFom").datepicker(options);
     $("#dtTom").datepicker(options);
     
+    var totalRowsUnfiltered = $("#totalRowCount").val();
+    $("#lblTotalCount").text('Totalt antal registreringar : ' + totalRowsUnfiltered);
+
     $("#btnFilter").on('click', function() {
         var dtFom = $("#dtFom").val();
         var dtTom = $("#dtTom").val();
@@ -39,9 +42,14 @@ $(document).ready(function() {
                     return;
                 }
 
+                $("#jobTable").find("tr:gt(0)").remove();
+                if (jsondata.filtered_report.length === 0){
+                    $("#lblErrorLabel").text('Inga rader!');
+                }
+
                 if (jsondata.filtered_report.length > 0){
                     
-                    $("#jobTable").find("tr:gt(0)").remove();
+                    
 
                     var totHourT7 = 0;
                     var totU9 =0;
@@ -63,6 +71,9 @@ $(document).ready(function() {
                     
                     $("#navigationDiv").remove();
     
+
+                    //var rowCount = $("#totalRowCount").val();
+
                 }
                 
             }
