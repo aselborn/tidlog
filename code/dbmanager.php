@@ -133,6 +133,18 @@
             return (int)$row["total_hours"];
         }
 
+        public function total_registrations_for_user($userName){
+            $sql = "select count(*) as count from tidlog_jobs where job_username = ?";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("s", $userName);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $rows = $result->fetch_assoc()["count"];
+
+            return $rows ;
+        }
+
         public function total_hours_for_month (){
             $sql = "select SUM(job_hour) AS total_hours from tidlog_jobs where (tidlog_jobs.job_date between  DATE_FORMAT(NOW() ,'%Y-%m-01') AND NOW() )";
             $result = $this->connection->query($sql);
