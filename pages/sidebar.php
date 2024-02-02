@@ -55,14 +55,19 @@
                             <i class="bi-card-text fs-1"></i>
                         </a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a href="hyresgaster.php" class="nav-link py-3 px-2" title="Hyresgäster" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Hyresgäster">
-                            <i class="bi bi-book fs-1"></i>
+                    <li class="nav-item">
+                        <a href="lagenhet.php" class="nav-link py-3 px-2" title="Lägenheter" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Lägenheter">
+                            <i class="bi bi-building fs-1"></i>
                         </a>
-                    </li> -->
+                    </li>
+                    <li class="nav-item">
+                        <a href="hyresgaster.php" class="nav-link py-3 px-2" title="Hyresgäster" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Hyresgäster">
+                            <i class="bi bi-people fs-1"></i>
+                        </a>
+                    </li>
                     <li>
                         <a href="settings.php" class="nav-link py-3 px-2" title="Inställnigar" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="inställningar">
-                            <i class="bi-people fs-1"></i>
+                            <i class="bi bi-gear fs-1"></i>
                         </a>
                     </li>
                     <li>

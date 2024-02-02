@@ -10,8 +10,27 @@ if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "filter_report"){
         filter_report();
     }
+    if ($_POST["nameOfFunction"] == "fastigheter") {
+        get_fastigheter();
+    }
+
+    if ($_POST["nameOfFunction"] == "add_apartment"){
+        add_apartment();
+    }
 }
     
+    function add_apartment()
+    {
+        $user = $_SESSION["username"];
+        $db = new DbManager();
+        $fastighetId = $_POST["fastighet_Id"];
+        $lagenthetNo = $_POST["lagenhet_No"];
+        $yta  =$_POST["yta"];
+
+
+        echo json_encode('added_apartment', 'true');
+
+    }
 
     function filter_report()
     {
@@ -47,4 +66,21 @@ if (isset($_POST["nameOfFunction"])){
         
     }
 
+    function get_fastigheter(){
+        $db = new DbManager();
+        $data =  $db->query("SELECT * FROM tidlog_fastighet");
+        $resultSet = array();
+
+        try{
+            
+            foreach ($data as $row) {
+                $resultSet[] = $row;
+            }
+            
+            echo json_encode(['fastigheter' => $resultSet]);
+
+        } catch(Exception $e){
+            echo json_encode(array('error' => $e->getMessage()));
+        }
+    }
 ?>

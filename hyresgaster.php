@@ -2,9 +2,6 @@
       if (!isset($_SESSION)) { session_start(); }
       require_once "./code/dbmanager.php";
       require_once "./code/managesession.php";
-
-      
-  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,30 +39,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                            //Läser data ur databas.
-
-                            //$data = $db->query("SELECT * from tidlog_jobs WHERE job_username = ? Order by job_date DESC LIMIT " .$page_first_result . "," .$result_per_page , array($user))->fetchAll() ;
-                            
-
-                            // foreach ($data as $row) {
-                            //     $dtdat = date_create($row["job_date"]);
-                            //     $dt = date_format($dtdat, "Y-m-d");
-                            //     $jobId = $row["JobId"];
-
-
-                            //     echo "<tr id='$jobId' ><td>" . $dt . "</td><td>"
-                            //         . $row["job_hour"] . "</td><td>"
-                            //         . $row["job_fastighet"] . "</td><td>"
-                            //         . $row["job_description"] . "</td></tr>";
-                            //}
-                            ?>
-                         </tbody>
+                          
+                            </tbody>
                         </table>
                     </div>
                     <div class="mt-3">
-                        
-                    </div>
+                        <form action="addhyresgast.php" method="POST" id="frmInput">
+                            
+                        </form>
                     </div>
                 </div>
             </div>

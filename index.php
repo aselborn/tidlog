@@ -82,7 +82,6 @@ $number_of_page = ceil($num_rows / $result_per_page);
                                     <?php
                                     //Läser data ur databas.
 
-
                                     //$data = $db->query("select * from jobs where job_username = ? order by job_date desc ", array($_SESSION["username"]))->fetchAll();
                                     $data = $db->query("select * from tidlog_jobs order by job_date desc LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
 
@@ -91,10 +90,11 @@ $number_of_page = ceil($num_rows / $result_per_page);
                                         $dt = date_format($dtdat, "Y-m-d");
                                         $jobId = $row["JobId"];
 
+                                        $jobHour = str_replace(".0", "", $row["job_hour"]);
 
                                         echo "<tr id='$jobId' ><td>" . $dt . "</td><td>"
                                             . $row["job_username"] . "</td><td>"
-                                            . $row["job_hour"] . "</td><td>"
+                                            . $jobHour  . "</td><td>"
                                             . $row["job_fastighet"] . "</td><td>"
                                             . $row["job_description"] . "</td></tr>";
                                     }
