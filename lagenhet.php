@@ -77,8 +77,7 @@
                         </table>
                     </div>
                     <div class="mt-1">
-                            <form action="addlagenhet.php" method="POST" id="frmInput">
-                            
+                            <!-- <form action="addlagenhet.php" method="POST" id="frmInput">
                                 <div class="d-inline-flex align-bottom p-1 gap-2">
                                 
                                     <div class="form-group">
@@ -96,11 +95,8 @@
                                         <br />
                                         <input type="button" id="btnSave" class="btn btn-primary btn-send" value="Spara">                                          
                                     </div>
-                                
-                                
                                 </div>
-                            
-                            </form>
+                            </form> -->
 
                             <div class="mt-3">
                                 <nav aria-label="Page navigation">

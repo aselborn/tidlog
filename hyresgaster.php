@@ -19,8 +19,8 @@
       $number_of_page = ceil($num_rows / $result_per_page);
 
       
-      $lagenheter = $db->query("select * from tidlog_lagenhet where lagenhet_id not in (select lagenhet_id from tidlog_hyresgaster)")->fetchAll();
-      //$lagenheter = $db->query("select * from tidlog_lagenhet order by lagenhet_nr")->fetchAll();
+      //$lagenheter = $db->query("select * from tidlog_lagenhet where lagenhet_id not in (select lagenhet_id from tidlog_hyresgaster)")->fetchAll();
+      $lagenheter = $db->query("select * from tidlog_lagenhet order by lagenhet_nr")->fetchAll();
       $hyresgaster = $db->query("SELECT * FROM  tidlog_hyresgaster h inner join tidlog_lagenhet l on h.lagenhet_id = l.lagenhet_id order by lagenhet_nr  LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
       
 
@@ -131,14 +131,14 @@
                                     <input id="epost" type="text" name="epost" class="form-control" style="width:250px" >
                                 </div>
 
-                                <div class="form-group col-sm-4">
-                                    <br />
-                                    <input type="button"  class="btn btn-primary btn-send" value="Spara" id="btnSparaHyresgast"> 
-                                </div>
                                 <!-- <div class="form-group col-sm-4">
                                     <br />
-                                    <input type="button"  class="btn btn-primary btn-send" value="Uppdatera" id="btnUppdatera"> 
+                                    <input type="button"  class="btn btn-primary btn-send" value="Spara" id="btnSparaHyresgast"> 
                                 </div> -->
+                                <div class="form-group col-sm-4">
+                                    <br />
+                                    <input type="button"  class="btn btn-primary btn-send" value="Uppdatera" id="btnUppdatera"> 
+                                </div>
                             
                             </div>
                         
