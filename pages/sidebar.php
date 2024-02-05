@@ -40,6 +40,8 @@
         <script src="./js/index.js"></script>
         <script src="./js/settings.js"></script>
         <script src="./js/report.js"></script>
+        <script src="./js/lagenhet.js"></script>
+        <script src="./js/hyresgast.js"></script>
     </head>
 
     <div class="container-fluid">

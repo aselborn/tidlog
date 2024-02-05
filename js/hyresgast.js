@@ -1,12 +1,14 @@
 $(document).ready(function() {
 
-    $("#btnSave").on('click', function(){
+    $("#btnSparaHyresgast").on('click', function(){
+      
+        var lagenhetId = $("#lagenhetId option:selected").val();
+        var fnamn = $("#fnamn").val();
+        var enamn = $("#enamn").val();
+        var telefon = $("#telefon").val();
+        var epost = $("#epost").val();
 
-        var fastighetId = $("#fastighetId option:selected").val();
-        var lagenhetNo = $("#lagenhetNo").val();
-        var yta = $("#lagenhetYta").val();
-
-        var data = { nameOfFunction : 'add_apartment', fastighet_Id: fastighetId, lagenhet_No: lagenhetNo, yta: yta };
+        var data = { nameOfFunction : 'add_hyresgast', lagenhet_id: lagenhetId, fnamn: fnamn, enamn: enamn, telefon: telefon, epost: epost };
         
         $.post("./code/util.php", data, function(response){
 
@@ -21,7 +23,7 @@ $(document).ready(function() {
             }
 
         });
-
+     
 
     });
 

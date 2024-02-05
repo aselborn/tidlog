@@ -27,6 +27,14 @@
             return (int)$row["count"];
         }
 
+        public function getLagenhetCount()
+        {
+            $sql = "select count(*) as count from tidlog_lagenhet";
+            $result = $this->connection->query($sql);
+            $row = $result->fetch_assoc();
+            return (int)$row["count"];
+        }
+
         public function getRowCountForUser($user)
         {
             $sql = "select count(*) as count, sum(job_hour) from tidlog_jobs where job_username = ?";
@@ -108,6 +116,38 @@
              return $row;
         }
 
+        public function add_lagenhet($fastighetId, $lagenhetNo, $yta)
+        {
+            $sql = "INSERT INTO tidlog_lagenhet(fastighet_id, lagenhet_nr, yta) VALUES (?, ?, ?)";
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("sss", $fastighetId, $lagenhetNo, $yta);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+            
+        }
+
+        public function ny_hyresgast($lagenhetId, $fnamn,$enamn, $telefon, $epost)
+        {
+            $sql = "INSERT INTO tidlog_hyresgaster(lagenhet_id, fnamn, enamn, epost, telefon) VALUES (?, ?, ?, ?, ?)";
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("sssss", $lagenhetId, $fnamn, $enamn, $telefon, $epost);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+        }
 
         public function update_jobid($jobId, $datum, $timmar, $fastighet, $beskrivning){
 
