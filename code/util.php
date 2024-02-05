@@ -32,10 +32,6 @@ if (isset($_POST["nameOfFunction"])){
         $errors = [];
         $data = [];
 
-        $form_data = array();
-
-        
-
         if (empty($_POST['lagenhet_id'])) {
             $errors['lagenhetId'] = 'Lägenhet?';
         }
@@ -56,22 +52,30 @@ if (isset($_POST["nameOfFunction"])){
             $errors['telefon'] = 'Telefon?.';
         }
 
-
-        if (!empty($errors)) {
-            $data['success'] = false;
-            $data['errors'] = $errors;
-        } else {
-            $data['success'] = true;
-            $data['message'] = 'Success!';
-        }
-
-        $lagenhetId = $_POST["lagenhet_id"];
-        $fnamn = $_POST["fnamn"];
-        $enamn = $_POST["enamn"];
-        $telefon = $_POST["telefon"];
-        $epost = $_POST["epost"];
-
         try{
+
+            if (!empty($errors)) {
+                $data['success'] = false;
+                $data['errors'] = $errors;
+
+                $err = "";
+
+                foreach ($errors as $x) {
+                    $err =  "$x <br>";
+                }
+
+                throw new Exception("Fel i indata " . $x);
+            } else {
+                $data['success'] = true;
+                $data['message'] = 'Success!';
+            }
+    
+            $lagenhetId = $_POST["lagenhet_id"];
+            $fnamn = $_POST["fnamn"];
+            $enamn = $_POST["enamn"];
+            $telefon = $_POST["telefon"];
+            $epost = $_POST["epost"];    
+
             if ($db->ny_hyresgast($lagenhetId, $fnamn,$enamn, $telefon, $epost))
             {
                 echo json_encode(['added_hyresgast' => 'true']);

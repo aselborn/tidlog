@@ -4,15 +4,31 @@
       require_once "./code/managesession.php";
 
       $db = new DbManager();
+
+      if (!isset($_GET['page'])) 
+      {
+          $page = 1;
+      } else {
+          $page = $_GET['page'];
+      }
+
+      $result_per_page = 6;
+
+      $page_first_result = ($page - 1) * $result_per_page;
+      $num_rows = $db->getLagenhetCount();
+      $number_of_page = ceil($num_rows / $result_per_page);
+
+      
       $lagenheter = $db->query("select * from tidlog_lagenhet where lagenhet_id not in (select lagenhet_id from tidlog_hyresgaster)")->fetchAll();
-      $hyresgaster = $db->query("SELECT * FROM  tidlog_hyresgaster h inner join tidlog_lagenhet l on h.lagenhet_id = l.lagenhet_id")->fetchAll();
+      //$lagenheter = $db->query("select * from tidlog_lagenhet order by lagenhet_nr")->fetchAll();
+      $hyresgaster = $db->query("SELECT * FROM  tidlog_hyresgaster h inner join tidlog_lagenhet l on h.lagenhet_id = l.lagenhet_id order by lagenhet_nr  LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
+      
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Hyresgäster</title>
-        
     </head>
 
     <body>
@@ -26,7 +42,7 @@
                 <div class="row mt-3">
                     <div class="col-2">
                         <label id="lblFastighet" class="label-primary">Välj fastighet</label>
-                        <select id="job_fastighet" class="form-select" name="job_fastighet">
+                        <select id="cboFastighet" class="form-select" name="job_fastighet">
                             <option value="T7">T7</option>
                             <option value="U9">U9</option>
                         </select>
@@ -34,7 +50,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col">
-                        <table class="table table-hover table-striped " id="jobTable">
+                        <table class="table table-hover table-striped " id="hyresgastTable">
                             <thead class="table-dark">
                                 <tr>
                                     <th scope="col" class="table-primary">Namn</th>
@@ -48,17 +64,19 @@
                                 <?php 
                                     foreach($hyresgaster as $row)
                                     {
+                                        $hyresgastId = $row["hyresgast_id"];
                                         $namn = $row["fnamn"];
                                         $enamn = $row["enamn"];
                                         $lagenhetNo = $row["lagenhet_nr"];
-                                        $epost = $row["epost"];
                                         $telefon = $row["telefon"];
-
-                                        echo "<tr><td>" . $namn . "</td>"
+                                        $epost = $row["epost"];
+                                        
+                                        
+                                        echo "<tr id=' $hyresgastId'><td>" . $namn . "</td>"
                                             . "<td>" . $enamn . "</td>"
                                             . "<td>" . $lagenhetNo . "</td>"
-                                            . "<td>" . $telefon . "</td>"
                                             . "<td>" . $epost . "</td>"
+                                            . "<td>" . $telefon . "</td>"
                                             . "</tr>";
 
                                     }
@@ -117,13 +135,48 @@
                                     <br />
                                     <input type="button"  class="btn btn-primary btn-send" value="Spara" id="btnSparaHyresgast"> 
                                 </div>
-                            
+                                <!-- <div class="form-group col-sm-4">
+                                    <br />
+                                    <input type="button"  class="btn btn-primary btn-send" value="Uppdatera" id="btnUppdatera"> 
+                                </div> -->
                             
                             </div>
                         
                         </form>
                         
                     </div>
+
+                    <div class="mt-3">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <?php
+                                        $pageLink = "";
+
+                                        $total_pages = ceil($num_rows / $result_per_page);
+
+                                        if ($total_pages > 1) {
+
+                                            if ($page >= 2) {
+                                                echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . ($page - 1) . "'>Föregående</a></li>";
+                                            }
+                                            for ($i = 1; $i <= $total_pages; $i++) {
+                                                if ($i == $page) {
+                                                    echo "<li class='page-item active'><a class='page-link' href='hyresgaster.php?page=" . $i . "'>" . $i . "</a></li>";
+                                                } else {
+                                                    echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . $i . "'>" . $i . "</a></li>";
+                                                }
+                                            }
+
+                                            if ($total_pages > $page) {
+                                                echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . ($page + 1) . "'>Nästa</a></li>";
+                                            }
+                                        }
+                                        ?>
+                                    </ul>
+
+                                </nav>
+                        </div>
+
                 </div>
             </div>
         </body>

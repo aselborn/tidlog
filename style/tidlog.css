@@ -3,11 +3,8 @@
     word-wrap: break-word;
 } */
 
-.table-custom {
-    .selected {
-        color: red;
-        background-color: yellow;
-    }
+.table-custom tbody tr.highlight td {
+    background-color: #7e1919;
 }
 
 .custom_error {

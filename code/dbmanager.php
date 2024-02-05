@@ -35,6 +35,13 @@
             return (int)$row["count"];
         }
 
+        public function getHyresgastCount()
+        {
+            $sql = "select count(*) as count from tidlog_hyresgaster";
+            $result = $this->connection->query($sql);
+            $row = $result->fetch_assoc();
+            return (int)$row["count"];
+        }
         public function getRowCountForUser($user)
         {
             $sql = "select count(*) as count, sum(job_hour) from tidlog_jobs where job_username = ?";
