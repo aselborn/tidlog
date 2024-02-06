@@ -8,4 +8,4 @@ CREATE TABLE `tidlog_hyresgaster` (
   PRIMARY KEY (`hyresgast_id`),
   KEY `fk_lagenhet_idx` (`lagenhet_id`),
   CONSTRAINT `fk_lagenhet` FOREIGN KEY (`lagenhet_id`) REFERENCES `tidlog_lagenhet` (`lagenhet_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
