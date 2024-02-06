@@ -34,7 +34,7 @@
         <div class="col-sm  min-vh-100 border">
             <h2>Lägenheter</h2>
             <hr />
-            <div class="container border" >
+            <div class="container" >
                 <div class="row mt-3">
                     <div class="col-2">
                         <label id="lblFastighet" class="label-primary">Välj fastighet</label>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col">
-                        <table class="table table-hover table-striped " id="jobTable">
+                        <table class="table table-hover table-striped " id="lagenhetTable">
                             <thead class="table-dark">
                                 <tr>
                                     <th scope="col" class="table-primary">Lägenhet Nr</th>

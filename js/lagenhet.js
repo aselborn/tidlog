@@ -35,8 +35,14 @@ $(document).ready(function() {
             if (response !== undefined ){
                 var data = JSON.parse(response);
 
+                $("#lagenhetTable").find("tr:gt(0)").remove();
+
                 data.filter_lagenhet.forEach(element => {                    
                     console.log(element.lagenhet_nr + " " + element.fastighet_namn + " " + element.yta);
+                    
+                    $("#lagenhetTable tbody").append("<tr><td>" + element.lagenhet_nr + "</td><td>" + element.fastighet_namn +"</td><td>"+ element.yta +"</td><td>");
+
+
                 });
             }
 
