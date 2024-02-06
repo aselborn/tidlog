@@ -10,7 +10,7 @@ $(document).ready(function() {
     $("#dtTom").datepicker(options);
     
     var totalRowsUnfiltered = $("#totalRowCount").val();
-    $("#lblTotalCount").text('Totalt antal registreringar : ' + totalRowsUnfiltered);
+    $("#lblTotalCount").text('Totalt antal registreringar för användare : ' + totalRowsUnfiltered);
 
     $("#btnFilter").on('click', function() {
         var dtFom = $("#dtFom").val();
@@ -31,6 +31,17 @@ $(document).ready(function() {
 
         var data = { nameOfFunction : 'filter_report', fomDate: dtFom, tomDate: dtTom, fastighet: theFastighet };
         
+        $.ajax({
+            url : "./code/util.php",
+            type: "POST",
+            dataType: 'json',
+            data : data,
+            success: function(result){
+                alert(response);
+            }
+
+        });
+
         $.post("./code/util.php", data, function(response){
             
             if (response !== ""){

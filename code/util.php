@@ -21,8 +21,60 @@ if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "add_hyresgast"){
         add_hyresgast();
     }
+
+    if ($_POST["nameOfFunction"] == "filter_lagenhet"){
+        filter_lagenhet();
+    }
+
+    
 }
     
+    function filter_lagenhet()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $errors = [];
+        $data = [];
+
+        if (empty($_POST['fastighet_id'])) {
+            $errors['fastighet_id'] = 'Fastighet?.';
+        }
+
+        try{
+
+            if (!empty($errors)){
+                $err = "";
+                foreach ($errors as $x) {
+                    $err =  "$x <br>";
+                }
+                throw new Exception($err);
+            }
+
+            $fastighet_id = $_POST["fastighet_id"];
+
+            $data = null;
+            $sql = "SELECT * from tidlog_lagenhet l inner join tidlog_fastighet f ON l.fastighet_id = f.fastighet_id
+                    WHERE l.fastighet_id = ? ORDER BY lagenhet_nr ";
+
+            $data = $db->query($sql, array($fastighet_id))->fetchAll();
+            $resultSet = array();
+
+            foreach ($data as $row) {
+                $resultSet[] = $row;
+            }
+                 
+            echo json_encode(['filter_lagenhet' => $resultSet]);
+
+        }catch(\Throwable $th){
+
+            echo json_encode(['filter_lagenhet' => 'false', 'orsak' => $th->getMessage()]);
+        }
+
+    }
+
     function add_hyresgast()
     {
         if (!isset($_SESSION)) { session_start(); }

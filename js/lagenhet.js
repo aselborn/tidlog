@@ -16,12 +16,31 @@ $(document).ready(function() {
                     return;
                 } 
 
-                
                 window.location.reload();
             }
 
         });
 
+
+    });
+
+    $("#fastighetId").on('change', function(){
+
+        var fastighet_id = $("#fastighetId option:selected").val();
+        
+        var data = { nameOfFunction : 'filter_lagenhet', fastighet_id: fastighet_id };
+        
+        $.post("./code/util.php", data, function(response){
+
+            if (response !== undefined ){
+                var data = JSON.parse(response);
+
+                data.filter_lagenhet.forEach(element => {                    
+                    console.log(element.lagenhet_nr + " " + element.fastighet_namn + " " + element.yta);
+                });
+            }
+
+        });
 
     });
 
