@@ -26,9 +26,77 @@ if (isset($_POST["nameOfFunction"])){
         filter_lagenhet();
     }
 
+    if ($_POST["nameOfFunction"] == "change_password"){
+        change_password();
+    }
     
 }
-    
+    function change_password()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $errors = [];
+        $data = [];
+
+        if (empty($_POST['user_id'])) {
+            $errors['user_id'] = 'Användare?.';
+        }
+
+        if (empty($_POST['old_pwd'])) {
+            $errors['old_pwd'] = 'Befintligt lösenord?.';
+        }
+
+        if (empty($_POST['new_pwd'])) {
+            $errors['new_pwd'] = 'Nytt lösenord?.';
+        }
+
+        try{
+
+            if (!empty($errors)){
+                $err = "";
+                foreach ($errors as $x) {
+                    $err =  "$x <br>";
+                }
+                throw new Exception($err);
+            }
+
+            $user_id = $_POST["user_id"];
+            $old_pwd = $_POST["old_pwd"];
+            $hashedPwd = "";
+            $new_pwd = $_POST["new_pwd"];
+
+            //$current_password = 
+            $sql = "select password from tidlog_users where username = ?";
+            $data = $db->query($sql, array($user_id))->fetchAll();
+
+            foreach($data as $row){
+                $hashedPwd = $row["password"];
+            }
+
+            if (!password_verify($old_pwd, $hashedPwd)) {
+                throw new Exception("Du har angivit fel lösenord.");
+            }
+
+            if (strlen($new_pwd) < 8) {
+                throw new Exception("Lösenordet måste var minst 8 tecken");
+            }
+
+            $param_password = password_hash($new_pwd, PASSWORD_DEFAULT);
+            
+            $db->update_password($user_id, $param_password);
+
+
+            echo json_encode(['change_password' => 'true']);
+
+        }catch(\Throwable $th){
+
+            echo json_encode(['change_password' => 'false', 'orsak' => $th->getMessage()]);
+        }
+
+    }
     function filter_lagenhet()
     {
         if (!isset($_SESSION)) { session_start(); }

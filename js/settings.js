@@ -1,15 +1,4 @@
 
-
-    // $("#btnChange").on('click', function(){
-
-    //     var userName = '<?php echo $userName; ?>';
-        
-
-
-    //     var currentPwdDb = getPassword(userName);
-    //     checkPwd(currentPwdDb);
-    // });
-
     function checkCurrentPassword(usr, oldPwd){
        let xhr = new XMLHttpRequest();
        let url = './code/util.php';
@@ -18,7 +7,24 @@
 
 
     function ChangePassword(usr){
-        alert(usr);
+
+        var inOldPwd = $("#idCurrentPassword").val();
+        var inNewPwd = $("#idNewPassword").val();
+
+        var data = { nameOfFunction : 'change_password', user_id: usr, old_pwd: inOldPwd, new_pwd: inNewPwd };
+        
+        $.post("./code/util.php", data, function(response){
+
+            if (response !== ""){
+                if (JSON.parse(response).change_password === 'false'){
+                    alert('Fel uppstod => ' + JSON.parse(response).orsak);
+                    return;
+                } 
+
+                window.location.reload();
+            }
+
+        });
     }
 
 

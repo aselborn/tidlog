@@ -167,9 +167,12 @@
             $stmt->execute();
         }
 
-        public function update_password($userName, $oldPwd, $newPwd)
+        public function update_password($userName, $newPwd)
         {
-
+            $sql = "UPDATE tidlog_users SET password = ? where username = ?";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("ss", $newPwd, $userName);
+            $stmt->execute();
         }
 
         public function total_hours (){

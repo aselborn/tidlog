@@ -1,8 +1,17 @@
 <?php 
     if (!isset($_SESSION)) { session_start(); }
+
     require_once "./code/dbmanager.php";
     require_once "./code/managesession.php";
     
+    if (!isset($_GET['lagenhetId'])) {
+        $lagenhetId = 1;
+    } else {
+        $lagenhetId = $_GET['lagenhetId'];
+    }
+    
+    $lghInfo = $lagenhetId;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +25,7 @@
             <h2>Lägenheter</h2>
             <hr />
             <div class="container border" >
-                <strong>information om lägenhet</strong>
+                <strong>information om lägenhet <?php echo $lghInfo ?></strong>
             </div>
         </div>
     </body>
