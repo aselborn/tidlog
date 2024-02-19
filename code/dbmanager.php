@@ -119,8 +119,8 @@
             $result = $stmt->get_result();
             
             
-             $row = $result->fetch_column();
-             return $row;
+            $row = $result->fetch_column();
+            return $row;
         }
 
         public function add_lagenhet($fastighetId, $lagenhetNo, $yta)
@@ -140,12 +140,18 @@
             
         }
 
-        public function ny_hyresgast($lagenhetId, $fnamn,$enamn, $telefon, $epost)
+        public function ny_hyresgast($lagenhetId, $fnamn,$enamn, $telefon, $epost, $update = false)
         {
-            $sql = "INSERT INTO tidlog_hyresgaster(lagenhet_id, fnamn, enamn, epost, telefon) VALUES (?, ?, ?, ?, ?)";
+            $sql = "";
+            if ($update){
+                $sql = "UPDATE tidlog_hyresgaster SET fnamn = ?, enamn = ?, epost = ?, telefon = ? WHERE hyresgast_id = ?";
+            } else {
+                $sql = "INSERT INTO tidlog_hyresgaster(lagenhet_id, fnamn, enamn, epost, telefon) VALUES (?, ?, ?, ?, ?)";
+            }
+            
             try{
                 $stmt = $this->connection->prepare($sql);
-                $stmt->bind_param("sssss", $lagenhetId, $fnamn, $enamn, $telefon, $epost);
+                $stmt->bind_param("sssss", $fnamn, $enamn, $epost, $telefon,$lagenhetId);
             
                 $stmt->execute();
                 $stmt->close();
@@ -173,6 +179,7 @@
             $stmt = $this->connection->prepare($sql);
             $stmt->bind_param("ss", $newPwd, $userName);
             $stmt->execute();
+            $stmt->close();
         }
 
         public function total_hours (){

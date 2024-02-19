@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var hyresgastId ="";
 
     //hämta alla hyresgäster för en viss fastighet
     $("#cboFastighet").on('change', function(e){
@@ -8,15 +9,16 @@ $(document).ready(function() {
 
     });
 
-    $("#btnSparaHyresgast").on('click', function(){
+    $("#btnUppdateraHyresgast").on('click', function(){
       
         var lagenhetId = $("#lagenhetId option:selected").val();
         var fnamn = $("#fnamn").val();
         var enamn = $("#enamn").val();
         var telefon = $("#telefon").val();
         var epost = $("#epost").val();
+        
 
-        var data = { nameOfFunction : 'add_hyresgast', lagenhet_id: lagenhetId, fnamn: fnamn, enamn: enamn, telefon: telefon, epost: epost };
+        var data = { nameOfFunction : 'uppdatera_hyresgast', lagenhet_id: lagenhetId, hyresgast_id: hyresgastId, fnamn: fnamn, enamn: enamn, telefon: telefon, epost: epost };
         
         $.post("./code/util.php", data, function(response){
 
@@ -39,7 +41,7 @@ $(document).ready(function() {
     //en användare klickar på en rad. hämta data för den raden.
    $(document).on('click', "#hyresgastTable tbody tr", function(){
     
-        var hyresgastId = $(this).closest('tr').attr('id').trim();
+        hyresgastId = $(this).closest('tr').attr('id').trim();
 
         $(".highlight").removeClass("highlight");
         $(this).addClass("highlight");
@@ -49,8 +51,8 @@ $(document).ready(function() {
         var fnamn =  $(this).closest('tr').find('td')[0].innerHTML;
         var enamn =  $(this).closest('tr').find('td')[1].innerHTML;
         
-        var telefon =  $(this).closest('tr').find('td')[3].innerHTML;
-        var epost =  $(this).closest('tr').find('td')[4].innerHTML;
+        var telefon =  $(this).closest('tr').find('td')[4].innerHTML;
+        var epost =  $(this).closest('tr').find('td')[3].innerHTML;
         var selectedAppartment = $(this).closest('tr').find('td')[2].innerHTML;
 
         let text = $(this).closest('tr').find('td')[2].innerHTML;

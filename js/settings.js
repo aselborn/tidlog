@@ -19,9 +19,9 @@
                 if (JSON.parse(response).change_password === 'false'){
                     alert('Fel uppstod => ' + JSON.parse(response).orsak);
                     return;
-                } 
-
-                window.location.reload();
+                } else if (JSON.parse(response).change_password ==='true'){
+                    alert('Ditt lösenord är ändrat!');
+                }
             }
 
         });

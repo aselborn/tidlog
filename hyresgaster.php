@@ -15,7 +15,7 @@
       $result_per_page = 6;
 
       $page_first_result = ($page - 1) * $result_per_page;
-      $num_rows = $db->getLagenhetCount();
+      $num_rows = $db->getHyresgastCount();
       $number_of_page = ceil($num_rows / $result_per_page);
 
       
@@ -56,8 +56,9 @@
                                     <th scope="col" class="table-primary">Namn</th>
                                     <th scope="col" class="table-primary">Efternamn</th>
                                     <th scope="col" class="table-primary">Lägenhet Nr</th>
-                                    <th scope="col" class="table-primary">Telefon</th>
                                     <th scope="col" class="table-primary">Epost</th>
+                                    <th scope="col" class="table-primary">Telefon</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,7 +73,7 @@
                                         $epost = $row["epost"];
                                         
                                         
-                                        echo "<tr id=' $hyresgastId'><td>" . $namn . "</td>"
+                                        echo "<tr id='$hyresgastId'><td>" . $namn . "</td>"
                                             . "<td>" . $enamn . "</td>"
                                             . "<td>" . $lagenhetNo . "</td>"
                                             . "<td>" . $epost . "</td>"
@@ -122,13 +123,13 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label id="lblTelefon" class="label-primary">Telefon</label>
-                                    <input id="telefon" type="text" name="telefon" class="form-control" style="width:200px">
+                                    <label id="lblEpost" class="label-primary">Epost</label>
+                                    <input id="epost" type="text" name="epost" class="form-control" style="width:250px" >
                                 </div>
 
                                 <div class="form-group">
-                                    <label id="lblEpost" class="label-primary">Epost</label>
-                                    <input id="epost" type="text" name="epost" class="form-control" style="width:250px" >
+                                    <label id="lblTelefon" class="label-primary">Telefon</label>
+                                    <input id="telefon" type="text" name="telefon" class="form-control" style="width:200px">
                                 </div>
 
                                 <!-- <div class="form-group col-sm-4">
@@ -137,7 +138,7 @@
                                 </div> -->
                                 <div class="form-group col-sm-4">
                                     <br />
-                                    <input type="button"  class="btn btn-primary btn-send" value="Uppdatera" id="btnUppdatera"> 
+                                    <input type="button"  class="btn btn-primary btn-send" value="Uppdatera" id="btnUppdateraHyresgast"> 
                                 </div>
                             
                             </div>

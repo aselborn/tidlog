@@ -22,6 +22,10 @@ if (isset($_POST["nameOfFunction"])){
         add_hyresgast();
     }
 
+    if ($_POST["nameOfFunction"] == "uppdatera_hyresgast"){
+        add_hyresgast(true);
+    }
+
     if ($_POST["nameOfFunction"] == "filter_lagenhet"){
         filter_lagenhet();
     }
@@ -143,7 +147,7 @@ if (isset($_POST["nameOfFunction"])){
 
     }
 
-    function add_hyresgast()
+    function add_hyresgast($uppdatera=false)
     {
         if (!isset($_SESSION)) { session_start(); }
         include_once "./config.php";
@@ -196,10 +200,21 @@ if (isset($_POST["nameOfFunction"])){
             $telefon = $_POST["telefon"];
             $epost = $_POST["epost"];    
 
-            if ($db->ny_hyresgast($lagenhetId, $fnamn,$enamn, $telefon, $epost))
-            {
-                echo json_encode(['added_hyresgast' => 'true']);
+            if ($uppdatera == false){
+                if ($db->ny_hyresgast($lagenhetId, $fnamn,$enamn, $telefon, $epost, false))
+                {
+                    echo json_encode(['added_hyresgast' => 'true']);
+                }
+            } else{
+                
+                $hyresgastId = $_POST['hyresgast_id'];
+
+                if ($db->ny_hyresgast($hyresgastId, $fnamn,$enamn, $telefon, $epost, true))
+                {
+                    echo json_encode(['added_hyresgast' => 'true']);
+                }
             }
+            
         } catch(\Throwable $th){
             echo json_encode(['added_apartment' => 'false', 'orsak' => $th->getMessage()]);
         }

@@ -6,7 +6,7 @@
     $user = $_SESSION['username'];
 
     $db = new DbManager();
-    $usrImg = $db->get_user_image($user);
+    //$usrImg = $db->get_user_image($user);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +38,10 @@
                                             <hr />
                                             <label for="lblChangePwd" class="form-control-sm">Min bild</label>
                                             <!-- <img src='data:image;base64,".base64_encode($row["image"])."' style='height:180px;width:200px;margin-left:22px;' </img> -->
-                                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $usrImg ).'"/>'; ?>
+                                            <?php 
+                                            
+                                                //echo '<img src="data:image/jpeg;base64,' . base64_encode($usrImg['Media']) . '" alt="Uploaded Image">';
+                                            ?>
                                         </div>
                                     </form>
                                     <form id="frmUploadImage" action="./code/upload.php" method="post" enctype="multipart/form-data">

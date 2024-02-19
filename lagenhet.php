@@ -68,9 +68,22 @@
 
                                 $fastighet = $row["fastighet_id"] == "1" ? "T7" : "U9";
 
-                                echo "<tr id='$lagenhetId' ><td>" . $lagenhetNo . "</td><td>"
-                                    . $fastighet . "</td><td>"
-                                    . $yta . "</td></tr>";
+                                // echo "<tr id='$lagenhetId'><td>" . $lagenhetNo . "</td><td>"
+                                //     . $fastighet . "</td><td>"
+                                //     . $yta . "</td></tr>";
+
+                                $link = "<tr id='$lagenhetId'><td><a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
+                                <div style='height:100%;width:100%'>
+                                    " . $lagenhetNo . "
+                                </div>
+                                </a><td>"
+                                . $fastighet . "</td><td>"
+                                . $yta . "</td></tr>";
+
+                                echo $link;
+
+
+                                //echo "<li class='page-item'><a class='page-link' href='lagenhet.php?page=" . $lagenhetNo . "'>" . $lagenhetNo . "</a></li>";
                             }
                             ?>
                          </tbody>
