@@ -1,8 +1,9 @@
 <?php 
-
-    include_once "./config.php";
-    include_once "./dbmanager.php";
+    if (!isset($_SESSION)) { session_start(); }
     
+    include_once "config.php";
+    include_once "dbmanager.php";
+    require "managesession.php";
 
     $jobId = $_POST['jobId'];
     $form_data = array();
@@ -16,7 +17,7 @@
 
          $form_data["jobId"] = $row["JobId"];
          $form_data["job_date"] = $dt;
-         $form_data["job_hour"] = $row["job_hour"];
+         $form_data["job_hour"] = str_replace(".0", "", $row["job_hour"]);
          $form_data["job_fastighet"] = $row["job_fastighet"];
          $form_data["job_description"] = $row["job_description"];
     }

@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       # Execute the prepared statement
       if (mysqli_stmt_execute($stmt)) {
         echo "<script>" . "alert('Registeration completed successfully. Login to continue.');" . "</script>";
-        echo "<script>" . "window.location.href='./login.php';" . "</script>";
+        echo "<script>" . "window.location.href='../login.php';" . "</script>";
         exit;
       } else {
         echo "<script>" . "alert('Oops! Something went wrong. Please try again later.');" . "</script>";
@@ -167,7 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="mb-3">
               <input type="submit" class="btn btn-primary form-control" name="submit" value="Registrera konto">
             </div>
-            <p class="mb-0">Har du redan ett konto? <a href="./login.php">Log In</a></p>
+            <p class="mb-0">Har du redan ett konto? <a href="../login.php">Log In</a></p>
           </form>
           <!-- form ends here -->
         </div>

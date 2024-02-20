@@ -9,7 +9,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == TRUE) {
 }
 
 # Include connection
-require_once "./config.php";
+require_once "./code/config.php";
 
 # Define variables and initialize with empty values
 $user_login_err = $user_password_err = $login_err = "";
@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="mb-3">
               <input type="submit" class="btn btn-primary form-control" name="submit" value="Logga in">
             </div>
-            <p class="mb-0">Registrera ett konto ? <a href="./register.php">Nytt konto</a></p>
+            <p class="mb-0">Registrera ett konto ? <a href="./code/register.php">Nytt konto</a></p>
           </form>
           <!-- form ends here -->
         </div>
