@@ -12,7 +12,8 @@
     }
     
     $db = new DbManager();
-    $parkeringar = $db->query("select * from tidlog_parkering ")->fetchAll();
+    $parkeringar = $db->query("select * from tidlog_parkering tp2 where tp2.park_id not in (
+        select park_id from tidlog_parkering tp where park_id in (select park_id from tidlog_lagenhet tl)) ")->fetchAll();
 
     $lghInfo = new InfoLagenhet($lagenhetNo);
     

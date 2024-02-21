@@ -14,3 +14,7 @@ ADD COLUMN `hyra` INT NULL AFTER `yta`;
 
 ALTER TABLE `tidlog`.`tidlog_lagenhet` 
 ADD COLUMN `park_id` INT NULL AFTER `fastighet_id`;
+
+ALTER TABLE `tidlog`.`tidlog_lagenhet` 
+ADD UNIQUE INDEX `fk_park_id_unique` (`park_id` ASC) VISIBLE;
+;
