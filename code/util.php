@@ -33,6 +33,11 @@ if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "change_password"){
         change_password();
     }
+
+    if ($_POST["nameOfFunction"] == "add_hyra"){
+        add_hyra();
+    }
+    
     
 }
     function change_password()
@@ -237,6 +242,25 @@ if (isset($_POST["nameOfFunction"])){
             } 
         } catch (\Throwable $th) {
             echo json_encode(['added_apartment' => 'false', 'orsak' => $th->getMessage()]);
+        }
+        
+    }
+
+    function add_hyra()
+    {
+        $db = new DbManager();
+        
+        $lagenthetNo = $_POST["lagenhetNo"];
+        $hyra  = $_POST["hyra"];
+        $parkering = $_POST["parkering"];
+
+        try {
+            if ($db->add_hyra($lagenthetNo, $hyra, $parkering))
+            {
+                echo json_encode(['add_hyra' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['add_hyra' => 'false', 'orsak' => $th->getMessage()]);
         }
         
     }

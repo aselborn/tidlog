@@ -75,7 +75,10 @@
                                         
                                         echo "<tr id='$hyresgastId'><td>" . $namn . "</td>"
                                             . "<td>" . $enamn . "</td>"
-                                            . "<td>" . $lagenhetNo . "</td>"
+                                            . "<td><a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
+                                            <div style='height:100%;width:100%'>
+                                                " . $lagenhetNo . "
+                                            </div></td>"
                                             . "<td>" . $epost . "</td>"
                                             . "<td>" . $telefon . "</td>"
                                             . "</tr>";

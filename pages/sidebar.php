@@ -42,6 +42,7 @@
         <script src="./js/report.js"></script>
         <script src="./js/lagenhet.js"></script>
         <script src="./js/hyresgast.js"></script>
+        <script src="./js/lghinfo.js"></script>
     </head>
 
     <div class="container-fluid">
@@ -67,6 +68,20 @@
                             <i class="bi bi-people fs-1"></i>
                         </a>
                     </li>
+
+                    
+                    <li class="nav-item">
+                        <a href="parking.php" class="nav-link py-3 px-2" title="Parkering" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Parkering">
+                            <i class="bi bi-p-circle-fill fs-1"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="avisering.php" class="nav-link py-3 px-2" title="Avisering" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Avisering">
+                            <i class="bi bi-cash-coin fs-1"></i>
+                        </a>
+                    </li>
+
                     <li>
                         <a href="settings.php" class="nav-link py-3 px-2" title="Inställnigar" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="inställningar">
                             <i class="bi bi-gear fs-1"></i>

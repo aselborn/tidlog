@@ -123,6 +123,30 @@
             return $row;
         }
 
+        public function add_hyra($lagenhetNo, $hyra, $parkering){
+            $val = 0;
+
+            if ($parkering == 0){
+                $sql = "UPDATE tidlog_lagenhet SET hyra = ? WHERE lagenhet_nr = ?" ;
+                $val = $hyra;
+            } else if ($hyra == 0){
+                $sql = "UPDATE tidlog_lagenhet SET parkering = ? WHERE lagenhet_nr = ?" ;
+                $val =$parkering;
+            }
+            
+
+            try{
+                $stmt = $this->connection->prepare($sql);
+                
+                $stmt->bind_param("ss",  $val, $lagenhetNo);
+                $stmt->execute();
+                return true;
+            } catch(Exception $th){
+                throw $th;
+            }
+            
+        }
+
         public function add_lagenhet($fastighetId, $lagenhetNo, $yta)
         {
             $sql = "INSERT INTO tidlog_lagenhet(fastighet_id, lagenhet_nr, yta) VALUES (?, ?, ?)";
