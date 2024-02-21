@@ -52,29 +52,33 @@
 
                     <div class="col-6 ">
                         
-                        <div class="col border">
-                            <label class="form-label mx-2">Ange hyra: </label>
-                            <input class="form-control-sm" type="number" style="width: 88px;" mx-2 id="txtNyHyra" />
-                            <input type="button" id="btnNyHyra" class="btn btn-success" value="Spara">
-                            <label class="form-label">Nuvarande hyra:</label>
-                            <label class="form-label"><strong><?php echo $lghInfo->hyra . " kr/mån" ?></strong></label>
-                        </div>
+                            <div class="d-sm-inline-flex mt-2 "> 
+                                <label class="form-label mx-2">Ange hyra: </label>
+                                <input class="form-control-sm" type="number" style="width: 88px;" mx-2 id="txtNyHyra" />
+                                <input type="button" id="btnNyHyra" class="btn btn-success" value="Spara">
+                                <label class="form-label ">Nuvarande hyra:</label>
+                                <label class="form-label"><strong><?php echo $lghInfo->hyra . " kr/mån" ?></strong></label>
+                            </div>
 
-                        
-                            <label class="form-label mx-2">Parkering: </label>
-                            <!-- <input class="form-control-sm" type="number" style="width: 80px;" mx-2 id="txtParkering" /> -->
-
-                            <select id="parkId" class="form-select" name="Parkering" style="width:20%">
-                                <?php 
+                            <div class="d-sm-inline-flex  mt-2"> 
+                                <label class="form-label mx-2">Parkering: </label>
+                                <select id="cboParkering" class="form-select" name="Parkering" >
+                                    <?php 
 
                                     foreach($parkeringar as $row)
                                     {
                                         echo "<option value='" .$row["park_id"] ."'>" .$row["parknr"].  "</option>";
                                     }
 
-                                ?>
+                                    ?>
                                     
-                            </select>
+                                </select>
+                                
+                                
+                            </div>
+                            <input type="button" id="btnParkering" class="btn btn-success " value="Spara">
+                        
+                            
 
                             
                         

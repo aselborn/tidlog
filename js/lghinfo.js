@@ -27,12 +27,12 @@ $(document).ready(function() {
     $("#btnParkering").on('click', function(){
 
         var lagenhetNo = $("#hidlagenhetNo").val();
-        var park = $("#txtParkering").val();
+        var parkVal = $("#cboParkering").val();
 
-        if (park === "0" || park === "" || park === undefined)
+        if (parkVal === "0" || parkVal === "" || parkVal === undefined)
             return;
 
-        var data = { nameOfFunction : 'add_hyra', lagenhetNo: lagenhetNo, hyra: 0, parkering: park };
+        var data = { nameOfFunction : 'add_hyra', lagenhetNo: lagenhetNo, hyra: 0, parkering: parkVal };
         
         $.post("./code/util.php", data, function(response){
 

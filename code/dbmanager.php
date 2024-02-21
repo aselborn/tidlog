@@ -130,7 +130,7 @@
                 $sql = "UPDATE tidlog_lagenhet SET hyra = ? WHERE lagenhet_nr = ?" ;
                 $val = $hyra;
             } else if ($hyra == 0){
-                $sql = "UPDATE tidlog_lagenhet SET parkering = ? WHERE lagenhet_nr = ?" ;
+                $sql = "UPDATE tidlog_lagenhet SET park_id = ? WHERE lagenhet_nr = ?" ;
                 $val =$parkering;
             }
             
