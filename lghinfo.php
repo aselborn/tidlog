@@ -44,21 +44,48 @@
                         <label class="form-label"><strong><?php echo $lghInfo->innehavare ?></strong></label>
                     </div>
                     
-                    <!-- <div class="col-4 ">
-                        <label class="form-label">Hyr i andrahand:</label>
-                        <label class="form-label"><strong><?php echo $lghInfo->andrahand ?></strong></label>
-                        
-                        <input type="button" id="btnAndraHand" class="btn btn-success" value="Spara">
-                    </div> -->
+                    <div class="col-8  border">
 
-                    <div class="col-6 ">
-                        
-                            <div class="d-sm-inline-flex mt-2 "> 
+                        <table class="table  table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" class="table-primary">Hyra</th>
+                                    <th scope="col" class="table-primary">Ny Hyra</th>
+                                    <th scope="col" class="table-primary">Parkering</th>
+                                    <th scope="col" class="table-primary">Total hyra</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><?php echo $lghInfo->hyra . " kr/mån" ?></td>
+                                    <td class="mt-1 border">
+                                        <input class="form-control-sm" type="number" id="txtNyHyra" />
+                                        <input type="button" id="btnNyHyra" class="btn btn-success" value="Spara">
+                                    </td>
+                                    
+                                    <td class="mt-1">
+                                        <select id="cboParkering" class="form-select" name="Parkering">
+                                        <?php 
+
+                                        foreach($parkeringar as $row)
+                                        {
+                                            echo "<option value='" .$row["park_id"] ."'>" .$row["parknr"].  "</option>";
+                                        }
+
+                                        ?>
+                                        
+                                        </select>
+                                        <input type="button" id="btnParkering" class="btn btn-success " value="Spara">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                            <!-- <div class="d-sm-inline-flex mt-2 "> 
                                 <label class="form-label mx-2">Ange hyra: </label>
                                 <input class="form-control-sm" type="number" style="width: 88px;" mx-2 id="txtNyHyra" />
                                 <input type="button" id="btnNyHyra" class="btn btn-success" value="Spara">
-                                <label class="form-label ">Nuvarande hyra:</label>
-                                <label class="form-label"><strong><?php echo $lghInfo->hyra . " kr/mån" ?></strong></label>
+                                <label class="form-label ">Nuvarande hyra:<strong><?php echo $lghInfo->hyra . " kr/mån" ?></strong></label>
+                                
                             </div>
 
                             <div class="d-sm-inline-flex  mt-2"> 
@@ -77,15 +104,12 @@
                                 
                                 
                             </div>
-                            <input type="button" id="btnParkering" class="btn btn-success " value="Spara">
+                            <input type="button" id="btnParkering" class="btn btn-success " value="Spara"> -->
                         
-                            
-
-                            
                         
-                        <div class="col mt-1">
+                        <!-- <div class="col mt-1">
                             <label class="form-label mx-2">Total månadshyra : <?php echo $lghInfo->hyra + $lghInfo->parkering . " kr/månad" ?></label>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
