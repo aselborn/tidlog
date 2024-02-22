@@ -46,8 +46,8 @@
                     
                     <div class="col-8  border">
 
-                        <table class="table  table-hover">
-                            <thead class="table-light">
+                        <table class="table table-striped w-auto">
+                            <thead>
                                 <tr>
                                     <th scope="col" class="table-primary">Hyra</th>
                                     <th scope="col" class="table-primary">Ny Hyra</th>
@@ -56,7 +56,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr class="table-info">
                                     <td><?php echo $lghInfo->hyra . " kr/mån" ?></td>
                                     <td class="mt-1 border">
                                         <input class="form-control-sm" type="number" id="txtNyHyra" />
@@ -75,7 +75,7 @@
                                         ?>
                                         
                                         </select>
-                                        <input type="button" id="btnParkering" class="btn btn-success " value="Spara">
+                                        <input type="button" id="btnParkering" class="btn btn-success " value="Lägg till">
                                     </td>
                                 </tr>
                             </tbody>
