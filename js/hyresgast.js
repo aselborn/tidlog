@@ -11,14 +11,14 @@ $(document).ready(function() {
 
     $("#btnUppdateraHyresgast").on('click', function(){
       
-        var lagenhetId = $("#lagenhetId option:selected").val();
+        //var lagenhetId = $("#lagenhetId option:selected").val();
         var fnamn = $("#fnamn").val();
         var enamn = $("#enamn").val();
         var telefon = $("#telefon").val();
         var epost = $("#epost").val();
         
 
-        var data = { nameOfFunction : 'uppdatera_hyresgast', lagenhet_id: lagenhetId, hyresgast_id: hyresgastId, fnamn: fnamn, enamn: enamn, telefon: telefon, epost: epost };
+        var data = { nameOfFunction : 'uppdatera_hyresgast', hyresgast_id: hyresgastId, fnamn: fnamn, enamn: enamn, telefon: telefon, epost: epost };
         
         $.post("./code/util.php", data, function(response){
 
@@ -46,7 +46,7 @@ $(document).ready(function() {
         $(".highlight").removeClass("highlight");
         $(this).addClass("highlight");
 
-        var lagenhetId = $("#lagenhetId option:selected").val();
+        //var lagenhetId = $("#lagenhetId option:selected").val();
 
         var fnamn =  $(this).closest('tr').find('td')[0].innerHTML;
         var enamn =  $(this).closest('tr').find('td')[1].innerHTML;

@@ -107,7 +107,7 @@
                                     <input id="enamn" type="text" name="enamn" class="form-control" style="width:200px" >
                                 </div>
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label id="lblLagenhetNo" class="label-primary" >Lägenhet Nr</label>
                                     
                                     <select id="lagenhetId" class="form-select" name="lagenhet" style="width:130px">
@@ -119,11 +119,9 @@
                                             }
 
                                         ?>
-                                        <!-- <option value="T7">T7</option>
-                                        <option value="U9">U9</option> -->
                                     </select>
 
-                                </div>
+                                </div> -->
                                 
                                 <div class="form-group">
                                     <label id="lblEpost" class="label-primary">Epost</label>
@@ -135,10 +133,7 @@
                                     <input id="telefon" type="text" name="telefon" class="form-control" style="width:200px">
                                 </div>
 
-                                <!-- <div class="form-group col-sm-4">
-                                    <br />
-                                    <input type="button"  class="btn btn-primary btn-send" value="Spara" id="btnSparaHyresgast"> 
-                                </div> -->
+                                
                                 <div class="form-group col-sm-4">
                                     <br />
                                     <input type="button"  class="btn btn-primary btn-send" value="Uppdatera" id="btnUppdateraHyresgast"> 

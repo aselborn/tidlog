@@ -165,9 +165,9 @@ if (isset($_POST["nameOfFunction"])){
         $errors = [];
         $data = [];
 
-        if (empty($_POST['lagenhet_id'])) {
-            $errors['lagenhetId'] = 'Lägenhet?';
-        }
+        // if (empty($_POST['lagenhet_id'])) {
+        //     $errors['lagenhetId'] = 'Lägenhet?';
+        // }
 
         if (empty($_POST['fnamn'])) {
             $errors['fnamn'] = 'Förnamn?.';
@@ -203,7 +203,7 @@ if (isset($_POST["nameOfFunction"])){
                 $data['message'] = 'Success!';
             }
     
-            $lagenhetId = $_POST["lagenhet_id"];
+            //$lagenhetId = $_POST["lagenhet_id"];
             $fnamn = $_POST["fnamn"];
             $enamn = $_POST["enamn"];
             $telefon = $_POST["telefon"];

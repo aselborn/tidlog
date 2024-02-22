@@ -66,5 +66,11 @@ $(document).ready(function() {
 
         });
     });
+
+    //Visa raden lägga till dokument
+     $("#btnAddNyckelDokument").on('click', function(){
+        $("#rowNyNyckel").removeClass('d-none');
+        $("#txtNyckelNamn").focus();
+     });
     
 })

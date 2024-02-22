@@ -57,7 +57,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                 <div class="row">
                     <div class="col">
                         <label class="label-primary form-label">Utförda av
-                            <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong> </label>
+                            <strong><?= strtoupper( htmlspecialchars($_SESSION["username"])); ?></strong> </label>
                     </div>
 
                     <div class="row mt-3">
