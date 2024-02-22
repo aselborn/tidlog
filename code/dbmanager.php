@@ -147,6 +147,22 @@
             
         }
 
+        public function remove_parkering($lagenhetNo)
+        {
+            $sql = "UPDATE tidlog_lagenhet set park_id = NULL where lagenhet_nr = ?";
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $lagenhetNo);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+        }
+
         public function add_lagenhet($fastighetId, $lagenhetNo, $yta)
         {
             $sql = "INSERT INTO tidlog_lagenhet(fastighet_id, lagenhet_nr, yta) VALUES (?, ?, ?)";

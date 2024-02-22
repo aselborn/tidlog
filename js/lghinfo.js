@@ -24,8 +24,27 @@ $(document).ready(function() {
         });
     });
 
-    $("#btnParkering").on('click', function(){
+    $("#btnRemovePark").on('click', function(){
+        
+        var lagenhetNo = $("#hidlagenhetNo").val();
+        var data = { nameOfFunction : 'remove_parkering', lagenhetNo: lagenhetNo };
+ 
+        $.post("./code/util.php", data, function(response){
 
+            if (response !== ""){
+                if (JSON.parse(response).remove_parkering === 'false'){
+                    alert('Kunde inte spara => ' + JSON.parse(response).orsak);
+                    return;
+                } 
+
+                window.location.reload();
+            }
+
+        });
+    });
+
+    $("#cboParkering").on('change', function(){
+        
         var lagenhetNo = $("#hidlagenhetNo").val();
         var parkVal = $("#cboParkering").val();
 

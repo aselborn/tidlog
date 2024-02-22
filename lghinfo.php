@@ -24,6 +24,7 @@
     <head>
         <title>Lägenhetinformation</title>
     </head>
+    
     <body>
         <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $lagenhetNo ?>" >
         <?php include("./pages/sidebar.php") ?>
@@ -48,37 +49,56 @@
 
                         <table class="table table-striped w-auto">
                             <thead>
-                                <tr>
+                                <tr >
                                     <th scope="col" class="table-primary">Hyra</th>
                                     <th scope="col" class="table-primary">Ny Hyra</th>
                                     <th scope="col" class="table-primary">Parkering</th>
-                                    <th scope="col" class="table-primary">Total hyra</th>
+                                    <th scope="col" class="table-primary"></th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="table-info">
+                                <tr class="row-cols-auto ">
                                     <td><?php echo $lghInfo->hyra . " kr/mån" ?></td>
                                     <td class="mt-1 border">
-                                        <input class="form-control-sm" type="number" id="txtNyHyra" />
+                                        <input class="form-control-sm" style="width: 120px;" type="number" id="txtNyHyra" />
                                         <input type="button" id="btnNyHyra" class="btn btn-success" value="Spara">
                                     </td>
                                     
                                     <td class="mt-1">
-                                        <select id="cboParkering" class="form-select" name="Parkering">
                                         <?php 
+                                            if ($lghInfo->parkering == 0){
+                                                echo '<select id="cboParkering" class="form-select" name="Parkering">';
+                                                foreach($parkeringar as $row)
+                                                {
+                                                    echo "<option value='" .$row["park_id"] ."'>" .$row["parknr"].  "</option>";
+                                                }
+                                                echo '</select>';
 
-                                        foreach($parkeringar as $row)
-                                        {
-                                            echo "<option value='" .$row["park_id"] ."'>" .$row["parknr"].  "</option>";
-                                        }
-
+                                            } else {
+                                                echo "<label class='form-label' >" .  $lghInfo->parkering . " kr/mån" . " </label>";
+                                            }
+                                        ?>
+                                    
+                                        
+                                    </td>
+                                    <td>
+                                        <?php 
+                                            if ($lghInfo->parkering > 0){
+                                                echo "<input type='button' id='btnRemovePark' class='btn btn-success ' value='Ta bort'> ";
+                                            }
                                         ?>
                                         
-                                        </select>
-                                        <input type="button" id="btnParkering" class="btn btn-success " value="Lägg till">
                                     </td>
+                                    
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th scope="row">Total hyra</th>
+                                    <td><?php echo $lghInfo->innehavare ?> <strong><?php echo $lghInfo->hyra + $lghInfo->parkering . " kronor / månad." ?></strong></td>
+                                </tr>
+                            </tfoot>
                         </table>
                             <!-- <div class="d-sm-inline-flex mt-2 "> 
                                 <label class="form-label mx-2">Ange hyra: </label>

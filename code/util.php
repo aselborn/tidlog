@@ -37,6 +37,10 @@ if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "add_hyra"){
         add_hyra();
     }
+
+    if ($_POST["nameOfFunction"] == "remove_parkering") {
+        remove_parkering();
+    }
     
     
 }
@@ -265,6 +269,22 @@ if (isset($_POST["nameOfFunction"])){
         
     }
 
+    function remove_parkering()
+    {
+        $db = new DbManager();
+        
+        $lagenthetNo = $_POST["lagenhetNo"];
+        
+        try {
+            if ($db->remove_parkering($lagenthetNo))
+            {
+                echo json_encode(['remove_parkering' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['remove_parkering' => 'false', 'orsak' => $th->getMessage()]);
+        }
+        
+    }
     function filter_report()
     {
         $user = $_SESSION["username"];
