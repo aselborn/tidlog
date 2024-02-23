@@ -1,5 +1,15 @@
 $(document).ready(function() {
 
+    var now = new Date();
+
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $('#dtDateGone').val(today);
+
+
+
     $("#btnNyHyra").on('click', function(){
 
         var lagenhetNo = $("#hidlagenhetNo").val();
@@ -71,6 +81,7 @@ $(document).ready(function() {
      $("#btnAddNyckelDokument").on('click', function(){
         $("#rowNyNyckel").removeClass('d-none');
         $("#txtNyckelNamn").focus();
+        $(this).addClass('d-none');
      });
     
 })

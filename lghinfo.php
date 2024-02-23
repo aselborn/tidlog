@@ -150,13 +150,20 @@
                                 </tr>
                             </thead>
                             <!--Raden för att lägga till en nyckel.-->
+                            <form  action="./code/upload.php" method="post" enctype="multipart/form-data">
                             <tr class="row-cols-auto d-none" id="rowNyNyckel">
                                 <td><input type="text" class="form-control-sm" id="txtNyckelNamn" /></td>
-                                <td><input type="date" class="form-control-sm" id="txtDateGone" /></td>
+                                <td><input type="date" class="form-control-sm" id="dtDateGone" /></td>
                                 <td><input type="date" class="form-control-sm d-none" id="txtDateBack" /></td>
-                                <td><input type="button" id="btnAddNyckelBlob"value="ladda..." class="btn btn-info" /></td>
+                                <td>
+                                    <label class=""file-upload>
+                                        <input type="file" name="pdf" id="fileData" accept="application/pdf" id="btnAddNyckelBlob"value="ladda..." class="btn btn-info" />
+                                    </label>
+                                    
+                                </td>
                                 <td><input type="button" id="btnSparaDockument"value="Spara" class="btn btn-success" /></td>
                             </tr>
+                            </form>
                         <table>
                         <input type="button" id="btnAddNyckelDokument"value="Nytt" class="btn btn-success" />
                     </div>

@@ -11,3 +11,13 @@
     white-space: nowrap;
 }
     
+.file-upload {
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 3px;
+  }
+  
+  .file-upload input {
+    overflow: hidden;
+    width: 0;
+  }
