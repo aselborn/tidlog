@@ -12,7 +12,7 @@
           $page = $_GET['page'];
       }
 
-      $result_per_page = 6;
+      $result_per_page = 12;
 
       $page_first_result = ($page - 1) * $result_per_page;
       $num_rows = $db->getHyresgastCount();
@@ -77,7 +77,7 @@
                                             . "<td>" . $enamn . "</td>"
                                             . "<td><a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
                                             <div style='height:100%;width:100%'>
-                                                " . $lagenhetNo . "
+                                                " . $lagenhetNo . "</a>
                                             </div></td>"
                                             . "<td>" . $epost . "</td>"
                                             . "<td>" . $telefon . "</td>"

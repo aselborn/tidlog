@@ -1,12 +1,19 @@
 $(document).ready(function() {
 
-    var now = new Date();
+    setDateOnInput($("#dtDateGoneKontrakt"));
+    setDateOnInput($("#dtDateGone"));
+    
+    function setDateOnInput(control){
+        
+        var now = new Date();
 
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
 
-    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
-    $('#dtDateGone').val(today);
+        var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+        $(control).val(today);
+        $(control).val(today);
+    }
 
 
 
@@ -77,6 +84,14 @@ $(document).ready(function() {
         });
     });
 
+    //Visa raden lägga till kontrakt
+    
+    $("#btnAddKontraktDokument").on('click', function(){
+        $("#rowNyttKontrakt").removeClass('d-none');
+        $("#txtKontraktNamn").focus();
+        $(this).addClass('d-none');
+     });
+
     //Visa raden lägga till dokument
      $("#btnAddNyckelDokument").on('click', function(){
         $("#rowNyNyckel").removeClass('d-none');
@@ -84,4 +99,13 @@ $(document).ready(function() {
         $(this).addClass('d-none');
      });
     
+
+     //Spara nyckeldokument
+     $("#btnSparaNyckelDokument").on('click', function(){
+
+        var nyckelNamn = $("#txtNyckelNamn").val();
+        var dtUt = $("#dtDateGone").val();
+        
+
+     });
 })

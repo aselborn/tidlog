@@ -109,6 +109,16 @@
             return $stmt;
         }
 
+        public function insert_new_kontrakt($lagenhetId, $hyresgastId, $datum, $kontraktBlob, $kontraktNamn)
+        {
+            $sql = "INSERT INTO tidlog_kontrakt (lagenhet_id, hyresgast_id, datum, kontrakt, kontrakt_namn) VALUES(?, ?, ?, ?, ?)";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("sssss",  $lagenhetId, $hyresgastId, $datum, $kontraktBlob, $kontraktNamn);
+            $stmt->execute();
+
+            return $stmt;
+        }
+
         public function get_user_image($username)
         {
             $sql = "SELECT tidlog_userimage FROM tidlog.tidlog_users where username =  ?";

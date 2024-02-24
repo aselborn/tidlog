@@ -125,7 +125,55 @@
 
                     <!--UPPGIFTER OM KONTRAKT-->
                     <div class="col-8">
+                    <table class="table table-striped w-auto" id="tblKontrakt">
+                            <thead>
+                                <tr >
+                                    <th scope="col" class="table-primary">Kontrakt</th>
+                                    <th scope="col" class="table-primary">Datum skapat</th>
+                                    <th scope="col" class="table-primary">Datum uppsagt</th>
+                                    <th scope="col" class="table-primary">Scannat dokument</th>
+                                </tr>
+                            </thead>
 
+                            <!--Sparade kontrakt-->
+                            <?php 
+                                if ($lghInfo->datumKontrakt != null){
+                                    $dtdat = date_create($lghInfo->datumKontrakt);
+                                    $dt = date_format($dtdat, "Y-m-d");
+                                    echo "
+                                        <tr class='row-cols-auto'>
+                                            <td><label class='form-control'>" . $lghInfo->kontraktNamn . " </label></td>
+                                            <td><label class='form-control'>" . $dt . " </label></td>
+                                        </tr>
+                                    ";
+                                }
+                            ?>
+
+                            <!--Raden för att lägga till ett kontrakt.-->
+                            <form  action="./code/uploadkontrakt.php" method="post" enctype="multipart/form-data">
+                            <tr class="row-cols-auto d-none" id="rowNyttKontrakt">
+                                <td><input type="text" class="form-control-sm" id="idKontraktNamn" name="kontraktNamn" /></td>
+                                <td><input type="date" class="form-control-sm" id="dtDateGoneKontrakt" name="dtFom" /></td>
+                                <td><input type="date" class="form-control-sm d-none" id="txtDateBackKontrakt" name="dtTom" /></td>
+                                <input type="hidden" value=<?php echo $lghInfo->hyresgastId ?> name="hdHyresgast"/>
+                                <input type="hidden" value=<?php echo $lghInfo->lagenhetId ?> name="hdLagenhetId"/>
+                                <td>
+                                    <label class=""file-upload>
+                                        <input type="file" name="pdfkontrakt" id="file_kontrakt" accept="application/pdf" id="btnAddKontraktBlob"value="ladda..." class="btn btn-info" />
+                                    </label>
+                                    
+                                </td>
+                                <td><input type="submit" id="btnSparaKontrakt"value="Spara" name="sparakontrakt" class="btn btn-success" /></td>
+                            </tr>
+                            </form>
+                        <table>
+                        <!--Visas endast om kontrakt inte finns sparat!-->
+                        <?php 
+                            if ($lghInfo->datumKontrakt == null){
+                                echo '<input type="button" id="btnAddKontraktDokument"value="Nytt" class="btn btn-success" />';
+                            }
+                        ?>
+                        
                     </div>
                 </div>
 
@@ -134,7 +182,7 @@
                     <div class="col-4 ">
                         <label class="form-label">Nyckelkvitton: </label>
                         
-                        <label class="form-label"><strong><?php echo $lghInfo->datumKontrakt ?></strong></label>
+                        <label class="form-label"><strong><?php echo $lghInfo->datumNyckelKvitto ?></strong></label>
                     </div>
                     
                     <!--UPPGIFTER OM KONTRAKT-->
