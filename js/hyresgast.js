@@ -37,10 +37,25 @@ $(document).ready(function() {
 
     });
 
+
+    $('.binder').on('click', (event) =>
+    {
+        const button = $(event.currentTarget);
+        hyresgastId = button.attr('hyresgast');
+        
+        var data = {hyresgast_id : hyresgastId };
+        
+        window.location.href = "hyrginfo.php?hyresgast_id=" + hyresgastId;
+       
+    })
+
+
     //Klick på tabellen
     //en användare klickar på en rad. hämta data för den raden.
    $(document).on('click', "#hyresgastTable tbody tr", function(){
     
+
+
         hyresgastId = $(this).closest('tr').attr('id').trim();
 
         $(".highlight").removeClass("highlight");

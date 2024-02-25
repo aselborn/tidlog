@@ -12,6 +12,7 @@
     $datum = $_POST["dtFom"];
     $hyresgastId = $_POST["hdHyresgast"];
     $lagenhetid = $_POST["hdLagenhetId"];
+    $lagenhetNo = $_POST["hdLagenhetNo"];
 
     if(isset($_POST["sparakontrakt"])){ 
         $status = 'error'; 
@@ -31,19 +32,19 @@
                 $insert= $dbM->insert_new_kontrakt($lagenhetid, $hyresgastId, $datum, $pfdContent, $kontraktNamn);
                 if($insert){ 
                     $status = 'success'; 
-                    $statusMsg = "File uploaded successfully."; 
+                    $statusMsg = "Filen laddades upp."; 
                 }else{ 
-                    $statusMsg = "File upload failed, please try again."; 
+                    $statusMsg = "Filen kunde inte laddas upp"; 
                 }  
             }else{ 
-                $statusMsg = 'Sorry, only JPG, JPEG, PNG, & GIF files are allowed to upload.'; 
+                $statusMsg = 'Endast PDF:er'; 
             } 
         }else{ 
-            $statusMsg = 'Please select an image file to upload.'; 
+            $statusMsg = 'Välj fil att ladda upp!'; 
         } 
     } 
      
     // Display status message 
     //echo $statusMsg;
-    header("Location: lghInfo.php"); // redirect to login page
+    header("Location: ../lghInfo.php?lagenhetNo=" . $lagenhetNo ); // redirect to login page
 ?>

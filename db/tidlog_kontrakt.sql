@@ -1,5 +1,5 @@
 CREATE TABLE `tidlog_kontrakt` (
-  `kontrakt_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `kontrakt_id` int  NOT NULL AUTO_INCREMENT,
   `lagenhet_id` int NOT NULL,
   `hyresgast_id` int NOT NULL,
   `datum` datetime NOT NULL,

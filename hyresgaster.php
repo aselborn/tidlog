@@ -12,7 +12,7 @@
           $page = $_GET['page'];
       }
 
-      $result_per_page = 12;
+      $result_per_page = 6;
 
       $page_first_result = ($page - 1) * $result_per_page;
       $num_rows = $db->getHyresgastCount();
@@ -58,6 +58,7 @@
                                     <th scope="col" class="table-primary">Lägenhet Nr</th>
                                     <th scope="col" class="table-primary">Epost</th>
                                     <th scope="col" class="table-primary">Telefon</th>
+                                    <th scope="col" class="table-primary"></th>
                                     
                                 </tr>
                             </thead>
@@ -76,11 +77,16 @@
                                         echo "<tr id='$hyresgastId'><td>" . $namn . "</td>"
                                             . "<td>" . $enamn . "</td>"
                                             . "<td><a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
-                                            <div style='height:100%;width:100%'>
+                                            <div  class='align-items-center'>
                                                 " . $lagenhetNo . "</a>
                                             </div></td>"
                                             . "<td>" . $epost . "</td>"
                                             . "<td>" . $telefon . "</td>"
+                                            . "<td>
+                                                <div class='align-items-center'>
+                                                    <input type='button'  class='btn btn-link binder' hyresgast='" . $hyresgastId . "' value='Hantera hyresgäst'></input>
+                                                </div>
+                                                </td>"
                                             . "</tr>";
 
                                     }
@@ -88,63 +94,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-1">
-                        
-                        <form action="./code/addhyresgast.php" method="POST" id="frmAddHyresgast">
-                            
-                            <div class="d-inline-flex align-bottom p-1 gap-2">
-                            
-                                <div class="form-group">
-                                    <label id="lblFnamn" class="label-primary">Förnamn</label>
-                                    <input id="fnamn" type="text" name="fnamn" class="form-control" style="width:200px">
-                                    <div class="invalid-feedback">
-                                        Vänligen ange ett namn
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label id="lblEnamn" class="label-primary">Efternamn</label>
-                                    <input id="enamn" type="text" name="enamn" class="form-control" style="width:200px" >
-                                </div>
-
-                                <!-- <div class="form-group">
-                                    <label id="lblLagenhetNo" class="label-primary" >Lägenhet Nr</label>
-                                    
-                                    <select id="lagenhetId" class="form-select" name="lagenhet" style="width:130px">
-                                        <?php 
-
-                                            foreach($lagenheter as $row)
-                                            {
-                                                echo "<option value='" .$row["lagenhet_id"] ."'>" .$row["lagenhet_nr"].  "</option>";
-                                            }
-
-                                        ?>
-                                    </select>
-
-                                </div> -->
-                                
-                                <div class="form-group">
-                                    <label id="lblEpost" class="label-primary">Epost</label>
-                                    <input id="epost" type="text" name="epost" class="form-control" style="width:250px" >
-                                </div>
-
-                                <div class="form-group">
-                                    <label id="lblTelefon" class="label-primary">Telefon</label>
-                                    <input id="telefon" type="text" name="telefon" class="form-control" style="width:200px">
-                                </div>
-
-                                
-                                <div class="form-group col-sm-4">
-                                    <br />
-                                    <input type="button"  class="btn btn-primary btn-send" value="Uppdatera" id="btnUppdateraHyresgast"> 
-                                </div>
-                            
-                            </div>
-                        
-                        </form>
-                        
-                    </div>
-
                     <div class="mt-3">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination">
