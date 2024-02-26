@@ -16,9 +16,10 @@
     $db = new DbManager();
     $parkeringar = $db->query("select * from tidlog_parkering tp2 where tp2.park_id not in (
          select park_id from tidlog_parkering tp where park_id in (select park_id from tidlog_lagenhet tl)) ")->fetchAll();
-
     
-    $hyresGInfo = new InfoHyresgast($hyresgastId);
+    $hyresGInfo = null;
+    if ($hyresgastId != null)
+        $hyresGInfo = new InfoHyresgast($hyresgastId);
 
 ?>
 <!DOCTYPE html>
@@ -36,7 +37,16 @@
             <hr />
             <div class="container border" >
                 <div class="d-inline-flex">
-                    <h3><strong>Information om hyresgäst <?php echo $hyresGInfo->fnamn . " " . $hyresGInfo->enamn ?></strong></h3>
+                    <?php
+                        if ($hyresGInfo == null){
+                            echo 
+                            "<h3>
+                                <strong>Skapa en ny hyresgäst</strong>
+                            </h3>";
+                        } else{
+                            echo "<strong>Information om " . $hyresGInfo->fnamn . "  </strong>" ;
+                        }
+                    ?>
                 </div>
                 <div class="row mt-1">
                 <div class="d-inline-flex align-bottom p-1 gap-2">

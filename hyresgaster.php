@@ -94,6 +94,14 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="mt-1">
+                        <form action="nyhyresgast.php" method="POST">
+                            <input type="submit" value="Ny hyresgäst" id="btnNyHyresgäst" class="btn btn-success" />
+                        </form>
+                    </div>
+
+                    <!--Flera sidor.-->
                     <div class="mt-3">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination">

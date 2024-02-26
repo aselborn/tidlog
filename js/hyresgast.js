@@ -38,6 +38,7 @@ $(document).ready(function() {
     });
 
 
+    //Hantera hyresgäst, en knapp för varje rad.
     $('.binder').on('click', (event) =>
     {
         const button = $(event.currentTarget);
@@ -49,6 +50,9 @@ $(document).ready(function() {
        
     })
 
+
+   
+    
 
     //Klick på tabellen
     //en användare klickar på en rad. hämta data för den raden.
