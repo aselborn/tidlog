@@ -25,92 +25,69 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Hyresgäst</title>
+        <title>Hantera befintlig hyresgäst</title>
     </head>
     
     <body>
-        <!-- <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $lagenhetNo ?>" > -->
+        <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $hyresGInfo->lagenhetNo ?>" >
+        <input type="hidden" id="hidHyresgastId" name="HidHyresgastId" value="<?php echo $hyresGInfo->hyresgastId ?>" >
         <?php include("./pages/sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
-            <h2>Hyresgäst</h2>
+            <h2>Hantera befintlig hyresgäst</h2>
             <hr />
             <div class="container border" >
                 <div class="d-inline-flex">
-                    <?php
-                        if ($hyresGInfo == null){
-                            echo 
-                            "<h3>
-                                <strong>Skapa en ny hyresgäst</strong>
-                            </h3>";
-                        } else{
-                            echo "<strong>Information om " . $hyresGInfo->fnamn . "  </strong>" ;
-                        }
-                    ?>
+                    
+                    <table class="table table table-striped w-auto" id="tblHyresgast" >
+                        <thead>
+                            <tr>
+                                <th scope="col" class="table-primary">Förnamn</th>
+                                <th scope="col" class="table-primary">Efternamn</th>
+                                <th scope="col" class="table-primary">Epost</th>
+                                <th scope="col" class="table-primary">Telefon</th>
+                                <th scope="col" class="table-primary">Andrahand?</th>
+                                <th scope="col" class="table-primary"></th> 
+                            </tr>
+                        </thead>
+                        
+                        <tr>
+                            <td>
+                                <input id="fnamn" type="text" name="fnamn" class="" value="<?php echo $hyresGInfo->fnamn ?>" />
+                            </td>
+                            <td>
+                                <input id="enamn" type="text" name="enamn"  value="<?php echo $hyresGInfo->enamn ?>" />
+                            </td>
+                            <td>
+                                <input id="epost" type="text" name="epost"  value="<?php echo $hyresGInfo->epost ?>" style="width:250px" />
+                            </td>
+                            <td>
+                                <input id="telefon" type="text"  value="<?php echo $hyresGInfo->telefon ?>" name="telefon" />
+                            </td>
+                            <td>
+                                <input type="checkbox" name="chkAndraHand"  value="<?php echo $hyresGInfo->andrahand ?>" />
+                            </td>
+                            <td>
+                                <form action="POST" value="./code/util.php">
+                                    <input type="button" name="uppdateraHyresgast" id="btnUppdateraHyresgast" value="Uppdatera"class="btn btn-success" />
+                                </form>
+                            </td>
+                        </tr>
+
+                    </table>
+
                 </div>
                 <div class="row mt-1">
-                <div class="d-inline-flex align-bottom p-1 gap-2">
-                            
-                            <div class="form-group">
-                                <label id="lblFnamn" class="label-primary">Förnamn</label>
-                                <input id="fnamn" type="text" name="fnamn" class="form-control" style="width:200px">
-                                <div class="invalid-feedback">
-                                    Vänligen ange ett namn
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label id="lblEnamn" class="label-primary">Efternamn</label>
-                                <input id="enamn" type="text" name="enamn" class="form-control" style="width:200px" >
-                            </div>
-
-                            <!-- <div class="form-group">
-                                <label id="lblLagenhetNo" class="label-primary" >Lägenhet Nr</label>
-                                
-                                <select id="lagenhetId" class="form-select" name="lagenhet" style="width:130px">
-                                    <?php 
-
-                                        foreach($lagenheter as $row)
-                                        {
-                                            echo "<option value='" .$row["lagenhet_id"] ."'>" .$row["lagenhet_nr"].  "</option>";
-                                        }
-
-                                    ?>
-                                </select>
-
-                            </div> -->
-                            
-                            <div class="form-group">
-                                <label id="lblEpost" class="label-primary">Epost</label>
-                                <input id="epost" type="text" name="epost" class="form-control" style="width:250px" >
-                            </div>
-
-                            <div class="form-group">
-                                <label id="lblTelefon" class="label-primary">Telefon</label>
-                                <input id="telefon" type="text" name="telefon" class="form-control" style="width:200px">
-                            </div>
-
-                            
-                            <div class="form-group col-sm-4">
-                                <br />
-                                <input type="button"  class="btn btn-primary btn-send" value="Uppdatera" id="btnUppdateraHyresgast"> 
-                            </div>
-                        
-                        </div>
-                </div>
+                
                 <!--Info om lägenheten-->
                 <div class="row mt-3">
-
-                    <div class="col-4 ">
-                        <label class="form-label">Kontraktbunden hyresgäst:</label>
-                        <label class="form-label"><strong><?php echo $hyresGInfo->fnamn . " " . $hyresGInfo->enamn  ?></strong></label>
-                    </div>
                     
-                    <div class="col-6">
+                    <div class="col-12">
                         <!--TABELL SOM ANGER HYRA OCH PARKERING-->
                         <table class="table table-striped w-auto">
                             <thead>
                                 <tr >
+                                    <th scope="col" class="table-primary">Lägenhet</th>
                                     <th scope="col" class="table-primary">Hyra</th>
                                     <th scope="col" class="table-primary">Ny Hyra</th>
                                     <?php 
@@ -125,6 +102,7 @@
                             </thead>
                             <tbody>
                                 <tr class="row-cols-auto ">
+                                    <td><?php echo "Nr : ". $hyresGInfo->lagenhetNo ?></td>
                                     <td><?php echo $hyresGInfo->hyra . " kr/mån" ?></td>
                                     <td class="mt-1 border">
                                         <input class="form-control-sm" style="width: 120px;" type="number" id="txtNyHyra" />
@@ -178,14 +156,8 @@
 
                 <!--Kontraktdetaljer-->
                 <div class="row mt-2">
-                    <div class="col-4 ">
-                        <label class="form-label">Kontrakt upprättat: </label>
-
-                        <label class="form-label"><strong><?php echo $hyresGInfo->datumKontrakt ?></strong></label>
-                    </div>
-
                     <!--UPPGIFTER OM KONTRAKT-->
-                    <div class="col-8">
+                    <div class="col-12">
                     <table class="table table-striped w-auto" id="tblKontrakt">
                             <thead>
                                 <tr >
@@ -193,6 +165,7 @@
                                     <th scope="col" class="table-primary">Datum skapat</th>
                                     <th scope="col" class="table-primary">Datum uppsagt</th>
                                     <th scope="col" class="table-primary">Scannat dokument</th>
+                                    <th scope="col" class="table-primary"></th>
                                 </tr>
                             </thead>
 
@@ -213,6 +186,9 @@
                                                 <div style='height:100%;width:100%'>
                                                     <img src= .$lnkPdf . ></a>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                <input type='button' id='btnAddRemoveDokument' value='Markera uppsagd' class='btn btn-danger' />
                                             </td>
                                         </tr>
                                     ";

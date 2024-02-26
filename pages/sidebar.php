@@ -43,6 +43,7 @@
         <script src="./js/lagenhet.js"></script>
         <script src="./js/hyresgast.js"></script>
         <script src="./js/lghinfo.js"></script>
+        <script src="./js/hyrginfo.js"></script>
     </head>
 
     <div class="container-fluid">
