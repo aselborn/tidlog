@@ -38,7 +38,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="./style/tidlog.css">
     <link rel="stylesheet" href="./style/style.css">
-
+    
 </head>
 
     <body>

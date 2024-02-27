@@ -6,6 +6,7 @@
     require_once "./code/dbmanager.php";
     require_once "./code/managesession.php";
     require_once "./code/objHyresgast.php";
+    require_once "./code/objKontrakt.php";
     
     if (!isset($_GET['hyresgast_id'])) {
         $hyresgastId = null;
@@ -21,6 +22,9 @@
     if ($hyresgastId != null)
         $hyresGInfo = new InfoHyresgast($hyresgastId);
 
+    $kontraktGInfo = null;
+    if ($hyresgastId != null)
+        $kontraktGInfo = new InfoKontrakt($hyresgastId);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,8 +33,9 @@
     </head>
     
     <body>
-        <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $hyresGInfo->lagenhetNo ?>" >
-        <input type="hidden" id="hidHyresgastId" name="HidHyresgastId" value="<?php echo $hyresGInfo->hyresgastId ?>" >
+        <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $hyresGInfo->lagenhetNo ?>" />
+        <input type="hidden" id="hidHyresgastId" name="HidHyresgastId" value="<?php echo $hyresGInfo->hyresgastId ?>" />
+        <input type="hidden" id="hidKontraktUppsagdDatum" name="HidUppsagdDatum" value="<?php echo $hyresGInfo->datumKontraktUppsagt ?>" />
         <?php include("./pages/sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
@@ -166,33 +171,44 @@
                                     <th scope="col" class="table-primary">Datum uppsagt</th>
                                     <th scope="col" class="table-primary">Scannat dokument</th>
                                     <th scope="col" class="table-primary"></th>
+                                    <th scope="col" class="table-primary"></th>
                                 </tr>
                             </thead>
 
                             <!--Sparade kontrakt-->
                             <?php 
-                                if ($hyresGInfo->datumKontrakt != null){
-                                   
+                                if ($kontraktGInfo != null){
+                                    
+                                    foreach ($kontraktGInfo as $row) {
+
                                     $lnkPdf = "/bilder/pdf.png";
                                     
-                                    echo "
-                                        <tr class='row-cols-auto'>
-                                            <td><label class='form-control'>" . $hyresGInfo->kontraktNamn . " </label></td>
-                                            <td><label class='form-control'>" . $hyresGInfo->datumKontrakt . " </label></td>
-                                            <td></td>
+                                        echo "
+                                            <tr class='row-cols-auto'>
+                                                <td><label class='form-control-sm'>" . $row->kontraktNamn . " </label></td>
+                                                <td><label class='form-control-sm'>" . $row->datumKontrakt . " </label></td>
+                                                <td><input type='date' class='form-control-sm'  id='dtDateBackKontrakt' name='dtTom'  /></td>
+                                                
+                                                <td>
+                                                    <a href='visakontrakt.php?kontraktId=" . $row->kontraktId . "'>
+                                                    <div style='height:100%;width:100%'>
+                                                        <img src= .$lnkPdf . ></a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <td>
+                                                        <input type='button' id='btnContractNoValid' value='Säg upp' class='btn btn-danger' />
+                                                    </td>
+                                                </td>
+                                            </tr>
                                             
-                                            <td>
-                                                <a href='visakontrakt.php?kontraktId=" . $hyresGInfo->kontraktId . "'>
-                                                <div style='height:100%;width:100%'>
-                                                    <img src= .$lnkPdf . ></a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <input type='button' id='btnAddRemoveDokument' value='Markera uppsagd' class='btn btn-danger' />
-                                            </td>
-                                        </tr>
-                                    ";
+                                        ";
+                                    }
                                 }
+                                //if ($hyresGInfo->datumKontrakt != null){
+                                   
+                                    
+                                //}
                             ?>
                           
                             <!--Raden för att lägga till ett kontrakt.-->
@@ -216,7 +232,7 @@
                         <table>
                         <!--Visas endast om kontrakt inte finns sparat!-->
                         <?php 
-                            if ($hyresGInfo->datumKontrakt == null){
+                            if ($hyresGInfo->datumKontrakt == null || $hyresGInfo->datumKontraktUppsagt != null){
                                 echo '<input type="button" id="btnAddKontraktDokument"value="Nytt" class="btn btn-success" />';
                             }
                         ?>

@@ -28,7 +28,7 @@
         <link rel="stylesheet" href="./style/style.css">
         
         <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-        
+        <link rel="icon" type="image/x-icon" href="./bilder/favicon.ico">
         <script
             src="https://code.jquery.com/jquery-3.7.1.js"
             integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
@@ -37,6 +37,7 @@
 
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
+        <script src="./js/common.js"></script>
         <script src="./js/index.js"></script>
         <script src="./js/settings.js"></script>
         <script src="./js/report.js"></script>
@@ -44,6 +45,7 @@
         <script src="./js/hyresgast.js"></script>
         <script src="./js/lghinfo.js"></script>
         <script src="./js/hyrginfo.js"></script>
+        
     </head>
 
     <div class="container-fluid">

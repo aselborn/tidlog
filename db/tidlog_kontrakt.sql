@@ -19,3 +19,5 @@ ADD CONSTRAINT `fk_lagenhet_id`
   REFERENCES `tidlog`.`tidlog_lagenhet` (`lagenhet_id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+ALTER TABLE tidlog.tidlog_kontrakt ADD datum_uppsagd DATETIME NULL;

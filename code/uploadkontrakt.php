@@ -46,5 +46,5 @@
      
     // Display status message 
     //echo $statusMsg;
-    header("Location: ../lghInfo.php?lagenhetNo=" . $lagenhetNo ); // redirect to login page
+    header("Location: ../hyrginfo.php?hyresgast_id=" . $hyresgastId ); // redirect to login page
 ?>

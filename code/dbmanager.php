@@ -143,8 +143,6 @@
                 $sql = "UPDATE tidlog_lagenhet SET park_id = ? WHERE lagenhet_nr = ?" ;
                 $val =$parkering;
             }
-            
-
             try{
                 $stmt = $this->connection->prepare($sql);
                 
@@ -163,6 +161,22 @@
             try{
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bind_param("s", $lagenhetNo);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+        }
+
+        public function sag_upp_kontrakt($hyresgastId, $datum)
+        {
+            $sql = "UPDATE tidlog_kontrakt set datum_uppsagd = ? where hyresgast_id = ?";
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("ss", $datum, $hyresgastId);
             
                 $stmt->execute();
                 $stmt->close();

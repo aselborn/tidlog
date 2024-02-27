@@ -8,7 +8,7 @@
     require_once "./code/objHyresgast.php";
 
     $db = new DbManager();
-    $lagenheter = $db->query("select * from tidlog_lagenhet order by lagenhet_nr")->fetchAll();
+    $lagenheter = $db->query("select * from tidlog_lagenhet order by lagenhet_nr where lagenhet")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">

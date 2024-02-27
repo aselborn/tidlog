@@ -41,6 +41,10 @@ if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "remove_parkering") {
         remove_parkering();
     }
+
+    if ($_POST["nameOfFunction"] == "sag_upp_kontrakt") {
+        sag_upp_kontrakt();
+    }
     
     
 }
@@ -285,6 +289,25 @@ if (isset($_POST["nameOfFunction"])){
         }
         
     }
+
+    function sag_upp_kontrakt()
+    {
+        $db = new DbManager();
+        
+        $hyresgastId = $_POST["hyresgastId"];
+        $datum = $_POST["datum"];
+
+        try {
+            if ($db->sag_upp_kontrakt($hyresgastId, $datum))
+            {
+                echo json_encode(['sag_upp_kontrakt' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['sag_upp_kontrakt' => 'false', 'orsak' => $th->getMessage()]);
+        }
+        
+    }
+
     function filter_report()
     {
         $user = $_SESSION["username"];

@@ -18,6 +18,10 @@
         public $parkering;
         public $kontraktId ;
         public $datumNyckelKvitto;
+        public $datumKontraktUppsagt;
+
+        public array $kontrakts;
+
         function __construct($hyresgastId){
             $this->hyresgastId = $hyresgastId;
             $this->setInformation();
@@ -26,7 +30,8 @@
         function setInformation(){
             $db = new DbManager();
 
-            $sql = "select h.fnamn , h.enamn, l.hyra , k.datum , k.kontrakt_namn , k.kontrakt_id, k.kontrakt , h.andrahand , 
+            $sql = "select h.fnamn , h.enamn, l.hyra , k.datum , k.kontrakt_namn , k.kontrakt_id, 
+            k.kontrakt, k.datum_uppsagd, h.andrahand , 
             p.avgift, 
             l.lagenhet_id , l.lagenhet_nr,
             h.hyresgast_id, h.epost, h.telefon,
@@ -55,6 +60,7 @@
                 $this->parkering = $row["avgift"];
                 $this->kontraktId = $row["kontrakt_id"];
                 $this->datumNyckelKvitto = $row["datumNyckelKvitto"];
+                $this->datumKontraktUppsagt = $row["datum_uppsagd"];
 
                 if ($row["datum"] != null){
 
