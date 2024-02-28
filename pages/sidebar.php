@@ -45,6 +45,7 @@
         <script src="./js/hyresgast.js"></script>
         <script src="./js/lghinfo.js"></script>
         <script src="./js/hyrginfo.js"></script>
+        <script src="./js/avisering.js"></script>
         
     </head>
 
