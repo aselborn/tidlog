@@ -30,7 +30,10 @@
             <h2>Avisering</h2>
             <hr />
             <div class="container " >
-                <input type="button" value="Skapa PDF" id="btnPdf" class="btn btn-success"></input>
+                <form  action="./code/createpdf.php" method="post" enctype="multipart/form-data">
+                    <input type="submit" value="Skapa PDF" id="btnPdf" class="btn btn-success" ></input>
+                </form>
+                
             </div>
         </body>
 </html>
