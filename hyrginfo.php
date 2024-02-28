@@ -185,12 +185,12 @@
                                     
                                         echo "
                                             <tr class='row-cols-auto'>
-                                                <td><label class='form-control-sm'>" . $row->kontraktNamn . " </label></td>
-                                                <td><label class='form-control-sm'>" . $row->datumKontrakt . " </label></td>
+                                                <td><label class='form-control-sm'>" . $kontraktGInfo->kontraktNamn . " </label></td>
+                                                <td><label class='form-control-sm'>" . $kontraktGInfo->datumKontrakt . " </label></td>
                                                 <td><input type='date' class='form-control-sm'  id='dtDateBackKontrakt' name='dtTom'  /></td>
                                                 
                                                 <td>
-                                                    <a href='visakontrakt.php?kontraktId=" . $row->kontraktId . "'>
+                                                    <a href='visakontrakt.php?kontraktId=" . $kontraktGInfo->kontraktId . "'>
                                                     <div style='height:100%;width:100%'>
                                                         <img src= .$lnkPdf . ></a>
                                                     </div>

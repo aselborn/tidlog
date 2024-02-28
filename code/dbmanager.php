@@ -119,6 +119,24 @@
             return $stmt;
         }
 
+        public function insert_new_user($param_username, $param_email, $param_password)
+        {
+            try{
+
+                $sql = $sql = "INSERT INTO tidlog_users(username, email, password) VALUES (?, ?, ?)";
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("sss",  $param_username, $param_email, $param_password);
+                $stmt->execute();
+
+
+                return true;
+            } catch(Exception $exception){
+                return false;
+            }
+            
+        }
+
+
         public function get_user_image($username)
         {
             $sql = "SELECT tidlog_userimage FROM tidlog.tidlog_users where username =  ?";

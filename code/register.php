@@ -1,10 +1,12 @@
 <?php
 # Include connection
 require_once "./config.php";
+require_once "./dbmanager.php";
 
 # Define variables and initialize with empty values
 $username_err = $email_err = $password_err = "";
 $username = $email = $password = "";
+$db = new DbManager();
 
 # Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -84,16 +86,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   # Validate password
   if (empty(trim($_POST["password"]))) {
-    $password_err = "Please enter a password.";
+    $password_err = "Ange ett lösenord.";
   } else {
     $password = trim($_POST["password"]);
     if (strlen($password) < 8) {
-      $password_err = "Password must contain at least 8 or more characters.";
+      $password_err = "Lösenordet måste vara minst 8 tecken.";
     }
   }
 
-  # Check input errors before inserting data into database
-  if (empty($username_err) && empty($email_err) && empty($password_err)) {
+   # Check input errors before inserting data into database
+   if (empty($username_err) && empty($email_err) && empty($password_err)) {
     # Prepare an insert statement
     $sql = "INSERT INTO tidlog_users(username, email, password) VALUES (?, ?, ?)";
 
@@ -108,11 +110,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       # Execute the prepared statement
       if (mysqli_stmt_execute($stmt)) {
-        echo "<script>" . "alert('Registeration completed successfully. Login to continue.');" . "</script>";
+        echo "<script>" . "alert('Registreringen lyckad. Logga in för att fortsätta.');" . "</script>";
         echo "<script>" . "window.location.href='../login.php';" . "</script>";
         exit;
       } else {
-        echo "<script>" . "alert('Oops! Something went wrong. Please try again later.');" . "</script>";
+        echo "<script>" . "alert('Oops! Något är fel.');" . "</script>";
       }
 
       # Close statement
