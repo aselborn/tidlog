@@ -1,49 +1,69 @@
+
 <?php 
+
 
 if (!isset($_SESSION)) { session_start(); }
     
 include_once "config.php";
 include_once "dbmanager.php";
+include_once "fpdfnormalize.php";
+
 require "managesession.php";
-require '../fpdf/fpdf.php';
 
 
-class PDF extends FPDF
-{
-// Page header
-function Header()
-{
-    // Logo
-    $this->Image('../bilder/logo.jpg',10,6,30);
-    // Arial bold 15
-    $this->SetFont('Arial','B',15);
-    // Move to the right
-    $this->Cell(80);
-    // Title
-    $this->Cell(30,10,'Title',1,0,'C');
-    // Line break
-    $this->Ln(20);
-}
+$db = new DbManager();
+$hyresgastId = 1;
+//$betalaText = iconv('UTF-8', 'windows-1252', 'Följande belopp skall vara oss tillhanda senast :');
 
-// Page footer
-function Footer()
+$hyra = $db->query("select h.fnamn, h.enamn, l.hyra, p.avgift, f.fakturanummer, f.fakturadatum, f.ocr, f.duedate, f.specifikation
+	
+from tidlog_fakutra f
+	inner join tidlog_hyresgaster h on h.hyresgast_id = f.hyresgast_id
+	inner join tidlog_lagenhet l on l.lagenhet_id = h.lagenhet_id 
+	left outer join tidlog_parkering p on p.park_id = l.park_id 
+where 
+	h.hyresgast_id = ?", array($hyresgastId))->fetchAll();
+
+foreach($hyra as $row)
 {
-    // Position at 1.5 cm from bottom
-    $this->SetY(-15);
-    // Arial italic 8
-    $this->SetFont('Arial','I',8);
-    // Page number
-    $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
-}
+    
+    $dtdat = date_create($row["duedate"]);
+    $dueDate = date_format($dtdat, "Y-m-d");
 }
 
 // Instanciation of inherited class
-$pdf = new PDF();
+$pdf = new TextNormalizerFPDF('P', 'mm', 'A4');
+
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$pdf->SetFont('Times','',12);
-$pfd->Line(20,20,150,150);
-for($i=1;$i<=5;$i++)
-    $pdf->Cell(0,10,'Printing line number '.$i,0,1);
+$pdf->SetFont('ARIAL','',12);
+
+
+$pdf->Line(0,210,250,210); // en rak linje.
+
+// $pdf->SetX(10);
+// $pdf->SetY(200);
+$pdf->Text(120, 208, 'INBETALNING GIRERING / AVI');
+$pdf->SetFont('ARIAL','',8);
+$pdf->Text(20, 215, 'Följande belopp skall vara oss tillhanda senast : ' . $dueDate);
+
+$pdf->Line(135,220,135,210);
+$pdf->Line(165,220,165,210);
+
+$pdf->SetFont('ARIAL','B',15);
+$pdf->Text(180, 217, 'OCR');
+$pdf->Line(0,220,250,220); // en rak linje.
+
+
+
+
+$pdf->Line(0,270,250,270); // en rak linje.
+$pdf->SetFont('ARIAL','',8);
+$pdf->Text(20, 273, 'VAR GOD GÖR INGA ÄNDRINGAR');
+$pdf->Text(80, 273, 'MEDDELANDE KAN INTE LÄMNAS PÅ AVIN');
+$pdf->Text(155, 273, 'DEN AVLÄSES MASKINELLT');
+$pdf->Line(0,274,250,274); // en rak linje.
+
+
 $pdf->Output();
 ?>
