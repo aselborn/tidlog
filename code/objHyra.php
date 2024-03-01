@@ -9,7 +9,11 @@ class HyresAvisering
     public $lagenhetNo;
     public $fastighetNamn;
     public $fastighetAddress;
+    public $fastighet_postadress;
+
     public $fakutaId;
+    public $adress;
+
     public function __construct($hyresgastId) {
         $this->hyresgastId = $hyresgastId;
 
@@ -20,8 +24,8 @@ class HyresAvisering
     {
         $db = new DbManager();
 
-        $hyra = $db->query("select fa.fastighet_namn, fa.fastighet_address, 
-            h.fnamn, h.enamn, l.hyra, l.lagenhet_nr, p.avgift, 
+        $hyra = $db->query("select fa.fastighet_namn, fa.fastighet_address, fa.post_adress, 
+            h.fnamn, h.enamn, h.adress, l.hyra, l.lagenhet_nr, p.avgift, 
             f.faktura_id, f.fakturanummer, f.fakturadatum, f.ocr, f.duedate, f.specifikation
         
         from tidlog_fakutra f
@@ -42,6 +46,8 @@ class HyresAvisering
             $this->fastighetNamn =$row["fastighet_namn"];
             $this->fastighetAddress =$row["fastighet_address"];
             $this->fakutaId = $row["faktura_id"];
+            $this->adress = $row["adress"] == null ? "?" : $row["adress"] ;
+            $this->fastighet_postadress = $row["post_adress"] == null ? "" :  $row["post_adress"];
         }
             
     }

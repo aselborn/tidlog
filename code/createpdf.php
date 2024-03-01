@@ -67,7 +67,7 @@ $pdf->Line(110,264,210,264); // horizontell linje
 $pdf->SetFont('ARIAL','',4);
 $pdf->Text(111, 266, 'Till bankgironr');
 $pdf->SetFont('ARIAL','B',8);
-$pdf->Text(111, 269, 'Mitt bankgiro');
+$pdf->Text(111, 269, '5804-9156');
 
 
 $pdf->SetFont('ARIAL','',4);
@@ -102,6 +102,8 @@ $pdf->Text(70, 280, '123456789123456');
 $pdf->Text(95, 280, '#');
 
 $pdf->Text(110, 280, '1234'); //BELOPP
+
+$pdf->text(117, 280, '00');
 
 $pdf->Output();
 ?>

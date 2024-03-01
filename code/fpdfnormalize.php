@@ -41,7 +41,15 @@ class TextNormalizerFPDF extends FPDF
 		
 		$this->SetFont('Arial', 'B', 10);
 		$this->Text($startPosRight, 40, $this->hyresInfo->fullname);
-       
+
+		$this->SetFont('Arial', '', 8);
+       	$this->Text($startPosRight, 44, $this->hyresInfo->fastighetAddress 
+			. " lgh "
+			. " " . $this->hyresInfo->adress);
+
+		$this->Text($startPosRight, 47, $this->hyresInfo->fastighet_postadress);
+			
+
     }
 
     // Page footer
