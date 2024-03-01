@@ -3,6 +3,7 @@
     class InfoHyresgast
     {
         public $hyresgastId;
+        public $adress;
         public $fnamn;
         public $enamn;
         public $telefon;
@@ -30,7 +31,7 @@
         function setInformation(){
             $db = new DbManager();
 
-            $sql = "select h.fnamn , h.enamn, l.hyra , k.datum , k.kontrakt_namn , k.kontrakt_id, 
+            $sql = "select h.adress, h.fnamn , h.enamn, l.hyra , k.datum , k.kontrakt_namn , k.kontrakt_id, 
             k.kontrakt, k.datum_uppsagd, h.andrahand , 
             p.avgift, 
             l.lagenhet_id , l.lagenhet_nr,
@@ -46,6 +47,7 @@
 
             foreach ($info as $row) {
 
+                $this->adress = $row["adress"];
                 $this->fnamn = $row["fnamn"] ;
                 $this->enamn = $row["enamn"] ;
                 $this->telefon = $row["telefon"] ;

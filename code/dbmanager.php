@@ -222,18 +222,20 @@
             
         }
 
-        public function ny_hyresgast($lagenhetId, $fnamn,$enamn, $telefon, $epost, $update = false)
+        public function ny_hyresgast($lagenhetId, $fnamn,$enamn, $adress, $telefon, $epost, $isandrahand, $update = false)
         {
             $sql = "";
             if ($update){
-                $sql = "UPDATE tidlog_hyresgaster SET fnamn = ?, enamn = ?, epost = ?, telefon = ? WHERE hyresgast_id = ?";
+                $sql = "UPDATE tidlog_hyresgaster SET fnamn = ?, enamn = ?, adress=?, epost = ?, telefon = ?, andrahand = ? WHERE hyresgast_id = ?";
             } else {
-                $sql = "INSERT INTO tidlog_hyresgaster(lagenhet_id, fnamn, enamn, epost, telefon) VALUES (?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO tidlog_hyresgaster(lagenhet_id, fnamn, enamn, adress, epost, telefon, andrahand) VALUES (?, ?, ?, ?, ?, ?, ?)";
             }
             
             try{
+                $andraHand = $isandrahand == "true" ? 1 : 0;
+
                 $stmt = $this->connection->prepare($sql);
-                $stmt->bind_param("sssss", $fnamn, $enamn, $epost, $telefon,$lagenhetId);
+                $stmt->bind_param("sssssss", $fnamn, $enamn,$adress, $epost, $telefon, $andraHand, $lagenhetId);
             
                 $stmt->execute();
                 $stmt->close();

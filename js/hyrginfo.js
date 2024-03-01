@@ -2,12 +2,20 @@ $(document).ready(function() {
     var hyresgastId =$("#hidHyresgastId").val();
     var alreadyUppsagdDatum = $("#hidKontraktUppsagdDatum").val();
 
+    var isAndrahand = false;
+
     if (alreadyUppsagdDatum !== ""){
         $("#dtDateBackKontrakt").attr('disabled', 'disabled');
         $("#btnContractNoValid").addClass('d-none');
     }
 
     setDateOnInput($("#dtDateBackKontrakt"));
+
+    $("#chkAndraHand").on('change', function() {
+
+        isAndrahand = this.checked;
+
+    });
 
     $("#btnUppdateraHyresgast").on('click', function(){
       
@@ -17,13 +25,15 @@ $(document).ready(function() {
         var telefon = $("#telefon").val();
         var epost = $("#epost").val();
         var hyresgastId = $("#hidHyresgastId").val();
-
-        var data = { nameOfFunction : 'uppdatera_hyresgast', hyresgast_id: hyresgastId, fnamn: fnamn, enamn: enamn, telefon: telefon, epost: epost };
+        var adress = $("#adress").val();
+    
+        var data = { nameOfFunction : 'uppdatera_hyresgast', hyresgast_id: hyresgastId, fnamn: fnamn, enamn: enamn, 
+            adress : adress, telefon: telefon, epost: epost , andrahand: isAndrahand };
         
         $.post("./code/util.php", data, function(response){
 
             if (response !== ""){
-                if (JSON.parse(response).added_hyresgast === 'false'){
+                if (JSON.parse(response).added_apartment === 'false'){
                     alert('Kunde inte spara => ' + JSON.parse(response).orsak);
                     return;
                 } 

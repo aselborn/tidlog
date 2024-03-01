@@ -4,34 +4,59 @@ require '../fpdf/fpdf.php';
 
 class TextNormalizerFPDF extends FPDF
 	{
+		public $hyresInfo;
         // Page header
     function Header()
     {
+		$rubrik = 'Arial';
+		$fontToUse = 'Arial';
+		$startPosRight = 130;
+		$nextPosRight = 155;
         // Logo
         $this->Image('../bilder/logo.jpg',10,6,30);
         // Arial bold 15
-        $this->SetFont('Arial','B',12);
+        $this->SetFont($rubrik,'B',12);
         // Move to the right
-        $this->Cell(120);
+        //$this->Cell(120);
         // Title
-        $this->Cell(50,10,'Hyresavi',0,0,'L', false); //här kan man skriva titel box om man sätter 4:e argumentet till 1
-        $this->ln();
 
+		$this->Text($startPosRight, 15, 'Hyresavi');
+        // $this->Cell(50,10,'Hyresavi',0,0,'L', false); //här kan man skriva titel box om man sätter 4:e argumentet till 1
+        // $this->ln();
+
+		$this->SetFont($fontToUse, '', 8);
+		//$this->Text(130, 20, 'Nisse hult');
+
+		$this->SetFont($fontToUse, 'B', 8);
+		$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, '12345'); 
+
+		$this->SetFont($fontToUse, 'B', 8);
+		$this->Text($startPosRight, 24, 'Hyresavi:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 24, 'hyresavi..?');
+		
+		$this->SetFont($fontToUse, 'B', 8);
+		$this->Text($startPosRight, 27, 'Bankgiro:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 27, '5804-9156');
+
+		$this->SetFont($fontToUse, 'B', 8);
+		$this->Text($startPosRight, 30, 'Förfallodatum:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 30, $this->hyresInfo->dueDate);
+		
+		$this->SetFont('Arial', 'B', 10);
+		$this->Text($startPosRight, 40, $this->hyresInfo->fullname);
        
     }
 
     // Page footer
-    function Footer()
-    {
-        // Position at 1.5 cm from bottom
-        $this->SetY(-15);
-        // Arial italic 8
-        $this->SetFont('Arial','I',8);
-        // Page number
-        $this->Cell(0,23,'Page '.$this->PageNo().'/{nb}',0,0,'C');
-    }
-		function __construct()
+    // function Footer()
+    // {
+    //     // Position at 1.5 cm from bottom
+    //     $this->SetY(-15);
+    //     // Arial italic 8
+    //     $this->SetFont('Arial','I',8);
+    //     // Page number
+    //     $this->Cell(0,23,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+    // }
+		function __construct($hyresInfo)
 		{
+			$this->hyresInfo = $hyresInfo;
 			parent::__construct();
 		}
 

@@ -181,6 +181,10 @@ if (isset($_POST["nameOfFunction"])){
             $errors['enamn'] = 'Efternamn?.';
         }
 
+        if (empty($_POST['adress'])) {
+            $errors['adress'] = 'Adress?.';
+        }
+
         if (empty($_POST['epost'])) {
             $errors['epost'] = 'Epost?.';
         }
@@ -210,11 +214,13 @@ if (isset($_POST["nameOfFunction"])){
             //$lagenhetId = $_POST["lagenhet_id"];
             $fnamn = $_POST["fnamn"];
             $enamn = $_POST["enamn"];
+            $adress = $_POST["adress"];
             $telefon = $_POST["telefon"];
             $epost = $_POST["epost"];    
+            $isAndraHand = $_POST["andrahand"];
 
             if ($uppdatera == false){
-                if ($db->ny_hyresgast($lagenhetId, $fnamn,$enamn, $telefon, $epost, false))
+                if ($db->ny_hyresgast($lagenhetId, $fnamn,$enamn, $adress, $telefon, $epost, $isAndraHand, false))
                 {
                     echo json_encode(['added_hyresgast' => 'true']);
                 }
@@ -222,7 +228,7 @@ if (isset($_POST["nameOfFunction"])){
                 
                 $hyresgastId = $_POST['hyresgast_id'];
 
-                if ($db->ny_hyresgast($hyresgastId, $fnamn,$enamn, $telefon, $epost, true))
+                if ($db->ny_hyresgast($hyresgastId, $fnamn,$enamn, $adress, $telefon, $epost, $isAndraHand, true))
                 {
                     echo json_encode(['added_hyresgast' => 'true']);
                 }

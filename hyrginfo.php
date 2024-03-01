@@ -49,6 +49,7 @@
                             <tr>
                                 <th scope="col" class="table-primary">Förnamn</th>
                                 <th scope="col" class="table-primary">Efternamn</th>
+                                <th scope="col" class="table-primary">Adress</th>
                                 <th scope="col" class="table-primary">Epost</th>
                                 <th scope="col" class="table-primary">Telefon</th>
                                 <th scope="col" class="table-primary">Andrahand?</th>
@@ -64,18 +65,29 @@
                                 <input id="enamn" type="text" name="enamn"  value="<?php echo $hyresGInfo->enamn ?>" />
                             </td>
                             <td>
+                                <input id="adress" type="text" name="adress" style="width: 50px;" value="<?php echo $hyresGInfo->adress ?>" />
+                            </td>
+                            <td>
                                 <input id="epost" type="text" name="epost"  value="<?php echo $hyresGInfo->epost ?>" style="width:250px" />
                             </td>
                             <td>
                                 <input id="telefon" type="text"  value="<?php echo $hyresGInfo->telefon ?>" name="telefon" />
                             </td>
                             <td>
-                                <input type="checkbox" name="chkAndraHand"  value="<?php echo $hyresGInfo->andrahand ?>" />
+                                <input type="checkbox" name="chkAndraHand" id="chkAndraHand" value="<?php echo $hyresGInfo->andrahand ?>" />
+                                <!-- <?php 
+                                    if ($hyresGInfo->andrahand == 1){
+                                        echo '<input type="checkbox" name="chkAndraHand" id="chkAndraHand" checked value=1 />';
+                                    } else{
+                                        echo '<input type="checkbox" name="chkAndraHand" id="chkAndraHand" value=0 />';
+                                    }
+                                ?> -->
+                                
                             </td>
                             <td>
-                                <form action="POST" value="./code/util.php">
-                                    <input type="button" name="uppdateraHyresgast" id="btnUppdateraHyresgast" value="Uppdatera"class="btn btn-success" />
-                                </form>
+                                
+                                <input type="button" name="uppdateraHyresgast" id="btnUppdateraHyresgast" value="Uppdatera"class="btn btn-success" />
+                                
                             </td>
                         </tr>
 

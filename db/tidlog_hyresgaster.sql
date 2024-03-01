@@ -13,3 +13,5 @@ CREATE TABLE `tidlog_hyresgaster` (
 
 ALTER TABLE `tidlog`.`tidlog_hyresgaster` 
 ADD COLUMN `andrahand` TINYINT NULL DEFAULT 0 AFTER `epost`;
+
+ALTER TABLE tidlog.tidlog_hyresgaster ADD adress varchar(100) null after lagenhet_id;

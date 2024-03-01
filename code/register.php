@@ -109,6 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $param_password = password_hash($password, PASSWORD_DEFAULT);
 
       # Execute the prepared statement
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
       if (mysqli_stmt_execute($stmt)) {
         echo "<script>" . "alert('Registreringen lyckad. Logga in för att fortsätta.');" . "</script>";
         echo "<script>" . "window.location.href='../login.php';" . "</script>";
