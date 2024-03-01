@@ -32,6 +32,8 @@ $pdf->AddPage();
 
 $pdf->SetFont('ARIAL','B',10);
 
+/*********************************SKRIVER TALONG********************************* */
+
 $pdf->SetLineWidth(0.3);
 $pdf->Line(0,210,250,210); // en rak linje. Översta
 
@@ -104,6 +106,34 @@ $pdf->Text(95, 280, '#');
 $pdf->Text(110, 280, '1234'); //BELOPP
 
 $pdf->text(117, 280, '00');
+
+/*********************************SKRIVER AB INFO ************************************** */
+$pdf->SetFont('ARIAL', 'B', 8);
+$pdf->Text(15, 50, 'Fakturanummer:'); $pdf->Text(39, 50, '1234');
+$pdf->Text(15, 54, 'Fakturadatum:'); $pdf->Text(39, 54, '2023-03-03');
+$pdf->Text(15, 58, 'Avsändare:'); $pdf->Text(39, 58, 'Tryckaren 7 AB');
+$pdf->Text(15, 62, 'Org.nr:'); $pdf->Text(39, 62, '559470-1939');
+$pdf->Text(15, 66, 'Telefon:'); $pdf->Text(39, 66, '0707-954165');
+$pdf->Text(15, 70, 'Epost:'); $pdf->Text(39, 70, 'fastighet@selborn.se');
+
+/*********************************SKRIVER VALFRITT MEDDELANDE********************************* */
+
+$pdf->Text(20, 120, 'Här kan Anders och Carolina skriva meddelanden till hyresgästerna');
+
+/*********************************SKRIVER SPECIFIKATION********************************* */
+$pdf->SetFont('ARIAL', 'B', 10);
+$pdf->Text(20, 90, 'SPECIFIKATION');
+$pdf->Text(180, 90, 'BELOPP');
+$pdf->SetFont('ARIAL', '', 9);
+
+$pdf->Text(20, 95, $hyresInfo->fastighetAddress . " ".  $hyresInfo->adress . " hyra för februari 2024");
+$pdf->Text(22, 99, " -Hyra bostad: ");
+$pdf->Text(180, 99, $hyresInfo->hyra . ",00" ); $pdf->Text(192, 99, "kr");
+
+if ($hyresInfo->parkering != 0 ){
+    $pdf->Text(22, 103, " -Hyra parkering:");
+    $pdf->Text(180, 103, $hyresInfo->parkering . ",00" ); $pdf->Text(192, 103, "kr");
+}
 
 $pdf->Output();
 ?>

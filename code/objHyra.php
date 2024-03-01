@@ -10,6 +10,8 @@ class HyresAvisering
     public $fastighetNamn;
     public $fastighetAddress;
     public $fastighet_postadress;
+    public $hyra;
+    public $parkering;
 
     public $fakutaId;
     public $adress;
@@ -48,6 +50,8 @@ class HyresAvisering
             $this->fakutaId = $row["faktura_id"];
             $this->adress = $row["adress"] == null ? "?" : $row["adress"] ;
             $this->fastighet_postadress = $row["post_adress"] == null ? "" :  $row["post_adress"];
+            $this->hyra =$row["hyra"];
+            $this->parkering = $row["avgift"] == null ? 0 : $row["avgift"] ;
         }
             
     }
