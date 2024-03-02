@@ -14,11 +14,11 @@ require "managesession.php";
 
 $db = new DbManager();
 
-$hyresgastId = 13;
+$hyresgastId = 16;
 //$betalaText = iconv('UTF-8', 'windows-1252', 'Följande belopp skall vara oss tillhanda senast :');
 $hyresInfo = new HyresAvisering($hyresgastId);
 
-if ($hyresInfo ->fakutaId== null){
+if ($hyresInfo ->fakturaId== null){
     echo "<h1><i>Hyresgästen saknar fakturerings data!</i></h1>";
     return;
 }
@@ -26,6 +26,8 @@ if ($hyresInfo ->fakutaId== null){
 
 
 $pdf = new TextNormalizerFPDF($hyresInfo);
+
+$attBetala = $hyresInfo->hyra + $hyresInfo->parkering;
 
 $pdf->AliasNbPages();
 $pdf->AddPage();
@@ -51,12 +53,10 @@ $pdf->SetFont('ARIAL','B',14);
 $pdf->Text(180, 217, 'OCR');
 $pdf->Line(0,220,250,220); // en rak linje. Andra övre linjen
 
-
 $pdf->SetFont('ARIAL','',10);
 $pdf->Text(20, 230, 'Betalning gäller lägenheten ');
 $pdf->SetFont('ARIAL','B',10);
 $pdf->Text(20, 235, "Lägenhet " . $hyresInfo->lagenhetNo . " " . $hyresInfo->fastighetNamn);
-
 
 $pdf->Text(119, 230, 'Betalningsavsändare');
 $pdf->SetFont('ARIAL','',8);
@@ -70,7 +70,6 @@ $pdf->SetFont('ARIAL','',4);
 $pdf->Text(111, 266, 'Till bankgironr');
 $pdf->SetFont('ARIAL','B',8);
 $pdf->Text(111, 269, '5804-9156');
-
 
 $pdf->SetFont('ARIAL','',4);
 $pdf->Line(135,264,135,266); //liten vertikal linje
@@ -103,7 +102,7 @@ $pdf->Text(70, 280, '123456789123456');
 
 $pdf->Text(95, 280, '#');
 
-$pdf->Text(110, 280, '1234'); //BELOPP
+$pdf->Text(110, 280, $attBetala); //BELOPP
 
 $pdf->text(117, 280, '00');
 
@@ -130,10 +129,24 @@ $pdf->Text(20, 95, $hyresInfo->fastighetAddress . " ".  $hyresInfo->adress . " h
 $pdf->Text(22, 99, " -Hyra bostad: ");
 $pdf->Text(180, 99, $hyresInfo->hyra . ",00" ); $pdf->Text(192, 99, "kr");
 
+
+
 if ($hyresInfo->parkering != 0 ){
     $pdf->Text(22, 103, " -Hyra parkering:");
     $pdf->Text(180, 103, $hyresInfo->parkering . ",00" ); $pdf->Text(192, 103, "kr");
+    $pdf->SetFont('ARIAL', 'B', 9);
+    $pdf->Text(22, 110, " -Att betala:"); 
+    $pdf->Text(180, 110, $attBetala . ",00"); $pdf->Text(192, 110, "kr");
+} else {
+    $pdf->SetFont('ARIAL', 'B', 9);
+    $pdf->Text(22, 106, " -Att betala:"); 
+    $pdf->Text(180, 106, $attBetala . ",00"); $pdf->Text(192, 106, "kr");
 }
+
+$fileName = "c:/temp/test.pdf";
+$pdf->Output($fileName, 'F');
+
+$db->spara_faktura($fileName, $hyresInfo->hyresgastId);
 
 $pdf->Output();
 ?>

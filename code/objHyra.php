@@ -13,7 +13,7 @@ class HyresAvisering
     public $hyra;
     public $parkering;
 
-    public $fakutaId;
+    public $fakturaId;
     public $adress;
 
     public function __construct($hyresgastId) {
@@ -30,7 +30,7 @@ class HyresAvisering
             h.fnamn, h.enamn, h.adress, l.hyra, l.lagenhet_nr, p.avgift, 
             f.faktura_id, f.fakturanummer, f.fakturadatum, f.ocr, f.duedate, f.specifikation
         
-        from tidlog_fakutra f
+        from tidlog_faktura f
             inner join tidlog_hyresgaster h on h.hyresgast_id = f.hyresgast_id
             inner join tidlog_lagenhet l on l.lagenhet_id = h.lagenhet_id
             inner join tidlog_fastighet fa on fa.fastighet_id = l.fastighet_id 
@@ -41,13 +41,13 @@ class HyresAvisering
         foreach($hyra as $row)
         {
             $dtdat = date_create($row["duedate"]);
+            $this->fakturaId = $row["faktura_id"];
             $this->dueDate = date_format($dtdat, "Y-m-d");
             $this->fullname = $row["fnamn"] . " " . $row["enamn"];
             $this->ocrNr = $row["ocr"];
             $this->lagenhetNo = $row["lagenhet_nr"];
             $this->fastighetNamn =$row["fastighet_namn"];
             $this->fastighetAddress =$row["fastighet_address"];
-            $this->fakutaId = $row["faktura_id"];
             $this->adress = $row["adress"] == null ? "?" : $row["adress"] ;
             $this->fastighet_postadress = $row["post_adress"] == null ? "" :  $row["post_adress"];
             $this->hyra =$row["hyra"];

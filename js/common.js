@@ -8,4 +8,6 @@ function setDateOnInput(control){
     var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
     $(control).val(today);
     $(control).val(today);
+
+    
 }

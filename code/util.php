@@ -46,8 +46,46 @@ if (isset($_POST["nameOfFunction"])){
         sag_upp_kontrakt();
     }
     
+    if ($_POST["nameOfFunction"] == "skapa_fakturor") {
+        skapa_fakturor();
+    }
     
 }
+    function skapa_fakturor()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $errors = [];
+        $data = [];
+
+        if (empty($_POST['month'])) {
+            $errors['month'] = 'Månad?.';
+        }
+
+        if (empty($_POST['year'])) {
+            $errors['year'] = 'År';
+        }
+
+
+        try{
+            
+            $month = $_POST["month"];
+            $monthNo = $_POST["monthNo"];
+            $year = $_POST["year"];
+
+            $db->skapa_fakturor($month, $monthNo, $year);
+
+            echo json_encode(['skapa_fakturor' => 'true']);
+
+        } catch(\Throwable $th){
+
+            echo json_encode(['skapa_fakturor' => 'false', 'orsak' => $th->getMessage()]);
+        }
+
+    }
     function change_password()
     {
         if (!isset($_SESSION)) { session_start(); }

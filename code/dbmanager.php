@@ -266,6 +266,61 @@
             $stmt->close();
         }
 
+        public function spara_faktura($fil, $hyresgastId)
+        {
+            $pfdContent = addslashes(file_get_contents($fil)); 
+
+            $sql = "UPDATE tidlog_faktura SET faktura = ? where hyresgast_id = ?";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("ss", $pfdContent, $hyresgastId);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        /*
+            Skapa alla fakturor för en viss månad.
+        */
+        public function skapa_fakturor($month, $monthNo, $year)
+        {
+            $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr 
+            from tidlog_hyresgaster th 
+                inner join tidlog_lagenhet tl ON th.lagenhet_id = tl.lagenhet_id
+                left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
+                left outer join tidlog_faktura tf on tf.lagenhet_id = tl.lagenhet_id")->fetchAll();
+            
+            $sql ="";
+
+            foreach($hyresGaster as $row)
+            {
+                $hyresgastId = $row["hyresgast_id"];
+                $lagenhetId = $row["lagenhet_id"];
+                $parkId = $row["park_id"];
+
+                $fakturaNr = $row["lagenhet_nr"] . "-" . $month . "-" . $year;
+                $fakturaDatum = date('Y-m-d');
+                $ocr = "ocr";
+                $dtTmp = strval($year) . strval($month) . "-01";
+                $dueDate = date("Y-m-t", strtotime($dtTmp));
+                $spec = 'hyra för ...';
+
+                $sql = "INSERT INTO tidlog_faktura( hyresgast_id, 
+                    lagenhet_id, park_id, fakturanummer, 
+                    FakturaDatum, ocr, duedate, specifikation, 
+                        `Year`, `Month`)
+                
+                VALUES(?,?,?,?,?,?,?,?,?,?)";
+
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("ssssssssss", $hyresgastId, $lagenhetId, $parkId, $fakturaNr, $fakturaDatum, $ocr, $dueDate, $spec, $year, $monthNo);
+
+                $stmt->execute();
+                $stmt->close();
+
+                
+
+            }
+        }
+
         public function total_hours (){
             
             $sql = "SELECT SUM(job_hour) AS total_hours FROM tidlog_jobs;";

@@ -28,7 +28,7 @@ class TextNormalizerFPDF extends FPDF
 		//$this->Text(130, 20, 'Nisse hult');
 
 		$this->SetFont($fontToUse, 'B', 8);
-		$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, '12345'); 
+		$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, $this->hyresInfo->hyra + $this->hyresInfo->parkering . " kr"); 
 
 		$this->SetFont($fontToUse, 'B', 8);
 		$this->Text($startPosRight, 24, 'Hyresavi:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 24, 'hyresavi..?');
