@@ -8,7 +8,7 @@
     require_once "./code/objHyresgast.php";
 
     $db = new DbManager();
-    $lagenheter = $db->query("select * from tidlog_lagenhet order by lagenhet_nr where lagenhet")->fetchAll();
+    $lagenheter = $db->query("select * from tidlog_lagenhet l where l.lagenhet_id  not in (select lagenhet_id from tidlog_hyresgaster th)")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +46,8 @@
 
                             <div class="form-group">
                                 <label id="lblLagenhetNo" class="label-primary" >Lägenhet Nr</label>
+
+
                                 
                                 <select id="lagenhetId" class="form-select" name="lagenhet" style="width:130px">
                                     <option value="0">Välj lägenhet</option>
@@ -58,9 +60,14 @@
 
                                     ?>
                                 </select>
-
                             </div>
                             
+                            <div class="form-group">
+                                <label id="lblAdress" class="label-primary">Adress</label>
+                                <input id="epost" type="text" name="adress" class="form-control" style="width:100px" >
+                            </div>
+
+
                             <div class="form-group">
                                 <label id="lblEpost" class="label-primary">Epost</label>
                                 <input id="epost" type="text" name="epost" class="form-control" style="width:250px" >

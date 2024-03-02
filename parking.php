@@ -22,7 +22,7 @@
         <div class="col-sm  min-vh-100 border">
             <h2>Parkeringar</h2>
             <hr />
-            <div class="container border" >
+            <div class="container " >
 
             <div class="row mt-3">
                     <div class="col">

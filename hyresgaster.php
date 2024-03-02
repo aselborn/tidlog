@@ -53,6 +53,7 @@
                         <table class="table table-hover table-striped " id="hyresgastTable">
                             <thead class="table-dark">
                                 <tr>
+                                    <th scope="col" class="table-primary"></th>
                                     <th scope="col" class="table-primary">Namn</th>
                                     <th scope="col" class="table-primary">Efternamn</th>
                                     <th scope="col" class="table-primary">Lägenhet Nr</th>
@@ -63,7 +64,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                
                                 <?php 
+                                    //iconer finns här : https://www.flaticon.com/
                                     foreach($hyresgaster as $row)
                                     {
                                         $hyresgastId = $row["hyresgast_id"];
@@ -73,8 +76,15 @@
                                         $telefon = $row["telefon"];
                                         $epost = $row["epost"];
                                         
+                                        $lnk = "./bilder/girl_24.png";
                                         
-                                        echo "<tr id='$hyresgastId'><td>" . $namn . "</td>"
+                                        echo "<tr id='$hyresgastId'>
+                                            <td>
+                                            <div>
+                                                <img src='". $lnk . "' alt='' />
+                                            </div>
+                                            </td>
+                                            <td>" . $namn . "</td>"
                                             . "<td>" . $enamn . "</td>"
                                             . "<td><a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
                                             <div  class='align-items-center'>

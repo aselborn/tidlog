@@ -18,3 +18,4 @@ ADD COLUMN `park_id` INT NULL AFTER `fastighet_id`;
 ALTER TABLE `tidlog`.`tidlog_lagenhet` 
 ADD UNIQUE INDEX `fk_park_id_unique` (`park_id` ASC) VISIBLE;
 ;
+ALTER TABLE tidlog_lagenhet ADD vind_id INT NULL after lagenhet_id;

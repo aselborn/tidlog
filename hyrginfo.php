@@ -189,7 +189,7 @@
 
                             <!--Sparade kontrakt-->
                             <?php 
-                                if ($kontraktGInfo != null){
+                                if ($kontraktGInfo->kontraktId != null){
                                     
                                     foreach ($kontraktGInfo as $row) {
 
