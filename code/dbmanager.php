@@ -269,6 +269,7 @@
         public function spara_faktura($fil, $hyresgastId)
         {
             $pfdContent = addslashes(file_get_contents($fil)); 
+            
 
             $sql = "UPDATE tidlog_faktura SET faktura = ? where hyresgast_id = ?";
             $stmt = $this->connection->prepare($sql);

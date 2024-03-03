@@ -5,16 +5,24 @@ require '../fpdf/fpdf.php';
 class TextNormalizerFPDF extends FPDF
 	{
 		public $hyresInfo;
+		
         // Page header
     function Header()
     {
-		$rubrik = 'Arial';
-		$fontToUse = 'Arial';
+		// $fontFile = "../fpdf/font/OCRB Regular.php";
+		// $ok = file_exists($fontFile);
+
+		$this->AddFont('ocrb', '', 'OCRB Regular.php', '../fpdf/font/');
+		
+
+		$rubrik = 'ocrb';
+		$fontToUse = 'ocrb';
 		$startPosRight = 130;
 		$nextPosRight = 155;
         // Logo
         $this->Image('../bilder/logo.jpg',10,6,30);
-        // Arial bold 15
+        
+		// Arial bold 15
         $this->SetFont($rubrik,'B',12);
         // Move to the right
         //$this->Cell(120);

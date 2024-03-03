@@ -14,7 +14,7 @@ require "managesession.php";
 
 $db = new DbManager();
 
-$hyresgastId = 10;
+$hyresgastId = 9;
 //$betalaText = iconv('UTF-8', 'windows-1252', 'Följande belopp skall vara oss tillhanda senast :');
 $hyresInfo = new HyresAvisering($hyresgastId);
 
@@ -31,6 +31,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 
 $pdf->SetFont('ARIAL','B',10);
+
 
 /*********************************SKRIVER TALONG********************************* */
 
