@@ -9,14 +9,10 @@ class TextNormalizerFPDF extends FPDF
         // Page header
     function Header()
     {
-		// $fontFile = "../fpdf/font/OCRB Regular.php";
-		// $ok = file_exists($fontFile);
-
-		$this->AddFont('ocrb', '', 'OCRB Regular.php', '../fpdf/font/');
 		
 
-		$rubrik = 'ocrb';
-		$fontToUse = 'ocrb';
+		$rubrik = 'arial';
+		$fontToUse = 'arial';
 		$startPosRight = 130;
 		$nextPosRight = 155;
         // Logo

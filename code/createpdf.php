@@ -105,6 +105,9 @@ $pdf->Text(110, 280, $attBetala); //BELOPP
 
 $pdf->text(117, 280, '00');
 
+$pdf->Text(203, 280, '#'); //17 mm upp från nederkant!
+
+
 /*********************************SKRIVER AB INFO ************************************** */
 $pdf->SetFont('ARIAL', 'B', 8);
 $pdf->Text(15, 50, 'Fakturanummer:'); $pdf->Text(39, 50, '1234');
