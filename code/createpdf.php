@@ -14,16 +14,14 @@ require "managesession.php";
 
 $db = new DbManager();
 
-$hyresgastId = 16;
+$hyresgastId = 10;
 //$betalaText = iconv('UTF-8', 'windows-1252', 'Följande belopp skall vara oss tillhanda senast :');
 $hyresInfo = new HyresAvisering($hyresgastId);
 
-if ($hyresInfo ->fakturaId== null){
+if ($hyresInfo ->fakturaId == null){
     echo "<h1><i>Hyresgästen saknar fakturerings data!</i></h1>";
     return;
 }
-
-
 
 $pdf = new TextNormalizerFPDF($hyresInfo);
 

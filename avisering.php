@@ -5,6 +5,11 @@
 
       $db = new DbManager();
 
+      $fakturor = $db->query("select * from tidlog_faktura tf 
+      inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
+      inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
+      left outer join tidlog_parkering tp on tp.park_id =tl.park_id ")->fetchAll();
+
       if (!isset($_GET['page'])) 
       {
           $page = 1;
@@ -71,15 +76,62 @@
                     </div>
             </div>
 
-                <table id="tblAvisering" class="table table-primary mt-3">
+                <table id="tblAvisering" class="table table-hover table-striped mt-3">
 
                     <tr>
                         <th scope="col" class="table-primary">Hyresgäst</th>
                         <th scope="col" class="table-primary">Lägenhet</th>
-                        <th scope="col" class="table-primary">Belopp</th> 
+                        <th scope="col" class="table-primary">Hyra</th> 
+                        <th scope="col" class="table-primary">Parkering</th> 
+                        <th scope="col" class="table-primary">Totalt</th> 
                         <th scope="col" class="table-primary">Faktura</th>
                     </tr>
+                    <?php $totalHyra = 0;?>
+                    <tbody>
 
+                        <?php 
+                            foreach($fakturor as $row)
+                            {
+                                $avgift = $row["avgift"] == null ? "0" : $row["avgift"];
+                                $total = $avgift + $row["hyra"];
+
+                                $lnkPdf = "/bilder/pdf-file.png";
+                                $theFaktura = $row["faktura"];
+                                $totalHyra += intval($row["hyra"]);
+
+                                echo 
+                                "<tr>
+                                    <td>" . $row['fnamn'] . " " . $row['enamn']  .  "</td>
+                                    <td>" . $row['lagenhet_nr'] .  "</td>
+                                    <td>" . $row['hyra'] .  "</td>
+                                    <td>" . $row['avgift']  .  "</td>
+                                    <td>" . $total .  "</td>";
+                                    
+                                    if ($theFaktura != null ){
+                                        echo 
+                                        "<td>
+                                            <a href='visafaktura.php?fakturaId=" . $row["faktura_id"] . "'>
+                                                <div style='height:100%;width:100%'>
+                                                    <img src= .$lnkPdf  ></a>
+                                                </div>
+                                        </td>";
+                                        
+
+                                    } else {
+                                        echo "<td></td>";
+                                    }
+                                        
+                                echo "</tr>";
+                            }
+                        ?>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th scope="row">Total hyra</th>
+                                <td>Perioden : <strong><?php echo $totalHyra ?></strong></td>
+                            </tr>
+                    </tfoot>
                 </table>
                 <form  action="./code/createpdf.php" method="post" enctype="multipart/form-data">
                     <input type="submit" value="Skapa PDF" id="btnPdf" class="btn btn-success" ></input>
