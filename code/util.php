@@ -6,6 +6,14 @@ include_once "config.php";
 include_once "dbmanager.php";
 require "managesession.php";
 
+if (isset($_POST['faktMonth']) && isset($_POST['faktYear']))
+{
+    $fMonth = $_POST['faktMonth'];
+    $fYear = $_POST['faktYear'];
+
+    get_faktura_period($fMonth, $fYear);
+}
+
 if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "filter_report"){
         filter_report();
@@ -51,6 +59,26 @@ if (isset($_POST["nameOfFunction"])){
     }
     
 }
+    function get_faktura_period($fMonth, $fYear)
+    {
+        $db = new DbManager();
+        $fakturor = $db->get_faktura_underlag($fYear, $fMonth);
+
+        $resultSet = array();
+
+        try{
+            
+            foreach ($fakturor as $row) {
+                $resultSet[] = $row;
+            }
+            
+            echo json_encode(['visa_period' => $resultSet]);
+
+        } catch (Exception $th){
+            echo json_encode(array('error' => $th->getMessage()));
+        }
+    }
+
     function skapa_fakturor()
     {
         if (!isset($_SESSION)) { session_start(); }

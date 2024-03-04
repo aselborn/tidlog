@@ -6,4 +6,5 @@ CREATE TABLE `tidlog_fastighet` (
   UNIQUE KEY `fastighet_id_UNIQUE` (`fastighet_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  COMMENT='Fastighetstabell';
 
-ALTER TABLE tidlog.tidlog_fastighet ADD post_adress varchar(100) NULL;
+alter table tidlog_faktura add faktura_year int not null ;
+alter table tidlog_faktura add faktura_month int not null;

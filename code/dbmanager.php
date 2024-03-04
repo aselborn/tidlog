@@ -19,6 +19,17 @@
             
         }
 
+        public function get_faktura_underlag($year, $month)
+        {
+            $fakturor = $this->query("select * from tidlog_faktura tf 
+            inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
+            inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
+            left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
+            WHERE tf.faktura_year = ? and tf.faktura_month = ?", array($year, $month))->fetchAll();
+
+            return $fakturor;
+        }
+
         public function getRowCount()
         {
             $sql = "select count(*) as count from tidlog_jobs";
@@ -307,7 +318,7 @@
                 $sql = "INSERT INTO tidlog_faktura( hyresgast_id, 
                     lagenhet_id, park_id, fakturanummer, 
                     FakturaDatum, ocr, duedate, specifikation, 
-                        `Year`, `Month`)
+                        `faktura_year`, `faktura_month`)
                 
                 VALUES(?,?,?,?,?,?,?,?,?,?)";
 

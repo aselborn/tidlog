@@ -5,10 +5,23 @@
 
       $db = new DbManager();
 
-      $fakturor = $db->query("select * from tidlog_faktura tf 
-      inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
-      inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
-      left outer join tidlog_parkering tp on tp.park_id =tl.park_id ")->fetchAll();
+      if (!isset($_GET['year']) || !isset($_GET['month'])){
+        $month = intval(date('m'));
+        $yr = intval(date('Y'));
+      } else {
+        $month = intval($_GET['month']);
+        $yr = intval($_GET['year']);
+
+      }
+
+      
+    //   $fakturor = $db->query("select * from tidlog_faktura tf 
+    //   inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
+    //   inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
+    //   left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
+    //   WHERE tf.faktura_year = ? and tf.faktura_month = ?", array($yr, $month))->fetchAll();
+
+    $fakturor = $db->get_faktura_underlag($yr, $month);
 
       if (!isset($_GET['page'])) 
       {
@@ -32,7 +45,9 @@
             <h2>Avisering</h2>
             <hr />
             <div class="container " >
+            
             <div class="row ">
+                
                     <div class="col-2">
                         <label  class="label-primary">Månad</label>
                         <div class="form-control">
@@ -53,40 +68,54 @@
                         </select>
                         </div>
                         
-                        <!-- <input type="date" class="form-control" id="dtAviseringStart" name="dtFom"> -->
+                        
                     </div>
                     <div class="col-2">
                         <label  class="label-primary">År</label>
                         <div class="form-control">
                         <select class="form-select" id="selectedYearFaktura">
-                            <option>2024</option>
-                            <option>2025</option>
-                            <option>2026</option>
-                            <option>2027</option>
-                            <option>2028</option>
-                            <option>2029</option>
-                            <option>2030</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
                         </select>
                         </div>
                     </div>
 
-                    <div class="col-2">
-                        <label  class="label-primary">Skapa fakturor</label>
-                        <input type="button" class="btn btn-success " id="btnSkapaFakturaUnderlag" name="skapaFaktura" value="Skapa underlag">
+                    <div class="col-2 mt-2">
+                        <br />
+                        
+                        
+                        <input type="button" class="btn btn-success " id="btnSelectPeriod" name="visa period" value="Visa Period">
+                        
+                        
+                    </div>
+
+                    <div class="col-2 mt-2">
+                        <br />
+                        <input type="button" class="btn btn-primary " id="btnSkapaFakturaUnderlag" name="skapaFaktura" value="Skapa underlag för period">
                     </div>
             </div>
-
+            
                 <table id="tblAvisering" class="table table-hover table-striped mt-3">
 
-                    <tr>
-                        <th scope="col" class="table-primary">Hyresgäst</th>
-                        <th scope="col" class="table-primary">Lägenhet</th>
-                        <th scope="col" class="table-primary">Hyra</th> 
-                        <th scope="col" class="table-primary">Parkering</th> 
-                        <th scope="col" class="table-primary">Totalt</th> 
-                        <th scope="col" class="table-primary">Faktura</th>
-                    </tr>
-                    <?php $totalHyra = 0;?>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="table-primary">Hyresgäst</th>
+                            <th scope="col" class="table-primary">Lägenhet</th>
+                            <th scope="col" class="table-primary">Fakt.Nr</th>
+                            <th scope="col" class="table-primary">Period</th>
+                            <th scope="col" class="table-primary">Hyra</th> 
+                            <th scope="col" class="table-primary">Parkering</th> 
+                            <th scope="col" class="table-primary">Totalt</th> 
+                            <th scope="col" class="table-primary">Faktura</th>
+                            <th scope="col" class="table-primary"></th>
+                        </tr>
+                    </thead>
+                    <?php $totalHyra = 0; $totalParkering=0;?>
                     <tbody>
 
                         <?php 
@@ -94,7 +123,8 @@
                             {
                                 $avgift = $row["avgift"] == null ? "0" : $row["avgift"];
                                 $total = $avgift + $row["hyra"];
-
+                                $totalParkering += $avgift;
+                                $period = $row["faktura_year"] . "-" . $row["faktura_month"];
                                 $lnkPdf = "/bilder/pdf-file.png";
                                 $theFaktura = $row["faktura"];
                                 $totalHyra += intval($row["hyra"]);
@@ -103,6 +133,8 @@
                                 "<tr>
                                     <td>" . $row['fnamn'] . " " . $row['enamn']  .  "</td>
                                     <td>" . $row['lagenhet_nr'] .  "</td>
+                                    <td>" . $row['fakturanummer'] .  "</td>
+                                    <td>" . $period .  "</td>
                                     <td>" . $row['hyra'] .  "</td>
                                     <td>" . $row['avgift']  .  "</td>
                                     <td>" . $total .  "</td>";
@@ -118,7 +150,10 @@
                                         
 
                                     } else {
-                                        echo "<td></td>";
+                                        echo "<td></td>
+                                        <td>
+                                            <input type='button' value='Skapa faktura' name='skapa_pdf' class='btn btn-primary'>
+                                        </td>";
                                     }
                                         
                                 echo "</tr>";
@@ -129,7 +164,8 @@
                     <tfoot>
                         <tr>
                             <th scope="row">Total hyra</th>
-                                <td>Perioden : <strong><?php echo $totalHyra ?></strong></td>
+                                <td>Perioden Hyra: <strong><?php echo $totalHyra ?></strong></td>
+                                <td>Perioden Parkering: <strong><?php echo $totalParkering ?></strong></td>
                             </tr>
                     </tfoot>
                 </table>

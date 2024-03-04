@@ -14,7 +14,7 @@ require "managesession.php";
 
 $db = new DbManager();
 
-$hyresgastId = 9;
+$hyresgastId = 1;
 //$betalaText = iconv('UTF-8', 'windows-1252', 'Följande belopp skall vara oss tillhanda senast :');
 $hyresInfo = new HyresAvisering($hyresgastId);
 
