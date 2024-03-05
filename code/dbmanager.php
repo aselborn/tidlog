@@ -249,20 +249,36 @@
             
         }
 
-        public function ny_hyresgast($lagenhetId, $fnamn,$enamn, $adress, $telefon, $epost, $isandrahand, $update = false)
+        public function uppdatera_hyresgast($hyresgastId, $fnamn,$enamn, $adress, $telefon, $epost, $isandrahand)
         {
-            $sql = "";
-            if ($update){
-                $sql = "UPDATE tidlog_hyresgaster SET fnamn = ?, enamn = ?, adress=?, epost = ?, telefon = ?, andrahand = ? WHERE hyresgast_id = ?";
-            } else {
-                $sql = "INSERT INTO tidlog_hyresgaster(lagenhet_id, fnamn, enamn, adress, epost, telefon, andrahand) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            }
+            $sql = "UPDATE tidlog_hyresgaster SET fnamn = ?, enamn = ?, adress=?, epost = ?, telefon = ?, andrahand = ? WHERE hyresgast_id = ?";
+           
             
             try{
                 $andraHand = $isandrahand == "true" ? 1 : 0;
 
                 $stmt = $this->connection->prepare($sql);
-                $stmt->bind_param("sssssss", $fnamn, $enamn,$adress, $epost, $telefon, $andraHand, $lagenhetId);
+                $stmt->bind_param("sssssss", $fnamn, $enamn,$adress, $epost, $telefon, $andraHand, $hyresgastId);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+        }
+
+        public function ny_hyresgast($lagenhetId, $fnamn,$enamn, $adress, $telefon, $epost, $isandrahand, $update = false)
+        {
+            
+            $sql = "INSERT INTO tidlog_hyresgaster(lagenhet_id, fnamn, enamn, adress, epost, telefon, andrahand) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            
+            try{
+                $andraHand = $isandrahand == "true" ? 1 : 0;
+
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("sssssss",$lagenhetId, $fnamn, $enamn,$adress, $epost, $telefon, $andraHand);
             
                 $stmt->execute();
                 $stmt->close();

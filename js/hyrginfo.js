@@ -17,18 +17,53 @@ $(document).ready(function() {
 
     });
 
-    $("#btnUppdateraHyresgast").on('click', function(){
-      
-        //var lagenhetId = $("#lagenhetId option:selected").val();
+    $("#btnNyHyresgast").on('click', function(){
         var fnamn = $("#fnamn").val();
         var enamn = $("#enamn").val();
         var telefon = $("#telefon").val();
         var epost = $("#epost").val();
         var hyresgastId = $("#hidHyresgastId").val();
         var adress = $("#adress").val();
+        var lagenhetId = $("#lagenhetId").val();
     
+        var data ="";
+
+        var data = { nameOfFunction : 'add_hyresgast', hyresgast_id: hyresgastId, fnamn: fnamn, enamn: enamn, 
+        adress : adress, telefon: telefon, epost: epost , andrahand: isAndrahand, lagenhetId: lagenhetId };
+            
+        $.post("./code/util.php", data, function(response){
+
+            if (response !== ""){
+                if (JSON.parse(response).added_apartment === 'false'){
+                    alert('Kunde inte spara => ' + JSON.parse(response).orsak);
+                    return;
+                } 
+
+                
+                window.location.reload();
+            }
+
+        });
+    });
+
+
+    $("#btnUppdateraHyresgast").on('click', function(){
+      
+        var fnamn = $("#fnamn").val();
+        var enamn = $("#enamn").val();
+        var telefon = $("#telefon").val();
+        var epost = $("#epost").val();
+        var hyresgastId = $("#hidHyresgastId").val();
+        var adress = $("#adress").val();
+        var lagenhetId = $("#lagenhetId").val();
+    
+        var data ="";
+
+        
         var data = { nameOfFunction : 'uppdatera_hyresgast', hyresgast_id: hyresgastId, fnamn: fnamn, enamn: enamn, 
-            adress : adress, telefon: telefon, epost: epost , andrahand: isAndrahand };
+        adress : adress, telefon: telefon, epost: epost , andrahand: isAndrahand };
+        
+        
         
         $.post("./code/util.php", data, function(response){
 
@@ -43,9 +78,12 @@ $(document).ready(function() {
             }
 
         });
-     
 
     });
+
+    function spara_hyresgast(upd){
+        
+    }
 
     //Åter kontrakt.
     $("#btnContractNoValid").on('click', function(){

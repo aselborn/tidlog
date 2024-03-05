@@ -64,7 +64,7 @@
                             
                             <div class="form-group">
                                 <label id="lblAdress" class="label-primary">Adress</label>
-                                <input id="epost" type="text" name="adress" class="form-control" style="width:100px" >
+                                <input id="adress" type="text" name="adress" class="form-control" style="width:100px" >
                             </div>
 
 
@@ -81,7 +81,7 @@
                             
                             <div class="form-group col-sm-4">
                                 <br />
-                                <input type="button"  class="btn btn-primary btn-send" value="Spara" id="btnUppdateraHyresgast"> 
+                                <input type="button"  class="btn btn-primary btn-send" value="Spara" id="btnNyHyresgast"> 
                             </div>
                         
                         </div>
