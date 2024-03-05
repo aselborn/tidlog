@@ -4,14 +4,15 @@
       require_once "./code/managesession.php";
 
       $db = new DbManager();
-
-      if (!isset($_GET['year']) || !isset($_GET['month'])){
-        $month = intval(date('m'));
-        $yr = intval(date('Y'));
-      } else {
+      $isPostBack = false;
+      
+      if (isset($_GET['year']) || isset($_GET['month'])){
         $month = intval($_GET['month']);
         $yr = intval($_GET['year']);
-
+        $isPostBack=true;
+      } else {
+        $month = intval(date('m'));
+        $yr = intval(date('Y'));
       }
 
       
@@ -38,7 +39,15 @@
     </head>
 
     <body>
-        
+        <?php 
+            if ($isPostBack){
+                echo 
+                "
+                    <input type='hidden' id='hdYear' value='" .$yr . "' />
+                    <input type='hidden' id='hdMonth' value='" .$month . "' />
+                ";
+            }
+        ?>
         <?php include("./pages/sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
@@ -89,8 +98,8 @@
                         <br />
                         
                         
-                        <input type="button" class="btn btn-success " id="btnSelectPeriod" name="visa period" value="Visa Period">
-                        
+                        <!-- <input type="button" class="btn btn-success " id="btnSelectPeriod" name="visa period" value="Visa Period"> -->
+                        <input type="button" class="btn btn-success " id="btnSelectPeriodPostBack" name="visa period" value="Visa Period">
                         
                     </div>
 
@@ -121,12 +130,13 @@
                         <?php 
                             foreach($fakturor as $row)
                             {
+                                $fakturaId= $row["faktura_id"];
                                 $avgift = $row["avgift"] == null ? "0" : $row["avgift"];
                                 $total = $avgift + $row["hyra"];
                                 $totalParkering += $avgift;
                                 $period = $row["faktura_year"] . "-" . $row["faktura_month"];
                                 $lnkPdf = "/bilder/pdf-file.png";
-                                $theFaktura = $row["faktura"];
+                                $theFaktura = $row["fakturaExists"];
                                 $totalHyra += intval($row["hyra"]);
 
                                 echo 
@@ -139,7 +149,7 @@
                                     <td>" . $row['avgift']  .  "</td>
                                     <td>" . $total .  "</td>";
                                     
-                                    if ($theFaktura != null ){
+                                    if ($theFaktura == 1){
                                         echo 
                                         "<td>
                                             <a href='visafaktura.php?fakturaId=" . $row["faktura_id"] . "'>
@@ -152,7 +162,7 @@
                                     } else {
                                         echo "<td></td>
                                         <td>
-                                            <input type='button' value='Skapa faktura' name='skapa_pdf' class='btn btn-primary'>
+                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' name='skapa_pdf' class='btn btn-primary thebinder'>
                                         </td>";
                                     }
                                         
@@ -166,7 +176,7 @@
                             <th scope="row">Total hyra</th>
                                 <td>Perioden Hyra: <strong><?php echo $totalHyra ?></strong></td>
                                 <td>Perioden Parkering: <strong><?php echo $totalParkering ?></strong></td>
-                            </tr>
+                        </tr>
                     </tfoot>
                 </table>
                 <form  action="./code/createpdf.php" method="post" enctype="multipart/form-data">

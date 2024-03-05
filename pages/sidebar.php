@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link rel="stylesheet" href="./style/tidlog.css">
-        <link rel="stylesheet" href="./style/style.css">
+        <!-- <link rel="stylesheet" href="./style/style.css"> -->
         
         <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
         <link rel="icon" type="image/x-icon" href="./bilder/favicon.ico">

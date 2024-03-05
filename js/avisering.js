@@ -17,9 +17,18 @@ $(document).ready(function() {
     var dtLast = lastDay.toISOString().split('T')[0]
 
 
+    var postBackYear = $("#hdYear").val();
+    var postBackMonth = $("#hdMonth").val();
+    if (postBackYear !== undefined && postBackMonth !== undefined){
+        $("#selectedYearFaktura").val(postBackYear).change();
+        $("#selectedMonthFaktura").val(postBackMonth).change(); 
+    } else{
     //Sätter dessa
-    // $("#selectedYearFaktura").val(year).change();
-    // $("#selectedMonthFaktura").val(month).change();
+         $("#selectedYearFaktura").val(year).change();
+         $("#selectedMonthFaktura").val(month).change();
+    }
+
+    
     
 
     // //Användaren väljer månad
@@ -32,7 +41,26 @@ $(document).ready(function() {
     //     var fakturaYear = this.value;
     //     window.location.href = window.location.href.replace( /[\?#].*|$/, "?year=" + fakturaYear );
     // });
+    $("#btnSelectPeriodPostBack").on('click', function(){
 
+        var yr = $("#selectedYearFaktura").val();
+        var mn = $("#selectedMonthFaktura").val();
+
+        var data = { faktMonth : mn,  faktYear : yr };
+
+        var url = window.location.href;    
+        
+        if (url.indexOf('?') > -1){
+            url = url.substring( 0, url.indexOf( "?" ) );
+            url += '?year=' + yr + '&month=' + mn;
+        }else{
+            url += '?year=' + yr + '&month=' + mn;
+        }   
+        
+        //url += '?year=' + yr + '&month=' + mn;
+        window.location.href = url;
+
+    });
 
     $("#btnSelectPeriod").on('click', function(){
 
@@ -57,12 +85,16 @@ $(document).ready(function() {
                 var data = JSON.parse(response);
                 if (data.visa_period.length > 0){
 
+                    var totHyra = 0;
+                    var totPark = 0;
                     //Det finns data. Skriv dessa till tabellen!
                     data.visa_period.forEach(element => {
                         console.log(element.fnamn);
 
-                        var park = (element.avgift === undefined || element.avgift === "" ? 0 : element.avgift);
-                        var tot = (element.avgift === undefined || element.avgift ==="" ? 0 : element.avgift) + element.hyra;
+                        var park = (element.avgift === null || element.avgift === "" ? "" : element.avgift);
+                        var tot = (element.avgift === null || element.avgift ==="" ? 0 : element.avgift) + element.hyra;
+                        totHyra = tot + totHyra;
+                        totPark =  totPark + (element.avgift === null || element.avgift === "" ? 0 : element.avgift);
 
                         var tdData = "<tr>";
                         tdData = tdData.concat("<td>"  + element.fnamn + " " + element.enamn + "</td>");
@@ -72,11 +104,24 @@ $(document).ready(function() {
                         tdData = tdData.concat("<td>"  + element.hyra + "</td>");
                         tdData = tdData.concat("<td>"  + park + "</td>");
                         tdData = tdData.concat("<td>"  + tot + "</td>");
+                        tdData = tdData.concat("<td><div class='align-items-center'>");
+                        //tdData = tdData.concat("<input type='button' class='btn btn-link thebinder' faktura ='" + element.faktura_id + "'value='Skapa faktura'></input>");
+                        tdData = tdData.concat("<input type='button' name='skapa_pdf' class='btn btn-primary thebinder' faktura ='" + element.faktura_id + "'value='Skapa faktura'></input>");
+                        tdData = tdData.concat("</div></td>");
                         tdData = tdData.concat("</tr>");
-
+                        
                         $("#tblAvisering tbody").append(tdData);
 
+                       
                     });
+
+                    tdData = "<tfoot>";
+                    tdData = tdData.concat("<tr><th scope='row'>Total hyra</th>");
+                    tdData = tdData.concat("<td>Perioden Hyra:  <strong>" + totHyra + " </strong></td>");
+                    tdData = tdData.concat("<td>Perioden Parkering:  <strong>" + totPark + " </strong></td>");
+                    tdData = tdData.concat("</tr></tfoot>");
+
+                    $("#tblAvisering tfoot").append(tdData);
 
                 }   
                 
@@ -87,6 +132,24 @@ $(document).ready(function() {
         });
         
     });
+
+
+    $('.thebinder').on('click', function(){
+        //alert('klick');
+    });
+
+    //Hantera hyresgäst, en knapp för varje rad.
+    $('.thebinder').on('click', (event) =>
+    {
+        const button = $(event.currentTarget);
+        var fakturaId = button.attr('faktura');
+        
+        var data = {faktura_id : fakturaId };
+        alert(fakturaId);
+       // window.location.href = "hyrginfo.php?hyresgast_id=" + hyresgastId;
+       
+    })
+
 
     //Skapa fakturaunderlag
     $("#btnSkapaFakturaUnderlag").on('click', function(){
@@ -109,7 +172,7 @@ $(document).ready(function() {
                 return;
             } 
 
-            window.location.reload();
+            //window.location.reload();
         }
 
     });

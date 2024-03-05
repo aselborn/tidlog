@@ -21,11 +21,27 @@
 
         public function get_faktura_underlag($year, $month)
         {
-            $fakturor = $this->query("select * from tidlog_faktura tf 
-            inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
-            inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
-            left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
-            WHERE tf.faktura_year = ? and tf.faktura_month = ?", array($year, $month))->fetchAll();
+            $fakturor = $this->query("select 
+            
+            tf.faktura_id as faktura_id,
+            tf.hyresgast_id as hyresgast_id, 
+            tf.lagenhet_id as lagenhet_id, 
+            tf.park_id as park_id, 
+            tf.fakturanummer as fakturanummer, 
+            tf.ocr as ocr, 
+            tf.duedate as duedate, 
+            tf.specifikation as specifikation, 
+            case when tf.faktura is not null then 1 else 0 end as fakturaExists,
+            tf.faktura_year as faktura_year, 
+            tf.faktura_month as faktura_month,
+            tp.avgift as avgift,
+            tl.hyra, 
+            th.fnamn, th.enamn, tl.lagenhet_nr
+        from tidlog_faktura tf 
+                inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
+                inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
+                left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
+                WHERE tf.faktura_year = ? and tf.faktura_month = ?", array($year, $month))->fetchAll();
 
             return $fakturor;
         }
