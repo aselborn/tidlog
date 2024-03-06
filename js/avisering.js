@@ -122,8 +122,8 @@ $(document).ready(function() {
     });
 
 
-    $('.thebinder').on('click', function(){
-        //alert('klick');
+    $('.binder_faktura_skicka').on('click', (event) => {
+        alert('klick skicka faktura!');
     });
 
     //Hantera hyresgäst, en knapp för varje rad.

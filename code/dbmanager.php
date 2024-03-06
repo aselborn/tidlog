@@ -309,14 +309,14 @@
             $stmt->close();
         }
 
-        public function spara_faktura($fil, $hyresgastId)
+        public function spara_faktura($fil, $fakturaId)
         {
             $pfdContent = addslashes(file_get_contents($fil)); 
             
 
-            $sql = "UPDATE tidlog_faktura SET faktura = ? where hyresgast_id = ?";
+            $sql = "UPDATE tidlog_faktura SET faktura = ? where faktura_id = ?";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("ss", $pfdContent, $hyresgastId);
+            $stmt->bind_param("ss", $pfdContent, $fakturaId);
             try{
                 $stmt->execute();
                 $stmt->close();

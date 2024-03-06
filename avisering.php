@@ -51,7 +51,7 @@
         <?php include("./pages/sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
-            <h2>Avisering</h2>
+            <h2>Skapa hyresavier</h2>
             <hr />
             <div class="container " >
             
@@ -121,7 +121,7 @@
                             <th scope="col" class="table-primary">Parkering</th> 
                             <th scope="col" class="table-primary">Totalt</th> 
                             <th scope="col" class="table-primary">Faktura</th>
-                            <th scope="col" class="table-primary"></th>
+                            <th scope="col" class="table-primary">Skicka</th>
                         </tr>
                     </thead>
                     <?php $totalHyra = 0; $totalParkering=0;?>
@@ -152,16 +152,20 @@
                                     
                                     if ($theFaktura == 1){
                                         echo 
-                                        "<td>
+                                        "<td >
                                             <a href='visafaktura.php?fakturaId=" . $row["faktura_id"] . "'>
-                                                <div style='height:100%;width:100%'>
-                                                    <img src= .$lnkPdf  ></a>
+                                                <div >
+                                                    <img src= .$lnkPdf class='mx-auto d-block' ></a>
                                                 </div>
-                                        </td>";
+                                        </td>
+                                        <td>
+                                        <input type='button' value='Skicka faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skicka_pdf' class='btn  btn-link binder_faktura_skicka'>
+                                        </td>
+                                        ";
                                         
 
                                     } else {
-                                        echo "<td></td>
+                                        echo "
                                         <td>
                                             <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-primary thebinder'>
                                         </td>";

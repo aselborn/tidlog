@@ -11,26 +11,26 @@ include_once "fpdfnormalize.php";
 
 require "managesession.php";
 
-// if (!isset($_POST['faktura_id']))
-// {
-//     echo "FakturaId saknas!";
-//     return;
-// }
+if (!isset($_POST['faktura_id']))
+{
+    echo "FakturaId saknas!";
+    return;
+}
 
-// if (!isset($_POST['hyresgast_id']))
-// {
-//     echo "HyresgästId saknas.!";
-//     return;
-// }
+if (!isset($_POST['hyresgast_id']))
+{
+    echo "HyresgästId saknas.!";
+    return;
+}
 
 
 $db = new DbManager();
 
-// $fakturaId = $_POST['faktura_id'];
-// $hyresgastId = $_POST["hyresgast_id"];
+$fakturaId = $_POST['faktura_id'];
+$hyresgastId = $_POST["hyresgast_id"];
 
- $fakturaId = 23;
- $hyresgastId = 31;
+//  $fakturaId = 23;
+//  $hyresgastId = 31;
 
 
 //$betalaText = iconv('UTF-8', 'windows-1252', 'Följande belopp skall vara oss tillhanda senast :');
@@ -191,10 +191,10 @@ if ($hyresInfo->parkering != 0 ){
     $pdf->Text(180, 106, $attBetala . ",00"); $pdf->Text(192, 106, "kr");
 }
 
-// $fileName = "c:/temp/test.pdf";
-// $pdf->Output($fileName, 'F');
+$fileName = "faktura.pdf";
+$pdf->Output($fileName, 'F');
 
-//$db->spara_faktura($fileName, $hyresInfo->hyresgastId);
+$db->spara_faktura($fileName, $fakturaId);
 
 $pdf->Output();
 ?>
