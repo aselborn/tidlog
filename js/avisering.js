@@ -29,18 +29,7 @@ $(document).ready(function() {
     }
 
     
-    
-
-    // //Användaren väljer månad
-    // $("#selectedMonthFaktura").on('change', function(e){
-    //     var fakturaMonth = this.value;
-    // });
-
-    // //Användaren väljer år
-    // $("#selectedYearFaktura").on('change', function(e){
-    //     var fakturaYear = this.value;
-    //     window.location.href = window.location.href.replace( /[\?#].*|$/, "?year=" + fakturaYear );
-    // });
+  
     $("#btnSelectPeriodPostBack").on('click', function(){
 
         var yr = $("#selectedYearFaktura").val();
@@ -57,7 +46,6 @@ $(document).ready(function() {
             url += '?year=' + yr + '&month=' + mn;
         }   
         
-        //url += '?year=' + yr + '&month=' + mn;
         window.location.href = url;
 
     });
@@ -142,12 +130,20 @@ $(document).ready(function() {
     $('.thebinder').on('click', (event) =>
     {
         const button = $(event.currentTarget);
+
         var fakturaId = button.attr('faktura');
-        
-        var data = {faktura_id : fakturaId };
-        alert(fakturaId);
-       // window.location.href = "hyrginfo.php?hyresgast_id=" + hyresgastId;
-       
+        var hyresgastId = button.attr('hyresgast');
+
+        var data = {faktura_id : fakturaId, hyresgast_id : hyresgastId };
+    
+       $.post("./code/createpdf.php", data, function(response){
+
+        if (response !== ""){
+            
+            window.location.reload();
+        }
+
+        });
     })
 
 

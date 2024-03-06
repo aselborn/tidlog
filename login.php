@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="mb-3">
               <input type="submit" class="btn btn-primary form-control" name="submit" value="Logga in">
             </div>
-            <p class="mb-0">Registrera ett konto ? <a href="./code/register.php">Nytt konto</a></p>
+            <!-- <p class="mb-0">Registrera ett konto ? <a href="./code/register.php">Nytt konto</a></p> -->
           </form>
           <!-- form ends here -->
         </div>

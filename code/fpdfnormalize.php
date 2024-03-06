@@ -15,6 +15,9 @@ class TextNormalizerFPDF extends FPDF
 		$fontToUse = 'arial';
 		$startPosRight = 130;
 		$nextPosRight = 155;
+
+		$this->AddFont('OCRB', '', 'OCRB Regular.php');
+
         // Logo
         $this->Image('../bilder/logo.jpg',10,6,30);
         
@@ -35,7 +38,7 @@ class TextNormalizerFPDF extends FPDF
 		$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, $this->hyresInfo->hyra + $this->hyresInfo->parkering . " kr"); 
 
 		$this->SetFont($fontToUse, 'B', 8);
-		$this->Text($startPosRight, 24, 'Hyresavi:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 24, 'hyresavi..?');
+		$this->Text($startPosRight, 24, 'Referensnummer:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 24,  $this->hyresInfo->fakturaNummer);
 		
 		$this->SetFont($fontToUse, 'B', 8);
 		$this->Text($startPosRight, 27, 'Bankgiro:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 27, '5804-9156');
@@ -44,15 +47,15 @@ class TextNormalizerFPDF extends FPDF
 		$this->Text($startPosRight, 30, 'Förfallodatum:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 30, $this->hyresInfo->dueDate);
 		
 		$this->SetFont('Arial', 'B', 10);
-		$this->Text($startPosRight, 40, $this->hyresInfo->fullname);
+		$this->Text($startPosRight, 50, $this->hyresInfo->fullname);
 
 		$this->SetFont('Arial', '', 8);
-       	$this->Text($startPosRight, 44, $this->hyresInfo->fastighetAddress 
+       	$this->Text($startPosRight, 54, $this->hyresInfo->fastighetAddress 
 			// . " lgh "
 			. " " . $this->hyresInfo->adress
 			. " lgh " . $this->hyresInfo->lagenhetNo);
 
-		$this->Text($startPosRight, 47, $this->hyresInfo->fastighet_postadress);
+		$this->Text($startPosRight, 57, $this->hyresInfo->fastighet_postadress);
 			
 
     }

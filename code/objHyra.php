@@ -12,13 +12,14 @@ class HyresAvisering
     public $fastighet_postadress;
     public $hyra;
     public $parkering;
-
+    public $fakturaDatum;
     public $fakturaId;
     public $adress;
+    public $fakturaNummer;
 
-    public function __construct($hyresgastId) {
+    public function __construct($hyresgastId, $fakturaId) {
         $this->hyresgastId = $hyresgastId;
-
+        $this->fakturaId = $fakturaId;
         $this->setInformation();
     }
 
@@ -36,12 +37,12 @@ class HyresAvisering
             inner join tidlog_fastighet fa on fa.fastighet_id = l.fastighet_id 
             left outer join tidlog_parkering p on p.park_id = l.park_id 
         where 
-            h.hyresgast_id = ?", array($this->hyresgastId))->fetchAll();
+            h.hyresgast_id = ? and f.faktura_id = ?", array($this->hyresgastId, $this->fakturaId))->fetchAll();
 
         foreach($hyra as $row)
         {
             $dtdat = date_create($row["duedate"]);
-            $this->fakturaId = $row["faktura_id"];
+            //$this->fakturaId = $row["faktura_id"];
             $this->dueDate = date_format($dtdat, "Y-m-d");
             $this->fullname = $row["fnamn"] . " " . $row["enamn"];
             $this->ocrNr = $row["ocr"];
@@ -52,6 +53,8 @@ class HyresAvisering
             $this->fastighet_postadress = $row["post_adress"] == null ? "" :  $row["post_adress"];
             $this->hyra =$row["hyra"];
             $this->parkering = $row["avgift"] == null ? 0 : $row["avgift"] ;
+            $this->fakturaNummer = $row["fakturanummer"];
+            $this->fakturaDatum = $row["fakturadatum"];
         }
             
     }

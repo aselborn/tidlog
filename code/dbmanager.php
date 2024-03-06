@@ -317,8 +317,13 @@
             $sql = "UPDATE tidlog_faktura SET faktura = ? where hyresgast_id = ?";
             $stmt = $this->connection->prepare($sql);
             $stmt->bind_param("ss", $pfdContent, $hyresgastId);
-            $stmt->execute();
-            $stmt->close();
+            try{
+                $stmt->execute();
+                $stmt->close();
+            } catch (Exception $ex){
+                throw $ex;
+            }
+            
         }
 
         /*
@@ -343,8 +348,7 @@
                 $fakturaNr = $row["lagenhet_nr"] . "-" . $month . "-" . $year;
                 $fakturaDatum = date('Y-m-d');
                 $ocr = "ocr";
-                $dtTmp = strval($year) . strval($month) . "-01";
-                $dueDate = date("Y-m-t", strtotime($dtTmp));
+                $dueDate = date("Y-m-t");
                 $spec = 'hyra för ...';
 
                 $sql = "INSERT INTO tidlog_faktura( hyresgast_id, 

@@ -107,7 +107,7 @@ function __construct($orientation='P', $unit='mm', $size='A4')
 	else
 		$this->fontpath = dirname(__FILE__).'/font/';
 	// Core fonts
-	$this->CoreFonts = array('courier', 'helvetica', 'times', 'symbol', 'zapfdingbats', 'ocrb');
+	$this->CoreFonts = array('courier', 'helvetica', 'times', 'symbol', 'zapfdingbats', 'ocrb', 'ocrb regular');
 	// Scale factor
 	if($unit=='pt')
 		$this->k = 1;
@@ -1134,6 +1134,7 @@ protected function _endpage()
 protected function _loadfont($path)
 {
 	// Load a font definition file
+	
 	include($path);
 	if(!isset($name))
 		$this->Error('Could not include font definition file: '.$path);

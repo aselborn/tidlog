@@ -5,7 +5,7 @@
 
       $db = new DbManager();
       $isPostBack = false;
-      
+
       if (isset($_GET['year']) || isset($_GET['month'])){
         $month = intval($_GET['month']);
         $yr = intval($_GET['year']);
@@ -131,6 +131,7 @@
                             foreach($fakturor as $row)
                             {
                                 $fakturaId= $row["faktura_id"];
+                                $hyresgastId = $row["hyresgast_id"];
                                 $avgift = $row["avgift"] == null ? "0" : $row["avgift"];
                                 $total = $avgift + $row["hyra"];
                                 $totalParkering += $avgift;
@@ -162,7 +163,7 @@
                                     } else {
                                         echo "<td></td>
                                         <td>
-                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' name='skapa_pdf' class='btn btn-primary thebinder'>
+                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-primary thebinder'>
                                         </td>";
                                     }
                                         

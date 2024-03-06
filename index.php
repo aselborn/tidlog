@@ -140,6 +140,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                                     <select id="job_fastighet" class="form-select" name="job_fastighet">
                                         <option value="T7">T7</option>
                                         <option value="U9">U9</option>
+                                        <option value="Annat">Annan verksamhet</option>
                                     </select>
                                 </div>
                             </div>
