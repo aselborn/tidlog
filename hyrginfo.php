@@ -74,14 +74,14 @@
                                 <input id="telefon" type="text"  value="<?php echo $hyresGInfo->telefon ?>" name="telefon" />
                             </td>
                             <td>
-                                <input type="checkbox" name="chkAndraHand" id="chkAndraHand" value="<?php echo $hyresGInfo->andrahand ?>" />
-                                <!-- <?php 
+                                <!-- <input type="checkbox" name="chkAndraHand" id="chkAndraHand" value="<?php echo $hyresGInfo->andrahand ?>" checked  /> -->
+                                <?php 
                                     if ($hyresGInfo->andrahand == 1){
                                         echo '<input type="checkbox" name="chkAndraHand" id="chkAndraHand" checked value=1 />';
                                     } else{
                                         echo '<input type="checkbox" name="chkAndraHand" id="chkAndraHand" value=0 />';
                                     }
-                                ?> -->
+                                ?>
                                 
                             </td>
                             <td>

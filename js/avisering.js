@@ -123,7 +123,23 @@ $(document).ready(function() {
 
 
     $('.binder_faktura_skicka').on('click', (event) => {
-        alert('klick skicka faktura!');
+        
+        const button = $(event.currentTarget);
+
+        var fakturaId = button.attr('faktura');
+        var hyresgastId = button.attr('hyresgast');
+
+        var data = { faktura : fakturaId};
+
+        $.post("./code/sendmail.php", data, function(response){
+
+            // if (response !== ""){
+                
+            //     window.location.reload();
+            // }
+    
+            });
+
     });
 
     //Hantera hyresgäst, en knapp för varje rad.
