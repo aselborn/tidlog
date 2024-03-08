@@ -13,6 +13,7 @@ class EpostMeddelande
     // public $parkering;
     // public $fakturaDatum;
      public $fakturaId;
+     public $faktura;
     // public $adress;
     // public $fakturaNummer;
 
@@ -24,19 +25,24 @@ class EpostMeddelande
 
     function setInformation()
     {
-        // $db = new DbManager();
+        $db = new DbManager();
 
-        // $hyra = $db->query("select fa.fastighet_namn, fa.fastighet_address, fa.post_adress, 
-        //     h.fnamn, h.enamn, h.adress, l.hyra, l.lagenhet_nr, p.avgift, 
-        //     f.faktura_id, f.fakturanummer, f.fakturadatum, f.ocr, f.duedate, f.specifikation
+        $faktura = $db->query("select fa.fastighet_namn, fa.fastighet_address, fa.post_adress, 
+            h.fnamn, h.enamn, h.adress, l.hyra, l.lagenhet_nr, p.avgift, f.faktura,
+            f.faktura_id, f.fakturanummer, f.fakturadatum, f.ocr, f.duedate, f.specifikation
         
-        // from tidlog_faktura f
-        //     inner join tidlog_hyresgaster h on h.hyresgast_id = f.hyresgast_id
-        //     inner join tidlog_lagenhet l on l.lagenhet_id = h.lagenhet_id
-        //     inner join tidlog_fastighet fa on fa.fastighet_id = l.fastighet_id 
-        //     left outer join tidlog_parkering p on p.park_id = l.park_id 
-        // where 
-        //     f.faktura_id = ?", array($this->fakturaId))->fetchAll();
+        from tidlog_faktura f
+            inner join tidlog_hyresgaster h on h.hyresgast_id = f.hyresgast_id
+            inner join tidlog_lagenhet l on l.lagenhet_id = h.lagenhet_id
+            inner join tidlog_fastighet fa on fa.fastighet_id = l.fastighet_id 
+            left outer join tidlog_parkering p on p.park_id = l.park_id 
+        where 
+            f.faktura_id = ?", array($this->fakturaId))->fetchAll();
+
+        foreach($faktura as $row){
+            $this->fakturaId = $row["faktura_id"];
+            $this->faktura = $row["faktura"];
+        }
 
         // foreach($hyra as $row)
         // {
