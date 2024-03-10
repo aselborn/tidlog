@@ -99,9 +99,9 @@
                 <div class="row mt-1">
                 
                 <!--Info om lägenheten-->
-                <div class="row mt-3">
+                <div class="row mt-3 ">
                     
-                    <div class="col-12">
+                    <div class="col-12 ">
                         <!--TABELL SOM ANGER HYRA OCH PARKERING-->
                         <table class="table table-striped w-auto">
                             <thead>
@@ -118,6 +118,9 @@
                                             echo "<th scope='col' class='table-primary'>Parkering</th>";
                                         }
                                     ?>
+                                    <th scope="col" class="table-primary"></th>
+                                    <th scope="col" class="table-primary">Moms %</th>
+                                    <th scope="col" class="table-primary">Moms belopp</th>
                                     <th scope="col" class="table-primary"></th>
                                 </tr>
                             </thead>
@@ -161,28 +164,8 @@
                                             }
                                         ?>
                                     </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th scope="row">Total hyra</th>
-                                    <td><strong><?php echo $hyresGInfo->hyra + $hyresGInfo->parkering . " kronor / månad." ?></strong></td>
-                                    <td><strong><?php echo 12 *($hyresGInfo->hyra + $hyresGInfo->parkering) . " kronor / år." ?></strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
 
-                        <!--Spara moms...-->
-                        <table id="momsTable" class = "table table-striped w-auto">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class="table-primary">Moms %</th>
-                                    <th scope="col" class="table-primary">Moms belopp</th>
-                                    <th scope="col" class="table-primary"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
+                                    <!--Moms?-->
                                     <td>
                                         <input type="number" class="form-control-sm" style="width: 50px;" id="txtmomsProcent" value="<?php echo $hyresGInfo->momsprocent ?>" />
                                     </td>
@@ -194,10 +177,24 @@
                                     <td>
                                         <input type='button' id='btnSparaMoms' class='btn btn-success ' value='Spara moms'>
                                     </td>
+
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th scope="row">Total hyra</th>
+                                    <td><strong><?php echo $hyresGInfo->hyra + $hyresGInfo->parkering + $hyresGInfo->moms . " kronor / månad." ?></strong></td>
+                                    <td><strong><?php echo 12 *($hyresGInfo->hyra + $hyresGInfo->parkering + $hyresGInfo->moms) . " kronor / år." ?></strong></td>
+                                </tr>
+                            </tfoot>
                         </table>
+
+                        
                     </div>
+                    <!--moms-->
+                    <!-- <div class="col-4 ">
+                                            
+                    </div> -->
                 </div>
 
                 <!--Kontraktdetaljer-->
