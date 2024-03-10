@@ -34,8 +34,10 @@
     
     <body>
         <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $hyresGInfo->lagenhetNo ?>" />
+        <input type="hidden" id="hidHyra" name="HidHyra" value="<?php echo $hyresGInfo->hyra ?>" />
         <input type="hidden" id="hidHyresgastId" name="HidHyresgastId" value="<?php echo $hyresGInfo->hyresgastId ?>" />
         <input type="hidden" id="hidKontraktUppsagdDatum" name="HidUppsagdDatum" value="<?php echo $hyresGInfo->datumKontraktUppsagt ?>" />
+
         <?php include("./pages/sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
@@ -107,6 +109,8 @@
                                     <th scope="col" class="table-primary">Lägenhet</th>
                                     <th scope="col" class="table-primary">Hyra</th>
                                     <th scope="col" class="table-primary">Ny Hyra</th>
+                                    
+                                    
                                     <?php 
                                         if ($hyresGInfo->parkering == 0){
                                             echo "<th scope='col' class='table-primary'>Välj parkering</th>";
@@ -167,7 +171,32 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        
+
+                        <!--Spara moms...-->
+                        <table id="momsTable" class = "table table-striped w-auto">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="table-primary">Moms %</th>
+                                    <th scope="col" class="table-primary">Moms belopp</th>
+                                    <th scope="col" class="table-primary"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="number" class="form-control-sm" style="width: 50px;" id="txtmomsProcent" value="<?php echo $hyresGInfo->momsprocent ?>" />
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <label class="form-label" id="lblMomsSum"><?php echo $hyresGInfo->moms ?></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type='button' id='btnSparaMoms' class='btn btn-success ' value='Spara moms'>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 

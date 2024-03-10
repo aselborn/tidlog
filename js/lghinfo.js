@@ -3,6 +3,47 @@ $(document).ready(function() {
     setDateOnInput($("#dtDateGoneKontrakt"));
     setDateOnInput($("#dtDateGone"));
     
+    $("#btnSparaMoms").on('click', function(){
+        
+        var moms = $("#lblMomsSum").text();
+        if (moms === ''){
+            alert('Moms kan inte vara tomt om det skall sparas');
+            $("#lblMomsSum").focus();
+            return ;
+        }
+
+        var lagenhetNo = $("#hidlagenhetNo").val();
+        var momsprocent = $("#txtmomsProcent").val();
+        
+        var data = { nameOfFunction : 'add_moms', lagenhetNo: lagenhetNo, moms_procent: momsprocent, moms: moms };
+
+        $.post("./code/util.php", data, function(response){
+
+            if (response !== ""){
+                if (JSON.parse(response).add_moms === 'false'){
+                    alert('Kunde inte spara => ' + JSON.parse(response).orsak);
+                    return;
+                } 
+
+                window.location.reload();
+            }
+
+        });
+
+
+    });
+
+    $("#txtmomsProcent").on('change', function(){
+
+        var myPercentVal = parseInt($("#txtmomsProcent").val());
+        var hyra = parseInt($("#hidHyra").val());
+
+        var totMedMoms = parseFloat(myPercentVal/100) * hyra;
+
+        $("#lblMomsSum").text(parseInt(totMedMoms));
+        
+    });
+
     $("#btnNyHyra").on('click', function(){
 
         var lagenhetNo = $("#hidlagenhetNo").val();

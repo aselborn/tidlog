@@ -1,5 +1,7 @@
 $(document).ready(function() {
+
     
+
     var date = new Date();
 
     var month = date.getMonth() +1;
@@ -28,7 +30,10 @@ $(document).ready(function() {
          $("#selectedMonthFaktura").val(month).change();
     }
 
-    
+    var tableRows = $("#hdRowCount").val();
+    if (parseInt(tableRows) > 0){
+        $("#btnSkapaFakturaUnderlag").addClass('disabled');
+    }
   
     $("#btnSelectPeriodPostBack").on('click', function(){
 
@@ -133,10 +138,17 @@ $(document).ready(function() {
 
         $.post("./code/sendmail.php", data, function(response){
 
-            // if (response !== ""){
+            if (response !== ""){
+                try{
+                    if (JSON.parse(response).skicka_faktura === true){
+                        window.location.reload();
+                    }
+                } catch (ex)
+                {
+                    alert(response);
+                }
                 
-            //     window.location.reload();
-            // }
+            }
     
             });
 
@@ -179,12 +191,12 @@ $(document).ready(function() {
     $.post("./code/util.php", data, function(response){
 
         if (response !== ""){
-            if (JSON.parse(response).skapa_fakturor === 'false'){
-                alert('Kunde inte skapa fakturor! ' + JSON.parse(response).orsak);
-                return;
-            } 
+            // if (JSON.parse(response).skapa_fakturor === 'false'){
+            //     alert('Kunde inte skapa fakturor! ' + JSON.parse(response).orsak);
+            //     return;
+            // } 
 
-            //window.location.reload();
+            window.location.reload();
         }
 
     });

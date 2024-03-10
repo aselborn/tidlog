@@ -20,6 +20,8 @@
         public $kontraktId ;
         public $datumNyckelKvitto;
         public $datumKontraktUppsagt;
+        public $moms ;
+        public $momsprocent;
 
         public array $kontrakts;
 
@@ -36,11 +38,13 @@
             p.avgift, 
             l.lagenhet_id , l.lagenhet_nr,
             h.hyresgast_id, h.epost, h.telefon,
-            tn.datum_ut as datumNyckelKvitto
+            tn.datum_ut as datumNyckelKvitto,
+            tm.moms_procent , tm.moms
                 from tidlog_hyresgaster h inner join tidlog_lagenhet l on h.lagenhet_id = l.lagenhet_id 
                     left outer join tidlog_kontrakt k on k.lagenhet_id = l.lagenhet_id
                     left outer join tidlog_parkering p on p.park_id = l.park_id
                     left outer join tidlog_nycklar tn on tn.hyresgast_id = h.hyresgast_id 
+                    left outer join tidlog_moms tm on tm.lagenhet_id  = l.lagenhet_id
                     where h.hyresgast_id = ?";
 
             $info = $db->query($sql, array($this->hyresgastId))->fetchAll();
@@ -63,7 +67,9 @@
                 $this->kontraktId = $row["kontrakt_id"];
                 $this->datumNyckelKvitto = $row["datumNyckelKvitto"];
                 $this->datumKontraktUppsagt = $row["datum_uppsagd"];
-
+                $this->moms = $row["moms"];
+                $this->momsprocent=$row["moms_procent"];
+                
                 if ($row["datum"] != null){
 
                     $dtdat = date_create($row["datum"]);

@@ -3,10 +3,10 @@ class EpostMeddelande
 {
     // public $hyresgastId ;
     // public $dueDate;
-    // public $fullname;
+     public $fullname;
     // public $ocrNr;
     // public $lagenhetNo;
-    // public $fastighetNamn;
+     public $fastighetNamn;
     // public $fastighetAddress;
     // public $fastighet_postadress;
     // public $hyra;
@@ -14,6 +14,7 @@ class EpostMeddelande
     // public $fakturaDatum;
      public $fakturaId;
      public $faktura;
+     public $specifikation;
     // public $adress;
     // public $fakturaNummer;
 
@@ -42,6 +43,7 @@ class EpostMeddelande
         foreach($faktura as $row){
             $this->fakturaId = $row["faktura_id"];
             $this->faktura = $row["faktura"];
+            $this->specifikation = $row["specifikation"];
         }
 
         // foreach($hyra as $row)
@@ -49,10 +51,10 @@ class EpostMeddelande
         //     $dtdat = date_create($row["duedate"]);
             
         //     $this->dueDate = date_format($dtdat, "Y-m-d");
-        //     $this->fullname = $row["fnamn"] . " " . $row["enamn"];
+             $this->fullname = $row["fnamn"] . " " . $row["enamn"];
         //     $this->ocrNr = $row["ocr"];
         //     $this->lagenhetNo = $row["lagenhet_nr"];
-        //     $this->fastighetNamn =$row["fastighet_namn"];
+             $this->fastighetNamn =$row["fastighet_namn"];
         //     $this->fastighetAddress =$row["fastighet_address"];
         //     $this->adress = $row["adress"] == null ? "?" : $row["adress"] ;
         //     $this->fastighet_postadress = $row["post_adress"] == null ? "" :  $row["post_adress"];

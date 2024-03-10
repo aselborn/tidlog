@@ -57,6 +57,12 @@ if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "skapa_fakturor") {
         skapa_fakturor();
     }
+
+    if ($_POST["nameOfFunction"] == "add_moms") {
+        add_moms();
+    }
+
+        
     
 }
     function get_faktura_period($fMonth, $fYear)
@@ -106,11 +112,11 @@ if (isset($_POST["nameOfFunction"])){
 
             $db->skapa_fakturor($month, $monthNo, $year);
 
-            echo json_encode(['skapa_fakturor' => 'true']);
+            echo json_encode(['skicka_faktura' => 'true']);
 
         } catch(\Throwable $th){
 
-            echo json_encode(['skapa_fakturor' => 'false', 'orsak' => $th->getMessage()]);
+            echo json_encode(['skicka_faktura' => 'false', 'orsak' => $th->getMessage()]);
         }
 
     }
@@ -353,6 +359,25 @@ if (isset($_POST["nameOfFunction"])){
             } 
         } catch (\Throwable $th) {
             echo json_encode(['add_hyra' => 'false', 'orsak' => $th->getMessage()]);
+        }
+        
+    }
+
+    function add_moms()
+    {
+        $db = new DbManager();
+        
+        $lagenthetNo = $_POST["lagenhetNo"];
+        $moms  = $_POST["moms"];
+        $momsProcent = $_POST["moms_procent"];
+
+        try {
+            if ($db->add_moms($lagenthetNo, $moms, $momsProcent))
+            {
+                echo json_encode(['add_moms' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['add_moms' => 'false', 'orsak' => $th->getMessage()]);
         }
         
     }

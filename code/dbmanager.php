@@ -200,6 +200,26 @@
             
         }
 
+        public function add_moms($lagenthetNo, $moms, $momsProcent){
+            $val = 0;
+
+            $sql = "insert into tidlog_moms(lagenhet_id, moms_procent, moms, sparad)
+            (select l.lagenhet_id, ?, ?, current_timestamp()  from tidlog_lagenhet l  where l.lagenhet_nr = ?)" ;
+            
+            try{
+
+                $stmt = $this->connection->prepare($sql);
+                
+                $stmt->bind_param("sss",  $momsProcent, $moms, $lagenthetNo);
+                $stmt->execute();
+                return true;
+
+            } catch(Exception $th){
+                throw $th;
+            }
+            
+        }
+
         public function remove_parkering($lagenhetNo)
         {
             $sql = "UPDATE tidlog_lagenhet set park_id = NULL where lagenhet_nr = ?";
@@ -349,7 +369,7 @@
                 $fakturaDatum = date('Y-m-d');
                 $ocr = "ocr";
                 $dueDate = date("Y-m-t");
-                $spec = 'hyra för ...';
+                $spec = 'hyra för ' . $month . " " .$year;
 
                 $sql = "INSERT INTO tidlog_faktura( hyresgast_id, 
                     lagenhet_id, park_id, fakturanummer, 

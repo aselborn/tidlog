@@ -124,12 +124,14 @@
                             <th scope="col" class="table-primary">Skicka</th>
                         </tr>
                     </thead>
-                    <?php $totalHyra = 0; $totalParkering=0;?>
+                    <?php $totalHyra = 0; $totalParkering=0; $tableRows = 0;?>
                     <tbody>
 
                         <?php 
                             foreach($fakturor as $row)
                             {
+                                $tableRows++;
+                                $hasFakturor=true;
                                 $fakturaId= $row["faktura_id"];
                                 $hyresgastId = $row["hyresgast_id"];
                                 $avgift = $row["avgift"] == null ? "0" : $row["avgift"];
@@ -173,6 +175,7 @@
                                         
                                 echo "</tr>";
                             }
+
                         ?>
 
                     </tbody>
@@ -184,10 +187,15 @@
                         </tr>
                     </tfoot>
                 </table>
+
+                 
+
                 <form  action="./code/createpdf.php" method="post" enctype="multipart/form-data">
                     <input type="submit" value="Skapa PDF" id="btnPdf" class="btn btn-success" ></input>
                 </form>
                 
             </div>
+
+            <?php echo "<input type='hidden' id='hdRowCount' value='" .$tableRows . "' />" ?>
         </body>
 </html>
