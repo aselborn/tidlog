@@ -415,6 +415,25 @@
             
         }
 
+        /*
+            Ta bort tidsregistering
+        */
+
+        function tabort_tidsregistrering($jobId)
+        {
+            $sql = "DELETE from tidlog_jobs where jobid = ?";
+            
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $jobId);
+    
+                $stmt->execute();
+                
+            } catch (Exception $e){
+                throw $e;
+            }
+        }
+
         public function total_hours (){
             
             $sql = "SELECT SUM(job_hour) AS total_hours FROM tidlog_jobs;";

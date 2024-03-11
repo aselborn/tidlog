@@ -66,6 +66,10 @@ if (isset($_POST["nameOfFunction"])){
         tabort_hyresgast();
     }
 
+    if ($_POST["nameOfFunction"] == "remove_timereg") {
+        tabort_tidsregistrering();
+    }
+
         
     
 }
@@ -87,6 +91,26 @@ if (isset($_POST["nameOfFunction"])){
             echo json_encode(['tabort_hyresgast' => 'true']);
         } catch (Exception $e){
             echo json_encode(['tabort_hyresgast' => 'false']);
+        }
+        
+    }
+
+    function tabort_tidsregistrering()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $jobId = $_POST['jobId'];
+        
+        $db = new DbManager();
+
+        try{
+            $db->tabort_tidsregistrering($jobId);
+            echo json_encode(['tabort_tidsregistrering' => 'true']);
+        } catch (Exception $e){
+            echo json_encode(['tabort_tidsregistrering' => 'false']);
         }
         
     }
