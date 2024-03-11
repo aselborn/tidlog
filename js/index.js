@@ -120,18 +120,45 @@ $(document).ready(function() {
 
     //RADERA
     $("#btnDelete").on('click', function(){
+      
+      var formdata = {"jobId" : jobId};
 
-        var formdata = {"jobId" : jobId};
-        $.ajax({
-            type: "POST",
-            url: "delete.php",
-            data: formdata,
-            dataType: "json",
-            encode: true,
-        }).done(function (data) {
-            console.log(data);
-            window.location.reload();
-        });
+      $.confirm({
+        title: 'Bekräfta att du vill ta bort registreringen',
+        content: 'När registeringen tas bort, kan den inte återskapas',
+        buttons: {
+           
+            ok : {
+                text: 'Ta bort registrering?',
+                btnClass: 'btn-blue',
+                keys: ['enter', 'shift'],
+                action: function(){
+                    
+                  var data = { nameOfFunction : 'remove_timereg', jobId : jobId }
+                        
+                  $.post("./code/util.php", data, function(response){
+
+                      if (response !== ""){
+                          
+                          window.location.reload();
+                      }
+
+                  });
+
+                }
+            },
+            nej : {
+                text: 'Avbryt',
+                btnClass: 'btn-red',
+                keys: ['enter', 'shift'],
+                action: function(){
+                    $.alert('Avbrutet.');
+                }
+            }
+        }
+      });
+       
+       
 
     });
 

@@ -8,7 +8,7 @@
     require_once "./code/objHyresgast.php";
 
     $db = new DbManager();
-    $lagenheter = $db->query("select * from tidlog_lagenhet l where l.lagenhet_id  not in (select lagenhet_id from tidlog_hyresgaster th)")->fetchAll();
+    $lagenheter = $db->query("select * from tidlog_lagenhet l where l.hyresgast_id  is null ")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">

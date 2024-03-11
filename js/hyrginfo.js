@@ -40,7 +40,7 @@ $(document).ready(function() {
                 } 
 
                 
-                window.location.reload();
+                window.location.href = "./hyresgaster.php";
             }
 
         });
@@ -84,6 +84,48 @@ $(document).ready(function() {
     function spara_hyresgast(upd){
         
     }
+
+    $('.alert_me').on('click', function(){
+        var hyresgastId = $("#hidHyresgastId").val();
+        var lagenhetId = $("#hidlagenhetId").val();
+        $.confirm({
+            title: 'Bekräfta att du vill säga upp hyresgästen!',
+            content: 'När hyresgästen tas bort, kommer historiken finnas kvar. Lägenheten kan nu hyras ut till annan person',
+            buttons: {
+               
+                ok : {
+                    text: 'Ta bort hyresgäst?',
+                    btnClass: 'btn-blue',
+                    keys: ['enter', 'shift'],
+                    action: function(){
+
+                        var data = { nameOfFunction : 'tabort_hyresgast', hyresgastId : hyresgastId, lagenhetId : lagenhetId }
+                        
+                        $.post("./code/util.php", data, function(response){
+
+                            if (response !== ""){
+                                $.alert('Hyresgästen togs bort.');
+                                window.location.href = "./hyresgaster.php";
+                            }
+
+                        });
+
+                        
+                    }
+                },
+                nej : {
+                    text: 'Avbryt',
+                    btnClass: 'btn-red',
+                    keys: ['enter', 'shift'],
+                    action: function(){
+                        $.alert('Avbrutet.');
+                    }
+                }
+            }
+        });
+
+    });
+
 
     //Åter kontrakt.
     $("#btnContractNoValid").on('click', function(){

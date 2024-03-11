@@ -40,7 +40,7 @@
             h.hyresgast_id, h.epost, h.telefon,
             tn.datum_ut as datumNyckelKvitto,
             tm.moms_procent , tm.moms
-                from tidlog_hyresgaster h inner join tidlog_lagenhet l on h.lagenhet_id = l.lagenhet_id 
+            from tidlog_hyresgaster h inner join tidlog_lagenhet l on h.hyresgast_id = l.hyresgast_id
                     left outer join tidlog_kontrakt k on k.lagenhet_id = l.lagenhet_id
                     left outer join tidlog_parkering p on p.park_id = l.park_id
                     left outer join tidlog_nycklar tn on tn.hyresgast_id = h.hyresgast_id 

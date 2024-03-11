@@ -34,6 +34,7 @@
     
     <body>
         <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $hyresGInfo->lagenhetNo ?>" />
+        <input type="hidden" id="hidlagenhetId" name="HidLagenhetId" value="<?php echo $hyresGInfo->lagenhetId ?>" />
         <input type="hidden" id="hidHyra" name="HidHyra" value="<?php echo $hyresGInfo->hyra ?>" />
         <input type="hidden" id="hidHyresgastId" name="HidHyresgastId" value="<?php echo $hyresGInfo->hyresgastId ?>" />
         <input type="hidden" id="hidKontraktUppsagdDatum" name="HidUppsagdDatum" value="<?php echo $hyresGInfo->datumKontraktUppsagt ?>" />
@@ -87,9 +88,11 @@
                                 
                             </td>
                             <td>
-                                
                                 <input type="button" name="uppdateraHyresgast" id="btnUppdateraHyresgast" value="Uppdatera"class="btn btn-success" />
-                                
+                            </td>
+                            <td>
+                               <input type="button" name="sag_up_hyresgast" id="btnSagUppHyresgast"  value="Säg upp"class="btn btn-warning alert_me" />
+                               
                             </td>
                         </tr>
 
@@ -167,7 +170,7 @@
 
                                     <!--Moms?-->
                                     <td>
-                                        <input type="number" class="form-control-sm" style="width: 50px;" id="txtmomsProcent" value="<?php echo $hyresGInfo->momsprocent ?>" />
+                                        <input type="number" class="form-control-sm" style="width: 70px;" id="txtmomsProcent" value="<?php echo $hyresGInfo->momsprocent ?>" />
                                     </td>
                                     <td>
                                         <div>
@@ -320,5 +323,10 @@
 
             </div>
         </div>
+
+
+       
+
+
     </body>
 </html>

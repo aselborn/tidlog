@@ -57,7 +57,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                 <div class="row">
                     <div class="col">
                         <label class="label-primary form-label">Utförda av
-                            <strong><?= strtoupper( htmlspecialchars($_SESSION["username"])); ?></strong> </label>
+                            <strong><?=  htmlspecialchars($_SESSION["username"]); ?></strong> </label>
                     </div>
 
                     <div class="row mt-3">
@@ -66,6 +66,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                             <table class="table table-hover table-striped table-custom" id="jobTable">
                                 <thead class="table-dark">
                                     <tr>
+                                        
                                         <th scope="col" class="table-primary">Datum</th>
                                         <th scope="col" class="table-primary">Utfört av</th>
                                         <th scope="col" class="table-primary">Timmar</th>
@@ -79,7 +80,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
 
                                     //$data = $db->query("select * from jobs where job_username = ? order by job_date desc ", array($_SESSION["username"]))->fetchAll();
                                     $data = $db->query("select * from tidlog_jobs order by job_date desc LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
-
+                                    $lnk = "./bilder/clock.png";
                                     foreach ($data as $row) {
                                         $dtdat = date_create($row["job_date"]);
                                         $dt = date_format($dtdat, "Y-m-d");
@@ -87,11 +88,15 @@ $number_of_page = ceil($num_rows / $result_per_page);
 
                                         $jobHour = str_replace(".0", "", $row["job_hour"]);
 
-                                        echo "<tr id='$jobId' ><td>" . $dt . "</td><td>"
-                                            . $row["job_username"] . "</td><td>"
-                                            . $jobHour  . "</td><td>"
-                                            . $row["job_fastighet"] . "</td><td>"
-                                            . $row["job_description"] . "</td></tr>";
+                                        echo "
+                                            <tr id='$jobId' >
+                                                
+                                                <td>" . $dt . "</td>
+                                                <td>". $row["job_username"] . "</td>
+                                                <td>". $jobHour  . "</td>
+                                                <td>". $row["job_fastighet"] . "</td>
+                                                <td>". $row["job_description"] . "</td>
+                                            </tr>";
                                     }
                                     ?>
                                 </tbody>
@@ -112,6 +117,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                                 <div class="form-group">
                                     <label id="lblTimmar" class="label-primary">Timmar</label>
                                     <select id="job_hour" class="form-select" name="job_hour">
+                                        <option value="0.5">0.5</option>
                                         <option value="1">1</option>
                                         <option value="1.5">1.5</option>
                                         <option value="2">2</option>
