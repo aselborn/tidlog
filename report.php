@@ -60,6 +60,7 @@
                         <table class="table table-hover table-striped " id="jobTable">
                             <thead class="table-dark">
                                 <tr>
+                                
                                     <th scope="col" class="table-primary">Datum</th>
                                     <th scope="col" class="table-primary">Timmar</th>
                                     <th scope="col" class="table-primary">Fastighet</th>
@@ -75,6 +76,8 @@
                                 $timU9=0;
                                 $rowCount = 0;
 
+                                $lnk = "./bilder/clock.png";
+
                                 foreach ($data as $row) {
                                     $rowCount++;
                                     $dtdat = date_create($row["job_date"]);
@@ -86,12 +89,15 @@
                                     } else {
                                         $timU9 +=$row["job_hour"];
                                     }
-                                
+                                   
 
-                                    echo "<tr id='$jobId' ><td>" . $dt . "</td><td>"
-                                        . $row["job_hour"] . "</td><td>"
-                                        . $row["job_fastighet"] . "</td><td>"
-                                        . $row["job_description"] . "</td></tr>";
+                                    echo "
+                                        <tr id='$jobId' >
+                                            <td>" . $dt . "</td>
+                                            <td>". $row["job_hour"] . "</td>
+                                            <td>". $row["job_fastighet"] . "</td>
+                                            <td>". $row["job_description"] . "</td>
+                                        </tr>";
                                 }
 
                                 // echo '<input type="hidden" id="totalRowCount" value="' . htmlspecialchars(strval($rowCount)) . '" />'."\n";

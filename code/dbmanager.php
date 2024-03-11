@@ -292,17 +292,24 @@
         public function ny_hyresgast($lagenhetId, $fnamn,$enamn, $adress, $telefon, $epost, $isandrahand, $update = false)
         {
             
-            $sql = "INSERT INTO tidlog_hyresgaster(lagenhet_id, fnamn, enamn, adress, epost, telefon, andrahand) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO tidlog_hyresgaster(fnamn, enamn, adress, epost, telefon, andrahand) VALUES (?, ?, ?, ?, ?, ?)";
             
             try{
                 $andraHand = $isandrahand == "true" ? 1 : 0;
 
                 $stmt = $this->connection->prepare($sql);
-                $stmt->bind_param("sssssss",$lagenhetId, $fnamn, $enamn,$adress, $epost, $telefon, $andraHand);
+                $stmt->bind_param("ssssss", $fnamn, $enamn,$adress, $epost, $telefon, $andraHand);
             
                 $stmt->execute();
+
+                $hyresgastId = $this->connection->insert_id;
+                $sql = "Update tidlog_lagenhet SET hyresgast_id = ? WHERE lagenhet_id = ?";
+                $stmt2 = $this->connection->prepare($sql);
+                $stmt2->bind_param("ss", $hyresgastId, $lagenhetId);
+                $stmt2->execute();
+
                 $stmt->close();
-    
+                $stmt2->close();
                 return true;
             } catch(Exception $e){
                 throw $e;
@@ -353,9 +360,8 @@
         {
             $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr 
             from tidlog_hyresgaster th 
-                inner join tidlog_lagenhet tl ON th.lagenhet_id = tl.lagenhet_id
-                left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
-                left outer join tidlog_faktura tf on tf.lagenhet_id = tl.lagenhet_id")->fetchAll();
+                inner join tidlog_lagenhet tl ON th.hyresgast_id = tl.hyresgast_id
+                left outer join tidlog_parkering tp on tp.park_id =tl.park_id")->fetchAll();
             
             $sql ="";
 
@@ -387,6 +393,26 @@
                 
 
             }
+        }
+
+        /*
+        * Ta bort hyresgäst
+        */
+
+        public function tabort_hyresgast($hyresgastId, $lagenhetId)
+        {
+            $sql = "UPDATE tidlog_lagenhet SET hyresgast_id = NULL where lagenhet_id = ?";
+            
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $lagenhetId);
+    
+                $stmt->execute();
+                
+            } catch (Exception $e){
+                throw $e;
+            }
+            
         }
 
         public function total_hours (){

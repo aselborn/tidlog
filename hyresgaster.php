@@ -18,10 +18,8 @@
       $num_rows = $db->getHyresgastCount();
       $number_of_page = ceil($num_rows / $result_per_page);
 
-      
-      //$lagenheter = $db->query("select * from tidlog_lagenhet where lagenhet_id not in (select lagenhet_id from tidlog_hyresgaster)")->fetchAll();
       $lagenheter = $db->query("select * from tidlog_lagenhet order by lagenhet_nr")->fetchAll();
-      $hyresgaster = $db->query("SELECT * FROM  tidlog_hyresgaster h inner join tidlog_lagenhet l on h.lagenhet_id = l.lagenhet_id order by lagenhet_nr  LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
+      $hyresgaster = $db->query("SELECT * FROM  tidlog_hyresgaster h inner join tidlog_lagenhet l on l.hyresgast_id = h.hyresgast_id order by lagenhet_nr  LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
       
 
 ?>
@@ -36,7 +34,7 @@
         <?php include("./pages/sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
-            <h2>Hyresgäster</h2>
+            <h2>Nuvarande hyresgäster</h2>
             <hr />
             <div class="container border" >
                 <div class="row mt-3">
@@ -76,7 +74,7 @@
                                         $telefon = $row["telefon"];
                                         $epost = $row["epost"];
                                         
-                                        $lnk = "./bilder/girl_24.png";
+                                        $lnk = "./bilder/people.png";
                                         
                                         echo "<tr id='$hyresgastId'>
                                             <td>

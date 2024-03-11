@@ -33,7 +33,7 @@ class HyresAvisering
         
         from tidlog_faktura f
             inner join tidlog_hyresgaster h on h.hyresgast_id = f.hyresgast_id
-            inner join tidlog_lagenhet l on l.lagenhet_id = h.lagenhet_id
+            inner join tidlog_lagenhet l on l.hyresgast_id = h.hyresgast_id 
             inner join tidlog_fastighet fa on fa.fastighet_id = l.fastighet_id 
             left outer join tidlog_parkering p on p.park_id = l.park_id 
         where 

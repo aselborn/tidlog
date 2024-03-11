@@ -62,9 +62,35 @@ if (isset($_POST["nameOfFunction"])){
         add_moms();
     }
 
+    if ($_POST["nameOfFunction"] == "tabort_hyresgast") {
+        tabort_hyresgast();
+    }
+
         
     
 }
+
+    function tabort_hyresgast()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $hyresgastId = $_POST['hyresgastId'];
+        $lagenhetId = $_POST['lagenhetId'];
+
+        $db = new DbManager();
+
+        try{
+            $db->tabort_hyresgast($hyresgastId, $lagenhetId);
+            echo json_encode(['tabort_hyresgast' => 'true']);
+        } catch (Exception $e){
+            echo json_encode(['tabort_hyresgast' => 'false']);
+        }
+        
+    }
+
     function get_faktura_period($fMonth, $fYear)
     {
         $db = new DbManager();

@@ -61,7 +61,7 @@
                             //Läser data ur databas.
 
                             $data = $db->query("SELECT * from tidlog_lagenhet tl 
-                                    left outer join tidlog_hyresgaster th on th.lagenhet_id = tl.lagenhet_id
+                                    left outer join tidlog_hyresgaster th on th.hyresgast_id = tl.hyresgast_id
                                     left outer join tidlog_parkering tp on tp.park_id = tl.park_id 
                                 order by lagenhet_nr asc LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
                             
