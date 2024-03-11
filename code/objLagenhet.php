@@ -24,7 +24,8 @@
         function set_information(){
             $db = new DbManager();
             
-            $sql ="select h.fnamn , h.enamn, l.hyra , k.kontrakt_id, k.datum, k.kontrakt_namn, k.kontrakt, h.andrahand , p.avgift, l.lagenhet_id , h.hyresgast_id  from tidlog_hyresgaster h inner join tidlog_lagenhet l on h.lagenhet_id = l.lagenhet_id 
+            $sql ="select h.fnamn , h.enamn, l.hyra , k.kontrakt_id, k.datum, k.kontrakt_namn, k.kontrakt, h.andrahand , p.avgift, l.lagenhet_id , h.hyresgast_id  from tidlog_hyresgaster h 
+                    inner join tidlog_lagenhet l on h.hyresgast_id = l.hyresgast_id 
                     left outer join tidlog_kontrakt k on k.lagenhet_id = l.lagenhet_id
                     left outer join tidlog_parkering p on p.park_id = l.park_id
                     where l.lagenhet_nr =?";
