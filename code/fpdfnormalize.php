@@ -19,7 +19,7 @@ class TextNormalizerFPDF extends FPDF
 		$this->AddFont('OCRB', '', 'OCRB Regular.php');
 
         // Logo
-        $this->Image('../bilder/logo.jpg',10,6,30);
+        $this->Image('../bilder/t7_logo_3.0.png',10,10,35);
         
 		// Arial bold 15
         $this->SetFont($rubrik,'B',12);

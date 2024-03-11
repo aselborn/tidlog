@@ -11,26 +11,26 @@ include_once "fpdfnormalize.php";
 
 require "managesession.php";
 
-if (!isset($_POST['faktura_id']))
-{
-    echo "FakturaId saknas!";
-    return;
-}
+// if (!isset($_POST['faktura_id']))
+// {
+//     echo "FakturaId saknas!";
+//     return;
+// }
 
-if (!isset($_POST['hyresgast_id']))
-{
-    echo "HyresgästId saknas.!";
-    return;
-}
+// if (!isset($_POST['hyresgast_id']))
+// {
+//     echo "HyresgästId saknas.!";
+//     return;
+// }
 
 
 $db = new DbManager();
 
-$fakturaId = $_POST['faktura_id'];
-$hyresgastId = $_POST["hyresgast_id"];
+// $fakturaId = $_POST['faktura_id'];
+// $hyresgastId = $_POST["hyresgast_id"];
 
-//  $fakturaId = 23;
-//  $hyresgastId = 31;
+  $fakturaId = 31;
+  $hyresgastId = 38;
 
 
 //$betalaText = iconv('UTF-8', 'windows-1252', 'Följande belopp skall vara oss tillhanda senast :');
@@ -103,7 +103,7 @@ $pdf->Line(135,255,135,257); //liten vertikal linje
 $pdf->SetFont($fontOcrb,'',$sizeOcrbRubrik);
 $pdf->Text(136,257, 'Betalningsmottagare');
 $pdf->SetFont($fontToUse,'B',10);
-$pdf->Text(136, 262, 'Anders Olof Selborn AB');
+$pdf->Text(136, 262, 'Mölndal Tryckaren 7 AB');
 
 $pdf->Line(0,265,250,265); // en rak linje.
 $pdf->SetFont($fontOcrb,'',7);
@@ -157,13 +157,19 @@ $pdf ->Text(20, 145, $attBetala . ",00 kr");
 
 $pdf->SetFont($fontToUse, 'B', 10);
 $pdf->Text(50, 140, 'Moms');
+
 $pdf->SetFont($fontToUse, '', 9);
-$pdf ->Text(50, 145, "0,00 kr");
+if ($hyresInfo->moms > 0){
+    $pdf ->Text(50, 145, $hyresInfo->moms .  " kr");
+} else{
+    $pdf ->Text(50, 145, "0,00 kr");
+}
+
 
 $pdf->SetFont($fontToUse, 'B', 10);
 $pdf->Text(180, 140, 'Att betala');
 $pdf->SetFont($fontToUse, '', 9);
-$pdf ->Text(180, 145, $attBetala . ",00 kr");
+$pdf ->Text(180, 145, $attBetala . ",00 kr");    
 
 /********************************************************************************************* */
 
@@ -175,20 +181,20 @@ $pdf->SetFont($fontToUse, '', 9);
 
 $pdf->Text(20, 95, $hyresInfo->fastighetAddress . " ".  $hyresInfo->adress . " hyra för februari 2024");
 $pdf->Text(22, 99, " -Hyra bostad: ");
-$pdf->Text(180, 99, $hyresInfo->hyra . ",00" ); $pdf->Text(192, 99, "kr");
+$pdf->Text(180, 99, $hyresInfo->hyra . ",00" ); $pdf->Text(194, 99, "kr");
 
 
 
 if ($hyresInfo->parkering != 0 ){
     $pdf->Text(22, 103, " -Hyra parkering:");
-    $pdf->Text(180, 103, $hyresInfo->parkering . ",00" ); $pdf->Text(192, 103, "kr");
+    $pdf->Text(180, 103, $hyresInfo->parkering . ",00" ); $pdf->Text(194, 103, "kr");
     $pdf->SetFont($fontToUse, 'B', 9);
     $pdf->Text(22, 110, " -Att betala:"); 
-    $pdf->Text(180, 110, $attBetala . ",00"); $pdf->Text(192, 110, "kr");
+    $pdf->Text(180, 110, $attBetala . ",00"); $pdf->Text(194, 110, "kr");
 } else {
     $pdf->SetFont($fontToUse, 'B', 9);
     $pdf->Text(22, 106, " -Att betala:"); 
-    $pdf->Text(180, 106, $attBetala . ",00"); $pdf->Text(192, 106, "kr");
+    $pdf->Text(180, 106, $attBetala . ",00"); $pdf->Text(194, 106, "kr");
 }
 
 $fileName = "faktura.pdf";

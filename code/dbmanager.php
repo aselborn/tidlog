@@ -332,11 +332,12 @@
         public function spara_faktura($fil, $fakturaId)
         {
             $pfdContent = addslashes(file_get_contents($fil)); 
-            
 
-            $sql = "UPDATE tidlog_faktura SET faktura = ? where faktura_id = ?";
+            $currentDatetime = date('Y-m-d H:i:s');
+
+            $sql = "UPDATE tidlog_faktura SET faktura = ?, faktura_skapad = ? where faktura_id = ?";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("ss", $pfdContent, $fakturaId);
+            $stmt->bind_param("sss", $pfdContent, $currentDatetime, $fakturaId);
             try{
                 $stmt->execute();
                 $stmt->close();
