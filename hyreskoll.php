@@ -10,7 +10,10 @@
     //       $page = $_GET['page'];
     //   }
 
-    //   $db = new DbManager();
+       $db = new DbManager();
+       $hyresdata = $db->query("select * from tidlog_lagenhet tl
+       inner join tidlog_hyresgaster th on tl.hyresgast_id = th.hyresgast_id 
+       left outer join tidlog_parkering tp on tp.park_id = tl.park_id ");
     //   $result_per_page = 12;
 
     //   $page_first_result = ($page - 1) * $result_per_page;
@@ -97,7 +100,25 @@
 
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        <?php 
+                            foreach ($hyresdata as $row) 
+                            {
+                                $hyresgastId = $row["hyresgast_id"];
+                                $lagenhetNo = $row["lagenhet_nr"];
+                                $hyresgast = $row["fnamn"] . " " . $row["enamn"];
+
+                                echo 
+                                "
+                                    <tr id='$hyresgastId'>
+                                        <td>
+                                            '$hyresgastId . '
+                                        </td>
+                                    </tr>
+                                ";
+                            }
+                        ?>
+                    </tbody>
                     <tfoot></tfoot>
                 </table>
             </div>
