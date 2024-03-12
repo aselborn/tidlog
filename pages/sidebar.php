@@ -90,6 +90,12 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="hyreskoll.php" class="nav-link py-3 px-2" title="Hyreskoll" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Hyreskoll">
+                            <i class="bi bi-bank fs-1"></i>
+                        </a>
+                    </li>
+
                     <li>
                         <a href="settings.php" class="nav-link py-3 px-2" title="Inställnigar" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="inställningar">
                             <i class="bi bi-gear fs-1"></i>
