@@ -80,6 +80,7 @@
 
                             <div class="form-group">
                                 <label id="lblAndraHand" class="label-primary">Andra Hand</label>
+                                
                                 <!-- <input id="telefon" type="text" name="telefon" class="form-control" style="width:200px"> -->
                             </div>
 

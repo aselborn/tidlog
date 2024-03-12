@@ -35,6 +35,16 @@ $(document).ready(function() {
         $("#btnSkapaFakturaUnderlag").addClass('disabled');
     }
   
+
+    $("#selectedMonthFaktura").on('change', function(){
+        $("#btnSelectPeriodPostBack").trigger('click');
+    });
+
+    $("#selectedYearFaktura").on('change', function(){
+        $("#btnSelectPeriodPostBack").trigger('click');
+    });
+
+
     $("#btnSelectPeriodPostBack").on('click', function(){
 
         var yr = $("#selectedYearFaktura").val();
