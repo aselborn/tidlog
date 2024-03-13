@@ -55,6 +55,7 @@
                                     <th scope="col" class="table-primary">Namn</th>
                                     <th scope="col" class="table-primary">Efternamn</th>
                                     <th scope="col" class="table-primary">Lägenhet Nr</th>
+                                    <th scope="col" class="table-primary">Uppgång</th>
                                     <th scope="col" class="table-primary">Epost</th>
                                     <th scope="col" class="table-primary">Telefon</th>
                                     <th scope="col" class="table-primary"></th>
@@ -73,7 +74,7 @@
                                         $lagenhetNo = $row["lagenhet_nr"];
                                         $telefon = $row["telefon"];
                                         $epost = $row["epost"];
-                                        
+                                        $upg = $row["adress"];
                                         $lnk = "./bilder/people.png";
                                         
                                         echo "<tr id='$hyresgastId'>
@@ -88,6 +89,7 @@
                                             <div  class='align-items-center'>
                                                 " . $lagenhetNo . "</a>
                                             </div></td>"
+                                            . "<td>" . $upg . "</td>"
                                             . "<td>" . $epost . "</td>"
                                             . "<td>" . $telefon . "</td>"
                                             . "<td>

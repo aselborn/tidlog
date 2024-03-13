@@ -99,7 +99,7 @@
                         
                         
                         <!-- <input type="button" class="btn btn-success " id="btnSelectPeriod" name="visa period" value="Visa Period"> -->
-                        <input type="button" class="btn btn-success " id="btnSelectPeriodPostBack" name="visa period" value="Visa Period">
+                        <input type="button" class="btn btn-success d-none" id="btnSelectPeriodPostBack" name="visa period" value="Visa Period">
                         
                     </div>
 

@@ -19,7 +19,12 @@ class TextNormalizerFPDF extends FPDF
 		$this->AddFont('OCRB', '', 'OCRB Regular.php');
 
         // Logo
-        $this->Image('../bilder/t7_logo_3.0.png',10,10,35);
+		if ($this->hyresInfo->fastighetNamn == "TRYCKAREN 7"){
+			$this->Image('../bilder/t7_logo_3.0.png',10,10,35);
+		} else{
+			$this->Image('../bilder/u9_logo_2.0.png',10,10,35);
+		}
+        
         
 		// Arial bold 15
         $this->SetFont($rubrik,'B',12);
@@ -35,13 +40,14 @@ class TextNormalizerFPDF extends FPDF
 		//$this->Text(130, 20, 'Nisse hult');
 
 		$this->SetFont($fontToUse, 'B', 8);
-		$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, $this->hyresInfo->hyra + $this->hyresInfo->parkering . " kr"); 
+		$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, 
+			$this->hyresInfo->hyra + $this->hyresInfo->parkering + $this->hyresInfo->moms + $this->hyresInfo->fskatt . " kr"); 
 
 		$this->SetFont($fontToUse, 'B', 8);
 		$this->Text($startPosRight, 24, 'Referensnummer:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 24,  $this->hyresInfo->fakturaNummer);
 		
 		$this->SetFont($fontToUse, 'B', 8);
-		$this->Text($startPosRight, 27, 'Bankgiro:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 27, '5804-9156');
+		$this->Text($startPosRight, 27, 'Bankgiro:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 27, $this->hyresInfo->bankgiro);
 
 		$this->SetFont($fontToUse, 'B', 8);
 		$this->Text($startPosRight, 30, 'Förfallodatum:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 30, $this->hyresInfo->dueDate);

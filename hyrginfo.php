@@ -149,6 +149,7 @@
                                             if ($hyresGInfo->parkering == 0){
                                                 
                                                 echo '<select id="cboParkering" class="form-select" name="Parkering">';
+                                                echo "<option value='Välj parkering'>--Välj--</option>";
                                                 foreach($parkeringar as $row)
                                                 {
                                                     echo "<option value='" .$row["park_id"] ."'>" .$row["parknr"].  "</option>";
