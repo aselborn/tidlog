@@ -34,6 +34,8 @@
             case when tf.faktura is not null then 1 else 0 end as fakturaExists,
             tf.faktura_year as faktura_year, 
             tf.faktura_month as faktura_month,
+            tf.status, 
+            tf.status_skickad,
             tp.avgift as avgift,
             tl.hyra, 
             th.fnamn, th.enamn, tl.lagenhet_nr
@@ -364,25 +366,43 @@
             
         }
 
+        private function get_faktura_row_index()
+        {
+            $sql = "select count(*) from tidlog_faktura";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            
+            
+            $row = $result->fetch_column();
+            return $row;
+
+        }
         /*
             Skapa alla fakturor för en viss månad.
         */
         public function skapa_fakturor($month, $monthNo, $year)
         {
-            $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr 
+            $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr, tf.fastighet_id 
             from tidlog_hyresgaster th 
                 inner join tidlog_lagenhet tl ON th.hyresgast_id = tl.hyresgast_id
+                inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id
                 left outer join tidlog_parkering tp on tp.park_id =tl.park_id")->fetchAll();
             
             $sql ="";
 
+            $index_faktura = $this->get_faktura_row_index();
+
             foreach($hyresGaster as $row)
             {
+                $index_faktura++;
                 $hyresgastId = $row["hyresgast_id"];
                 $lagenhetId = $row["lagenhet_id"];
                 $parkId = $row["park_id"];
 
-                $fakturaNr = $row["lagenhet_nr"] . "-" . $month . "-" . $year;
+                //$fakturaNr = $row["lagenhet_nr"] . "-" . $month . "-" . $year;
+                $fakturaNr = $year . $monthNo . $row["fastighet_id"] . "0000" . $index_faktura;
                 $fakturaDatum = date('Y-m-d');
                 $ocr = "ocr";
                 $dueDate = date("Y-m-t");

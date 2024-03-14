@@ -121,10 +121,12 @@
                             <th scope="col" class="table-primary">Parkering</th> 
                             <th scope="col" class="table-primary">Totalt</th> 
                             <th scope="col" class="table-primary">Faktura</th>
-                            <th scope="col" class="table-primary">Skicka</th>
+                            <th scope="col" class="table-primary"></th>
+                            <th scope="col" class="table-primary">Status</th>
+                            <th scope="col" class="table-primary">Skickad</th>
                         </tr>
                     </thead>
-                    <?php $totalHyra = 0; $totalParkering=0; $tableRows = 0;?>
+                    <?php $totalHyra = 0; $totalParkering=0; $tableRows = 0; $status = null; $skickad = null;?>
                     <tbody>
 
                         <?php 
@@ -139,7 +141,14 @@
                                 $totalParkering += $avgift;
                                 $period = $row["faktura_year"] . "-" . $row["faktura_month"];
                                 $lnkPdf = "/bilder/pdf-file.png";
+                                $picOk = "/bilder/check_ok.png";
+                                $picSendMail = "/bilder/send_mail.png";
+                                $picFail = "/bilder/fail.png";
                                 $theFaktura = $row["fakturaExists"];
+                                
+                                $status = $row["status"] == null ? null : $row["status"];
+                                $skickad = $row["status_skickad"];
+
                                 $totalHyra += intval($row["hyra"]);
 
                                 echo 
@@ -161,16 +170,27 @@
                                                 </div>
                                         </td>
                                         <td>
-                                        <input type='button' value='Skicka faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skicka_pdf' class='btn  btn-link binder_faktura_skicka'>
+                                            <input type='button' value='Skicka faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skicka_pdf' class='btn btn-sm btn-outline-success rounded-5 binder_faktura_skicka'>
                                         </td>
                                         ";
-                                        
+                                        if ($status != null){
+                                            echo 
+                                            "<td>
+                                                <div>
+                                                    <img src= .$picOk class='mx-auto d-block' >
+                                                </div>
+                                            </td>
+                                            <td>
+                                                " . $skickad . "
+                                            </td>";
+                                        }
 
                                     } else {
                                         echo "
                                         <td>
-                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-primary thebinder'>
-                                        </td>";
+                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-primary btn-sm rounded-5 thebinder'>
+                                        </td>
+                                       ";
                                     }
                                         
                                 echo "</tr>";

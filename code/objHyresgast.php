@@ -22,6 +22,7 @@
         public $datumKontraktUppsagt;
         public $moms ;
         public $momsprocent;
+        public $fskatt;
 
         public array $kontrakts;
 
@@ -36,7 +37,7 @@
             $sql = "select h.adress, h.fnamn , h.enamn, l.hyra , k.datum , k.kontrakt_namn , k.kontrakt_id, 
             k.kontrakt, k.datum_uppsagd, h.andrahand , 
             p.avgift, 
-            l.lagenhet_id , l.lagenhet_nr,
+            l.lagenhet_id , l.lagenhet_nr, l.fskatt,
             h.hyresgast_id, h.epost, h.telefon,
             tn.datum_ut as datumNyckelKvitto,
             tm.moms_procent , tm.moms
@@ -68,8 +69,8 @@
                 $this->datumNyckelKvitto = $row["datumNyckelKvitto"];
                 $this->datumKontraktUppsagt = $row["datum_uppsagd"];
                 $this->moms = $row["moms"];
-                $this->momsprocent=$row["moms_procent"];
-                
+                $this->momsprocent = $row["moms_procent"];
+                $this->fskatt = $row["fskatt"];
                 if ($row["datum"] != null){
 
                     $dtdat = date_create($row["datum"]);

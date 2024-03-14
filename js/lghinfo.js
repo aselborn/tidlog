@@ -36,10 +36,16 @@ $(document).ready(function() {
     $("#txtmomsProcent").on('change', function(){
 
         var myPercentVal = parseInt($("#txtmomsProcent").val());
+        
         var hyra = parseInt($("#hidHyra").val());
         var park = parseInt($("#hidPark").val());
+        var fExists = $("#hidFskatt").val() !== undefined ? true : false;
+        var fskatt = 0;
 
-        var totMedMoms = parseFloat(myPercentVal/100) * (hyra + park) ;
+        if (fExists)
+            fskatt = parseInt($("#hidFskatt").val()) / 12;
+
+        var totMedMoms = parseFloat(myPercentVal/100) * (hyra + park + fskatt) ;
 
         $("#lblMomsSum").text(parseInt(totMedMoms));
         

@@ -37,6 +37,7 @@
         <input type="hidden" id="hidlagenhetId" name="HidLagenhetId" value="<?php echo $hyresGInfo->lagenhetId ?>" />
         <input type="hidden" id="hidHyra" name="HidHyra" value="<?php echo $hyresGInfo->hyra ?>" />
         <input type="hidden" id="hidHyresgastId" name="HidHyresgastId" value="<?php echo $hyresGInfo->hyresgastId ?>" />
+        <input type="hidden" id="hidFskatt" name="HidFskatt" value="<?php echo $hyresGInfo->fskatt ?>" />
         <input type="hidden" id="hidKontraktUppsagdDatum" name="HidUppsagdDatum" value="<?php echo $hyresGInfo->datumKontraktUppsagt ?>" />
 
         <?php include("./pages/sidebar.php") ?>
