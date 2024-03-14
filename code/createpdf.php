@@ -11,26 +11,26 @@ include_once "fpdfnormalize.php";
 
 require "managesession.php";
 
-if (!isset($_POST['faktura_id']))
-{
-    echo "FakturaId saknas!";
-    return;
-}
+// if (!isset($_POST['faktura_id']))
+// {
+//     echo "FakturaId saknas!";
+//     return;
+// }
 
-if (!isset($_POST['hyresgast_id']))
-{
-    echo "HyresgästId saknas.!";
-    return;
-}
+// if (!isset($_POST['hyresgast_id']))
+// {
+//     echo "HyresgästId saknas.!";
+//     return;
+// }
 
 
 $db = new DbManager();
 
-  $fakturaId = $_POST['faktura_id'];
-  $hyresgastId = $_POST["hyresgast_id"];
+//   $fakturaId = $_POST['faktura_id'];
+//   $hyresgastId = $_POST["hyresgast_id"];
 
-//    $fakturaId = 15;
-//    $hyresgastId = 16;
+    $fakturaId = 31;
+    $hyresgastId = 38;
 
 
 //$betalaText = iconv('UTF-8', 'windows-1252', 'Följande belopp skall vara oss tillhanda senast :');
@@ -139,9 +139,9 @@ $pdf->Text(38, 278, '#');
 
 $pdf->Text(95, 278, '#');
 
-$pdf->Text(107, 278, $attBetala); //BELOPP
+$pdf->Text(103, 278, number_format($attBetala, 2, ' ', ' ')); //BELOPP
 
-$pdf->text(118, 278, '00');
+//$pdf->text(118, 278, '00');
 
 $pdf->Text(203, 278, '#'); //17 mm upp från nederkant!
 
@@ -167,9 +167,9 @@ $pdf->SetFont($fontToUse, '', 9);
 
 if ($hyresInfo->moms > 0 )
 {
-    $pdf ->Text(20, 145, ($attBetala - $hyresInfo->moms - $hyresInfo->fskatt) . ",00 kr");
+    $pdf ->Text(20, 145, number_format($hyresInfo->hyra, 2, ',', ' ') . " kr");
 } else {
-    $pdf ->Text(20, 145, $attBetala . ",00 kr");
+    $pdf ->Text(20, 145, number_format($attBetala, 2, ',', ' ') . ",00 kr");
 }
 
 
@@ -178,7 +178,7 @@ $pdf->Text(50, 140, 'Moms');
 
 $pdf->SetFont($fontToUse, '', 9);
 if ($hyresInfo->moms > 0){
-    $pdf ->Text(50, 145, $hyresInfo->moms .  " kr");
+    $pdf ->Text(50, 145, number_format($hyresInfo->moms, 2, ',', ' ')  .  " kr");
 } else{
     $pdf ->Text(50, 145, "0,00 kr");
 }
@@ -187,7 +187,7 @@ if ($hyresInfo->moms > 0){
 $pdf->SetFont($fontToUse, 'B', 10);
 $pdf->Text(180, 140, 'Att betala');
 $pdf->SetFont($fontToUse, '', 9);
-$pdf ->Text(180, 145, $attBetala . ",00 kr");    
+$pdf ->Text(180, 145, number_format($attBetala, 2, ',', ' ') . " kr");     
 
 /********************************************************************************************* */
 
@@ -204,39 +204,42 @@ if ($hyresInfo->moms > 0){
     $pdf->Text(22, 99, " -Hyra bostad: ");
 }
 
-$pdf->Text(180, 99, $hyresInfo->hyra . ",00" ); $pdf->Text(194, 99, "kr");
+//BELOPP kolumnen.
+$thousand = strlen($hyresInfo->hyra);
+
+$pdf->Text(180, 99, number_format($hyresInfo->hyra, 2, ',', ' ') . " kr"); 
 
 if ($hyresInfo->fskatt > 0 )
 {
     //OM Fastighetskatt!
     $pdf->Text(22, 103, " -Fastighetskatt:");
-    $pdf->Text(180, 103, $hyresInfo->fskatt . ",00" ); $pdf->Text(194, 103, "kr");
+    $pdf->Text(185, 103, number_format($hyresInfo->fskatt, 2, ',', ' ') . " kr"); 
 
     if ($hyresInfo->parkering != 0){
         $pdf->Text(22, 107, " -Parkering:");
-        $pdf->Text(180, 107, $hyresInfo->parkering . ",00" ); $pdf->Text(194, 107, "kr");    
+        $pdf->Text(185, 107, number_format($hyresInfo->parkering, 2, ',', ' ') . " kr"); 
     }
 } else {
     //OM inte fastighetskatt
     if ($hyresInfo->parkering != 0 ){
         $pdf->Text(22, 103, " -Hyra parkering:");
-        $pdf->Text(180, 103, $hyresInfo->parkering . ",00" ); $pdf->Text(194, 103, "kr");
+        $pdf->Text(180, 103, number_format($hyresInfo->parkering, 2, ',', ' ') . " kr"); 
         $pdf->SetFont($fontToUse, 'B', 9);
         $pdf->Text(22, 110, " -Att betala:"); 
-        $pdf->Text(180, 110, $attBetala . ",00"); $pdf->Text(194, 110, "kr");
+        $pdf->Text(180, 110,  number_format($attBetala, 2, ',', ' ')); 
     } else {
         $pdf->SetFont($fontToUse, 'B', 9);
         $pdf->Text(22, 106, " -Att betala:"); 
-        $pdf->Text(180, 106, $attBetala . ",00"); $pdf->Text(194, 106, "kr");
+        $pdf->Text(180, 106, number_format($attBetala, 2, ',', ' ')); 
     }
 }
 
 
 
 $fileName = "faktura.pdf";
-$pdf->Output($fileName, 'F');
+//$pdf->Output($fileName, 'F');
 
-$db->spara_faktura($fileName, $fakturaId);
+//$db->spara_faktura($fileName, $fakturaId);
 
-//$pdf->Output();
+$pdf->Output();
 ?>

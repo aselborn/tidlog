@@ -37,8 +37,9 @@ $(document).ready(function() {
 
         var myPercentVal = parseInt($("#txtmomsProcent").val());
         var hyra = parseInt($("#hidHyra").val());
+        var park = parseInt($("#hidPark").val());
 
-        var totMedMoms = parseFloat(myPercentVal/100) * hyra;
+        var totMedMoms = parseFloat(myPercentVal/100) * (hyra + park) ;
 
         $("#lblMomsSum").text(parseInt(totMedMoms));
         

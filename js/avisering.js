@@ -149,14 +149,15 @@ $(document).ready(function() {
         $.post("./code/sendmail.php", data, function(response){
 
             if (response !== ""){
-                try{
-                    if (JSON.parse(response).skicka_faktura === true){
-                        window.location.reload();
-                    }
-                } catch (ex)
-                {
-                    alert(response);
-                }
+                // try{
+                //     if (JSON.parse(response).skicka_faktura === true){
+                //         window.location.reload();
+                //     }
+                // } catch (ex)
+                // {
+                //     alert(response);
+                // }
+                window.location.reload();
                 
             }
     

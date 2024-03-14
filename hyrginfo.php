@@ -158,6 +158,7 @@
 
                                             } else {
                                                 echo "<label class='form-label' >" .  $hyresGInfo->parkering . " kr/mån" . " </label>";
+                                                echo "<input type='hidden' id='hidPark' value = '" .$hyresGInfo->parkering . "' />";
                                             }
                                         ?>
                                     </td>

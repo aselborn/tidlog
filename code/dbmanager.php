@@ -54,6 +54,16 @@
             return (int)$row["count"];
         }
 
+        public function setEpostSkickad($fakturaId)
+        {
+            $currentDatetime = date('Y-m-d H:i:s');
+
+            $sql = "UPDATE tidlog_faktura SET status = 1, status_skickad = ? WHERE faktura_id = ?";
+            $stmt =$this->connection->prepare($sql);
+            $stmt->bind_param("ss", $currentDatetime, $fakturaId);
+            $stmt->execute();
+        }
+
         public function getLagenhetCount()
         {
             $sql = "select count(*) as count from tidlog_lagenhet";

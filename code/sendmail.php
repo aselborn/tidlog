@@ -22,6 +22,7 @@
     $fakturaId = $_POST['faktura'];
     
     $epostMeddelande = new EpostMeddelande($fakturaId);
+    $db = new DbManager();
     
     $mail = new PHPMailerPHPMailer(true);
 
@@ -39,7 +40,7 @@
     $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('tryckaren7@selborn.se', $epostMeddelande->fastighetNamn);
+    $mail->setFrom($epostMeddelande->epost, $epostMeddelande->fastighetNamn);
     $mail->addAddress('anders@selborn.se', 'Anders Selborn');     //Add a recipient
     //$mail->addAddress('alexandra.selborn@fmfastigheter.se', 'Anders Selborn');     //Add a recipient
     
@@ -58,21 +59,37 @@
     //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
 
     $bodyText = '<H2><strong>Hej ' .$epostMeddelande->fullname .  ' </strong></h2>';
-    $bodyText .= '<br /> <br />';
-    $bodyText .= 'Här kommer din hyresavi för <b>' .$epostMeddelande->specifikation . '</b>';
-
-    
+    $bodyText .= '<br />';
+    $bodyText .= 'Här kommer din hyresavi , <b>' .$epostMeddelande->specifikation ;
+    $bodyText .= '<hr />';
+    $bodyText .= '<br />';
+    $bodyText .= $epostMeddelande->fastighetAddress . " ".  $epostMeddelande->adress . " " . $epostMeddelande->specifikation;
+    $bodyText .= '<br />  &emsp;-Hyra bostad : <strong>' . $epostMeddelande->hyra . '</strong>' ;
+    if ($epostMeddelande->avgift > 0)
+    {
+        $bodyText .= '<br /> &emsp;-Avgift parkering : <strong>' . $epostMeddelande->avgift . '</strong>';
+    }
+    $bodyText .= '<br /> &emsp;Att betala : <strong>' .$epostMeddelande->avgift + $epostMeddelande->hyra . 'kronor </strong>' ;
+    $bodyText .= '<br />';
+    $bodyText .= '<br />';
+    $bodyText .= '&emsp;Bankgiro : ' . $epostMeddelande->bankgiro;
+    $bodyText .= '<br />';
+    $bodyText .= '<br />';
+    $bodyText .= 'Vänliga hälsningar ' . $epostMeddelande->foretagNamn;
+    $bodyText .= '<hr />';
     $mail->CharSet = "UTF-8";
 
     //Content
-    $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Hyresavi Tryckaren 7, ' . $epostMeddelande->specifikation;
+    $mail->isHTML(true);
+    $mail->Subject = 'Hyresavi ' . $epostMeddelande->fastighetNamn  . " " .  $epostMeddelande->specifikation;
     $mail->Body = $bodyText;
     
     //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
     
+    $db->setEpostSkickad($fakturaId);
+
     echo json_encode(['skapa_fakturor' => 'true']);
 
     } catch (Exception $e) {
