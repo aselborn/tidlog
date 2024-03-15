@@ -69,7 +69,7 @@
     {
         $bodyText .= '<br /> &emsp;-Avgift parkering : <strong>' . $epostMeddelande->avgift . '</strong>';
     }
-    $bodyText .= '<br /> &emsp;Att betala : <strong>' .$epostMeddelande->avgift + $epostMeddelande->hyra . 'kronor </strong>' ;
+    $bodyText .= '<br /> &emsp;Att betala : <strong>' .$epostMeddelande->avgift + $epostMeddelande->hyra . ' kronor </strong>' ;
     $bodyText .= '<br />';
     $bodyText .= '<br />';
     $bodyText .= '&emsp;Bankgiro : ' . $epostMeddelande->bankgiro;

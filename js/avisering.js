@@ -182,6 +182,8 @@ $(document).ready(function() {
             window.location.reload();
         }
 
+        window.location.reload();
+
         });
     })
 
@@ -209,6 +211,8 @@ $(document).ready(function() {
 
             window.location.reload();
         }
+
+       
 
     });
     

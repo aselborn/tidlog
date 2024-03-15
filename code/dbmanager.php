@@ -368,16 +368,23 @@
 
         private function get_faktura_row_index()
         {
-            $sql = "select count(*) from tidlog_faktura";
+            $sql = "select count(*) as count from tidlog_faktura";
             $stmt = $this->connection->prepare($sql);
             $stmt->execute();
 
             $result = $stmt->get_result();
             
+            $theResult = 0;
             
-            $row = $result->fetch_column();
-            return $row;
+            //$row = $result->fetch_column();
 
+            $theResult = $result->fetch_assoc();
+            $theResult = $theResult["count"];
+            // while ($row = $result->fetch_assoc()){
+            //     $theResult =  $row;
+            // }
+            
+            return $theResult;
         }
         /*
             Skapa alla fakturor för en viss månad.

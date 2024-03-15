@@ -188,7 +188,7 @@
                                     } else {
                                         echo "
                                         <td>
-                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-primary btn-sm rounded-5 thebinder'>
+                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-outline-primary btn-sm rounded-5 thebinder'>
                                         </td>
                                        ";
                                     }
