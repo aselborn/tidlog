@@ -38,7 +38,8 @@ $number_of_page = ceil($num_rows / $result_per_page);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="./style/tidlog.css">
     <link rel="stylesheet" href="./style/style.css">
-    
+
+   
 </head>
 
     <body>
@@ -46,13 +47,15 @@ $number_of_page = ceil($num_rows / $result_per_page);
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
         <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">
 
-        <?php include("./pages/sidebar.php") ?>
-
+        <?php include("./pages/sidebar2.php") ?>
+        
         <div class="col-sm  min-vh-100 border">
+            
             <!-- content -->
             <h2>Tidsregistrering</h2>
             <hr />
             <div class="container ">
+                <!-- Menu Button -->
                 
                 <div class="row">
                     <div class="col">

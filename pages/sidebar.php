@@ -67,6 +67,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="report.php" class="nav-link py-3 px-2" title="Sammanställning" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Sammanställnig">
+                            <i class="bi-card-text fs-1"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="lagenhet.php" class="nav-link py-3 px-2" title="Lägenheter" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Lägenheter">
                             <i class="bi bi-building fs-1"></i>
                         </a>
