@@ -9,3 +9,9 @@ CREATE TABLE `tidlog_hyresgaster` (
   KEY `fk_lagenhet_idx` (`lagenhet_id`),
   CONSTRAINT `fk_lagenhet` FOREIGN KEY (`lagenhet_id`) REFERENCES `tidlog_lagenhet` (`lagenhet_id`)
 ) ENGINE=InnoDB ;
+
+
+ALTER TABLE `tidlog`.`tidlog_hyresgaster` 
+ADD COLUMN `andrahand` TINYINT NULL DEFAULT 0 AFTER `epost`;
+
+ALTER TABLE tidlog_hyresgaster ADD adress varchar(100) null after lagenhet_id;

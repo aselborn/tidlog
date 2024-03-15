@@ -6,6 +6,14 @@ include_once "config.php";
 include_once "dbmanager.php";
 require "managesession.php";
 
+if (isset($_POST['faktMonth']) && isset($_POST['faktYear']))
+{
+    $fMonth = $_POST['faktMonth'];
+    $fYear = $_POST['faktYear'];
+
+    get_faktura_period($fMonth, $fYear);
+}
+
 if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "filter_report"){
         filter_report();
@@ -33,8 +41,135 @@ if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "change_password"){
         change_password();
     }
+
+    if ($_POST["nameOfFunction"] == "add_hyra"){
+        add_hyra();
+    }
+
+    if ($_POST["nameOfFunction"] == "remove_parkering") {
+        remove_parkering();
+    }
+
+    if ($_POST["nameOfFunction"] == "sag_upp_kontrakt") {
+        sag_upp_kontrakt();
+    }
+    
+    if ($_POST["nameOfFunction"] == "skapa_fakturor") {
+        skapa_fakturor();
+    }
+
+    if ($_POST["nameOfFunction"] == "add_moms") {
+        add_moms();
+    }
+
+    if ($_POST["nameOfFunction"] == "tabort_hyresgast") {
+        tabort_hyresgast();
+    }
+
+    if ($_POST["nameOfFunction"] == "remove_timereg") {
+        tabort_tidsregistrering();
+    }
+
+        
     
 }
+
+    function tabort_hyresgast()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $hyresgastId = $_POST['hyresgastId'];
+        $lagenhetId = $_POST['lagenhetId'];
+
+        $db = new DbManager();
+
+        try{
+            $db->tabort_hyresgast($hyresgastId, $lagenhetId);
+            echo json_encode(['tabort_hyresgast' => 'true']);
+        } catch (Exception $e){
+            echo json_encode(['tabort_hyresgast' => 'false']);
+        }
+        
+    }
+
+    function tabort_tidsregistrering()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $jobId = $_POST['jobId'];
+        
+        $db = new DbManager();
+
+        try{
+            $db->tabort_tidsregistrering($jobId);
+            echo json_encode(['tabort_tidsregistrering' => 'true']);
+        } catch (Exception $e){
+            echo json_encode(['tabort_tidsregistrering' => 'false']);
+        }
+        
+    }
+
+    function get_faktura_period($fMonth, $fYear)
+    {
+        $db = new DbManager();
+        $fakturor = $db->get_faktura_underlag($fYear, $fMonth);
+
+        $resultSet = array();
+
+        try{
+            
+            foreach ($fakturor as $row) {
+                $resultSet[] = $row;
+            }
+            
+            echo json_encode(['visa_period' => $resultSet]);
+
+        } catch (Exception $th){
+            echo json_encode(array('error' => $th->getMessage()));
+        }
+    }
+
+    function skapa_fakturor()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $errors = [];
+        $data = [];
+
+        if (empty($_POST['month'])) {
+            $errors['month'] = 'Månad?.';
+        }
+
+        if (empty($_POST['year'])) {
+            $errors['year'] = 'År';
+        }
+
+
+        try{
+            
+            $month = $_POST["month"];
+            $monthNo = $_POST["monthNo"];
+            $year = $_POST["year"];
+
+            $db->skapa_fakturor($month, $monthNo, $year);
+
+            echo json_encode(['skicka_faktura' => 'true']);
+
+        } catch(\Throwable $th){
+
+            echo json_encode(['skicka_faktura' => 'false', 'orsak' => $th->getMessage()]);
+        }
+
+    }
     function change_password()
     {
         if (!isset($_SESSION)) { session_start(); }
@@ -156,9 +291,9 @@ if (isset($_POST["nameOfFunction"])){
         $errors = [];
         $data = [];
 
-        if (empty($_POST['lagenhet_id'])) {
-            $errors['lagenhetId'] = 'Lägenhet?';
-        }
+        // if (empty($_POST['lagenhet_id'])) {
+        //     $errors['lagenhetId'] = 'Lägenhet?';
+        // }
 
         if (empty($_POST['fnamn'])) {
             $errors['fnamn'] = 'Förnamn?.';
@@ -167,6 +302,19 @@ if (isset($_POST["nameOfFunction"])){
         if (empty($_POST['enamn'])) {
             $errors['enamn'] = 'Efternamn?.';
         }
+
+        if (!$uppdatera){
+            if (empty($_POST['lagenhetId'])) {
+                $errors['lagenhetId'] = 'Lägenhet?.';
+            }
+        }
+
+        
+        if (empty($_POST['adress'])) {
+            $errors['adress'] = 'Adress?.';
+        }
+        
+        
 
         if (empty($_POST['epost'])) {
             $errors['epost'] = 'Epost?.';
@@ -194,14 +342,19 @@ if (isset($_POST["nameOfFunction"])){
                 $data['message'] = 'Success!';
             }
     
-            $lagenhetId = $_POST["lagenhet_id"];
+            //$lagenhetId = $_POST["lagenhet_id"];
             $fnamn = $_POST["fnamn"];
             $enamn = $_POST["enamn"];
+            $adress = $_POST["adress"];
             $telefon = $_POST["telefon"];
             $epost = $_POST["epost"];    
+            $isAndraHand = $_POST["andrahand"];
+            $lagenhetId = -1;
+            if ($uppdatera == false)
+                $lagenhetId = $_POST["lagenhetId"];
 
             if ($uppdatera == false){
-                if ($db->ny_hyresgast($lagenhetId, $fnamn,$enamn, $telefon, $epost, false))
+                if ($db->ny_hyresgast($lagenhetId, $fnamn,$enamn, $adress, $telefon, $epost, $isAndraHand, false))
                 {
                     echo json_encode(['added_hyresgast' => 'true']);
                 }
@@ -209,7 +362,7 @@ if (isset($_POST["nameOfFunction"])){
                 
                 $hyresgastId = $_POST['hyresgast_id'];
 
-                if ($db->ny_hyresgast($hyresgastId, $fnamn,$enamn, $telefon, $epost, true))
+                if ($db->uppdatera_hyresgast($hyresgastId, $fnamn,$enamn, $adress, $telefon, $epost, $isAndraHand, true))
                 {
                     echo json_encode(['added_hyresgast' => 'true']);
                 }
@@ -237,6 +390,79 @@ if (isset($_POST["nameOfFunction"])){
             } 
         } catch (\Throwable $th) {
             echo json_encode(['added_apartment' => 'false', 'orsak' => $th->getMessage()]);
+        }
+        
+    }
+
+    function add_hyra()
+    {
+        $db = new DbManager();
+        
+        $lagenthetNo = $_POST["lagenhetNo"];
+        $hyra  = $_POST["hyra"];
+        $parkering = $_POST["parkering"];
+
+        try {
+            if ($db->add_hyra($lagenthetNo, $hyra, $parkering))
+            {
+                echo json_encode(['add_hyra' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['add_hyra' => 'false', 'orsak' => $th->getMessage()]);
+        }
+        
+    }
+
+    function add_moms()
+    {
+        $db = new DbManager();
+        
+        $lagenthetNo = $_POST["lagenhetNo"];
+        $moms  = $_POST["moms"];
+        $momsProcent = $_POST["moms_procent"];
+
+        try {
+            if ($db->add_moms($lagenthetNo, $moms, $momsProcent))
+            {
+                echo json_encode(['add_moms' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['add_moms' => 'false', 'orsak' => $th->getMessage()]);
+        }
+        
+    }
+
+    function remove_parkering()
+    {
+        $db = new DbManager();
+        
+        $lagenthetNo = $_POST["lagenhetNo"];
+        
+        try {
+            if ($db->remove_parkering($lagenthetNo))
+            {
+                echo json_encode(['remove_parkering' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['remove_parkering' => 'false', 'orsak' => $th->getMessage()]);
+        }
+        
+    }
+
+    function sag_upp_kontrakt()
+    {
+        $db = new DbManager();
+        
+        $hyresgastId = $_POST["hyresgastId"];
+        $datum = $_POST["datum"];
+
+        try {
+            if ($db->sag_upp_kontrakt($hyresgastId, $datum))
+            {
+                echo json_encode(['sag_upp_kontrakt' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['sag_upp_kontrakt' => 'false', 'orsak' => $th->getMessage()]);
         }
         
     }

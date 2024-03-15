@@ -18,10 +18,8 @@
       $num_rows = $db->getHyresgastCount();
       $number_of_page = ceil($num_rows / $result_per_page);
 
-      
-      //$lagenheter = $db->query("select * from tidlog_lagenhet where lagenhet_id not in (select lagenhet_id from tidlog_hyresgaster)")->fetchAll();
       $lagenheter = $db->query("select * from tidlog_lagenhet order by lagenhet_nr")->fetchAll();
-      $hyresgaster = $db->query("SELECT * FROM  tidlog_hyresgaster h inner join tidlog_lagenhet l on h.lagenhet_id = l.lagenhet_id order by lagenhet_nr  LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
+      $hyresgaster = $db->query("SELECT * FROM  tidlog_hyresgaster h inner join tidlog_lagenhet l on l.hyresgast_id = h.hyresgast_id order by lagenhet_nr  LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
       
 
 ?>
@@ -36,7 +34,7 @@
         <?php include("./pages/sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
-            <h2>Hyresgäster</h2>
+            <h2>Nuvarande hyresgäster</h2>
             <hr />
             <div class="container border" >
                 <div class="row mt-3">
@@ -53,16 +51,21 @@
                         <table class="table table-hover table-striped " id="hyresgastTable">
                             <thead class="table-dark">
                                 <tr>
+                                    <th scope="col" class="table-primary"></th>
                                     <th scope="col" class="table-primary">Namn</th>
                                     <th scope="col" class="table-primary">Efternamn</th>
                                     <th scope="col" class="table-primary">Lägenhet Nr</th>
+                                    <th scope="col" class="table-primary">Uppgång</th>
                                     <th scope="col" class="table-primary">Epost</th>
                                     <th scope="col" class="table-primary">Telefon</th>
+                                    <th scope="col" class="table-primary"></th>
                                     
                                 </tr>
                             </thead>
                             <tbody>
+                                
                                 <?php 
+                                    //iconer finns här : https://www.flaticon.com/
                                     foreach($hyresgaster as $row)
                                     {
                                         $hyresgastId = $row["hyresgast_id"];
@@ -71,13 +74,29 @@
                                         $lagenhetNo = $row["lagenhet_nr"];
                                         $telefon = $row["telefon"];
                                         $epost = $row["epost"];
+                                        $upg = $row["adress"];
+                                        $lnk = "./bilder/people.png";
                                         
-                                        
-                                        echo "<tr id='$hyresgastId'><td>" . $namn . "</td>"
+                                        echo "<tr id='$hyresgastId'>
+                                            <td>
+                                            <div>
+                                                <img src='". $lnk . "' alt='' />
+                                            </div>
+                                            </td>
+                                            <td>" . $namn . "</td>"
                                             . "<td>" . $enamn . "</td>"
-                                            . "<td>" . $lagenhetNo . "</td>"
+                                            . "<td><a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
+                                            <div  class='align-items-center'>
+                                                " . $lagenhetNo . "</a>
+                                            </div></td>"
+                                            . "<td>" . $upg . "</td>"
                                             . "<td>" . $epost . "</td>"
                                             . "<td>" . $telefon . "</td>"
+                                            . "<td>
+                                                <div class='align-items-center'>
+                                                    <input type='button'  class='btn btn-link binder' hyresgast='" . $hyresgastId . "' value='Hantera hyresgäst'></input>
+                                                </div>
+                                                </td>"
                                             . "</tr>";
 
                                     }
@@ -85,68 +104,14 @@
                             </tbody>
                         </table>
                     </div>
+
                     <div class="mt-1">
-                        
-                        <form action="./code/addhyresgast.php" method="POST" id="frmAddHyresgast">
-                            
-                            <div class="d-inline-flex align-bottom p-1 gap-2">
-                            
-                                <div class="form-group">
-                                    <label id="lblFnamn" class="label-primary">Förnamn</label>
-                                    <input id="fnamn" type="text" name="fnamn" class="form-control" style="width:200px">
-                                    <div class="invalid-feedback">
-                                        Vänligen ange ett namn
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label id="lblEnamn" class="label-primary">Efternamn</label>
-                                    <input id="enamn" type="text" name="enamn" class="form-control" style="width:200px" >
-                                </div>
-
-                                <div class="form-group">
-                                    <label id="lblLagenhetNo" class="label-primary" >Lägenhet Nr</label>
-                                    
-                                    <select id="lagenhetId" class="form-select" name="lagenhet" style="width:130px">
-                                        <?php 
-
-                                            foreach($lagenheter as $row)
-                                            {
-                                                echo "<option value='" .$row["lagenhet_id"] ."'>" .$row["lagenhet_nr"].  "</option>";
-                                            }
-
-                                        ?>
-                                        <!-- <option value="T7">T7</option>
-                                        <option value="U9">U9</option> -->
-                                    </select>
-
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label id="lblEpost" class="label-primary">Epost</label>
-                                    <input id="epost" type="text" name="epost" class="form-control" style="width:250px" >
-                                </div>
-
-                                <div class="form-group">
-                                    <label id="lblTelefon" class="label-primary">Telefon</label>
-                                    <input id="telefon" type="text" name="telefon" class="form-control" style="width:200px">
-                                </div>
-
-                                <!-- <div class="form-group col-sm-4">
-                                    <br />
-                                    <input type="button"  class="btn btn-primary btn-send" value="Spara" id="btnSparaHyresgast"> 
-                                </div> -->
-                                <div class="form-group col-sm-4">
-                                    <br />
-                                    <input type="button"  class="btn btn-primary btn-send" value="Uppdatera" id="btnUppdateraHyresgast"> 
-                                </div>
-                            
-                            </div>
-                        
+                        <form action="nyhyresgast.php" method="POST">
+                            <input type="submit" value="Ny hyresgäst" id="btnNyHyresgäst" class="btn btn-success" />
                         </form>
-                        
                     </div>
 
+                    <!--Flera sidor.-->
                     <div class="mt-3">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination">

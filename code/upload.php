@@ -39,5 +39,4 @@
      
     // Display status message 
     echo $statusMsg; 
-    ?>
 ?>

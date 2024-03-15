@@ -19,12 +19,51 @@
             
         }
 
+        public function get_faktura_underlag($year, $month)
+        {
+            $fakturor = $this->query("select 
+            
+            tf.faktura_id as faktura_id,
+            tf.hyresgast_id as hyresgast_id, 
+            tf.lagenhet_id as lagenhet_id, 
+            tf.park_id as park_id, 
+            tf.fakturanummer as fakturanummer, 
+            tf.ocr as ocr, 
+            tf.duedate as duedate, 
+            tf.specifikation as specifikation, 
+            case when tf.faktura is not null then 1 else 0 end as fakturaExists,
+            tf.faktura_year as faktura_year, 
+            tf.faktura_month as faktura_month,
+            tf.status, 
+            tf.status_skickad,
+            tp.avgift as avgift,
+            tl.hyra, 
+            th.fnamn, th.enamn, tl.lagenhet_nr
+        from tidlog_faktura tf 
+                inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
+                inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
+                left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
+                WHERE tf.faktura_year = ? and tf.faktura_month = ?", array($year, $month))->fetchAll();
+
+            return $fakturor;
+        }
+
         public function getRowCount()
         {
             $sql = "select count(*) as count from tidlog_jobs";
             $result = $this->connection->query($sql);
             $row = $result->fetch_assoc();
             return (int)$row["count"];
+        }
+
+        public function setEpostSkickad($fakturaId)
+        {
+            $currentDatetime = date('Y-m-d H:i:s');
+
+            $sql = "UPDATE tidlog_faktura SET status = 1, status_skickad = ? WHERE faktura_id = ?";
+            $stmt =$this->connection->prepare($sql);
+            $stmt->bind_param("ss", $currentDatetime, $fakturaId);
+            $stmt->execute();
         }
 
         public function getLagenhetCount()
@@ -109,6 +148,34 @@
             return $stmt;
         }
 
+        public function insert_new_kontrakt($lagenhetId, $hyresgastId, $datum, $kontraktBlob, $kontraktNamn)
+        {
+            $sql = "INSERT INTO tidlog_kontrakt (lagenhet_id, hyresgast_id, datum, kontrakt, kontrakt_namn) VALUES(?, ?, ?, ?, ?)";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("sssss",  $lagenhetId, $hyresgastId, $datum, $kontraktBlob, $kontraktNamn);
+            $stmt->execute();
+
+            return $stmt;
+        }
+
+        public function insert_new_user($param_username, $param_email, $param_password)
+        {
+            try{
+
+                $sql = $sql = "INSERT INTO tidlog_users(username, email, password) VALUES (?, ?, ?)";
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("sss",  $param_username, $param_email, $param_password);
+                $stmt->execute();
+
+
+                return true;
+            } catch(Exception $exception){
+                return false;
+            }
+            
+        }
+
+
         public function get_user_image($username)
         {
             $sql = "SELECT tidlog_userimage FROM tidlog.tidlog_users where username =  ?";
@@ -121,6 +188,80 @@
             
             $row = $result->fetch_column();
             return $row;
+        }
+
+        public function add_hyra($lagenhetNo, $hyra, $parkering){
+            $val = 0;
+
+            if ($parkering == 0){
+                $sql = "UPDATE tidlog_lagenhet SET hyra = ? WHERE lagenhet_nr = ?" ;
+                $val = $hyra;
+            } else if ($hyra == 0){
+                $sql = "UPDATE tidlog_lagenhet SET park_id = ? WHERE lagenhet_nr = ?" ;
+                $val =$parkering;
+            }
+            try{
+                $stmt = $this->connection->prepare($sql);
+                
+                $stmt->bind_param("ss",  $val, $lagenhetNo);
+                $stmt->execute();
+                return true;
+            } catch(Exception $th){
+                throw $th;
+            }
+            
+        }
+
+        public function add_moms($lagenthetNo, $moms, $momsProcent){
+            $val = 0;
+
+            $sql = "insert into tidlog_moms(lagenhet_id, moms_procent, moms, sparad)
+            (select l.lagenhet_id, ?, ?, current_timestamp()  from tidlog_lagenhet l  where l.lagenhet_nr = ?)" ;
+            
+            try{
+
+                $stmt = $this->connection->prepare($sql);
+                
+                $stmt->bind_param("sss",  $momsProcent, $moms, $lagenthetNo);
+                $stmt->execute();
+                return true;
+
+            } catch(Exception $th){
+                throw $th;
+            }
+            
+        }
+
+        public function remove_parkering($lagenhetNo)
+        {
+            $sql = "UPDATE tidlog_lagenhet set park_id = NULL where lagenhet_nr = ?";
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $lagenhetNo);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+        }
+
+        public function sag_upp_kontrakt($hyresgastId, $datum)
+        {
+            $sql = "UPDATE tidlog_kontrakt set datum_uppsagd = ? where hyresgast_id = ?";
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("ss", $datum, $hyresgastId);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
         }
 
         public function add_lagenhet($fastighetId, $lagenhetNo, $yta)
@@ -140,22 +281,47 @@
             
         }
 
-        public function ny_hyresgast($lagenhetId, $fnamn,$enamn, $telefon, $epost, $update = false)
+        public function uppdatera_hyresgast($hyresgastId, $fnamn,$enamn, $adress, $telefon, $epost, $isandrahand)
         {
-            $sql = "";
-            if ($update){
-                $sql = "UPDATE tidlog_hyresgaster SET fnamn = ?, enamn = ?, epost = ?, telefon = ? WHERE hyresgast_id = ?";
-            } else {
-                $sql = "INSERT INTO tidlog_hyresgaster(lagenhet_id, fnamn, enamn, epost, telefon) VALUES (?, ?, ?, ?, ?)";
-            }
+            $sql = "UPDATE tidlog_hyresgaster SET fnamn = ?, enamn = ?, adress=?, epost = ?, telefon = ?, andrahand = ? WHERE hyresgast_id = ?";
+           
             
             try{
+                $andraHand = $isandrahand == "true" ? 1 : 0;
+
                 $stmt = $this->connection->prepare($sql);
-                $stmt->bind_param("sssss", $fnamn, $enamn, $epost, $telefon,$lagenhetId);
+                $stmt->bind_param("sssssss", $fnamn, $enamn,$adress, $epost, $telefon, $andraHand, $hyresgastId);
             
                 $stmt->execute();
                 $stmt->close();
     
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+        }
+
+        public function ny_hyresgast($lagenhetId, $fnamn,$enamn, $adress, $telefon, $epost, $isandrahand, $update = false)
+        {
+            
+            $sql = "INSERT INTO tidlog_hyresgaster(fnamn, enamn, adress, epost, telefon, andrahand) VALUES (?, ?, ?, ?, ?, ?)";
+            
+            try{
+                $andraHand = $isandrahand == "true" ? 1 : 0;
+
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("ssssss", $fnamn, $enamn,$adress, $epost, $telefon, $andraHand);
+            
+                $stmt->execute();
+
+                $hyresgastId = $this->connection->insert_id;
+                $sql = "Update tidlog_lagenhet SET hyresgast_id = ? WHERE lagenhet_id = ?";
+                $stmt2 = $this->connection->prepare($sql);
+                $stmt2->bind_param("ss", $hyresgastId, $lagenhetId);
+                $stmt2->execute();
+
+                $stmt->close();
+                $stmt2->close();
                 return true;
             } catch(Exception $e){
                 throw $e;
@@ -180,6 +346,130 @@
             $stmt->bind_param("ss", $newPwd, $userName);
             $stmt->execute();
             $stmt->close();
+        }
+
+        public function spara_faktura($fil, $fakturaId)
+        {
+            $pfdContent = addslashes(file_get_contents($fil)); 
+
+            $currentDatetime = date('Y-m-d H:i:s');
+
+            $sql = "UPDATE tidlog_faktura SET faktura = ?, faktura_skapad = ? where faktura_id = ?";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("sss", $pfdContent, $currentDatetime, $fakturaId);
+            try{
+                $stmt->execute();
+                $stmt->close();
+            } catch (Exception $ex){
+                throw $ex;
+            }
+            
+        }
+
+        private function get_faktura_row_index()
+        {
+            $sql = "select count(*) as count from tidlog_faktura";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            
+            $theResult = 0;
+            
+            //$row = $result->fetch_column();
+
+            $theResult = $result->fetch_assoc();
+            $theResult = $theResult["count"];
+            // while ($row = $result->fetch_assoc()){
+            //     $theResult =  $row;
+            // }
+            
+            return $theResult;
+        }
+        /*
+            Skapa alla fakturor för en viss månad.
+        */
+        public function skapa_fakturor($month, $monthNo, $year)
+        {
+            $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr, tf.fastighet_id 
+            from tidlog_hyresgaster th 
+                inner join tidlog_lagenhet tl ON th.hyresgast_id = tl.hyresgast_id
+                inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id
+                left outer join tidlog_parkering tp on tp.park_id =tl.park_id")->fetchAll();
+            
+            $sql ="";
+
+            $index_faktura = $this->get_faktura_row_index();
+
+            foreach($hyresGaster as $row)
+            {
+                $index_faktura++;
+                $hyresgastId = $row["hyresgast_id"];
+                $lagenhetId = $row["lagenhet_id"];
+                $parkId = $row["park_id"];
+
+                //$fakturaNr = $row["lagenhet_nr"] . "-" . $month . "-" . $year;
+                $fakturaNr = $year . $monthNo . $row["fastighet_id"] . "0000" . $index_faktura;
+                $fakturaDatum = date('Y-m-d');
+                $ocr = "ocr";
+                $dueDate = date("Y-m-t");
+                $spec = 'hyra för ' . $month . " " .$year;
+
+                $sql = "INSERT INTO tidlog_faktura( hyresgast_id, 
+                    lagenhet_id, park_id, fakturanummer, 
+                    FakturaDatum, ocr, duedate, specifikation, 
+                        `faktura_year`, `faktura_month`)
+                
+                VALUES(?,?,?,?,?,?,?,?,?,?)";
+
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("ssssssssss", $hyresgastId, $lagenhetId, $parkId, $fakturaNr, $fakturaDatum, $ocr, $dueDate, $spec, $year, $monthNo);
+
+                $stmt->execute();
+                $stmt->close();
+
+                
+
+            }
+        }
+
+        /*
+        * Ta bort hyresgäst
+        */
+
+        public function tabort_hyresgast($hyresgastId, $lagenhetId)
+        {
+            $sql = "UPDATE tidlog_lagenhet SET hyresgast_id = NULL where lagenhet_id = ?";
+            
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $lagenhetId);
+    
+                $stmt->execute();
+                
+            } catch (Exception $e){
+                throw $e;
+            }
+            
+        }
+
+        /*
+            Ta bort tidsregistering
+        */
+
+        function tabort_tidsregistrering($jobId)
+        {
+            $sql = "DELETE from tidlog_jobs where jobid = ?";
+            
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $jobId);
+    
+                $stmt->execute();
+                
+            } catch (Exception $e){
+                throw $e;
+            }
         }
 
         public function total_hours (){

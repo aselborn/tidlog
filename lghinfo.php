@@ -11,8 +11,12 @@
         $lagenhetNo = $_GET['lagenhetNo'];
     }
     
-    $lghInfo = new InfoLagenhet($lagenhetNo);
+    $db = new DbManager();
+    $parkeringar = $db->query("select * from tidlog_parkering tp2 where tp2.park_id not in (
+        select park_id from tidlog_parkering tp where park_id in (select park_id from tidlog_lagenhet tl)) ")->fetchAll();
 
+    $lghInfo = new InfoLagenhet($lagenhetNo);
+    
 
 ?>
 <!DOCTYPE html>
@@ -20,24 +24,20 @@
     <head>
         <title>Lägenhetinformation</title>
     </head>
+    
     <body>
+        <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $lagenhetNo ?>" >
         <?php include("./pages/sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">
             <h2>Lägenhet</h2>
             <hr />
             <div class="container border" >
-                <strong>Information om lägenhet nr <?php echo $lghInfo->lagenhetNo ?></strong>
-
-                
-                
-                <div class="row mt-3">
-                    <div class="col-5">
-                        <label class="form-label">Nuvarande lägenhets innehavare:</label>
-                        <label class="form-label"><strong><?php echo $lghInfo->innehavare ?></strong></label>
-                    </div>
+                <div class="d-inline-flex">
+                    <h3><strong>Information om lägenhet nr <?php echo $lghInfo->lagenhetNo ?></strong></h3>
                 </div>
-
+                
+               
             </div>
         </div>
     </body>

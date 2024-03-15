@@ -51,6 +51,8 @@
                                 <tr>
                                     <th scope="col" class="table-primary">Lägenhet Nr</th>
                                     <th scope="col" class="table-primary">Fastighet</th>
+                                    <th scope="col" class="table-primary">Parkering</th>
+                                    <th scope="col" class="table-primary">Hyrs av</th>
                                     <th scope="col" class="table-primary">Yta</th>
                                 </tr>
                             </thead>
@@ -58,7 +60,10 @@
                                 <?php
                             //Läser data ur databas.
 
-                            $data = $db->query("SELECT * from tidlog_lagenhet order by lagenhet_nr asc LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
+                            $data = $db->query("SELECT * from tidlog_lagenhet tl 
+                                    left outer join tidlog_hyresgaster th on th.hyresgast_id = tl.hyresgast_id
+                                    left outer join tidlog_parkering tp on tp.park_id = tl.park_id 
+                                order by lagenhet_nr asc LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
                             
 
                             foreach ($data as $row) {
@@ -68,17 +73,37 @@
 
                                 $fastighet = $row["fastighet_id"] == "1" ? "T7" : "U9";
 
-                                // echo "<tr id='$lagenhetId'><td>" . $lagenhetNo . "</td><td>"
-                                //     . $fastighet . "</td><td>"
-                                //     . $yta . "</td></tr>";
+                                $hyrsAv = ($row["fnamn"] . " " .  $row["enamn"]) == " " ?
+                                    "Ledig" : $row["fnamn"] . " " . " " .  $row["enamn"];
+                                $hyresgastId = $row["hyresgast_id"];
+                                $parkering = $row["parknr"]  == null ? "" : $row["parknr"];
 
-                                $link = "<tr id='$lagenhetId'><td><a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
-                                <div style='height:100%;width:100%'>
-                                    " . $lagenhetNo . "
-                                </div>
-                                </a><td>"
-                                . $fastighet . "</td><td>"
-                                . $yta . "</td></tr>";
+                                $link = "<tr id='$lagenhetId'><td>
+                                <a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
+                                    <div style='height:100%;width:100%'>
+                                        " . $lagenhetNo . "
+                                    </div>
+                                </a>
+                                <td>". $fastighet . "</td>
+                                <td>". $parkering . "</td>
+                                <td>";
+                                if ($hyrsAv != "Ledig"){
+                                    $link .= "<a href='hyrginfo.php?hyresgast_id=" . $hyresgastId . "'>
+                                                <div style='height:100%;width:100%'>
+                                                " . $hyrsAv . "
+                                                </div>
+                                            </a>";
+                                } else {
+                                    $link .= "<a href='nyhyresgast.php'>
+                                                <div style='height:100%;width:100%'>
+                                                " . $hyrsAv . "
+                                                </div>
+                                            </a>";
+                                }
+                                
+                                $link .= "</td>
+                                <td>". $yta . "</td>
+                                </tr>";
 
                                 echo $link;
 

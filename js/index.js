@@ -47,6 +47,7 @@ $(document).ready(function() {
   function saveOrUpdate(isSave)
   {
     var script = ""
+    var myUserName = $("#hidUserName").val();
     const currentDate = new Date();
 
     var formData = {
@@ -63,6 +64,25 @@ $(document).ready(function() {
         script = 'code/addtime.php';
       } else{
         script = 'code/update.php';
+
+        if (myUserName !== saved_by){
+          $.alert({
+            title: 'Information!',
+            content: 'Det är <strong>inte</strong> tillåtet att uppdatera andras registreringar!',
+            icon: 'fa fa-rocket',
+            animation: 'scale',
+            closeAnimation: 'scale',
+            buttons: {
+              okay: {
+                text: 'Ok, jag fattar, tror jag...',
+                btnClass: 'btn-blue'
+              }
+            }
+          });
+  
+          return;
+        }
+
       }
 
   
@@ -120,18 +140,65 @@ $(document).ready(function() {
 
     //RADERA
     $("#btnDelete").on('click', function(){
+      
+      var formdata = {"jobId" : jobId};
 
-        var formdata = {"jobId" : jobId};
-        $.ajax({
-            type: "POST",
-            url: "delete.php",
-            data: formdata,
-            dataType: "json",
-            encode: true,
-        }).done(function (data) {
-            console.log(data);
-            window.location.reload();
+      var myUserName = $("#hidUserName").val();
+      if (myUserName !== saved_by){
+        $.alert({
+          title: 'Information!',
+          content: 'Det är <strong>inte</strong> tillåtet att radera andras registreringar!',
+          icon: 'fa fa-rocket',
+          animation: 'scale',
+          closeAnimation: 'scale',
+          buttons: {
+            okay: {
+              text: 'Ok, jag fattar',
+              btnClass: 'btn-blue'
+            }
+          }
         });
+
+        return;
+      }
+
+
+      $.confirm({
+        title: 'Bekräfta att du vill ta bort registreringen',
+        content: 'När registeringen tas bort, kan den inte återskapas',
+        buttons: {
+           
+            ok : {
+                text: 'Ta bort registrering?',
+                btnClass: 'btn-blue',
+                keys: ['enter', 'shift'],
+                action: function(){
+                    
+                  var data = { nameOfFunction : 'remove_timereg', jobId : jobId }
+                        
+                  $.post("./code/util.php", data, function(response){
+
+                      if (response !== ""){
+                          
+                          window.location.reload();
+                      }
+
+                  });
+
+                }
+            },
+            nej : {
+                text: 'Avbryt',
+                btnClass: 'btn-red',
+                keys: ['enter', 'shift'],
+                action: function(){
+                    $.alert('Avbrutet.');
+                }
+            }
+        }
+      });
+       
+       
 
     });
 

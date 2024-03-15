@@ -9,44 +9,37 @@ $(document).ready(function() {
 
     });
 
-    $("#btnUppdateraHyresgast").on('click', function(){
-      
-        var lagenhetId = $("#lagenhetId option:selected").val();
-        var fnamn = $("#fnamn").val();
-        var enamn = $("#enamn").val();
-        var telefon = $("#telefon").val();
-        var epost = $("#epost").val();
+    
+
+
+    //Hantera hyresgäst, en knapp för varje rad.
+    $('.binder').on('click', (event) =>
+    {
+        const button = $(event.currentTarget);
+        hyresgastId = button.attr('hyresgast');
         
-
-        var data = { nameOfFunction : 'uppdatera_hyresgast', lagenhet_id: lagenhetId, hyresgast_id: hyresgastId, fnamn: fnamn, enamn: enamn, telefon: telefon, epost: epost };
+        var data = {hyresgast_id : hyresgastId };
         
-        $.post("./code/util.php", data, function(response){
+        window.location.href = "hyrginfo.php?hyresgast_id=" + hyresgastId;
+       
+    })
 
-            if (response !== ""){
-                if (JSON.parse(response).added_apartment === 'false'){
-                    alert('Kunde inte spara => ' + JSON.parse(response).orsak);
-                    return;
-                } 
 
-                
-                window.location.reload();
-            }
-
-        });
-     
-
-    });
+   
+    
 
     //Klick på tabellen
     //en användare klickar på en rad. hämta data för den raden.
    $(document).on('click', "#hyresgastTable tbody tr", function(){
     
+
+
         hyresgastId = $(this).closest('tr').attr('id').trim();
 
         $(".highlight").removeClass("highlight");
         $(this).addClass("highlight");
 
-        var lagenhetId = $("#lagenhetId option:selected").val();
+        //var lagenhetId = $("#lagenhetId option:selected").val();
 
         var fnamn =  $(this).closest('tr').find('td')[0].innerHTML;
         var enamn =  $(this).closest('tr').find('td')[1].innerHTML;
