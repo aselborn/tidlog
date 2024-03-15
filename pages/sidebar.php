@@ -91,6 +91,14 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="skapa_faktura.php" class="nav-link py-3 px-2" title="Skapa en faktura" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Skapa faktura">
+                            <i class="bi bi-cash fs-1"></i>
+                        </a>
+                    </li>
+
+                    
+
+                    <li class="nav-item">
                         <a href="hyreskoll.php" class="nav-link py-3 px-2" title="Hyreskoll" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Hyreskoll">
                             <i class="bi bi-bank fs-1"></i>
                         </a>
