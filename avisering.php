@@ -210,8 +210,8 @@
 
                  
 
-                <form  action="./code/createpdf.php" method="post" enctype="multipart/form-data">
-                    <input type="submit" value="Skapa PDF" id="btnPdf" class="btn btn-success" ></input>
+                <form  action="./code/skapafaktura.php" method="post" enctype="multipart/form-data">
+                    <input type="submit" value="Skapa Faktura" id="btnPdf" class="btn btn-success" ></input>
                 </form>
                 
             </div>
