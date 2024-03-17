@@ -126,7 +126,7 @@
                             <th scope="col" class="table-primary">Skickad</th>
                         </tr>
                     </thead>
-                    <?php $totalHyra = 0; $totalParkering=0; $tableRows = 0; $status = null; $skickad = null;?>
+                    <?php $totalHyra = 0; $totalParkering=0; $tableRows = 0; $status = null; $skickad = null; $hyraT7=0; $hyraU9=0;?>
                     <tbody>
 
                         <?php 
@@ -150,6 +150,14 @@
                                 $skickad = $row["status_skickad"];
 
                                 $totalHyra += intval($row["hyra"]);
+
+                                if ($row["fastighet_id"] == 1)
+                                    $hyraT7 += intval($row["hyra"]);
+
+                                if ($row["fastighet_id"] == 2)
+                                    $hyraU9 += intval($row["hyra"]);
+                                
+
 
                                 echo 
                                 "<tr>
@@ -203,14 +211,16 @@
                         <tr>
                             <th scope="row">Total hyra</th>
                                 <td>Perioden Hyra: <strong><?php echo $totalHyra ?></strong></td>
-                                <td>Perioden Parkering: <strong><?php echo $totalParkering ?></strong></td>
+                                <td>U9 : <strong><?php echo $hyraU9 ?></strong></td>
+                                <td>T7 : <strong><?php echo $hyraT7 ?></strong></td>
+                                <td>Parkering: <strong><?php echo $totalParkering ?></strong></td>
                         </tr>
                     </tfoot>
                 </table>
 
                  
 
-                <form  action="./code/skapafaktura.php" method="post" enctype="multipart/form-data">
+                <form  action="./code/createpdf.php" method="post" enctype="multipart/form-data">
                     <input type="submit" value="Skapa Faktura" id="btnPdf" class="btn btn-success" ></input>
                 </form>
                 

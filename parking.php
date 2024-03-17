@@ -4,8 +4,13 @@
       require_once "./code/managesession.php";
 
       $db = new DbManager();
-      $parkeringar = $db->query("select * from tidlog_parkering tp left outer join tidlog_lagenhet tl on tp.park_id = tl.park_id 
-      order by tp.parknr ")->fetchAll();
+      $parkeringar = $db->query(
+        "
+            select * from tidlog_parkering tp 
+                left outer join tidlog_lagenhet tl on tp.park_id = tl.park_id 
+                left outer join tidlog_hyresgaster th on th.hyresgast_id = tl.hyresgast_id
+            order by tp.parknr 
+        ")->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +37,7 @@
                                     <th scope="col" class="table-primary">Kortnummer</th>
                                     <th scope="col" class="table-primary">Avgift (kr/månad)</th>
                                     <th scope="col" class="table-primary">Uthyrd till lägenhet</th>
+                                    <th scope="col" class="table-primary">Hyresgäst</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,6 +53,9 @@
                                         $avgift = $row["avgift"];
                                         $lagenhet_nr = $row["lagenhet_nr"] == null ? "Ledig parkering" : $row["lagenhet_nr"];
                                         
+                                        $hyresgast = $row["hyresgast_id"] == null ? "" :  $row["fnamn"] . " " . $row["enamn"];
+                                        $hyresgastId = $row["hyresgast_id"] == null ? "" :  $row["hyresgast_id"];
+
                                         if ($lagenhet_nr != "Ledig parkering"){
                                             echo "<tr id='$parkId'><td>" . $KortNr . "</td>"
                                             . "<td>" . $avgift . "</td>"
@@ -54,6 +63,12 @@
                                             <div style='height:100%;width:100%'>
                                                 " . $lagenhet_nr . "</a>
                                             </div></td>"
+
+                                            . "<td> <a href='hyrginfo.php?hyresgast_id=" . $hyresgastId . "'>
+                                            <div style='height:100%;width:100%'>
+                                                " . $hyresgast . "</a>
+                                            </div></td>"
+
                                             . "</tr>";
                                         } else {
                                             echo "<tr id='$parkId'><td>" . $KortNr . "</td>"

@@ -38,10 +38,12 @@
             tf.status_skickad,
             tp.avgift as avgift,
             tl.hyra, 
-            th.fnamn, th.enamn, tl.lagenhet_nr
+            th.fnamn, th.enamn, tl.lagenhet_nr,
+            tfa.fastighet_id
         from tidlog_faktura tf 
                 inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
                 inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
+                inner join tidlog_fastighet tfa on tfa.fastighet_id = tl.fastighet_id
                 left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
                 WHERE tf.faktura_year = ? and tf.faktura_month = ?", array($year, $month))->fetchAll();
 

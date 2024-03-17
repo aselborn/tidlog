@@ -28,25 +28,37 @@ $(document).ready(function() {
 
         var fastighet_id = $("#fastighetId option:selected").val();
         
-        var data = { nameOfFunction : 'filter_lagenhet', fastighet_id: fastighet_id };
+        var url = window.location.href;    
         
-        $.post("./code/util.php", data, function(response){
+        
+        if (url.indexOf('?') > -1){
+            url = url.substring( 0, url.indexOf( "?" ) );
+            url += '?fastighetId=' + fastighet_id;
+        }else{
+            url += '?fastighetId=' + fastighet_id ;
+        }   
 
-            if (response !== undefined ){
-                var data = JSON.parse(response);
 
-                $("#lagenhetTable").find("tr:gt(0)").remove();
+        window.location.href = url;
+        //var data = { nameOfFunction : 'filter_lagenhet', fastighet_id: fastighet_id };
+        
+        // $.post("./code/util.php", data, function(response){
 
-                data.filter_lagenhet.forEach(element => {                    
-                    console.log(element.lagenhet_nr + " " + element.fastighet_namn + " " + element.yta);
+        //     if (response !== undefined ){
+        //         var data = JSON.parse(response);
+
+        //         $("#lagenhetTable").find("tr:gt(0)").remove();
+
+        //         data.filter_lagenhet.forEach(element => {                    
+        //             console.log(element.lagenhet_nr + " " + element.fastighet_namn + " " + element.yta);
                     
-                    $("#lagenhetTable tbody").append("<tr><td>" + element.lagenhet_nr + "</td><td>" + element.fastighet_namn +"</td><td>"+ element.yta +"</td><td>");
+        //             $("#lagenhetTable tbody").append("<tr><td>" + element.lagenhet_nr + "</td><td>" + element.fastighet_namn +"</td><td>"+ element.yta +"</td><td>");
 
 
-                });
-            }
+        //         });
+        //     }
 
-        });
+        // });
 
     });
 

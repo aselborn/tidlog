@@ -3,6 +3,9 @@
       require_once "./code/dbmanager.php";
       require_once "./code/managesession.php";
 
+      $db = new DbManager();
+
+      $hyresgaster = $db->query(("SELECT * FROM tidlog_hyresgaster"))
 
 ?>
 
@@ -61,23 +64,23 @@
                     
                 </form> -->
 
-            <form class="row g-3">
+            <form class="row g-3" action=./code/skapafaktura.php method="post" id="frmFaktura" >
                 <div class="col-md-2">
                     <label for="inputEmail4" class="form-label">Fakturanummer</label>
-                    <input type="email" class="form-control" id="inputEmail4">
+                    <input type="text" class="form-control" id="fakturaNr" name="fakturaNr" required data-error="ange ett fakturanummer">
                 </div>
                 <div class="col-md-1">
                     <label for="inputPassword4" class="form-label">Belopp</label>
-                    <input type="text" class="form-control" id="inputPassword4">
+                    <input type="number" class="form-control" id="belopp" name ="belopp" required="required" data-error="ange belopp">
                 </div>
                 <div class="col-md-1">
                     <label for="inputPassword4" class="form-label">moms</label>
-                    <input type="text" class="form-control" id="inputPassword4">
+                    <input type="number" class="form-control" id="moms" name ="moms" required data-error="ange moms">
                 </div>
                 
                 <div class="col-10">
                     <label for="inputAddress" class="form-label">Beskrivning</label>
-                    <textarea id="job_description" name="job_description" class="form-control" placeholder="Ange en beskrivning. Dela upp på max tre rader" rows="3" required="required" data-error="Vänligen beskriv vad du gjort"></textarea>
+                    <textarea id="idBeskrivning" name="beskrivning" class="form-control" placeholder="Ange en beskrivning. Dela upp på max tre rader" rows="3" required="required" data-error="Ge beskrivning till fakturan"></textarea>
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-outline-success rounded-5">Skapa faktura</button>

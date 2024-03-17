@@ -3,8 +3,10 @@ if (!isset($_SESSION)) { session_start(); }
 
 include_once "config.php";
 include_once "objHyra.php";
+include_once "objArtikel.php";
 include_once "dbmanager.php";
 include_once "fpdfnormalize.php";
+include_once "pdflayout.php";
 
 require "managesession.php";
 
@@ -23,22 +25,34 @@ if (!isset($_POST['hyresgast_id']))
 
 $db = new DbManager();
 
-   $fakturaId = $_POST['faktura_id'];
-   $hyresgastId = $_POST["hyresgast_id"];
+    $fakturaId = $_POST['faktura_id'];
+    $hyresgastId = $_POST["hyresgast_id"];
 
-    // $fakturaId = 29;
-    // $hyresgastId = 37;
+    //   $fakturaId = 35;
+    //   $hyresgastId = 48;
 
 
-//$betalaText = iconv('UTF-8', 'windows-1252', 'Följande belopp skall vara oss tillhanda senast :');
+
+
+$useArtikelData = false;
+$useOnlyArtikelData = false;
+
+$artikel = new Artikel($hyresgastId);
+
+if ($artikel->artikel != null)
+{
+    $useArtikelData = true;
+    $useOnlyArtikelData = $artikel->med_hyra == true ? false :true;
+}
+
 $hyresInfo = new HyresAvisering($hyresgastId, $fakturaId);
-
-if ($hyresInfo ->fakturaId == null){
+if ($hyresInfo->fakturaId == null){
     echo "<h1><i>Hyresgästen saknar fakturerings data!</i></h1>";
     return;
 }
 
-$pdf = new TextNormalizerFPDF($hyresInfo);
+
+$pdf = new TextNormalizerFPDF($hyresInfo, $artikel);
 
 $attBetala = $hyresInfo->hyra + $hyresInfo->parkering + $hyresInfo->fskatt + $hyresInfo->moms;
 $thousandLength = strlen($attBetala);
@@ -54,6 +68,7 @@ $pdf->AddPage();
 
 $pdf->SetFont($fontToUse,'B',10);
 
+$pdfLayout = new Pdflayout($pdf, $fontToUse, $hyresInfo);
 
 /*********************************SKRIVER TALONG********************************* */
 
@@ -74,24 +89,33 @@ $pdf->SetFont($fontToUse,'B',14);
 $pdf->Text(180, 216, 'OCR');
 $pdf->Line(0,218,250,218); // en rak linje. Andra övre linjen
 
-$pdf->SetFont($fontToUse,'',10);
-if ($hyresInfo->moms > 0 ){
-    $pdf->Text(20, 230, 'Betalning gäller lokal');
+// $pdf->SetFont($fontToUse,'',10);
+// if ($hyresInfo->moms > 0 ){
+//     $pdf->Text(20, 230, 'Betalning gäller lokal');
+// } else {
+//     $pdf->Text(20, 230, 'Betalning gäller lägenheten ');
+// }
+
+if ($useOnlyArtikelData)
+{
+    $pdfLayout->talongSpecifikationArtikel($artikel);
 } else {
-    $pdf->Text(20, 230, 'Betalning gäller lägenheten ');
+    $pdfLayout->talongSpecifikation();
 }
 
+// $pdf->SetFont($fontToUse,'B',10);
+
+// if ($hyresInfo->moms > 0){
+//     $pdf->Text(20, 235,  $hyresInfo->specifikation . " " . $hyresInfo->fastighetNamn);
+// } else {
+//     $pdf->Text(20, 235, "Lägenhet " . $hyresInfo->lagenhetNo . " " . $hyresInfo->fastighetNamn);
+// }
+
+$pdf->Text(20, 246, 'Vänligen ange fakturanummer:');
 $pdf->SetFont($fontToUse,'B',10);
-
-if ($hyresInfo->moms > 0){
-    $pdf->Text(20, 235,  $hyresInfo->specifikation . " " . $hyresInfo->fastighetNamn);
-} else {
-    $pdf->Text(20, 235, "Lägenhet " . $hyresInfo->lagenhetNo . " " . $hyresInfo->fastighetNamn);
-}
-
-
 $pdf->Text(20, 250, $hyresInfo->fakturaNummer);
 
+$pdf->SetFont($fontToUse,'',10);
 $pdf->Text(120, 230, 'Betalningsavsändare');
 $pdf->SetFont($fontToUse,'',9);
 $pdf->Text(120, 235, $hyresInfo->fullname);
@@ -137,17 +161,28 @@ $pdf->Text(38, 278, '#');
 
 $pdf->Text(95, 278, '#');
 
-if ($thousandLength == 5)
-{
-    $pdf->Text(103, 278, number_format($attBetala, 2, ' ', ' ')); //BELOPP LÄNGST NER PÅ TALONG!
-} else 
-{
-    $pdf->Text(105, 278, number_format($attBetala, 2, ' ', ' ')); //BELOPP LÄNGST NER PÅ TALONG!
+if ($artikel->artikelTotalBelopp != null && $useOnlyArtikelData){
+
+    if (strlen($artikel->artikelTotalBelopp) == 5)
+    {
+        $pdf->Text(103, 278, number_format($artikel->artikelTotalBelopp , 2, ' ', ' ')); //BELOPP LÄNGST NER PÅ TALONG!
+    } else 
+    {
+        $pdf->Text(105, 278, number_format($artikel->artikelTotalBelopp , 2, ' ', ' ')); //BELOPP LÄNGST NER PÅ TALONG!
+    }
+
+} else {
+    
+    if ($thousandLength == 5)
+    {
+        $pdf->Text(103, 278, number_format($attBetala, 2, ' ', ' ')); //BELOPP LÄNGST NER PÅ TALONG!
+    } else 
+    {
+        $pdf->Text(105, 278, number_format($attBetala, 2, ' ', ' ')); //BELOPP LÄNGST NER PÅ TALONG!
+    }
 }
 
 
-
-//$pdf->text(118, 278, '00');
 
 $pdf->Text(203, 278, '#'); //17 mm upp från nederkant!
 
@@ -165,79 +200,32 @@ $pdf->Text(15, 70, 'Epost:'); $pdf->Text(39, 70, $hyresInfo->fastighet_epost);
 
 //$pdf->Text(20, 120, 'Här kan Anders och Carolina skriva meddelanden till hyresgästerna');
 
-/********************************spec moms ej moms ****************************************** */
+/*********************************SKRIVER SPECIFIKATION FÖR HYRA********************************* */
 
-$pdf->SetFont($fontToUse, 'B', 10);
-$pdf->Text(20, 140, 'Netto'); 
-$pdf->SetFont($fontToUse, '', 9);
 
-if ($hyresInfo->moms > 0 )
-{
-    $pdf ->Text(20, 145, number_format($hyresInfo->hyra, 2, ',', ' ') . " kr");
+if ($useOnlyArtikelData){
+
+    //Endast en artikel
+    $pdfLayout->printEndastArtikel($artikel);
+    $pdfLayout->printEndastArtikelNettoMoms($artikel);
+    
 } else {
-    $pdf ->Text(20, 145, number_format($attBetala, 2, ',', ' ') . " kr");
+
+    //Skriv ut hyresspec.
+    $pdfLayout->printHyresSpecifikation();
+    if ($useArtikelData)
+    {
+        //skriv också ut artikel.
+    }
 }
-
-
-$pdf->SetFont($fontToUse, 'B', 10);
-$pdf->Text(50, 140, 'Moms');
-
-$pdf->SetFont($fontToUse, '', 9);
-if ($hyresInfo->moms > 0){
-    $pdf ->Text(50, 145, number_format($hyresInfo->moms, 2, ',', ' ')  .  " kr");
-} else{
-    $pdf ->Text(50, 145, "0,00 kr");
-}
-
-
-$pdf->SetFont($fontToUse, 'B', 10);
-$pdf->Text(180, 140, 'Att betala');
-$pdf->SetFont($fontToUse, '', 9);
-$pdf ->Text(180, 145, number_format($attBetala, 2, ',', ' ') . " kr");     
 
 /********************************************************************************************* */
 
-/*********************************SKRIVER SPECIFIKATION********************************* */
-$pdf->SetFont($fontToUse, 'B', 10);
-$pdf->Text(20, 90, 'SPECIFIKATION');
-$pdf->Text(180, 90, 'BELOPP');
-$pdf->SetFont($fontToUse, '', 9);
+/********************************spec moms ej moms att betala ****************************************** */
+//$pdfLayout->printNettoMomsAttbetala($attBetala);
 
-$pdf->Text(20, 95, $hyresInfo->fastighetAddress . " ".  $hyresInfo->adress . " " . $hyresInfo->specifikation);
-if ($hyresInfo->moms > 0){
-    $pdf->Text(22, 99, " -Hyra lokal: ");
-} else {
-    $pdf->Text(22, 99, " -Hyra bostad: ");
-}
 
-//BELOPP kolumnen.
-$pdf->Text(180, 99, number_format($hyresInfo->hyra, 2, ',', ' ') . " kr"); 
-
-if ($hyresInfo->fskatt > 0 )
-{
-    //OM Fastighetskatt!
-    $pdf->Text(22, 103, " -Fastighetskatt:");
-    $pdf->Text(185, 103, number_format($hyresInfo->fskatt, 2, ',', ' ') . " kr"); 
-
-    if ($hyresInfo->parkering != 0){
-        $pdf->Text(22, 107, " -Parkering:");
-        $pdf->Text(185, 107, number_format($hyresInfo->parkering, 2, ',', ' ') . " kr"); 
-    }
-} else {
-    //OM inte fastighetskatt
-    if ($hyresInfo->parkering != 0 ){
-        $pdf->Text(22, 103, " -Hyra parkering:");
-        $pdf->Text(183, 103, number_format($hyresInfo->parkering, 2, ',', ' ') . " kr"); 
-        // $pdf->SetFont($fontToUse, 'B', 9);
-        // $pdf->Text(22, 110, " -Att betala:"); 
-        // $pdf->Text(180, 110,  number_format($attBetala, 2, ',', ' ')); 
-    } else {
-        // $pdf->SetFont($fontToUse, 'B', 9);
-        // $pdf->Text(22, 106, " -Att betala:"); 
-        // $pdf->Text(180, 106, number_format($attBetala, 2, ',', ' ')); 
-    }
-}
-
+/********************************************************************************************* */
 
 
 $fileName = "faktura.pdf";
