@@ -8,6 +8,10 @@ include_once "fpdfnormalize.php";
 
 require "managesession.php";
 
+if (!isset($_POST['fakturaNr']) || (!isset($_POST['moms']) || (!isset($_POST['belopp']) || (!isset($_POST['beskrivning']))))){
+    echo "<b>Det saknas inputparametrar! ?</br>";
+    return ;
+}
 
 $pdf = new FPDF();
 

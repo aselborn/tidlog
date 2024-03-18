@@ -5,6 +5,7 @@ require '../fpdf/fpdf.php';
 class TextNormalizerFPDF extends FPDF
 	{
 		public $hyresInfo;
+		public $artikelData;
 		
         // Page header
     function Header()
@@ -18,12 +19,12 @@ class TextNormalizerFPDF extends FPDF
 
 		$this->AddFont('OCRB', '', 'OCRB Regular.php');
 
-        // Logo
-		if ($this->hyresInfo->fastighetNamn == "TRYCKAREN 7"){
-			$this->Image('../bilder/t7_logo_3.0.png',10,10,35);
-		} else{
-			$this->Image('../bilder/u9_logo_2.0.png',10,10,35);
-		}
+        // Logo AVKOMMENTERAD FÖR NU, VÄNTAR PÅ BOLAG!
+		// if ($this->hyresInfo->fastighetNamn == "TRYCKAREN 7"){
+		// 	$this->Image('../bilder/t7_logo_3.0.png',10,10,35);
+		// } else{
+		// 	$this->Image('../bilder/u9_logo_2.0.png',10,10,35);
+		// }
         
         
 		// Arial bold 15
@@ -32,7 +33,12 @@ class TextNormalizerFPDF extends FPDF
         //$this->Cell(120);
         // Title
 
-		$this->Text($startPosRight, 15, 'Hyresavi');
+		if ($this->artikelData->artikelBelopp != null){
+			$this->Text($startPosRight, 15, 'Faktura');
+		} else {
+			$this->Text($startPosRight, 15, 'Hyresavi');
+		}
+		
         // $this->Cell(50,10,'Hyresavi',0,0,'L', false); //här kan man skriva titel box om man sätter 4:e argumentet till 1
         // $this->ln();
 
@@ -40,9 +46,19 @@ class TextNormalizerFPDF extends FPDF
 		//$this->Text(130, 20, 'Nisse hult');
 
 		$this->SetFont($fontToUse, 'B', 8);
-		$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, 
-			$this->hyresInfo->hyra + $this->hyresInfo->parkering + $this->hyresInfo->moms + $this->hyresInfo->fskatt . " kr"); 
 
+		if ($this->artikelData->artikelBelopp != null){
+
+			$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, 
+			number_format($this->artikelData->artikelTotalBelopp, 2, ',', ' ') . " kr"); 
+
+		} else {
+
+			$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, 
+			$this->hyresInfo->hyra + $this->hyresInfo->parkering + $this->hyresInfo->moms + $this->hyresInfo->fskatt . " kr"); 
+		}		 
+
+		
 		$this->SetFont($fontToUse, 'B', 8);
 		$this->Text($startPosRight, 24, 'Referensnummer:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 24,  $this->hyresInfo->fakturaNummer);
 		
@@ -76,9 +92,10 @@ class TextNormalizerFPDF extends FPDF
     //     // Page number
     //     $this->Cell(0,23,'Page '.$this->PageNo().'/{nb}',0,0,'C');
     // }
-		function __construct($hyresInfo)
+		function __construct($hyresInfo, $artikel)
 		{
 			$this->hyresInfo = $hyresInfo;
+			$this->artikelData = $artikel;
 			parent::__construct();
 		}
 

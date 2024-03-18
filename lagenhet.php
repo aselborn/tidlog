@@ -3,6 +3,13 @@
       require_once "./code/dbmanager.php";
       require_once "./code/managesession.php";
       
+      $isPostBack = false;
+
+    if (isset($_GET['fastighetId'])){
+        $isPostBack = true;
+        $fastighetId = intval($_GET['fastighetId']);
+    }
+
       if (!isset($_GET['page'])) 
       {
           $page = 1;
@@ -36,13 +43,13 @@
             <hr />
             <div class="container" >
                 <div class="row mt-3">
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <label id="lblFastighet" class="label-primary">Välj fastighet</label>
                         <select id="fastighetId" class="form-select" name="job_fastighet">
                             <option value="1">T7</option>
                             <option value="2">U9</option>
                         </select>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="row mt-3">
                     <div class="col">
@@ -60,11 +67,19 @@
                                 <?php
                             //Läser data ur databas.
 
-                            $data = $db->query("SELECT * from tidlog_lagenhet tl 
-                                    left outer join tidlog_hyresgaster th on th.hyresgast_id = tl.hyresgast_id
-                                    left outer join tidlog_parkering tp on tp.park_id = tl.park_id 
-                                order by lagenhet_nr asc LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
-                            
+                          
+                                $data = $db->query(
+                                    "
+                                        SELECT * from tidlog_lagenhet tl 
+                                        inner join tidlog_fastighet tf on tf.fastighet_id = tl.fastighet_id
+                                        left outer join tidlog_hyresgaster th on th.hyresgast_id = tl.hyresgast_id
+                                        left outer join tidlog_parkering tp on tp.park_id = tl.park_id 
+                                        
+                                    order by lagenhet_nr asc LIMIT " 
+                                    
+                                . $page_first_result . ',' . $result_per_page)->fetchAll();
+                         
+                               
 
                             foreach ($data as $row) {
                                 $yta = $row["yta"];
@@ -115,26 +130,7 @@
                         </table>
                     </div>
                     <div class="mt-1">
-                            <!-- <form action="addlagenhet.php" method="POST" id="frmInput">
-                                <div class="d-inline-flex align-bottom p-1 gap-2">
-                                
-                                    <div class="form-group">
-                                        <label id="lblLagenhetNo" class="label-primary">Lägenhet Nr</label>
-                                        <input id="lagenhetNo" type="text" name="lagenhet_nr" class="form-control" >
-                                    </div>
-                                
-                                
-                                    <div class="form-group">
-                                        <label id="lblDatum" class="label-primary">Yta</label>
-                                        <input id="lagenhetYta" type="text" name="lagenhet_yta" class="form-control" >                                            
-                                    </div>
-                                
-                                    <div class="form-group col-sm-4">
-                                        <br />
-                                        <input type="button" id="btnSave" class="btn btn-primary btn-send" value="Spara">                                          
-                                    </div>
-                                </div>
-                            </form> -->
+                         
 
                             <div class="mt-3">
                                 <nav aria-label="Page navigation">
