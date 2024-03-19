@@ -26,6 +26,12 @@
         $yr = intval(date('Y'));
       }
 
+      $result_per_page = 6;
+      
+      $page_first_result = ($page - 1) * $result_per_page;
+      $num_rows = $db->getfakturaCountPerFastighet($yr, $month, $fastighetId);
+      $number_of_page = ceil($num_rows / $result_per_page);
+
     $fastighetNamn = $db->get_fastighet_namn($fastighetId);
     $fakturor = $db->get_faktura_underlag($yr, $month);
 
@@ -219,10 +225,8 @@
                 <form  action="./code/createpdf.php" method="post" enctype="multipart/form-data">
                     <input type="submit" value="Skapa Faktura" id="btnPdf" class="btn btn-success" ></input>
                 </form>
-                
-            </div>
-<!--Flera sidor.-->
-                    <div class="mt-3">
+
+                <div class="mt-3">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination">
                                         <?php
@@ -252,6 +256,8 @@
 
                                 </nav>
                         </div>
+            </div>
+<!--Flera sidor.-->
             <?php echo "<input type='hidden' id='hdRowCount' value='" .$tableRows . "' />" ?>
         </div>
     </body>

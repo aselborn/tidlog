@@ -41,7 +41,7 @@
     </head>
 
     <body>
-        
+        <input type="hidden" id="hidFastighetId" name="HidFastighetId" value=<?php echo $fastighetId; ?> />
         <?php include("./pages/sidebar2.php") ?>
 
             <div class="container" >

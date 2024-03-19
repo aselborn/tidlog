@@ -97,14 +97,30 @@
             return (int)$row["count"];
         }
 
-        public function getfakturaCountPerFastighet($perFastighet)
+        public function getfakturaCountPerFastighet($yr, $mn, $perFastighet)
         {
-            $sql = "select count(*) as count from tidlog_lagenhet tl 
-            inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id 
-            where tl.hyresgast_id is not null and tf.fastighet_id=" . $perFastighet ;
-            $result = $this->connection->query($sql);
-            $row = $result->fetch_assoc();
-            return (int)$row["count"];
+            $sql = "select count(*) as count from tidlog_faktura ta
+			inner join tidlog_lagenhet tl  on tl.lagenhet_id = ta.lagenhet_id 
+            inner join tidlog_fastighet tf on tf.fastighet_id = tl.fastighet_id 
+            where tl.hyresgast_id is not null and tf.fastighet_id
+            and ta.faktura_year = ? and ta.faktura_month = ? and tf.fastighet_id = ?";
+        
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("sss", $yr, $mn, $perFastighet);
+            $stmt->execute();
+            
+            $result = $stmt->get_result();
+            
+            $theResult = 0;
+            
+            
+
+            $theResult = $result->fetch_assoc();
+            $theResult = $theResult["count"];
+            
+            return $theResult;
+            
         }
 
         public function getRowCountForUser($user)

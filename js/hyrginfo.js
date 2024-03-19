@@ -22,7 +22,10 @@ $(document).ready(function() {
         var enamn = $("#enamn").val();
         var telefon = $("#telefon").val();
         var epost = $("#epost").val();
+        
         var hyresgastId = $("#hidHyresgastId").val();
+        var fastighetId = $("#hidFastighetId").val();
+
         var adress = $("#adress").val();
         var lagenhetId = $("#lagenhetId").val();
     
@@ -40,7 +43,7 @@ $(document).ready(function() {
                 } 
 
                 
-                window.location.href = "./hyresgaster.php";
+                window.location.href = "./hyresgaster.php?fastighetId=" + fastighetId;
             }
 
         });
