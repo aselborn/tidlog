@@ -5,6 +5,17 @@
 
       $db = new DbManager();
       $isPostBack = false;
+      if (!isset($_GET['page'])) 
+      {
+          $page = 1;
+      } else {
+          $page = $_GET['page'];
+      }
+
+      if (isset($_GET['fastighetId'])){
+        $isPostBack = true;
+        $fastighetId = intval($_GET['fastighetId']);
+      }
 
       if (isset($_GET['year']) || isset($_GET['month'])){
         $month = intval($_GET['month']);
@@ -15,21 +26,10 @@
         $yr = intval(date('Y'));
       }
 
-      
-    //   $fakturor = $db->query("select * from tidlog_faktura tf 
-    //   inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
-    //   inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
-    //   left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
-    //   WHERE tf.faktura_year = ? and tf.faktura_month = ?", array($yr, $month))->fetchAll();
-
+    $fastighetNamn = $db->get_fastighet_namn($fastighetId);
     $fakturor = $db->get_faktura_underlag($yr, $month);
 
-      if (!isset($_GET['page'])) 
-      {
-          $page = 1;
-      } else {
-          $page = $_GET['page'];
-      }
+      
 
 ?>
 <!DOCTYPE html>
@@ -48,13 +48,11 @@
                 ";
             }
         ?>
-        <?php include("./pages/sidebar.php") ?>
-
-        <div class="col-sm  min-vh-100 border">
-            <h2>Skapa hyresavier</h2>
+        <?php include("./pages/sidebar2.php") ?>
+    
+        <div class="container " >
+            <h2>Skapa hyresavier, för fastigheten <?php echo $fastighetNamn; ?></h2>
             <hr />
-            <div class="container " >
-            
             <div class="row ">
                 
                     <div class="col-2">
@@ -157,8 +155,6 @@
                                 if ($row["fastighet_id"] == 2)
                                     $hyraU9 += intval($row["hyra"]);
                                 
-
-
                                 echo 
                                 "<tr>
                                     <td>" . $row['fnamn'] . " " . $row['enamn']  .  "</td>
@@ -225,7 +221,38 @@
                 </form>
                 
             </div>
+<!--Flera sidor.-->
+                    <div class="mt-3">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <?php
+                                        $pageLink = "";
 
+                                        $total_pages = ceil($num_rows / $result_per_page);
+
+                                        if ($total_pages > 1) {
+
+                                            if ($page >= 2) {
+                                                echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . ($page - 1) . "&fastighetId=" . $fastighetId . "'>Föregående</a></li>";
+                                            }
+                                            for ($i = 1; $i <= $total_pages; $i++) {
+                                                if ($i == $page) {
+                                                    echo "<li class='page-item active'><a class='page-link' href='hyresgaster.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
+                                                } else {
+                                                    echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
+                                                }
+                                            }
+
+                                            if ($total_pages > $page) {
+                                                echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . ($page + 1) . "&fastighetId=" . $fastighetId . "'>Nästa</a></li>";
+                                            }
+                                        }
+                                        ?>
+                                    </ul>
+
+                                </nav>
+                        </div>
             <?php echo "<input type='hidden' id='hdRowCount' value='" .$tableRows . "' />" ?>
-        </body>
+        </div>
+    </body>
 </html>

@@ -23,17 +23,14 @@
 <html lang="en">
     <head>
         <title>Sammanställning</title>
-        
     </head>
 
     <body>
-        <?php include("./pages/sidebar.php") ?>
-        <?php echo '<input type="hidden" id="totalRowCount" value="' . htmlspecialchars(strval($total_registrations)) . '" />'."\n";?>
-        <div class="col-sm  min-vh-100 border">
-            <h2>Sammanställning för användare : <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong></h2>
-            <hr />
-            <div class="container border" >
-                
+        <?php include("./pages/sidebar2.php") ?>
+        <?php echo '<input type="hidden" id="totalRowCount" value="' . htmlspecialchars(strval($total_registrations)) . '" />'."\n";?>    
+            <div class="container " >
+                <h2>Sammanställning för användare : <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong></h2>
+                <hr />
                 <div class="row mt-2">
                     <div class="col-10">
                         <div class="d-inline-flex p-1 gap-2">
@@ -145,6 +142,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        
     </body>
 </html>

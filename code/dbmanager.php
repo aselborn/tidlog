@@ -76,13 +76,37 @@
             return (int)$row["count"];
         }
 
-        public function getHyresgastCount()
+        public function get_fastighet_namn($fastighetid)
         {
-            $sql = "select count(*) as count from tidlog_hyresgaster";
+            $data = $this->query("Select fastighet_namn from tidlog_fastighet where fastighet_id = ?", array($fastighetid))->fetchAll();
+            $fastighetNamn="";
+            foreach ($data as $row){
+                $fastighetNamn = $row["fastighet_namn"];
+            }
+
+            return $fastighetNamn;
+        }
+
+        public function getHyresgastCount($perFastighet)
+        {
+            $sql = "select count(*) as count from tidlog_lagenhet tl 
+            inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id 
+            where tl.hyresgast_id is not null and tf.fastighet_id=" . $perFastighet ;
             $result = $this->connection->query($sql);
             $row = $result->fetch_assoc();
             return (int)$row["count"];
         }
+
+        public function getfakturaCountPerFastighet($perFastighet)
+        {
+            $sql = "select count(*) as count from tidlog_lagenhet tl 
+            inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id 
+            where tl.hyresgast_id is not null and tf.fastighet_id=" . $perFastighet ;
+            $result = $this->connection->query($sql);
+            $row = $result->fetch_assoc();
+            return (int)$row["count"];
+        }
+
         public function getRowCountForUser($user)
         {
             $sql = "select count(*) as count, sum(job_hour) from tidlog_jobs where job_username = ?";

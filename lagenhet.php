@@ -4,7 +4,7 @@
       require_once "./code/managesession.php";
       
       $isPostBack = false;
-
+    
     if (isset($_GET['fastighetId'])){
         $isPostBack = true;
         $fastighetId = intval($_GET['fastighetId']);
@@ -18,13 +18,13 @@
       }
 
       $db = new DbManager();
-      $result_per_page = 12;
+      $result_per_page = 6;
 
       $page_first_result = ($page - 1) * $result_per_page;
       $num_rows = $db->getLagenhetCount();
+      $fastighetNamn = $db->get_fastighet_namn($fastighetId);
       $number_of_page = ceil($num_rows / $result_per_page);
 
-    
 
 ?>
 <!DOCTYPE html>
@@ -36,21 +36,12 @@
 
     <body>
         
-        <?php include("./pages/sidebar.php") ?>
+        <?php include("./pages/sidebar2.php") ?>
 
-        <div class="col-sm  min-vh-100 border">
-            <h2>Lägenheter</h2>
-            <hr />
             <div class="container" >
-                <div class="row mt-3">
-                    <!-- <div class="col-2">
-                        <label id="lblFastighet" class="label-primary">Välj fastighet</label>
-                        <select id="fastighetId" class="form-select" name="job_fastighet">
-                            <option value="1">T7</option>
-                            <option value="2">U9</option>
-                        </select>
-                    </div> -->
-                </div>
+                <h2>Lägenheter, fastigheten <?php echo $fastighetNamn?></h2>
+                <hr />
+                
                 <div class="row mt-3">
                     <div class="col">
                         <table class="table table-hover table-striped " id="lagenhetTable">
@@ -74,7 +65,7 @@
                                         inner join tidlog_fastighet tf on tf.fastighet_id = tl.fastighet_id
                                         left outer join tidlog_hyresgaster th on th.hyresgast_id = tl.hyresgast_id
                                         left outer join tidlog_parkering tp on tp.park_id = tl.park_id 
-                                        
+                                        where tf.fastighet_id = " . $fastighetId . "
                                     order by lagenhet_nr asc LIMIT " 
                                     
                                 . $page_first_result . ',' . $result_per_page)->fetchAll();
@@ -143,18 +134,18 @@
                                         if ($total_pages > 1) {
 
                                             if ($page >= 2) {
-                                                echo "<li class='page-item'><a class='page-link' href='lagenhet.php?page=" . ($page - 1) . "'>Föregående</a></li>";
+                                                echo "<li class='page-item'><a class='page-link' href='lagenhet.php?page=" . ($page - 1) . "&fastighetId=" . $fastighetId . "'>Föregående</a></li>";
                                             }
                                             for ($i = 1; $i <= $total_pages; $i++) {
                                                 if ($i == $page) {
-                                                    echo "<li class='page-item active'><a class='page-link' href='lagenhet.php?page=" . $i . "'>" . $i . "</a></li>";
+                                                    echo "<li class='page-item active'><a class='page-link' href='lagenhet.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
                                                 } else {
-                                                    echo "<li class='page-item'><a class='page-link' href='lagenhet.php?page=" . $i . "'>" . $i . "</a></li>";
+                                                    echo "<li class='page-item'><a class='page-link' href='lagenhet.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
                                                 }
                                             }
 
                                             if ($total_pages > $page) {
-                                                echo "<li class='page-item'><a class='page-link' href='lagenhet.php?page=" . ($page + 1) . "'>Nästa</a></li>";
+                                                echo "<li class='page-item'><a class='page-link' href='lagenhet.php?page=" . ($page + 1) . "&fastighetId=" . $fastighetId . "'>Nästa</a></li>";
                                             }
                                         }
                                         ?>
@@ -165,6 +156,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            
         </body>
 </html>

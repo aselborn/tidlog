@@ -2,13 +2,24 @@
       if (!isset($_SESSION)) { session_start(); }
       require_once "./code/dbmanager.php";
       require_once "./code/managesession.php";
+      
+      $isPostBack = false;
+    
+      if (isset($_GET['fastighetId'])){
+          $isPostBack = true;
+          $fastighetId = intval($_GET['fastighetId']);
+      }
 
       $db = new DbManager();
+      $fastighetNamn = $db->get_fastighet_namn($fastighetId);
+
       $parkeringar = $db->query(
         "
             select * from tidlog_parkering tp 
                 left outer join tidlog_lagenhet tl on tp.park_id = tl.park_id 
+                inner join tidlog_fastighet tf on tf.fastighet_id = tl.fastighet_id
                 left outer join tidlog_hyresgaster th on th.hyresgast_id = tl.hyresgast_id
+                where tf.fastighet_id = '" . $fastighetId . "'
             order by tp.parknr 
         ")->fetchAll();
 ?>
@@ -16,19 +27,16 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Parkeringar</title>
-        
+        <title>Parkeringar, tillhörandes fastigheten <?php echo $fastighetNamn; ?></title>
     </head>
 
     <body>
         
-        <?php include("./pages/sidebar.php") ?>
-
-        <div class="col-sm  min-vh-100 border">
-            <h2>Parkeringar</h2>
-            <hr />
+        <?php include("./pages/sidebar2.php") ?>
+    
             <div class="container " >
-
+            <h2>Parkeringar, tillhörande fastigheten <?php echo $fastighetNamn; ?></h2>
+            <hr />
             <div class="row mt-3">
                     <div class="col">
                         <table class="table table-hover table-striped " id="hyresgastTable">
@@ -89,6 +97,6 @@
                     </div>
 
             </div>
-        </div>
+        
     </body>
 </html>

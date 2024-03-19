@@ -23,15 +23,13 @@ $number_of_page = ceil($num_rows / $result_per_page);
 ?>
 <!DOCTYPE html>
 <html>
-    <?php include("./pages/sidebar2.php") ?>
     <title>Tidsregistrering</title>
     <body>
-
+        <?php include("./pages/sidebar2.php") ?>
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
         <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">
 
-        
-        <div class="container ">
+        <div class="container  ">
             <h2>Registrera tid</h2>
             <hr />
             <!-- Menu Button -->
@@ -194,4 +192,3 @@ $number_of_page = ceil($num_rows / $result_per_page);
 
     </body>
 </html>
-   
