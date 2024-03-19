@@ -135,6 +135,7 @@
             $this->pdf->SetFont($this->fontToUse, '', 9);
             if ($this->hyresInfo->moms > 0){
                 $momsbelopp = ((($artikelData->artikelMoms) / 100) * ($artikelData->artikelBelopp)) ;
+                $momsbelopp = round($momsbelopp, 0);
                 $this->pdf ->Text(50, 145, number_format($momsbelopp, 2, ',', ' ')  .  " kr");
             } else{
                 $this->pdf ->Text(50, 145, "0,00 kr");

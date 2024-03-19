@@ -217,12 +217,14 @@ if ($useOnlyArtikelData){
     {
         //skriv också ut artikel.
     }
+
+    $pdfLayout->printNettoMomsAttbetala($attBetala);
 }
 
 /********************************************************************************************* */
 
 /********************************spec moms ej moms att betala ****************************************** */
-$pdfLayout->printNettoMomsAttbetala($attBetala);
+//$pdfLayout->printNettoMomsAttbetala($attBetala);
 
 
 /********************************************************************************************* */

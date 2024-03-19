@@ -64,7 +64,7 @@ class HyresAvisering
             $this->parkering = $row["avgift"] == null ? 0 : $row["avgift"] ;
             $this->fakturaNummer = $row["fakturanummer"];
             //$this->fakturaDatum = $row["fakturadatum"];
-            $this->moms = $row["moms"];
+            $this->moms = round($row["moms"], 0);
             $this->specifikation = $row["specifikation"];
             $dtdat = date_create($row["fakturadatum"]);
             $dt = date_format($dtdat, "Y-m-d");
