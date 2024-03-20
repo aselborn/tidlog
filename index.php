@@ -42,7 +42,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                 <div class="row mt-3">
 
                     <div class="col">
-                        <table class="table table-hover table-striped table-custom" id="jobTable">
+                        <table class="table table-hover table-striped table-custom " id="jobTable">
                             <thead class="table-dark">
                                 <tr>
                                     

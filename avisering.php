@@ -51,6 +51,7 @@
                 "
                     <input type='hidden' id='hdYear' value='" .$yr . "' />
                     <input type='hidden' id='hdMonth' value='" .$month . "' />
+                    <input type='hidden' id='hdFastighet' value='" .$fastighetId . "'/>
                 ";
             }
         ?>
@@ -198,7 +199,7 @@
                                     } else {
                                         echo "
                                         <td>
-                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-outline-primary btn-sm rounded-5 thebinder'>
+                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-outline-success btn-sm rounded-5 thebinder'>
                                         </td>
                                        ";
                                     }
