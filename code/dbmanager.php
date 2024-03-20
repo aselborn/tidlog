@@ -200,6 +200,17 @@
             return $stmt;
         }
 
+        public function spara_hyreskoll($hyresgastId, $fakturaId, $dtKollad, $dtInbetald, $diff, $kolladav)
+        {
+            $sql = "INSERT INTO tidlog_fakturakoll(faktura_id, dt_inbetald, dt_kollad, kollad_av, diff, hyresgast_id) VALUES(?, ?, ?, ?, ?, ?)";
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("ssssss",  $fakturaId, $dtInbetald, $dtKollad, $kolladav,$diff, $hyresgastId);
+            $stmt->execute();
+
+            return $stmt;
+        }
+
         public function insert_new_user($param_username, $param_email, $param_password)
         {
             try{

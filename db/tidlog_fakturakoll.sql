@@ -1,5 +1,5 @@
 CREATE TABLE tidlog.tidlog_fakturakoll (
-	fakturakoll_id INT NOT NULL,
+	fakturakoll_id INT NOT NULL AUTO_INCREMENT,
 	faktura_id INT NOT NULL,
 	dt_inbetald DATETIME NOT NULL,
 	dt_kollad DATETIME NOT NULL,
@@ -12,3 +12,4 @@ CREATE TABLE tidlog.tidlog_fakturakoll (
 ENGINE=InnoDB
 DEFAULT CHARSET=latin1
 COLLATE=latin1_swedish_ci;
+ALTER TABLE tidlog.tidlog_fakturakoll MODIFY COLUMN fakturakoll_id int(11) auto_increment NOT NULL;

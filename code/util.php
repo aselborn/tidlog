@@ -124,13 +124,17 @@ if (isset($_POST["nameOfFunction"])){
         include_once "./dbmanager.php";
         $db = new DbManager();
 
-        $hyresgastId = $_POST['hyresgast_id'];
-        $fakturaId = $_POST['faktura_id'];
+        $hyresgastId = $_POST['hyresgastId'];
+        $fakturaId = $_POST['fakturaId'];
         $dt = $_POST['dtInbetald'];
         $diff = $_POST['diff'];
+        $kolladAv = $_POST['kolladAv'];
+        $dtKollad = date_format(new DateTime(), "Y-m-d");
 
         try{
-            $db->spara_hyreskoll($hyresgastId, $fakturaId, $dt, $diff);
+            
+            $db->spara_hyreskoll($hyresgastId, $fakturaId, $dtKollad, $dt, $diff, $kolladAv);
+
             echo json_encode(['spara_hyreskoll' => 'true']);
         } catch(Exception $e){
             echo json_encode(['spara_hyreskoll' => 'false']);

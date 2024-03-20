@@ -210,10 +210,10 @@ $(document).ready(function() {
         var hyresgastId = button.attr('hyresgast');
         var diff = $("#lblDiff" + hyresgastId).text();
         var dtInbetald = $("#dtInbetald" + hyresgastId).val()
-
-
+        var kolladAv = $("#hidUserName").val();
         
-        var data = { nameOfFunction : 'spara_hyreskoll', fakturaId : fakturaId, hyresgastId : hyresgastId, diff : diff , dtInbetald : dtInbetald }
+        
+        var data = { nameOfFunction : 'spara_hyreskoll', fakturaId : fakturaId, hyresgastId : hyresgastId, diff : diff , dtInbetald : dtInbetald, kolladAv: kolladAv }
                         
         $.post("./code/util.php", data, function(response){
 

@@ -38,7 +38,7 @@
     </head>
 
     <body>
-        
+        <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
         <?php include("./pages/sidebar2.php") ?>
 
             <div class="container ">
