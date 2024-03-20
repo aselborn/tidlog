@@ -70,6 +70,9 @@ if (isset($_POST["nameOfFunction"])){
         tabort_tidsregistrering();
     }
 
+    if ($_POST["nameOfFunction"] == "spara_hyreskoll"){
+        spara_hyreskoll();
+    }
         
     
 }
@@ -113,6 +116,26 @@ if (isset($_POST["nameOfFunction"])){
             echo json_encode(['tabort_tidsregistrering' => 'false']);
         }
         
+    }
+
+    function spara_hyreskoll()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $hyresgastId = $_POST['hyresgast_id'];
+        $fakturaId = $_POST['faktura_id'];
+        $dt = $_POST['dtInbetald'];
+        $diff = $_POST['diff'];
+
+        try{
+            $db->spara_hyreskoll($hyresgastId, $fakturaId, $dt, $diff);
+            echo json_encode(['spara_hyreskoll' => 'true']);
+        } catch(Exception $e){
+            echo json_encode(['spara_hyreskoll' => 'false']);
+        }
+
     }
 
     function get_faktura_period($fMonth, $fYear)

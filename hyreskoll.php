@@ -142,13 +142,15 @@
                                             <input type='number' style='width:100px' class='binderBelopp' id='$hyresgastId' />
                                         </td>
                                         <td>
-                                            <input type='date'  value='$dt' />
+                                            <input type='date'  value='$dt' id='dtInbetald" . $hyresgastId . "' />
                                         </td>
                                         <td>
                                             <label id='lblDiff" . $hyresgastId . "'  ><strong></strong></label>
                                         </td>
                                         <td>
-                                            <input type='button' id='btnSparaInbetalning" . $hyresgastId . "' value='Spara' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='spara_inbetalning' class='btn btn-sm btn-outline-success  btn-sm rounded-5 binderSpara' disabled>
+                                            <input type='button' id='btnSparaInbetalning" . $hyresgastId . "' value='Spara' 
+                                            faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='spara_inbetalning' 
+                                            class='btn btn-sm btn-outline-success  btn-sm rounded-5 binderSpara binderHyreskoll' disabled>
                                         </td>
                                        
                                     </tr>
