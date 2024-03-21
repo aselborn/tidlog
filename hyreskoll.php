@@ -11,9 +11,19 @@
     //   }
 
        $db = new DbManager();
-       $hyresdata = $db->query("select * from tidlog_lagenhet tl
-       inner join tidlog_hyresgaster th on tl.hyresgast_id = th.hyresgast_id 
-       left outer join tidlog_parkering tp on tp.park_id = tl.park_id ");
+       $yr = 2024;
+       $mn = 3;
+
+       $hyresdata = $db->query(
+        "
+            select th.fnamn, th.enamn ,  tf.fakturanummer , tf.faktura_month , tf.faktura_year ,
+            tl.hyra , tp.avgift , tl.lagenhet_nr, th.hyresgast_id, tf.faktura_id
+            from tidlog_lagenhet tl
+              inner join tidlog_hyresgaster th on tl.hyresgast_id = th.hyresgast_id 
+              inner join tidlog_faktura tf on tf.hyresgast_id =th.hyresgast_id 
+              left outer join tidlog_parkering tp on tp.park_id = tl.park_id
+       where tf.faktura_year = ? and tf.faktura_month = ? and tf.faktura is not null 
+       ", array($yr, $mn))->fetchAll();
     //   $result_per_page = 12;
 
     //   $page_first_result = ($page - 1) * $result_per_page;
@@ -28,13 +38,12 @@
     </head>
 
     <body>
-        
-        <?php include("./pages/sidebar.php") ?>
+        <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
+        <?php include("./pages/sidebar2.php") ?>
 
-        <div class="col-sm  min-vh-100 border">
-            <h2>Kontroll av inkommande hyra</h2>
-            <hr />
             <div class="container ">
+                <h2>Kontroll av inkommande hyra</h2>
+                <hr />
                 <div class="row ">
                 
                     <div class="col-2">
@@ -93,11 +102,13 @@
                         <tr>
                             <th>Lägenhet</th>
                             <th>Hyresgäst</th>
+                            <th>Aktuell hyra</th>
+                            <th>Parkering</th>
                             <th>Belopp inbetalt</th>
                             <th>Datum inbetalt</th>
-                            <th>Aktuell hyra</th>
                             <th>Skillnad</th>
-
+                            <th>Spara</th>
+                            <th>Registrerad</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,13 +118,41 @@
                                 $hyresgastId = $row["hyresgast_id"];
                                 $lagenhetNo = $row["lagenhet_nr"];
                                 $hyresgast = $row["fnamn"] . " " . $row["enamn"];
+                                $hyra = $row["hyra"];
+                                $park = $row["avgift"];
+                                $fakturaId = $row["faktura_id"];
+                                $dt = date_format(new DateTime(), "Y-m-d");
 
                                 echo 
                                 "
                                     <tr id='$hyresgastId'>
                                         <td>
-                                            '$hyresgastId . '
+                                            $lagenhetNo 
                                         </td>
+                                        <td>
+                                            $hyresgast  
+                                        </td>
+                                        <td>
+                                            <label id='lblHyra" . $hyresgastId . "' >$hyra</label>
+                                        </td>
+                                        <td>
+                                        <label id='lblPark" . $hyresgastId . "' >$park</label>
+                                        </td>
+                                        <td>
+                                            <input type='number' style='width:100px' class='binderBelopp' id='$hyresgastId' />
+                                        </td>
+                                        <td>
+                                            <input type='date'  value='$dt' id='dtInbetald" . $hyresgastId . "' />
+                                        </td>
+                                        <td>
+                                            <label id='lblDiff" . $hyresgastId . "'  ><strong></strong></label>
+                                        </td>
+                                        <td>
+                                            <input type='button' id='btnSparaInbetalning" . $hyresgastId . "' value='Spara' 
+                                            faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='spara_inbetalning' 
+                                            class='btn btn-sm btn-outline-success  btn-sm rounded-5 binderSpara binderHyreskoll' disabled>
+                                        </td>
+                                       
                                     </tr>
                                 ";
                             }
@@ -123,6 +162,6 @@
                 </table>
             </div>
 
-        </div>
+        
     </body>
 </html>

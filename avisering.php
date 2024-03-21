@@ -5,6 +5,17 @@
 
       $db = new DbManager();
       $isPostBack = false;
+      if (!isset($_GET['page'])) 
+      {
+          $page = 1;
+      } else {
+          $page = $_GET['page'];
+      }
+
+      if (isset($_GET['fastighetId'])){
+        $isPostBack = true;
+        $fastighetId = intval($_GET['fastighetId']);
+      }
 
       if (isset($_GET['year']) || isset($_GET['month'])){
         $month = intval($_GET['month']);
@@ -15,21 +26,16 @@
         $yr = intval(date('Y'));
       }
 
+      $result_per_page = 6;
       
-    //   $fakturor = $db->query("select * from tidlog_faktura tf 
-    //   inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
-    //   inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
-    //   left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
-    //   WHERE tf.faktura_year = ? and tf.faktura_month = ?", array($yr, $month))->fetchAll();
+      $page_first_result = ($page - 1) * $result_per_page;
+      $num_rows = $db->getfakturaCountPerFastighet($yr, $month, $fastighetId);
+      $number_of_page = ceil($num_rows / $result_per_page);
 
+    $fastighetNamn = $db->get_fastighet_namn($fastighetId);
     $fakturor = $db->get_faktura_underlag($yr, $month);
 
-      if (!isset($_GET['page'])) 
-      {
-          $page = 1;
-      } else {
-          $page = $_GET['page'];
-      }
+      
 
 ?>
 <!DOCTYPE html>
@@ -45,16 +51,15 @@
                 "
                     <input type='hidden' id='hdYear' value='" .$yr . "' />
                     <input type='hidden' id='hdMonth' value='" .$month . "' />
+                    <input type='hidden' id='hdFastighet' value='" .$fastighetId . "'/>
                 ";
             }
         ?>
-        <?php include("./pages/sidebar.php") ?>
-
-        <div class="col-sm  min-vh-100 border">
-            <h2>Skapa hyresavier</h2>
+        <?php include("./pages/sidebar2.php") ?>
+    
+        <div class="container " >
+            <h2>Skapa hyresavier, för fastigheten <?php echo $fastighetNamn; ?></h2>
             <hr />
-            <div class="container " >
-            
             <div class="row ">
                 
                     <div class="col-2">
@@ -157,8 +162,6 @@
                                 if ($row["fastighet_id"] == 2)
                                     $hyraU9 += intval($row["hyra"]);
                                 
-
-
                                 echo 
                                 "<tr>
                                     <td>" . $row['fnamn'] . " " . $row['enamn']  .  "</td>
@@ -196,7 +199,7 @@
                                     } else {
                                         echo "
                                         <td>
-                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-outline-primary btn-sm rounded-5 thebinder'>
+                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-outline-success btn-sm rounded-5 thebinder'>
                                         </td>
                                        ";
                                     }
@@ -223,9 +226,40 @@
                 <form  action="./code/createpdf.php" method="post" enctype="multipart/form-data">
                     <input type="submit" value="Skapa Faktura" id="btnPdf" class="btn btn-success" ></input>
                 </form>
-                
-            </div>
 
+                <div class="mt-3">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <?php
+                                        $pageLink = "";
+
+                                        $total_pages = ceil($num_rows / $result_per_page);
+
+                                        if ($total_pages > 1) {
+
+                                            if ($page >= 2) {
+                                                echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . ($page - 1) . "&fastighetId=" . $fastighetId . "'>Föregående</a></li>";
+                                            }
+                                            for ($i = 1; $i <= $total_pages; $i++) {
+                                                if ($i == $page) {
+                                                    echo "<li class='page-item active'><a class='page-link' href='hyresgaster.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
+                                                } else {
+                                                    echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
+                                                }
+                                            }
+
+                                            if ($total_pages > $page) {
+                                                echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . ($page + 1) . "&fastighetId=" . $fastighetId . "'>Nästa</a></li>";
+                                            }
+                                        }
+                                        ?>
+                                    </ul>
+
+                                </nav>
+                        </div>
+            </div>
+<!--Flera sidor.-->
             <?php echo "<input type='hidden' id='hdRowCount' value='" .$tableRows . "' />" ?>
-        </body>
+        </div>
+    </body>
 </html>

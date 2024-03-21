@@ -50,15 +50,26 @@ $(document).ready(function() {
         var yr = $("#selectedYearFaktura").val();
         var mn = $("#selectedMonthFaktura").val();
 
+        var fastighetId = $("#hdFastighet").val();
+
         var data = { faktMonth : mn,  faktYear : yr };
 
         var url = window.location.href;    
         
+        // if (url.indexOf('?') > -1){
+        //     url = url.substring( 0, url.indexOf( "?" ) );
+        //     url += '?year=' + yr + '&month=' + mn;
+        // }else{
+        //     url += '?year=' + yr + '&month=' + mn;
+        // }   
+
         if (url.indexOf('?') > -1){
             url = url.substring( 0, url.indexOf( "?" ) );
-            url += '?year=' + yr + '&month=' + mn;
+            //url += '?year=' + yr + '&month=' + mn;
+            url += '?page=1' + '&fastighetId=' + fastighetId + '&year=' + yr + '&month=' +mn;
         }else{
-            url += '?year=' + yr + '&month=' + mn;
+            //url += '?year=' + yr + '&month=' + mn;
+            url += '?page=1' + '&fastighetId=' + fastighetId + '&year=' + yr + '&month=' +mn;
         }   
         
         window.location.href = url;

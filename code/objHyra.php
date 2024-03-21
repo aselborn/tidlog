@@ -35,7 +35,7 @@ class HyresAvisering
         $db = new DbManager();
 
         $hyra = $db->query("select fa.fastighet_namn, fa.fastighet_address, fa.post_adress, fa.epost , fa.orgnr , fa.bankgiro, l.fskatt, fa.foretag_namn,
-            h.fnamn, h.enamn, h.adress, l.hyra, l.lagenhet_nr, p.avgift, 
+            h.fnamn, h.enamn, h.adress, f.belopp_hyra as hyra, l.lagenhet_nr, f.belopp_parkering as avgift, 
             f.faktura_id, f.fakturanummer, f.fakturadatum, f.ocr, f.duedate, f.specifikation, 
             tm.moms_procent, tm.moms
         
@@ -63,7 +63,6 @@ class HyresAvisering
             $this->hyra =$row["hyra"];
             $this->parkering = $row["avgift"] == null ? 0 : $row["avgift"] ;
             $this->fakturaNummer = $row["fakturanummer"];
-            //$this->fakturaDatum = $row["fakturadatum"];
             $this->moms = round($row["moms"], 0);
             $this->specifikation = $row["specifikation"];
             $dtdat = date_create($row["fakturadatum"]);

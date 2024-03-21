@@ -1,4 +1,4 @@
-CREATE TABLE tidlog.tidlog_faktura (
+CREATE TABLE tidlog_faktura (
 	faktura_id INT auto_increment NOT NULL,
 	hyresgast_id INT NOT NULL,
 	lagenhet_id INT NULL,
@@ -17,3 +17,5 @@ ENGINE=InnoDB
 DEFAULT CHARSET=latin1
 COLLATE=latin1_swedish_ci;
 
+ALTER TABLE tidlog_faktura ADD belopp_hyra INT null after faktura_id;
+ALTER TABLE tidlog_faktura ADD belopp_parkering varchar(100) null after belopp_hyra;

@@ -76,13 +76,53 @@
             return (int)$row["count"];
         }
 
-        public function getHyresgastCount()
+        public function get_fastighet_namn($fastighetid)
         {
-            $sql = "select count(*) as count from tidlog_hyresgaster";
+            $data = $this->query("Select fastighet_namn from tidlog_fastighet where fastighet_id = ?", array($fastighetid))->fetchAll();
+            $fastighetNamn="";
+            foreach ($data as $row){
+                $fastighetNamn = $row["fastighet_namn"];
+            }
+
+            return $fastighetNamn;
+        }
+
+        public function getHyresgastCount($perFastighet)
+        {
+            $sql = "select count(*) as count from tidlog_lagenhet tl 
+            inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id 
+            where tl.hyresgast_id is not null and tf.fastighet_id=" . $perFastighet ;
             $result = $this->connection->query($sql);
             $row = $result->fetch_assoc();
             return (int)$row["count"];
         }
+
+        public function getfakturaCountPerFastighet($yr, $mn, $perFastighet)
+        {
+            $sql = "select count(*) as count from tidlog_faktura ta
+			inner join tidlog_lagenhet tl  on tl.lagenhet_id = ta.lagenhet_id 
+            inner join tidlog_fastighet tf on tf.fastighet_id = tl.fastighet_id 
+            where tl.hyresgast_id is not null and tf.fastighet_id
+            and ta.faktura_year = ? and ta.faktura_month = ? and tf.fastighet_id = ?";
+        
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("sss", $yr, $mn, $perFastighet);
+            $stmt->execute();
+            
+            $result = $stmt->get_result();
+            
+            $theResult = 0;
+            
+            
+
+            $theResult = $result->fetch_assoc();
+            $theResult = $theResult["count"];
+            
+            return $theResult;
+            
+        }
+
         public function getRowCountForUser($user)
         {
             $sql = "select count(*) as count, sum(job_hour) from tidlog_jobs where job_username = ?";
@@ -155,6 +195,17 @@
             $sql = "INSERT INTO tidlog_kontrakt (lagenhet_id, hyresgast_id, datum, kontrakt, kontrakt_namn) VALUES(?, ?, ?, ?, ?)";
             $stmt = $this->connection->prepare($sql);
             $stmt->bind_param("sssss",  $lagenhetId, $hyresgastId, $datum, $kontraktBlob, $kontraktNamn);
+            $stmt->execute();
+
+            return $stmt;
+        }
+
+        public function spara_hyreskoll($hyresgastId, $fakturaId, $dtKollad, $dtInbetald, $diff, $kolladav)
+        {
+            $sql = "INSERT INTO tidlog_fakturakoll(faktura_id, dt_inbetald, dt_kollad, kollad_av, diff, hyresgast_id) VALUES(?, ?, ?, ?, ?, ?)";
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("ssssss",  $fakturaId, $dtInbetald, $dtKollad, $kolladav,$diff, $hyresgastId);
             $stmt->execute();
 
             return $stmt;
@@ -393,7 +444,8 @@
         */
         public function skapa_fakturor($month, $monthNo, $year)
         {
-            $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr, tf.fastighet_id 
+            $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr, tf.fastighet_id, 
+            tl.hyra, tp.avgift
             from tidlog_hyresgaster th 
                 inner join tidlog_lagenhet tl ON th.hyresgast_id = tl.hyresgast_id
                 inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id
@@ -417,15 +469,18 @@
                 $dueDate = date("Y-m-t");
                 $spec = 'hyra för ' . $month . " " .$year;
 
-                $sql = "INSERT INTO tidlog_faktura( hyresgast_id, 
+                $beloppHyra = $row["hyra"];
+                $beloppPark = $row["avgift"] == null ? 0 : $row["avgift"];
+
+                $sql = "INSERT INTO tidlog_faktura(belopp_hyra, belopp_parkering, hyresgast_id, 
                     lagenhet_id, park_id, fakturanummer, 
                     FakturaDatum, ocr, duedate, specifikation, 
                         `faktura_year`, `faktura_month`)
                 
-                VALUES(?,?,?,?,?,?,?,?,?,?)";
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 $stmt = $this->connection->prepare($sql);
-                $stmt->bind_param("ssssssssss", $hyresgastId, $lagenhetId, $parkId, $fakturaNr, $fakturaDatum, $ocr, $dueDate, $spec, $year, $monthNo);
+                $stmt->bind_param("ssssssssssss", $beloppHyra, $beloppPark, $hyresgastId, $lagenhetId, $parkId, $fakturaNr, $fakturaDatum, $ocr, $dueDate, $spec, $year, $monthNo);
 
                 $stmt->execute();
                 $stmt->close();

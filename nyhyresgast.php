@@ -17,12 +17,10 @@
     </head>
     <body>
         <!-- <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $lagenhetNo ?>" > -->
-        <?php include("./pages/sidebar.php") ?>
-
-        <div class="col-sm  min-vh-100 border">
+        <?php include("./pages/sidebar2.php") ?>
+            <div class="container " >
             <h2>Hyresgäst</h2>
             <hr />
-            <div class="container border" >
                 <div class="d-inline-flex">
                     <h3>
                         <strong>Skapa en ny hyresgäst</strong>
@@ -93,6 +91,6 @@
                         </div>
                 </div>
             </div>
-        </div>
+        
     </body>
 </html>

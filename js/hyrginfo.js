@@ -22,7 +22,10 @@ $(document).ready(function() {
         var enamn = $("#enamn").val();
         var telefon = $("#telefon").val();
         var epost = $("#epost").val();
+        
         var hyresgastId = $("#hidHyresgastId").val();
+        var fastighetId = $("#hidFastighetId").val();
+
         var adress = $("#adress").val();
         var lagenhetId = $("#lagenhetId").val();
     
@@ -40,7 +43,7 @@ $(document).ready(function() {
                 } 
 
                 
-                window.location.href = "./hyresgaster.php";
+                window.location.href = "./hyresgaster.php?fastighetId=" + fastighetId;
             }
 
         });
@@ -148,6 +151,77 @@ $(document).ready(function() {
 
         });
      
+    });
+
+    function setCurrentDate(){
+        var d = new Date();
+
+        var month = d.getMonth()+1;
+        var day = d.getDate();
+    
+        var output = d.getFullYear() + '/' +
+        (month<10 ? '0' : '') + month + '/' +
+        (day<10 ? '0' : '') + day;
+
+        return output;
+    }
+    
+    //Hantera hyresgäst, en knapp för varje rad.
+    $('.binderBelopp').on('change', (event) =>
+    {
+        const input = $(event.currentTarget);
+
+        //var ids = $(".binderBelopp").map(function(index, element){return element.id});
+
+        var inbetalt =  parseInt(input.val());
+
+        var hyresgastId = input.attr('id');
+
+        var tg = "#lblHyra" + hyresgastId;
+
+        var hyra = parseInt($("#lblHyra" + hyresgastId).text());
+        var park = parseInt($("#lblPark" + hyresgastId).text())
+        if (isNaN(park))
+            park = 0;
+
+        var diff = (inbetalt - (hyra+park));
+
+        
+        $("#lblDiff" + hyresgastId).text(diff);
+        if (diff < 0)
+        {
+            $("#lblDiff" + hyresgastId).addClass('text-warning fw-bold bg-danger')
+
+        }
+        if (diff > 0)
+        {
+            $("#lblDiff" + hyresgastId).addClass('text-warning fw-bold');
+        }
+        
+        $("#btnSparaInbetalning" + hyresgastId).prop('disabled', false);
+        
+    })
+
+    $('.binderHyreskoll').on('click', (event) =>{
+
+        const button = $(event.currentTarget);
+        
+        var fakturaId = button.attr('faktura');
+        var hyresgastId = button.attr('hyresgast');
+        var diff = $("#lblDiff" + hyresgastId).text();
+        var dtInbetald = $("#dtInbetald" + hyresgastId).val()
+        var kolladAv = $("#hidUserName").val();
+        
+        
+        var data = { nameOfFunction : 'spara_hyreskoll', fakturaId : fakturaId, hyresgastId : hyresgastId, diff : diff , dtInbetald : dtInbetald, kolladAv: kolladAv }
+                        
+        $.post("./code/util.php", data, function(response){
+
+            window.location.reload();
+
+        });
+
+
 
     });
 
