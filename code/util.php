@@ -179,15 +179,18 @@ if (isset($_POST["nameOfFunction"])){
         if (empty($_POST['year'])) {
             $errors['year'] = 'År';
         }
-
+        if (empty($_POST['fastighetId'])) {
+            $errors['fastighetid'] = 'Fastighet?';
+        }
 
         try{
             
             $month = $_POST["month"];
             $monthNo = $_POST["monthNo"];
             $year = $_POST["year"];
+            $fastighetId = $_POST["fastighetId"];
 
-            $db->skapa_fakturor($month, $monthNo, $year);
+            $db->skapa_fakturor($month, $monthNo, $year, $fastighetId);
 
             echo json_encode(['skicka_faktura' => 'true']);
 

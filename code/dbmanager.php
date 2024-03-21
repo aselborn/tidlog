@@ -45,7 +45,9 @@
                 inner join tidlog_fastighet tfa on tfa.fastighet_id = tl.fastighet_id
                 left outer join tidlog_parkering tp on tp.park_id = tl.park_id 
                 where tfa.fastighet_id = " . $fastighetId . " and tf.faktura_year = " . $year ."
-                and tf.faktura_month = " . $month . " LIMIT " . $page_first_result . "," . $result_per_page;
+                and tf.faktura_month = " . $month . " 
+                ORDER BY tl.lagenhet_nr 
+                LIMIT " . $page_first_result . "," . $result_per_page;
                 
 
             $fakturor = $this->query($sql) ->fetchAll();
@@ -446,14 +448,15 @@
         /*
             Skapa alla fakturor för en viss månad.
         */
-        public function skapa_fakturor($month, $monthNo, $year)
+        public function skapa_fakturor($month, $monthNo, $year, $fastighetId)
         {
             $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr, tf.fastighet_id, 
             tl.hyra, tp.avgift
             from tidlog_hyresgaster th 
                 inner join tidlog_lagenhet tl ON th.hyresgast_id = tl.hyresgast_id
                 inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id
-                left outer join tidlog_parkering tp on tp.park_id =tl.park_id")->fetchAll();
+                left outer join tidlog_parkering tp on tp.park_id =tl.park_id
+                where tf.fastighet_id = " . $fastighetId  )->fetchAll();
             
             $sql ="";
 

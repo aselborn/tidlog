@@ -207,9 +207,10 @@ $(document).ready(function() {
         var themonth = $("#selectedMonthFaktura option:selected" ).text();
 
         var theyear =  $("#selectedYearFaktura").val();
+        var fastighetId = $("#hdFastighet").val();
         
 
-    var data = { nameOfFunction : 'skapa_fakturor', month : themonth,  monthNo : theMontNo, year : theyear };
+    var data = { nameOfFunction : 'skapa_fakturor', month : themonth,  monthNo : theMontNo, year : theyear, fastighetId : fastighetId };
 
 
     $.post("./code/util.php", data, function(response){
