@@ -19,10 +19,9 @@
             
         }
 
-        public function get_faktura_underlag($year, $month)
+        public function get_faktura_underlag($year, $month, $fastighetId, $page_first_result, $result_per_page)
         {
-            $fakturor = $this->query("select 
-            
+            $sql = "select             
             tf.faktura_id as faktura_id,
             tf.hyresgast_id as hyresgast_id, 
             tf.lagenhet_id as lagenhet_id, 
@@ -44,8 +43,13 @@
                 inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
                 inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
                 inner join tidlog_fastighet tfa on tfa.fastighet_id = tl.fastighet_id
-                left outer join tidlog_parkering tp on tp.park_id =tl.park_id 
-                WHERE tf.faktura_year = ? and tf.faktura_month = ?", array($year, $month))->fetchAll();
+                left outer join tidlog_parkering tp on tp.park_id = tl.park_id 
+                where tfa.fastighet_id = " . $fastighetId . " and tf.faktura_year = " . $year ."
+                and tf.faktura_month = " . $month . " LIMIT " . $page_first_result . "," . $result_per_page;
+                
+
+            $fakturor = $this->query($sql) ->fetchAll();
+            
 
             return $fakturor;
         }

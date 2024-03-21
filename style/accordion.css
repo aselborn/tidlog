@@ -10,6 +10,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
+
 .sidebar-toggle {
   margin-left: -240px;
 }

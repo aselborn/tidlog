@@ -50,10 +50,10 @@
                 <li>
                     <a href="index.php"><i class="fa fa-lg fa-dashboard"></i><span>Meny</span></a>
                 </li>
-                <li class="sub-menu">
+                <li class="sub-menu ">
                     <a href="javascript:void(0);"><i class="fa fa-lg  bi-clock"></i><span>Tidsregistrering</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                     <ul>
-                        <li>
+                        <li class="menu-binder">
                             <a href="index.php">Registrera tid</a>
                         </li>
                         <li>
@@ -85,7 +85,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="sub-menu active">
+                <!-- <li class="sub-menu active">
                     <a href="javascript:void(0);"><i class="fa fa-lg bi-p-circle"></i><span>Parkeringsplatser</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                     <ul>
                     <li class="active"><a href="parking.php?fastighetId=1">Tryckaren 7</a>
@@ -93,18 +93,37 @@
                     <li><a href="parking.php?fastighetId=2">Uttern 9</a>
                     </li>
                     </ul>
-                </li>
+                </li> -->
                 <li class="sub-menu">
-                    <a href="javascript:void(0);"><i class="fa fa-lg fa-bar-chart-o"></i><span>Ekonomi</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                    <a href="javascript:void(0);"><i class="fa fa-lg bi-p-circle"></i><span>Parkeringsplatser</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                     <ul>
-                    <li><a href="avisering.php?page=1&fastighetId=1">Avisering av hyror</a>
+                    <li ><a href="parking.php?fastighetId=1">Tryckaren 7</a>
                     </li>
-                    <li><a href="hyreskoll.php?page=1&fastighetId=2">Kontroll av hyror</a>
+                    <li><a href="parking.php?fastighetId=2">Uttern 9</a>
                     </li>
-                    <li><a href="skapa_faktura.php">Skapa faktura</a></li>
                     </ul>
                 </li>
-                
+                <li class="sub-menu">
+                    <a href="javascript:void(0);"><i class="fa fa-lg fa-bar-chart-o"></i><span>Hyresavier</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                    <ul>
+                        <li><a href="avisering.php?page=1&fastighetId=1">Avisering T7</a>
+                        </li>
+                        <!-- <li><a href="hyreskoll.php?page=1&fastighetId=2">Avisering U9</a> -->
+                        <li><a href="avisering.php?page=1&fastighetId=2">Avisering U9</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:void(0);"><i class="fa fa-lg fa-money"></i><span>Hyreskoll</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                    <ul>
+                        <li><a href="hyreskoll.php?page=1&fastighetId=1">Hyreskoll T7</a>
+                        </li>
+                        <li><a href="hyreskoll.php?page=1&fastighetId=2">Hyreskoll U9</a>
+                        </li>
+                        
+                    </ul>
+                </li>
                 <li class="sub-menu">
                     <a href="logout.php"><i class="fa fa-lg bi-door-open "></i><span>Logga ut</span></a>
                 </li>

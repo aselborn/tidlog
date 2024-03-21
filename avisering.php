@@ -26,14 +26,15 @@
         $yr = intval(date('Y'));
       }
 
-      $result_per_page = 6;
+      $result_per_page = 12;
       
       $page_first_result = ($page - 1) * $result_per_page;
       $num_rows = $db->getfakturaCountPerFastighet($yr, $month, $fastighetId);
       $number_of_page = ceil($num_rows / $result_per_page);
 
     $fastighetNamn = $db->get_fastighet_namn($fastighetId);
-    $fakturor = $db->get_faktura_underlag($yr, $month);
+
+    $fakturor = $db->get_faktura_underlag($yr, $month, $fastighetId, $page_first_result, $result_per_page);
 
       
 
@@ -238,18 +239,18 @@
                                         if ($total_pages > 1) {
 
                                             if ($page >= 2) {
-                                                echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . ($page - 1) . "&fastighetId=" . $fastighetId . "'>Föregående</a></li>";
+                                                echo "<li class='page-item'><a class='page-link' href='avisering.php?page=" . ($page - 1) . "&fastighetId=" . $fastighetId . "&year=" . $yr . "&month=" . $month . "'>Föregående</a></li>";
                                             }
                                             for ($i = 1; $i <= $total_pages; $i++) {
                                                 if ($i == $page) {
-                                                    echo "<li class='page-item active'><a class='page-link' href='hyresgaster.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
+                                                    echo "<li class='page-item active'><a class='page-link' href='avisering.php?page=" . $i . "&fastighetId=" . $fastighetId . "&year=" . $yr . "&month=" . $month . "'>" . $i . "</a></li>";
                                                 } else {
-                                                    echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
+                                                    echo "<li class='page-item'><a class='page-link' href='avisering.php?page=" . $i . "&fastighetId=" . $fastighetId . "&year=" . $yr . "&month=" . $month . "'>" . $i . "</a></li>";
                                                 }
                                             }
 
                                             if ($total_pages > $page) {
-                                                echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . ($page + 1) . "&fastighetId=" . $fastighetId . "'>Nästa</a></li>";
+                                                echo "<li class='page-item'><a class='page-link' href='avisering.php?page=" . ($page + 1) . "&fastighetId=" . $fastighetId . "&year=" . $yr . "&month=" . $month . "'>Nästa</a></li>";
                                             }
                                         }
                                         ?>
