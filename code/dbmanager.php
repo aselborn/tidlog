@@ -444,7 +444,8 @@
         */
         public function skapa_fakturor($month, $monthNo, $year)
         {
-            $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr, tf.fastighet_id 
+            $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr, tf.fastighet_id, 
+            tl.hyra, tp.avgift
             from tidlog_hyresgaster th 
                 inner join tidlog_lagenhet tl ON th.hyresgast_id = tl.hyresgast_id
                 inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id
@@ -468,15 +469,18 @@
                 $dueDate = date("Y-m-t");
                 $spec = 'hyra för ' . $month . " " .$year;
 
-                $sql = "INSERT INTO tidlog_faktura( hyresgast_id, 
+                $beloppHyra = $row["hyra"];
+                $beloppPark = $row["avgift"] == null ? 0 : $row["avgift"];
+
+                $sql = "INSERT INTO tidlog_faktura(belopp_hyra, belopp_parkering, hyresgast_id, 
                     lagenhet_id, park_id, fakturanummer, 
                     FakturaDatum, ocr, duedate, specifikation, 
                         `faktura_year`, `faktura_month`)
                 
-                VALUES(?,?,?,?,?,?,?,?,?,?)";
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 $stmt = $this->connection->prepare($sql);
-                $stmt->bind_param("ssssssssss", $hyresgastId, $lagenhetId, $parkId, $fakturaNr, $fakturaDatum, $ocr, $dueDate, $spec, $year, $monthNo);
+                $stmt->bind_param("ssssssssssss", $beloppHyra, $beloppPark, $hyresgastId, $lagenhetId, $parkId, $fakturaNr, $fakturaDatum, $ocr, $dueDate, $spec, $year, $monthNo);
 
                 $stmt->execute();
                 $stmt->close();

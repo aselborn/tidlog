@@ -89,12 +89,7 @@ $pdf->SetFont($fontToUse,'B',14);
 $pdf->Text(180, 216, 'OCR');
 $pdf->Line(0,218,250,218); // en rak linje. Andra övre linjen
 
-// $pdf->SetFont($fontToUse,'',10);
-// if ($hyresInfo->moms > 0 ){
-//     $pdf->Text(20, 230, 'Betalning gäller lokal');
-// } else {
-//     $pdf->Text(20, 230, 'Betalning gäller lägenheten ');
-// }
+
 
 if ($useOnlyArtikelData)
 {
