@@ -20,11 +20,11 @@ class TextNormalizerFPDF extends FPDF
 		$this->AddFont('OCRB', '', 'OCRB Regular.php');
 
         // Logo AVKOMMENTERAD FÖR NU, VÄNTAR PÅ BOLAG!
-		// if ($this->hyresInfo->fastighetNamn == "TRYCKAREN 7"){
-		// 	$this->Image('../bilder/t7_logo_3.0.png',10,10,35);
-		// } else{
-		// 	$this->Image('../bilder/u9_logo_2.0.png',10,10,35);
-		// }
+		if ($this->hyresInfo->fastighetNamn == "TRYCKAREN 7"){
+			$this->Image('../bilder/t7_logo_3.0.png',10,10,35);
+		} else{
+			$this->Image('../bilder/u9_logo_2.0.png',10,10,35);
+		}
         
         
 		// Arial bold 15
