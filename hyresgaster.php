@@ -25,7 +25,7 @@
 
       $lagenheter = $db->query("select * from tidlog_lagenhet order by lagenhet_nr")->fetchAll();
       $hyresgaster = $db->query("
-        SELECT * FROM  tidlog_hyresgaster h 
+        SELECT h.hyresgast_id, h.adress, h.epost, h.enamn, h.fnamn, h.telefon, l.lagenhet_nr, tf.fastighet_id FROM  tidlog_hyresgaster h 
             inner join tidlog_lagenhet l on l.hyresgast_id = h.hyresgast_id 
             inner join tidlog_fastighet tf on tf.fastighet_id = l.fastighet_id
             where tf.fastighet_id = " . $fastighetId . "

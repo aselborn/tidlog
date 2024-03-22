@@ -18,7 +18,7 @@
       }
 
       $db = new DbManager();
-      $result_per_page = 6;
+      $result_per_page = 20;
 
       $page_first_result = ($page - 1) * $result_per_page;
       $num_rows = $db->getLagenhetCount();
@@ -48,8 +48,8 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th scope="col" class="table-primary">Lägenhet Nr</th>
-                                    <th scope="col" class="table-primary">Fastighet</th>
-                                    <th scope="col" class="table-primary">Parkering</th>
+                                    <th scope="col" class="table-primary">Hyra</th>
+                                    <th scope="col" class="table-primary">Parkering Nr</th>
                                     <th scope="col" class="table-primary">Hyrs av</th>
                                     <th scope="col" class="table-primary">Yta</th>
                                 </tr>
@@ -83,6 +83,7 @@
                                     "Ledig" : $row["fnamn"] . " " . " " .  $row["enamn"];
                                 $hyresgastId = $row["hyresgast_id"];
                                 $parkering = $row["parknr"]  == null ? "" : $row["parknr"];
+                                $hyra = $row["hyra"];
 
                                 $link = "<tr id='$lagenhetId'><td>
                                 <a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
@@ -90,7 +91,7 @@
                                         " . $lagenhetNo . "
                                     </div>
                                 </a>
-                                <td>". $fastighet . "</td>
+                                <td>". $hyra . "</td>
                                 <td>". $parkering . "</td>
                                 <td>";
                                 if ($hyrsAv != "Ledig"){

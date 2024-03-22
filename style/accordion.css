@@ -20,12 +20,12 @@ body {
   background: #293949;
   /* background: rgb(236, 224, 224); */
   position: absolute;
-  -webkit-transition: all .3s ease-in-out;
+  /* -webkit-transition: all .3s ease-in-out;
   -moz-transition: all .3s ease-in-out;
   -o-transition: all .3s ease-in-out;
   -ms-transition: all .3s ease-in-out;
   transition: all .3s ease-in-out;
-  z-index: 100;
+  z-index: 100; */
   #leftside-navigation {
     ul, ul ul {
       margin: -2px 0 0;

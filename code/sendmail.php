@@ -42,13 +42,13 @@
     //Recipients
     $mail->setFrom($epostMeddelande->epost, $epostMeddelande->fastighetNamn);
 
-    $mail->addAddress('anders@selborn.se', 'Anders Selborn');     //Add a recipient
-    //$mail->addAddress($epostMeddelande->epostMottagare, $epostMeddelande->fullname);     //Add a recipient
+    //$mail->addAddress('anders@selborn.se', 'Anders Selborn');     //Add a recipient
+    $mail->addAddress($epostMeddelande->epostMottagare, $epostMeddelande->fullname);     //Add a recipient
 
     //$mail->addAddress('ellen@example.com');               //Name is optional
     $mail->addReplyTo($epostMeddelande->epost, 'Information');
     //$mail->addCC('cc@example.com');
-    $mail->addBCC('fastighet@selborn.se');
+    $mail->addBCC('fastighet@selborn.se'); //Blind copy.
 
     $fakturaData = $epostMeddelande->faktura;
     $faktura = stripslashes($fakturaData);
