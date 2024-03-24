@@ -27,6 +27,7 @@
     
     <body>
         <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $lagenhetNo ?>" >
+        
         <?php include("./pages/sidebar.php") ?>
 
         <div class="col-sm  min-vh-100 border">

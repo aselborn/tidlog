@@ -31,18 +31,22 @@
 <html lang="en">
     <head>
         <title>Lägenheter</title>
-        
     </head>
 
-    <body>
-        
-        <?php include("./pages/sidebar2.php") ?>
+    <?php include("./pages/sidebar.php") ?>
 
-            <div class="container" >
-                <h2>Lägenheter, fastigheten <?php echo $fastighetNamn?></h2>
-                <hr />
+    <body>
+            
+    <div class="main ">
+
+        <div class="container mt-5" >
                 
-                <div class="row mt-3">
+                <div class="row mt-2">
+                
+                    <div class="d-inline-flex">
+                        <h3><strong>Lägenheter, fastigheten <?php echo $fastighetNamn?></strong></h3>
+                    </div>
+                
                     <div class="col">
                         <table class="table table-hover table-striped " id="lagenhetTable">
                             <thead class="table-dark">
@@ -157,6 +161,9 @@
                         </div>
                     </div>
                 </div>
+
+            </div>
             
-        </body>
+            
+    </body>
 </html>

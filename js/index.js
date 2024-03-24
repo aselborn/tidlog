@@ -30,9 +30,9 @@ $(document).ready(function() {
   });
 
   //Hanterar spara och uppdatera.
-  $("#btnSave").on('click', function()
+  $("#btnSaveTidsregistrering").on('click', function()
   {
-    var title = $("#btnSave").val();
+    var title = $("#btnSaveTidsregistrering").val();
     if (title === 'Spara'){
         saveOrUpdate(true)
     }
@@ -49,6 +49,24 @@ $(document).ready(function() {
     var script = ""
     var myUserName = $("#hidUserName").val();
     const currentDate = new Date();
+
+    if ($("#job_description").val() === ""){
+      $.alert({
+        title: 'Information!',
+        content: 'Du <strong>måste</strong> ange en beskrivning om vad du gjort!',
+        icon: 'fa fa-rocket',
+        animation: 'scale',
+        closeAnimation: 'scale',
+        buttons: {
+          okay: {
+            text: 'Ok, jag fattar',
+            btnClass: 'btn-blue'
+          }
+        }
+      });
+
+      return;
+    }
 
     var formData = {
         JobId : jobId,
