@@ -431,9 +431,10 @@ if (isset($_POST["nameOfFunction"])){
         $lagenthetNo = $_POST["lagenhetNo"];
         $hyra  = $_POST["hyra"];
         $parkering = $_POST["parkering"];
+        $lagenhetId = $_POST['lagenhetId'];
 
         try {
-            if ($db->add_hyra($lagenthetNo, $hyra, $parkering))
+            if ($db->add_hyra($lagenhetId, $lagenthetNo, $hyra, $parkering))
             {
                 echo json_encode(['add_hyra' => 'true']);
             } 

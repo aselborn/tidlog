@@ -45,9 +45,10 @@
         <?php include("./pages/sidebar.php") ?>
 
         <div class="main">
-            <div class="container-fluid" >
+            <div class="container-fluid mt-4" >
+            <hr />    
                 <h2>Nuvarande hyresgäster, boendes på <?php echo $fastighetNamn ?></h2>
-                <hr />
+                
                 <div class="row mt-3">
                     <div class="col">
                         <table class="table table-hover table-striped " id="hyresgastTable">

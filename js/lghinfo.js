@@ -55,11 +55,12 @@ $(document).ready(function() {
 
         var lagenhetNo = $("#hidlagenhetNo").val();
         var nyHyra = $("#txtNyHyra").val();
+        var lagenhetId = $("#hidlagenhetId").val();
 
         if (nyHyra === "0" || nyHyra === "" || nyHyra === undefined)
             return;
 
-        var data = { nameOfFunction : 'add_hyra', lagenhetNo: lagenhetNo, hyra: nyHyra, parkering: 0 };
+        var data = { nameOfFunction : 'add_hyra', lagenhetId : lagenhetId, lagenhetNo: lagenhetNo, hyra: nyHyra, parkering: 0 };
         
         $.post("./code/util.php", data, function(response){
 

@@ -249,26 +249,42 @@
             return $row;
         }
 
-        public function add_hyra($lagenhetNo, $hyra, $parkering){
+        public function add_hyra($lagenhetId, $lagenhetNo, $hyra, $parkering){
             $val = 0;
 
             if ($parkering == 0){
-                $sql = "UPDATE tidlog_lagenhet SET hyra = ? WHERE lagenhet_nr = ?" ;
+                $sql = "UPDATE tidlog_lagenhet SET hyra = ? WHERE lagenhet_id = ?" ;
                 $val = $hyra;
             } else if ($hyra == 0){
-                $sql = "UPDATE tidlog_lagenhet SET park_id = ? WHERE lagenhet_nr = ?" ;
+                $sql = "UPDATE tidlog_lagenhet SET park_id = ? WHERE lagenhet_id = ?" ;
                 $val =$parkering;
             }
             try{
+                
+                $this->retro_hyra($lagenhetId, $lagenhetNo);
+
                 $stmt = $this->connection->prepare($sql);
                 
-                $stmt->bind_param("ss",  $val, $lagenhetNo);
+                $stmt->bind_param("ss",  $val, $lagenhetId);
                 $stmt->execute();
+
                 return true;
             } catch(Exception $th){
                 throw $th;
             }
             
+        }
+
+        private function retro_hyra($lagenhetId, $lagenhetNo)
+        {
+            $sql = "insert into tidlog_retro_hyra (lagenhet_id, lagenhetNo, hyra_retro)";
+            $sql .= "select ?, ?, hyra from tidlog_lagenhet l where l.lagenhet_id =?";
+            
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("sss",  $lagenhetId, $lagenhetNo, $lagenhetId);
+            $stmt->execute();
+
+            return true;
         }
 
         public function add_moms($lagenthetNo, $moms, $momsProcent){

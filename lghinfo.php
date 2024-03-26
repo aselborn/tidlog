@@ -34,11 +34,29 @@
             <h2>Lägenhet</h2>
             <hr />
             <div class="container border" >
-                <div class="d-inline-flex">
-                    <h3><strong>Information om lägenhet nr <?php echo $lghInfo->lagenhetNo ?></strong></h3>
+                <div class="row">
+                    <div class="d-inline-flex">
+                        <h3><strong>Information om lägenhet nr <?php echo $lghInfo->lagenhetNo ?></strong></h3>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="d-inline-flex">
+                        <table class="table table table-striped w-auto" id="tblRetroHyra" >
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="table-primary">Tidigare hyra</th>
+                                    <th scope="col" class="table-primary">Hyran ändrad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 
-               
+
             </div>
         </div>
     </body>

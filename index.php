@@ -4,6 +4,7 @@ if (!isset($_SESSION)) { session_start(); }
 
 require_once "./code/managesession.php";
 require_once "./code/dbmanager.php";
+require('./pages/depends.html');
 
 if (!isset($_GET['page'])) {
     $page = 1;
@@ -27,7 +28,8 @@ $number_of_page = ceil($num_rows / $result_per_page);
     <title>Tidsregistrering</title>
     <body>
         
-        <?php include("./pages/sidebar.php") ?>
+    <?php require('./pages/sidebar.php'); ?>;
+        
 
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
         <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">

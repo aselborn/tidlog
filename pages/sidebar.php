@@ -6,13 +6,13 @@
     $docRoot = $_SERVER['HTTP_HOST'];
     $sf = $_SERVER['PHP_SELF'];
     $usr = $_SESSION["username"];
-      
+    
+    require("depends.html");
 ?>
 
-<meta charset="UTF-8">
+<!-- <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous"> -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
         
@@ -45,7 +45,7 @@
 <script src="./js/hyresgast.js"></script>
 <script src="./js/lghinfo.js"></script>
 <script src="./js/hyrginfo.js"></script>
-<script src="./js/avisering.js"></script>
+<script src="./js/avisering.js"></script> -->
 
 
 
@@ -111,6 +111,7 @@
               </div>
               <li class="item">
                     <a href="hyresgaster.php?page=1&fastighetId=1">Tryckaren 7</a>
+                    <!-- <a href="#">Tryckaren 7</a> -->
               </li>
 
               <li class="item">
@@ -189,7 +190,7 @@
           </li>
 
           <li class="item">
-            <a href="#"><i class="fa fs-3 fa-cog "></i>Inställningar</a>
+            <a href="settings.php"><i class="fa fs-3 fa-cog "></i>Inställningar</a>
           </li>
 
           <li class="item">
