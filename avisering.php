@@ -56,11 +56,13 @@
                 ";
             }
         ?>
-        <?php include("./pages/sidebar2.php") ?>
-    
-        <div class="container " >
-            <h2>Skapa hyresavier, för fastigheten <?php echo $fastighetNamn; ?></h2>
-            <hr />
+        <?php include("./pages/sidebar.php") ?>
+    <div class="main">
+
+        <div class="container-fluid mt-4" >
+        <hr />    
+        <h2>Skapa hyresavier, för fastigheten <?php echo $fastighetNamn; ?></h2>
+            
             <div class="row ">
                 
                     <div class="col-2">
@@ -262,5 +264,6 @@
 <!--Flera sidor.-->
             <?php echo "<input type='hidden' id='hdRowCount' value='" .$tableRows . "' />" ?>
         </div>
+    </div>
     </body>
 </html>

@@ -4,9 +4,7 @@
 
     $path = $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF'];
     $docRoot = $_SERVER['HTTP_HOST'];
-    
     $sf = $_SERVER['PHP_SELF'];
-    
     $usr = $_SESSION["username"];
       
 ?>
@@ -60,13 +58,30 @@
           <div class="menu-title">Välj funktion i menyn</div>
 
           <li class="item">
-            <!-- <a href="#">Tidsregistrering</a> -->
-            <a href="index.php">Registrera tid</a>
+            <div class="submenu-item">
+            <i class="fa fs-3 bi-clock"></i><span>Tidsregistrering</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            
+            <ul class="menu-items submenu">
+            <div class="menu-title">
+                <i class="fa-solid fa-chevron-left"></i>
+                    Tillbaka till menyn
+              </div>
+              <li class="item">
+                <a href="index.php">Registrera tid</a>
+              </li>
+
+              <li class="item">
+                <a href="report.php">Sammanställning</a>
+               </li>  
+            </ul>
+
           </li>
 
           <li class="item">
             <div class="submenu-item">
-              <span>Lägenheter</span>
+            <i class="fa fs-3 bi bi-building"></i><span>Lägenheter</span>
               <i class="fa-solid fa-chevron-right"></i>
             </div>
 
@@ -85,87 +100,100 @@
           </li>
           <li class="item">
             <div class="submenu-item">
-              <span>Hyresgäster</span>
+            <i class="fa fs-3 bi-people"></i><span>Hyresgäster</span>
               <i class="fa-solid fa-chevron-right"></i>
             </div>
 
             <ul class="menu-items submenu">
               <div class="menu-title">
                 <i class="fa-solid fa-chevron-left"></i>
-                Your submenu title
+                Tillbaka till menyn
               </div>
               <li class="item">
-                <a href="#">Second sublink</a>
+                    <a href="hyresgaster.php?page=1&fastighetId=1">Tryckaren 7</a>
               </li>
+
               <li class="item">
-                <a href="#">Second sublink</a>
+                <a href="hyresgaster.php?page=1&fastighetId=2">Uttern 9</a>
               </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
-              <li class="item">
-                <a href="#">Second sublink</a>
-              </li>
+              
             </ul>
           </li>
 
           <li class="item">
-            <a href="#">Your second link</a>
+            <div class="submenu-item">
+            <i class="fa fs-3 gap-3 bi-p-circle"></i><span>Parkering</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+            <ul class="menu-items submenu">
+              <div class="menu-title">
+                <i class="fa-solid fa-chevron-left"></i>
+                Tillbaka till menyn
+              </div>
+              <li class="item">
+                    <a href="parking.php?fastighetId=1">Tryckaren 7</a>
+              </li>
+
+              <li class="item">
+                <a href="parking.php?fastighetId=2">Uttern 9</a>
+              </li>
+              
+            </ul>
+          </li>
+
+          <!--Hyres avier-->
+          <li class="item">
+            <div class="submenu-item">
+            <i class="fa fs-3 fa-bar-chart-o"></i><span>Hyresavisering</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+            <ul class="menu-items submenu">
+              <div class="menu-title">
+                <i class="fa-solid fa-chevron-left"></i>
+                Tillbaka till menyn
+              </div>
+              <li class="item">
+                    <a href="avisering.php?page=1&fastighetId=1">Avisering T7</a>
+              </li>
+
+              <li class="item">
+                <a href="avisering.php?page=1&fastighetId=2">Avisering U9</a>
+              </li>
+              
+            </ul>
+          </li>
+
+          <!--Hyres KOLL-->
+          <li class="item">
+            <div class="submenu-item">
+            <i class="fa fs-3 fa-money"></i><span>Hyreskoll</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+            <ul class="menu-items submenu">
+              <div class="menu-title">
+                <i class="fa-solid fa-chevron-left"></i>
+                Tillbaka till menyn
+              </div>
+              <li class="item">
+                    <a href="hyreskoll.php?page=1&fastighetId=1">Kontroll T7</a>
+              </li>
+
+              <li class="item">
+                <a href="hyreskoll.php?page=1&fastighetId=2">Kontroll U9</a>
+              </li>
+              
+            </ul>
           </li>
 
           <li class="item">
-            <a href="#">Your third link</a>
+            <a href="#"><i class="fa fs-3 fa-cog "></i>Inställningar</a>
+          </li>
+
+          <li class="item">
+            <a href="logout.php"><i class="fa fs-3 gap-4 bi-door-open "></i><span>Logga ut</span></a>
           </li>
         </ul>
       </div>

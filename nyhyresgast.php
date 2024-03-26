@@ -17,14 +17,15 @@
     </head>
     <body>
         <!-- <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $lagenhetNo ?>" > -->
-        <?php include("./pages/sidebar2.php") ?>
-            <div class="container " >
-            <h2>Hyresgäst</h2>
-            <hr />
-                <div class="d-inline-flex">
-                    <h3>
-                        <strong>Skapa en ny hyresgäst</strong>
-                    </h3>
+        <?php include("./pages/sidebar.php") ?>
+        
+        <div class="main">
+            <div class="container-fluid mt-5" >
+                <br />
+                <div class="d-inline-flex ">
+                    <h2>
+                        <strong>Registrera en ny hyresgäst</strong>
+                    </h2>
                 </div>
                 <div class="row mt-1">
                 <div class="d-inline-flex align-bottom p-1 gap-2">
@@ -91,6 +92,6 @@
                         </div>
                 </div>
             </div>
-        
+        </div>
     </body>
 </html>

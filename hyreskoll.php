@@ -39,11 +39,14 @@
 
     <body>
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
-        <?php include("./pages/sidebar2.php") ?>
 
-            <div class="container ">
-                <h2>Kontroll av inkommande hyra</h2>
+        <?php include("./pages/sidebar.php") ?>
+
+        <div class="main">
+            <div class="container-fluid mt-4">
                 <hr />
+                <h2>Kontroll av inkommande hyra</h2>
+                
                 <div class="row ">
                 
                     <div class="col-2">
@@ -162,6 +165,6 @@
                 </table>
             </div>
 
-        
+        </div>
     </body>
 </html>

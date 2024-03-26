@@ -39,7 +39,7 @@
             
     <div class="main ">
 
-        <div class="container mt-5" >
+        <div class="container-fluid mt-5" >
                 
                 <div class="row mt-2">
                 

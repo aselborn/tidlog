@@ -40,11 +40,12 @@
         <input type="hidden" id="hidFskatt" name="HidFskatt" value="<?php echo $hyresGInfo->fskatt ?>" />
         <input type="hidden" id="hidKontraktUppsagdDatum" name="HidUppsagdDatum" value="<?php echo $hyresGInfo->datumKontraktUppsagt ?>" />
 
-        <?php include("./pages/sidebar2.php") ?>
+        <?php include("./pages/sidebar.php") ?>
             
-            <div class="container " >
-            <h2>Hantera befintlig hyresgäst</h2>
-            <hr />
+            <div class="main">
+                <div class="container-fluid" >
+                <h2>Hantera befintlig hyresgäst</h2>
+                <hr />
                 <div class="d-inline-flex">
                     
                     <table class="table table table-striped w-auto" id="tblHyresgast" >
@@ -324,7 +325,7 @@
                 </div>
 
             </div>
-
+        </div>
 
     </body>
 </html>

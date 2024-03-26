@@ -17,7 +17,7 @@
           $page = $_GET['page'];
       }
 
-      $result_per_page = 6;
+      $result_per_page = 12;
       
       $page_first_result = ($page - 1) * $result_per_page;
       $num_rows = $db->getHyresgastCount($fastighetId);
@@ -42,9 +42,10 @@
 
     <body>
         <input type="hidden" id="hidFastighetId" name="HidFastighetId" value=<?php echo $fastighetId; ?> />
-        <?php include("./pages/sidebar2.php") ?>
+        <?php include("./pages/sidebar.php") ?>
 
-            <div class="container" >
+        <div class="main">
+            <div class="container-fluid" >
                 <h2>Nuvarande hyresgäster, boendes på <?php echo $fastighetNamn ?></h2>
                 <hr />
                 <div class="row mt-3">
@@ -146,5 +147,7 @@
 
                 </div>
             </div>
+        </div>
+        
         </body>
 </html>

@@ -12,7 +12,7 @@ if (!isset($_GET['page'])) {
 }
 
 $db = new DbManager();
-$result_per_page = 5;
+$result_per_page = 15;
 
 $page_first_result = ($page - 1) * $result_per_page;
 $num_rows = $db->getRowCount();
@@ -34,7 +34,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
         
         <div class="main ">
 
-            <div class="container mt-5" >
+            <div class="container-fluid mt-5" >
                 
                 <div class="row mt-2">
                 
@@ -49,8 +49,8 @@ $number_of_page = ceil($num_rows / $result_per_page);
                                 <thead class="bg-light sticky-top top-0">
                                     <tr>
                                         
-                                        <th scope="col" style="width: 100px;" class="table-primary">Datum</th>
-                                        <th scope="col" class="table-primary">Utfört av</th>
+                                        <th scope="col" style="width: 120px;" class="table-primary">Datum</th>
+                                        <th scope="col" style="width: 120px;" class="table-primary">Utfört av</th>
                                         <th scope="col" class="table-primary">Timmar</th>
                                         <th scope="col" class="table-primary">Fastighet</th>
                                         <th scope="col" class="table-primary">Beskrivning</th>
@@ -139,7 +139,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                             <div class="col-md-12 mt-3">
                                 <div class="form-group">
                                     <label for="form_message">Beskrivning</label>
-                                    <textarea id="job_description" name="job_description" class="form-control" placeholder="Ange en beskrivning" rows="6" required="required" data-error="Vänligen beskriv vad du gjort"></textarea>
+                                    <textarea id="job_description" name="job_description" class="form-control" placeholder="Ange en beskrivning" rows="3" required="required" data-error="Vänligen beskriv vad du gjort"></textarea>
                                     <div class="help-block with-errors"></div>
                                 </div>
 

@@ -26,11 +26,13 @@
     </head>
 
     <body>
-        <?php include("./pages/sidebar2.php") ?>
+        <?php include("./pages/sidebar.php") ?>
         <?php echo '<input type="hidden" id="totalRowCount" value="' . htmlspecialchars(strval($total_registrations)) . '" />'."\n";?>    
-            <div class="container " >
-                <h2>Sammanställning för användare : <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong></h2>
+        <div class="main">
+            <div class="container-fluid mt-4" >
                 <hr />
+                <h2>Sammanställning för användare : <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong></h2>
+                
                 <div class="row mt-2">
                     <div class="col-10">
                         <div class="d-inline-flex p-1 gap-2">
@@ -142,6 +144,6 @@
                     </div>
                 </div>
             </div>
-        
+        </div>
     </body>
 </html>

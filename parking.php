@@ -32,11 +32,14 @@
 
     <body>
         
-        <?php include("./pages/sidebar2.php") ?>
+        <?php include("./pages/sidebar.php") ?>
     
-            <div class="container " >
-            <h2>Parkeringar, tillhörande fastigheten <?php echo $fastighetNamn; ?></h2>
+        <div class="main">
+
+            <div class="container-fluid mt-4" >
             <hr />
+            <h2>Parkeringar, tillhörande fastigheten <?php echo $fastighetNamn; ?></h2>
+            
             <div class="row mt-3">
                     <div class="col">
                         <table class="table table-hover table-striped " id="hyresgastTable">
@@ -97,6 +100,6 @@
                     </div>
 
             </div>
-        
+        </div>
     </body>
 </html>
