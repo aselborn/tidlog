@@ -74,9 +74,11 @@
             $stmt->execute();
         }
 
-        public function getLagenhetCount()
+        public function getLagenhetCount($fastighetId)
         {
-            $sql = "select count(*) as count from tidlog_lagenhet";
+            $sql = "select count(*) as count from tidlog_lagenhet l inner join tidlog_fastighet tf on l.fastighet_id = tf.fastighet_id 
+            where tf.fastighet_id =" .$fastighetId;
+            
             $result = $this->connection->query($sql);
             $row = $result->fetch_assoc();
             return (int)$row["count"];

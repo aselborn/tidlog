@@ -34,19 +34,18 @@
         <title>Lägenhetinformation</title>
     </head>
     
+    <?php include("./pages/sidebar.php") ?>
+
     <body>
         <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $lagenhetNo ?>" >
         <input type="hidden" id="hidLagenhetId" name="HidLagenhetId" value="<?php echo $lghInfo->lagenhetId; ?>" >
         
-        <?php include("./pages/sidebar.php") ?>
         
-
-        <div class="col-sm  min-vh-100 border">
-            <h2>Lägenhet</h2>
-            <hr />
-            <div class="container border" >
-                <div class="row">
-                    <div class="d-inline-flex">
+        <div class="main ">
+            
+            <div class="container-fluid mt-5" >
+                <div class="row mt-2">
+                    <div class="d-inline-flex ">
                         <h3><strong>Information om lägenhet nr <?php echo $lghInfo->lagenhetNo ?></strong></h3>
                     </div>
                 </div>

@@ -21,7 +21,7 @@
       $result_per_page = 20;
 
       $page_first_result = ($page - 1) * $result_per_page;
-      $num_rows = $db->getLagenhetCount();
+      $num_rows = $db->getLagenhetCount($fastighetId);
       $fastighetNamn = $db->get_fastighet_namn($fastighetId);
       $number_of_page = ceil($num_rows / $result_per_page);
 

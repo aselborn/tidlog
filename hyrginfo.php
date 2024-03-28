@@ -16,6 +16,7 @@
 
     $db = new DbManager();
    
+    $hyresGInfo = new InfoHyresgast($hyresgastId);
 
     $kontraktGInfo = null;
     if ($hyresgastId != null)
