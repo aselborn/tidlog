@@ -15,12 +15,7 @@
     }
 
     $db = new DbManager();
-    $parkeringar = $db->query("select * from tidlog_parkering tp2 where tp2.park_id not in (
-         select park_id from tidlog_parkering tp where park_id in (select park_id from tidlog_lagenhet tl)) ")->fetchAll();
-    
-    $hyresGInfo = null;
-    if ($hyresgastId != null)
-        $hyresGInfo = new InfoHyresgast($hyresgastId);
+   
 
     $kontraktGInfo = null;
     if ($hyresgastId != null)
@@ -103,105 +98,7 @@
                 <div class="row mt-1">
                 
                 <!--Info om lägenheten-->
-                <div class="row mt-3 ">
-                    
-                    <div class="col-12 ">
-                        <!--TABELL SOM ANGER HYRA OCH PARKERING-->
-                        <table class="table table-striped w-auto">
-                            <thead>
-                                <tr >
-                                    <th scope="col" class="table-primary">Lägenhet</th>
-                                    <th scope="col" class="table-primary">Hyra</th>
-                                    <th scope="col" class="table-primary">Ny Hyra</th>
-                                    
-                                    
-                                    <?php 
-                                        if ($hyresGInfo->parkering == 0){
-                                            echo "<th scope='col' class='table-primary'>Välj parkering</th>";
-                                        } else{
-                                            echo "<th scope='col' class='table-primary'>Parkering</th>";
-                                        }
-                                    ?>
-                                    <th scope="col" class="table-primary"></th>
-                                    <th scope="col" class="table-primary">Moms %</th>
-                                    <th scope="col" class="table-primary">Moms belopp</th>
-                                    <th scope="col" class="table-primary"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="row-cols-auto ">
-                                    <td><?php echo "Nr : ". $hyresGInfo->lagenhetNo ?></td>
-                                    <td><?php echo $hyresGInfo->hyra . " kr/mån" ?></td>
-                                    <td class="mt-1 border">
-                                        <input class="form-control-sm" style="width: 120px;" type="number" id="txtNyHyra" />
-                                        <input type="button" id="btnNyHyra" class="btn btn-success" value="Spara">
-                                    </td>
-                                    
-                                    <!-- <td>
-                                        <?php if ($hyresGInfo->parkering == 0){
-                                            echo '<label class="form-label">Välj parkering: </label>';
-                                        }
-
-                                        ?>
-                                    </td> -->
-
-                                    <td class="mt-1">
-                                        <?php 
-                                            if ($hyresGInfo->parkering == 0){
-                                                
-                                                echo '<select id="cboParkering" class="form-select" name="Parkering">';
-                                                echo "<option value='Välj parkering'>--Välj--</option>";
-                                                foreach($parkeringar as $row)
-                                                {
-                                                    echo "<option value='" .$row["park_id"] ."'>" .$row["parknr"].  "</option>";
-                                                }
-                                                echo '</select>';
-
-                                            } else {
-                                                echo "<label class='form-label' >" .  $hyresGInfo->parkering . " kr/mån" . " </label>";
-                                                echo "<input type='hidden' id='hidPark' value = '" .$hyresGInfo->parkering . "' />";
-                                            }
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <?php 
-                                            if ($hyresGInfo->parkering > 0){
-                                                echo "<input type='button' id='btnRemovePark' class='btn btn-success ' value='Ta bort'> ";
-                                            }
-                                        ?>
-                                    </td>
-
-                                    <!--Moms?-->
-                                    <td>
-                                        <input type="number" class="form-control-sm" style="width: 70px;" id="txtmomsProcent" value="<?php echo $hyresGInfo->momsprocent ?>" />
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <label class="form-label" id="lblMomsSum"><?php echo $hyresGInfo->moms ?></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <input type='button' id='btnSparaMoms' class='btn btn-success ' value='Spara moms'>
-                                    </td>
-
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th scope="row">Total hyra</th>
-                                    <td><strong><?php echo $hyresGInfo->hyra + $hyresGInfo->parkering + $hyresGInfo->moms . " kronor / månad." ?></strong></td>
-                                    <td><strong><?php echo 12 *($hyresGInfo->hyra + $hyresGInfo->parkering + $hyresGInfo->moms) . " kronor / år." ?></strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-
-                        
-                    </div>
-                    <!--moms-->
-                    <!-- <div class="col-4 ">
-                                            
-                    </div> -->
-                </div>
+                
 
                 <!--Kontraktdetaljer-->
                 <div class="row mt-2">

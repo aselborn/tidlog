@@ -249,23 +249,35 @@
             return $row;
         }
 
-        public function add_hyra($lagenhetId, $lagenhetNo, $hyra, $parkering){
-            $val = 0;
-
-            if ($parkering == 0){
-                $sql = "UPDATE tidlog_lagenhet SET hyra = ? WHERE lagenhet_id = ?" ;
-                $val = $hyra;
-            } else if ($hyra == 0){
-                $sql = "UPDATE tidlog_lagenhet SET park_id = ? WHERE lagenhet_id = ?" ;
-                $val =$parkering;
-            }
+        public function update_parkering($parkId, $lagenhetId)
+        {
+            $sql = "UPDATE tidlog_lagenhet SET park_id = ? WHERE lagenhet_id = ?" ;
+            
             try{
-                
-                $this->retro_hyra($lagenhetId, $lagenhetNo);
-
+            
                 $stmt = $this->connection->prepare($sql);
                 
-                $stmt->bind_param("ss",  $val, $lagenhetId);
+                $stmt->bind_param("ss",  $parkId, $lagenhetId);
+                $stmt->execute();
+
+                return true;
+            } catch(Exception $th){
+                throw $th;
+            }
+        }
+
+        public function update_hyra($lagenhetId, $lagenhetNo, $hyra, $giltligFran){
+            
+
+            //Spara retro hyra
+            $this->retro_hyra($lagenhetId, $lagenhetNo, $giltligFran);
+            $sql = "UPDATE tidlog_lagenhet SET hyra = ? WHERE lagenhet_id = ?" ;
+            
+            try{
+            
+                $stmt = $this->connection->prepare($sql);
+                
+                $stmt->bind_param("ss",  $hyra, $lagenhetId);
                 $stmt->execute();
 
                 return true;
@@ -275,16 +287,25 @@
             
         }
 
-        private function retro_hyra($lagenhetId, $lagenhetNo)
+        private function retro_hyra($lagenhetId, $lagenhetNo, $giltligDatum)
         {
-            $sql = "insert into tidlog_retro_hyra (lagenhet_id, lagenhetNo, hyra_retro)";
-            $sql .= "select ?, ?, hyra from tidlog_lagenhet l where l.lagenhet_id =?";
+            $sql = "insert into tidlog_retro_hyra (lagenhet_id, lagenhetNo, hyra_retro, giltlig_datum)";
+            $sql .= "select ?, ?, hyra, ? from tidlog_lagenhet l where l.lagenhet_id =?";
             
-            $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("sss",  $lagenhetId, $lagenhetNo, $lagenhetId);
-            $stmt->execute();
+            try{
 
-            return true;
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("ssss",  $lagenhetId, $lagenhetNo,  $giltligDatum, $lagenhetId);
+                $stmt->execute();
+
+                
+            } catch( Exception $e){
+                throw $e;
+            }
+
+            
+
+            
         }
 
         public function add_moms($lagenthetNo, $moms, $momsProcent){

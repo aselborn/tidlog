@@ -2,6 +2,7 @@ $(document).ready(function() {
 
     setDateOnInput($("#dtDateGoneKontrakt"));
     setDateOnInput($("#dtDateGone"));
+    setDateOnInput($("#dtGiltligFran"));
     
     $("#btnSparaMoms").on('click', function(){
         
@@ -55,17 +56,18 @@ $(document).ready(function() {
 
         var lagenhetNo = $("#hidlagenhetNo").val();
         var nyHyra = $("#txtNyHyra").val();
-        var lagenhetId = $("#hidlagenhetId").val();
+        var lagenhetId = $("#hidLagenhetId").val();
+        var giltligFran = $("#dtGiltligFran").val();
 
         if (nyHyra === "0" || nyHyra === "" || nyHyra === undefined)
             return;
 
-        var data = { nameOfFunction : 'add_hyra', lagenhetId : lagenhetId, lagenhetNo: lagenhetNo, hyra: nyHyra, parkering: 0 };
+        var data = { nameOfFunction : 'update_hyra', lagenhetId : lagenhetId, lagenhetNo: lagenhetNo, hyra: nyHyra, giltligFran : giltligFran };
         
         $.post("./code/util.php", data, function(response){
 
             if (response !== ""){
-                if (JSON.parse(response).add_hyra === 'false'){
+                if (JSON.parse(response).update_hyra === 'false'){
                     alert('Kunde inte spara => ' + JSON.parse(response).orsak);
                     return;
                 } 
@@ -98,17 +100,19 @@ $(document).ready(function() {
     $("#cboParkering").on('change', function(){
         
         var lagenhetNo = $("#hidlagenhetNo").val();
+        var lagenhetId = $("#hidLagenhetId").val();
+
         var parkVal = $("#cboParkering").val();
 
         if (parkVal === "0" || parkVal === "" || parkVal === undefined)
             return;
 
-        var data = { nameOfFunction : 'add_hyra', lagenhetNo: lagenhetNo, hyra: 0, parkering: parkVal };
+        var data = { nameOfFunction : 'update_parkering', lagenhetId : lagenhetId, parkId: parkVal };
         
         $.post("./code/util.php", data, function(response){
 
             if (response !== ""){
-                if (JSON.parse(response).add_hyra === 'false'){
+                if (JSON.parse(response).update_parkering === 'false'){
                     alert('Kunde inte spara => ' + JSON.parse(response).orsak);
                     return;
                 } 

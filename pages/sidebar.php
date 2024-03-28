@@ -143,6 +143,11 @@
             </ul>
           </li>
 
+          <!--artiklar-->
+          <li class="item">
+            <a href="artiklar.php"><i class="fa-solid fs-3 fa-paperclip"></i>Artiklar</a>
+          </li>
+
           <!--Hyres avier-->
           <li class="item">
             <div class="submenu-item">
@@ -163,6 +168,14 @@
                 <a href="avisering.php?page=1&fastighetId=2">Avisering U9</a>
               </li>
               
+              <li class="item">
+                <a href="avimeddelande.php?page=1&fastighetId=2">Meddelande T7</a>
+              </li>
+
+              <li class="item">
+                <a href="avimeddelande.php?page=1&fastighetId=2">Meddelande U9</a>
+              </li>
+
             </ul>
           </li>
 

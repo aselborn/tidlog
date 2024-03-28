@@ -11,3 +11,4 @@ CREATE TABLE `tidlog_retro_hyra` (
   CONSTRAINT `tidlog_retro_hyra_tidlog_lagenhet_FK` FOREIGN KEY (`lagenhet_id`) REFERENCES `tidlog_lagenhet` (`lagenhet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+ALTER TABLE tidlog.tidlog_retro_hyra ADD giltlig_datum DATETIME NOT NULL after hyra_retro; 

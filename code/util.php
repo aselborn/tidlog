@@ -42,9 +42,14 @@ if (isset($_POST["nameOfFunction"])){
         change_password();
     }
 
-    if ($_POST["nameOfFunction"] == "add_hyra"){
-        add_hyra();
+    if ($_POST["nameOfFunction"] == "update_hyra"){
+        update_hyra();
     }
+
+    if ($_POST["nameOfFunction"] == "update_parkering"){
+        update_parkering();
+    }
+
 
     if ($_POST["nameOfFunction"] == "remove_parkering") {
         remove_parkering();
@@ -424,22 +429,38 @@ if (isset($_POST["nameOfFunction"])){
         
     }
 
-    function add_hyra()
+    function update_parkering()
+    {
+        $db = new DbManager();
+        
+        $parkId = $_POST['parkId'];
+        $lagenhetId = $_POST['lagenhetId'];
+        
+        try {
+            if ($db->update_parkering($parkId, $lagenhetId))
+            {
+                echo json_encode(['update_parkering' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['update_parkering' => 'false', 'orsak' => $th->getMessage()]);
+        }
+    }
+    function update_hyra()
     {
         $db = new DbManager();
         
         $lagenthetNo = $_POST["lagenhetNo"];
         $hyra  = $_POST["hyra"];
-        $parkering = $_POST["parkering"];
         $lagenhetId = $_POST['lagenhetId'];
+        $giltligFran = $_POST['giltligFran'];
 
         try {
-            if ($db->add_hyra($lagenhetId, $lagenthetNo, $hyra, $parkering))
+            if ($db->update_hyra($lagenhetId, $lagenthetNo, $hyra, $giltligFran))
             {
-                echo json_encode(['add_hyra' => 'true']);
+                echo json_encode(['update_hyra' => 'true']);
             } 
         } catch (\Throwable $th) {
-            echo json_encode(['add_hyra' => 'false', 'orsak' => $th->getMessage()]);
+            echo json_encode(['update_hyra' => 'false', 'orsak' => $th->getMessage()]);
         }
         
     }
