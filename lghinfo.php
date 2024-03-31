@@ -149,7 +149,7 @@
                                                 echo '</select>';
 
                                             } else {
-                                                echo "<label class='form-label' >" .  $lghInfo->parkering . " kr/mån" . " </label>";
+                                                echo "<label class='form-label' >". "parkering: " .   $lghInfo->parkNr . " -> " .  $lghInfo->parkering . " kr/mån" . " </label>";
                                                 echo "<input type='hidden' id='hidPark' value = '" .$lghInfo->parkering . "' />";
                                             }
                                         ?>

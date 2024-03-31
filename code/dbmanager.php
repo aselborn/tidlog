@@ -362,6 +362,23 @@
             }
         }
 
+        
+        public function spara_artikel($artikel, $kommentar)
+        {
+            $sql = "INSERT INTO tidlog_item(artikel, kommentar) VALUES (?, ?)";
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("ss", $artikel, $kommentar);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+            
+        }
         public function add_lagenhet($fastighetId, $lagenhetNo, $yta)
         {
             $sql = "INSERT INTO tidlog_lagenhet(fastighet_id, lagenhet_nr, yta) VALUES (?, ?, ?)";

@@ -17,5 +17,6 @@ CREATE TABLE `tidlog_artikel` (
   CONSTRAINT `tidlog_artikel_tidlog_hyresgaster_FK` FOREIGN KEY (`hyresgast_id`) REFERENCES `tidlog_hyresgaster` (`hyresgast_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Extra avgifter';
 
-ALTER TABLE tidlog.tidlog_artikel ADD item_id INT NOT NULL after hyresgast_id;
-ALTER TABLE tidlog.tidlog_artikel ADD CONSTRAINT tidlog_artikel_tidlog_item_FK FOREIGN KEY (item_id) REFERENCES tidlog.tidlog_item(tidlog_item_id);
+ALTER TABLE tidlog_artikel ADD item_id INT NOT NULL after hyresgast_id;
+ALTER TABLE tidlog_artikel ADD CONSTRAINT tidlog_artikel_tidlog_item_FK FOREIGN KEY (item_id) REFERENCES tidlog.tidlog_item(tidlog_item_id);
+ALTER TABLE tidlog_artikel MODIFY COLUMN med_hyra TINYINT NOT NULL;

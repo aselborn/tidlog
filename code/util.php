@@ -6,13 +6,13 @@ include_once "config.php";
 include_once "dbmanager.php";
 require "managesession.php";
 
-if (isset($_POST['faktMonth']) && isset($_POST['faktYear']))
-{
-    $fMonth = $_POST['faktMonth'];
-    $fYear = $_POST['faktYear'];
+// if (isset($_POST['faktMonth']) && isset($_POST['faktYear']))
+// {
+//     $fMonth = $_POST['faktMonth'];
+//     $fYear = $_POST['faktYear'];
 
-    get_faktura_period($fMonth, $fYear);
-}
+//     get_faktura_period($fMonth, $fYear);
+// }
 
 if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "filter_report"){
@@ -79,8 +79,49 @@ if (isset($_POST["nameOfFunction"])){
         spara_hyreskoll();
     }
         
+    if ($_POST["nameOfFunction"] == "spara_artikel"){
+        spara_artikel();
+    }
+    
+    if ($_POST["nameOfFunction"] == "visa_extrakostnader"){
+        visa_extrakostnader();
+    }
     
 }
+
+    function visa_extrakostnader()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $hyresgastId = $_POST['hyresgastId'];
+
+        $extraArtiklar = $db->query(
+            "
+            select  * from tidlog_artikel ta 
+            inner join tidlog_item ti on ta.item_id =ti.item_id 
+                where ta.hyresgast_id = ?
+            ", array($hyresgastId))->fetchAll();
+
+         
+        $resultSet = array();
+
+        try{
+                
+            foreach ($extraArtiklar as $row) {
+                $resultSet[] = $row;
+            }
+                
+                
+            echo json_encode(['extra_artiklar' => $resultSet]);
+    
+        } catch(Exception $e){
+            echo json_encode(array('error' => $e->getMessage()));
+        }
+        
+    }
 
     function tabort_hyresgast()
     {
@@ -145,26 +186,6 @@ if (isset($_POST["nameOfFunction"])){
             echo json_encode(['spara_hyreskoll' => 'false']);
         }
 
-    }
-
-    function get_faktura_period($fMonth, $fYear)
-    {
-        $db = new DbManager();
-        $fakturor = $db->get_faktura_underlag($fYear, $fMonth);
-
-        $resultSet = array();
-
-        try{
-            
-            foreach ($fakturor as $row) {
-                $resultSet[] = $row;
-            }
-            
-            echo json_encode(['visa_period' => $resultSet]);
-
-        } catch (Exception $th){
-            echo json_encode(array('error' => $th->getMessage()));
-        }
     }
 
     function skapa_fakturor()
@@ -408,6 +429,22 @@ if (isset($_POST["nameOfFunction"])){
         }
 
     }   
+    function spara_artikel()
+    {
+        $db = new DbManager();
+
+        $artikel = $_POST['artikel'];
+        $kommentar = $_POST['kommentar'];
+        
+        try {
+            if ($db->spara_artikel($artikel, $kommentar))
+            {
+                echo json_encode(['spara_artikel' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['spara_artikel' => 'false', 'orsak' => $th->getMessage()]);
+        }
+    }
     function add_apartment()
     {
         

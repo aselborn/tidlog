@@ -31,7 +31,6 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="table-primary">Artikel</th>
-                                    <th scope="col" class="table-primary">Pris</th>
                                     <th scope="col" class="table-primary">Kommentar</th>
                                 </tr>
                             </thead>
@@ -41,13 +40,11 @@
                                     {
                                         $itemId = $row["item_id"];
                                         $artikel =$row["artikel"];
-                                        $pris = $row["pris"];
                                         $kommentar = $row["kommentar"];
                                         echo 
                                         "
                                             <tr id='$itemId'>
                                                 <td>" . $artikel . "</td>" . 
-                                                "<td>" . $pris . "</td>" . 
                                                 "<td>" . $kommentar . "</td>" .
                                             "</tr>
                                         ";
@@ -65,11 +62,6 @@
                                 <div class="invalid-feedback">
                                     Vänligen ange ett artikel
                                 </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label id="lblPris" class="label-primary">Pris</label>
-                                <input id="pris" type="number" name="pris" class="form-control" style="width:90px" >
                             </div>
 
                             
