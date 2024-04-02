@@ -87,6 +87,9 @@ if (isset($_POST["nameOfFunction"])){
         visa_extrakostnader();
     }
     
+    if ($_POST["nameOfFunction"] == "remove_extraartikel"){
+        remove_extraartikel();
+    }
 }
 
     function visa_extrakostnader()
@@ -144,6 +147,24 @@ if (isset($_POST["nameOfFunction"])){
         
     }
 
+    function remove_extraartikel()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $artikelId = $_POST['artikelId'];
+
+        try{
+            $db->remove_extraartikel($artikelId);
+            echo json_encode(['remove_extraartikel' => 'true']);
+        } catch (Exception $e){
+            echo json_encode(['remove_extraartikel' => 'false']);
+        }
+        
+
+    }
     function tabort_tidsregistrering()
     {
         if (!isset($_SESSION)) { session_start(); }

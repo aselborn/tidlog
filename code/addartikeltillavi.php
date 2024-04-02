@@ -6,6 +6,8 @@
     include_once "./dbmanager.php";
 
     $hyresgastId = $_POST['hyresgast'];
+    $fastighetId = $_POST['hidFastighetId'];
+
     $itemId =  $_POST['items'];
     $meddelande = $_POST['meddelande_hyresgast'];
 
@@ -29,4 +31,7 @@
     $stmt->bind_param("sssssss", $medHyra, $hyresgastId,$itemId, $totalbelopp, $meddelande, $giltligFran, $giltligTill);
     $stmt->execute();
     $stmt->close();
+
+    header("Location: ../extrafaktura.php?page=1&fastighetId=".$fastighetId .  "&hyresgastId=" .$hyresgastId  );
+    exit;
 ?>

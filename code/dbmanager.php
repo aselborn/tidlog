@@ -592,6 +592,24 @@
             }
         }
 
+        /*
+            ta bort extra faktura
+        */
+        function remove_extraartikel($artikelId)
+        {
+            $sql = "DELETE from tidlog_artikel where artikel_id = ?";
+            
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $artikelId);
+    
+                $stmt->execute();
+                
+            } catch (Exception $e){
+                throw $e;
+            }
+        }
+
         public function total_hours (){
             
             $sql = "SELECT SUM(job_hour) AS total_hours FROM tidlog_jobs;";

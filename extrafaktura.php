@@ -4,12 +4,18 @@
     require_once "./code/dbmanager.php";
     require_once "./code/managesession.php";
     $db = new DbManager();
+    $isPostBack = false;
 
     if (isset($_GET['fastighetId']))
       {
-        $isPostBack = true;
         $fastighetId = intval($_GET['fastighetId']);
       }
+
+      if (isset($_GET['hyresgastId'])){
+        $hyresgastId = intval($_GET['hyresgastId']);
+        $isPostBack = true;
+      }
+
       if (!isset($_GET['page'])) 
       {
           $page = 1;
@@ -31,6 +37,16 @@
     order by adress, fnamn, enamn
     ", array($fastighetId))->fetchAll();
 
+    $extraArtiklar = null;
+    if ($isPostBack){
+        $extraArtiklar = $db->query(
+            "
+            select  ta.artikel_id, ti.artikel, ta.totalbelopp , ta.giltlig_from , ta.giltlig_tom , ta.kommentar as meddelande, ti.kommentar as kommentar
+            from tidlog_artikel ta 
+                       inner join tidlog_item ti on ta.item_id =ti.item_id 
+                           where ta.hyresgast_id = ?
+            ", array($hyresgastId))->fetchAll();
+    }
    
 ?>
 <!DOCTYPE html>
@@ -42,6 +58,16 @@
     <?php include("./pages/sidebar.php") ?>
 
     <body>
+        <input type="hidden" id="hidFastighetId" name="HidFastighetId" value="<?php echo $fastighetId ?>" >
+        <?php 
+            if ($isPostBack)
+            {
+                echo 
+                "
+                    <input type='hidden' id='hdHyresgastId' value='" .$hyresgastId . "' />
+                ";
+            }
+        ?>
     <div class="main ">
             
             <div class="container-fluid mt-5" >
@@ -51,8 +77,22 @@
 
                 <div class="row mt-2">
                     
-                    <form action="./code/addartikeltillavi.php" method="POST" id="frmNyArtikal" onSubmit="window.location.reload()">
+                    <form action="./code/addartikeltillavi.php" method="POST" id="frmNyArtikal">
                         <div class="row mt-1">
+                            
+                            <?php 
+                                if (isset($hyresgastId))
+                                {
+                                    echo 
+                                    "
+                                        <input type='hidden' name='hidFastighetId' id='HidFastighetId' value='$fastighetId' />
+                                    ";
+                                    
+
+                                }
+                            ?>
+                            
+                            
 
                             <div class="col-sm-2">
                                 <div class="form-group">
@@ -129,19 +169,59 @@
                         
 
                         <!--Om det finns en artikel.-->
-                        <div class="row mt-4 d-none" id="divArtikel">
-                            <table class="table table-sm table-striped" id="tblExtraFaktura">
-                                <th scope="col">Artikel</th>
-                                <th scope="col">Pris</th>
-                                <th scope="col">Giltlig från</th>
-                                <th scope="col">Giltlig till</th>
-                                <th scope="col">Meddelande</th>
-                                <th scope="col"></th>
+                        <div class="row mt-4 " id="divArtikel">
+                            
+                            <div class="col">
+                                <table class="table table-sm table-striped tbale-hover" id="tblExtraFaktura">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Artikel</th>
+                                            <th scope="col">Pris</th>
+                                            <th scope="col">Giltlig från</th>
+                                            <th scope="col">Giltlig till</th>
+                                            <th scope="col">Meddelande</th>
+                                            <th scope="col">Kommentar</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <?php 
+                                            if ($extraArtiklar != null){
+                                                foreach($extraArtiklar as $row)
+                                                {
+                                                    $dtdat = date_create($row["giltlig_from"]);
+                                                    $fran = date_format($dtdat, "Y-m-d");
+    
+                                                    $dttill = date_create($row["giltlig_tom"]);
+                                                    $till = date_format($dttill, "Y-m-d");
+    
+                                                    $artikelId = $row["artikel_id"];
+                                                    $artikel = $row["artikel"];
+                                                    $totalbelopp = $row["totalbelopp"];
+                                                    
+                                                    $kommentar = $row["kommentar"];
+                                                    $meddelande = $row["meddelande"];
+                                                    
+                                                    echo "<tr id='$artikelId'>
+                                                        <td>" . $artikel . "</td>
+                                                        <td>" . $totalbelopp . "</td>
+                                                        <td>" . $fran . "</td>
+                                                        <td>" . $till . "</td>
+                                                        <td>" . $kommentar . "</td>
+                                                        <td>" . $meddelande . "</td>
+                                                        <td> <input type=button class='btn btn-outline-success btn-sm rounded-5 radera_binder' id='btnRaderaExtraFaktura' value=radera artikel='" . $artikelId . "'</input></td>
+                                                    </tr>";
+                                                    
+                                                }
+                                            }
+                                            
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                                <tbody>
-
-                                </tbody>
-                            </table>
+                            
 
                         </div>
 
