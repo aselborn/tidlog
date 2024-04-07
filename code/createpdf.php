@@ -31,19 +31,10 @@ $db = new DbManager();
     //   $fakturaId = 35;
     //   $hyresgastId = 48;
 
-
-
-
 $useArtikelData = false;
 $useOnlyArtikelData = false;
 
-$artikel = new Artikel($hyresgastId);
 
-if ($artikel->artikel != null)
-{
-    $useArtikelData = true;
-    $useOnlyArtikelData = $artikel->med_hyra == true ? false :true;
-}
 
 $hyresInfo = new HyresAvisering($hyresgastId, $fakturaId);
 if ($hyresInfo->fakturaId == null){
@@ -51,10 +42,32 @@ if ($hyresInfo->fakturaId == null){
     return;
 }
 
-
-$pdf = new TextNormalizerFPDF($hyresInfo, $artikel);
-
+$artikel = new Artikel($hyresgastId, $hyresInfo->fakturamanad);
 $attBetala = $hyresInfo->hyra + $hyresInfo->parkering + $hyresInfo->fskatt + $hyresInfo->moms;
+
+$artikelSumMoms = 0;
+$artikelSumNetto = 0;
+
+if (sizeof($artikel->resultSet) > 0 ) //DET FINNS ARTIKELDATA
+{
+    $useArtikelData = true;    
+    $artikelSumTotal = 0;
+
+    foreach($artikel->resultSet as $row) {
+        $artikelSumNetto += intval($row['nettobelopp']);
+        $artikelSumMoms += intval($row['momsbelopp']);
+        $artikelSumTotal += intval($row['totalbelopp']);
+    }
+
+    //Summerar på totalsumma
+    $attBetala += $artikelSumTotal;
+}
+
+
+$pdf = new TextNormalizerFPDF($hyresInfo, $attBetala);
+
+
+
 $thousandLength = strlen($attBetala);
 
 $fontOcrb = 'ocrb regular';
@@ -98,13 +111,6 @@ if ($useOnlyArtikelData)
     $pdfLayout->talongSpecifikation();
 }
 
-// $pdf->SetFont($fontToUse,'B',10);
-
-// if ($hyresInfo->moms > 0){
-//     $pdf->Text(20, 235,  $hyresInfo->specifikation . " " . $hyresInfo->fastighetNamn);
-// } else {
-//     $pdf->Text(20, 235, "Lägenhet " . $hyresInfo->lagenhetNo . " " . $hyresInfo->fastighetNamn);
-// }
 
 $pdf->Text(20, 246, 'Vänligen ange fakturanummer:');
 $pdf->SetFont($fontToUse,'B',10);
@@ -194,6 +200,9 @@ $pdf->Text(15, 70, 'Epost:'); $pdf->Text(39, 70, $hyresInfo->fastighet_epost);
 /*********************************SKRIVER VALFRITT MEDDELANDE********************************* */
 
 //$pdf->Text(20, 120, 'Här kan Anders och Carolina skriva meddelanden till hyresgästerna');
+if ($hyresInfo->avimeddelande != ""){
+    $pdf->Text(20, 120, $hyresInfo->avimeddelande);
+}
 
 /*********************************SKRIVER SPECIFIKATION FÖR HYRA********************************* */
 
@@ -211,9 +220,11 @@ if ($useOnlyArtikelData){
     if ($useArtikelData)
     {
         //skriv också ut artikel.
+        $pdfLayout->printArtikelSpecifikation($artikel);
     }
 
-    $pdfLayout->printNettoMomsAttbetala($attBetala);
+    $nettoAttBetala = $artikelSumNetto + $hyresInfo->parkering + $hyresInfo->hyra;
+    $pdfLayout->printNettoMomsAttbetala($nettoAttBetala, $artikelSumMoms);
 }
 
 /********************************************************************************************* */

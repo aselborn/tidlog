@@ -507,11 +507,12 @@
         public function skapa_fakturor($month, $monthNo, $year, $fastighetId)
         {
             $hyresGaster = $this->query("select th.hyresgast_id , tl.lagenhet_id , tp.park_id, tl.lagenhet_id, tl.lagenhet_nr, tf.fastighet_id, 
-            tl.hyra, tp.avgift
+            tl.hyra, tp.avgift, tm.meddelande, tm.giltlig_fran , tm.giltlig_till
             from tidlog_hyresgaster th 
                 inner join tidlog_lagenhet tl ON th.hyresgast_id = tl.hyresgast_id
                 inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id
                 left outer join tidlog_parkering tp on tp.park_id =tl.park_id
+                left outer join tidlog_meddelande tm on tm.hyresgast_id =th.hyresgast_id 
                 where tf.fastighet_id = " . $fastighetId  )->fetchAll();
             
             $sql ="";
@@ -535,15 +536,28 @@
                 $beloppHyra = $row["hyra"];
                 $beloppPark = $row["avgift"] == null ? 0 : $row["avgift"];
 
+                $meddelande = $row['meddelande'];
+                $monthMeddelandeFran = date('m', strtotime($row['giltlig_fran']));
+                $monthMeddelandeTill = date('m', strtotime($row['giltlig_till']));
+
+                if (!intval($monthMeddelandeFran) == intval($monthNo))
+                {
+                    $meddelande = "";
+                }
+                if (!intval($monthMeddelandeTill) == intval($monthNo))
+                {
+                    $meddelande = "";
+                }
+
                 $sql = "INSERT INTO tidlog_faktura(belopp_hyra, belopp_parkering, hyresgast_id, 
                     lagenhet_id, park_id, fakturanummer, 
                     FakturaDatum, ocr, duedate, specifikation, 
-                        `faktura_year`, `faktura_month`)
+                        `faktura_year`, `faktura_month`, meddelande)
                 
-                VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?, ?)";
 
                 $stmt = $this->connection->prepare($sql);
-                $stmt->bind_param("ssssssssssss", $beloppHyra, $beloppPark, $hyresgastId, $lagenhetId, $parkId, $fakturaNr, $fakturaDatum, $ocr, $dueDate, $spec, $year, $monthNo);
+                $stmt->bind_param("sssssssssssss", $beloppHyra, $beloppPark, $hyresgastId, $lagenhetId, $parkId, $fakturaNr, $fakturaDatum, $ocr, $dueDate, $spec, $year, $monthNo, $meddelande);
 
                 $stmt->execute();
                 $stmt->close();
@@ -610,6 +624,25 @@
             }
         }
 
+        /*
+            ta bort extra meddelande
+        */
+        function radera_avimeddelande($meddelandeId)
+        {
+            $sql = "DELETE from tidlog_meddelande where meddelande_id = ?";
+            
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $meddelandeId);
+    
+                $stmt->execute();
+                
+            } catch (Exception $e){
+                throw $e;
+            }
+        }
+
+        
         public function total_hours (){
             
             $sql = "SELECT SUM(job_hour) AS total_hours FROM tidlog_jobs;";

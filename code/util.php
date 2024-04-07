@@ -90,6 +90,11 @@ if (isset($_POST["nameOfFunction"])){
     if ($_POST["nameOfFunction"] == "remove_extraartikel"){
         remove_extraartikel();
     }
+
+    if ($_POST["nameOfFunction"] == "radera_avimeddelande"){
+        radera_avimeddelande();
+    }
+    
 }
 
     function visa_extrakostnader()
@@ -161,6 +166,25 @@ if (isset($_POST["nameOfFunction"])){
             echo json_encode(['remove_extraartikel' => 'true']);
         } catch (Exception $e){
             echo json_encode(['remove_extraartikel' => 'false']);
+        }
+        
+
+    }
+
+    function radera_avimeddelande()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $meddelandeId = $_POST['meddelandeId'];
+
+        try{
+            $db->radera_avimeddelande($meddelandeId);
+            echo json_encode(['radera_avimeddelande' => 'true']);
+        } catch (Exception $e){
+            echo json_encode(['radera_avimeddelande' => 'false']);
         }
         
 

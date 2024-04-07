@@ -5,7 +5,7 @@ require '../fpdf/fpdf.php';
 class TextNormalizerFPDF extends FPDF
 	{
 		public $hyresInfo;
-		public $artikelData;
+		public $attBetala;
 		
         // Page header
     function Header()
@@ -32,33 +32,16 @@ class TextNormalizerFPDF extends FPDF
         // Move to the right
         //$this->Cell(120);
         // Title
-
-		if ($this->artikelData->artikelBelopp != null){
-			$this->Text($startPosRight, 15, 'Faktura');
-		} else {
-			$this->Text($startPosRight, 15, 'Hyresavi');
-		}
-		
-        // $this->Cell(50,10,'Hyresavi',0,0,'L', false); //här kan man skriva titel box om man sätter 4:e argumentet till 1
-        // $this->ln();
+		$this->Text($startPosRight, 15, 'Hyresavi');
 
 		$this->SetFont($fontToUse, '', 8);
 		//$this->Text(130, 20, 'Nisse hult');
 
+		//ATT BETALA:
 		$this->SetFont($fontToUse, 'B', 8);
+		$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, 
+		number_format($this->attBetala, 2, ',', ' ') . " kr"); 
 
-		if ($this->artikelData->artikelBelopp != null){
-
-			$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, 
-			number_format($this->artikelData->artikelTotalBelopp, 2, ',', ' ') . " kr"); 
-
-		} else {
-
-			$this->Text($startPosRight, 20, 'Att betala:');  $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 20, 
-			$this->hyresInfo->hyra + $this->hyresInfo->parkering + $this->hyresInfo->moms + $this->hyresInfo->fskatt . " kr"); 
-		}		 
-
-		
 		$this->SetFont($fontToUse, 'B', 8);
 		$this->Text($startPosRight, 24, 'Referensnummer:'); $this->SetFont($fontToUse, '', 8); $this->Text($nextPosRight, 24,  $this->hyresInfo->fakturaNummer);
 		
@@ -92,10 +75,10 @@ class TextNormalizerFPDF extends FPDF
     //     // Page number
     //     $this->Cell(0,23,'Page '.$this->PageNo().'/{nb}',0,0,'C');
     // }
-		function __construct($hyresInfo, $artikel)
+		function __construct($hyresInfo, $attBetala)
 		{
 			$this->hyresInfo = $hyresInfo;
-			$this->artikelData = $artikel;
+			$this->attBetala = $attBetala;
 			parent::__construct();
 		}
 

@@ -3,17 +3,24 @@
 class Artikel
 {
     public $hyresgastId ;
+    public $fakturaMonth;
+
     public $artikel;
-    public $artikelBelopp;
+    public $artikelNettoBelopp;
     public $artikelTotalBelopp;
-    public $artikelMoms;
+    public $artikelMomsBelopp;
+    public $artikelMomsProcent;
     public $kommentar;
+    public $meddelande;
     public $giltlig_from;
     public $giltlig_tom;
     public $med_hyra;
-    
-    public function __construct($hyresgastId) {
+    public $resultSet = array();
+
+
+    public function __construct($hyresgastId, $fakturaMonth) {
         $this->hyresgastId = $hyresgastId;
+        $this->fakturaMonth = $fakturaMonth;
         $this->setInformation();
     }
 
@@ -22,10 +29,15 @@ class Artikel
         $db = new DbManager();
 
         $hyra = $db->query(
-            "SELECT * from tidlog_artikel ta
-                WHERE ta.hyresgast_id = ? AND current_date() 
-                BETWEEN giltlig_from and giltlig_tom
-            ", array($this->hyresgastId))->fetchAll();
+            "
+                select ti.artikel, ti.kommentar , ta.kommentar as meddelande,
+                ta.totalbelopp , ta.nettobelopp, ta.momsbelopp, ta.giltlig_from , ta.giltlig_tom , ta.med_hyra 
+                    from tidlog_item ti 
+                    inner join tidlog_artikel ta on ti.item_id =ta.item_id 
+                where
+                ta.hyresgast_id = ? and month(giltlig_from) = ? and month(giltlig_tom) = ?
+        
+            ", array($this->hyresgastId, $this->fakturaMonth, $this->fakturaMonth))->fetchAll();
 
         foreach($hyra as $row)
         {
@@ -33,12 +45,17 @@ class Artikel
             $this->giltlig_from = date_create($row["giltlig_from"]);
             $this->giltlig_tom = date_create($row["giltlig_tom"]);
             $this->kommentar = $row["kommentar"];
-            $this->artikelBelopp = $row["belopp"];
-            $this->artikelMoms = $row["moms"];
+            $this->meddelande = $row["meddelande"];
             $this->med_hyra = $row["med_hyra"];
             $this->artikelTotalBelopp = $row["totalbelopp"];
-        }
+            $this->artikelNettoBelopp = $row['nettobelopp'];
+            $this->artikelMomsBelopp = $row['momsbelopp'];
+            $this->artikelMomsProcent = $row['moms'];
             
+            $this->resultSet[] = $row;
+            
+        }
+        
     }
 }
 

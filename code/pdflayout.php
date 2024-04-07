@@ -87,9 +87,41 @@
         }
 
         /*
+            Skriver ut artiklar. RETRO HYRA, ÖVRIGT ETC.
+        */
+        function printArtikelSpecifikation($artikelData)
+        {
+            $startPos = 0;
+            $this->hyresInfo->parkering != 0 ? $startPos = 107 : $startPos = 103;
+            
+            foreach($artikelData->resultSet as $row){
+                
+                $artikel = $row["artikel"];
+                $meddelande = $row["meddelande"];
+                $artikelNettoBelopp = $row["nettobelopp"];
+                $artikelTotalBelopp = $row['totalbelopp'];
+
+                $this->pdf->Text(22, $startPos, " -" . $artikel . ", " . $meddelande . ":");
+
+                if (strlen($artikelNettoBelopp) >= 4){
+                    $this->pdf->Text(180, $startPos, number_format($artikelNettoBelopp, 2, ',', ' ') . " kr"); 
+                } else {
+                    $this->pdf->Text(183, $startPos, number_format($artikelNettoBelopp, 2, ',', ' ') . " kr"); 
+                }
+                
+
+                $startPos = $startPos + 4;
+
+            }
+
+           
+
+        }
+
+        /*
             Skriver rader om netto och moms och belopp
         */
-        function printNettoMomsAttbetala($attBetala)
+        function printNettoMomsAttbetala($nettoBelopp, $momsBelopp)
         {
             
             $this->pdf->SetFont($this->fontToUse, 'B', 10);
@@ -100,15 +132,15 @@
             {
                 $this->pdf ->Text(20, 145, number_format($this->hyresInfo->hyra + $this->hyresInfo->fskatt + $this->hyresInfo->parkering, 2, ',', ' ') . " kr");
             } else {
-                $this->pdf ->Text(20, 145, number_format($attBetala, 2, ',', ' ') . " kr");
+                $this->pdf ->Text(20, 145, number_format($nettoBelopp, 2, ',', ' ') . " kr");
             }
 
             $this->pdf->SetFont($this->fontToUse, 'B', 10);
             $this->pdf->Text(50, 140, 'Moms');
 
             $this->pdf->SetFont($this->fontToUse, '', 9);
-            if ($this->hyresInfo->moms > 0){
-                $this->pdf ->Text(50, 145, number_format($this->hyresInfo->moms, 2, ',', ' ')  .  " kr");
+            if ($momsBelopp> 0){
+                $this->pdf ->Text(50, 145, number_format($momsBelopp, 2, ',', ' ')  .  " kr");
             } else{
                 $this->pdf ->Text(50, 145, "0,00 kr");
             }
@@ -117,7 +149,7 @@
             $this->pdf->SetFont($this->fontToUse, 'B', 10);
             $this->pdf->Text(180, 140, 'Att betala');
             $this->pdf->SetFont($this->fontToUse, '', 9);
-            $this->pdf ->Text(180, 145, number_format($attBetala, 2, ',', ' ') . " kr");     
+            $this->pdf ->Text(180, 145, number_format($nettoBelopp + $momsBelopp, 2, ',', ' ') . " kr");     
         }
 
         function printEndastArtikelNettoMoms($artikelData)

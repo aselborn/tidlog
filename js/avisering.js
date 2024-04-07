@@ -199,6 +199,55 @@ $(document).ready(function() {
     })
 
 
+    //Radera avi-meddelande!
+    $('.radera_avi_binder').on('click', (event) =>
+    {
+        const button = $(event.currentTarget);
+
+        var meddelandeId = button.attr('meddelande');
+        
+        $.alert({
+            title: 'Information!',
+            content: 'Vill du <strong>radera</strong> denna rad?!',
+            icon: 'fa fa-rocket',
+            animation: 'scale',
+            closeAnimation: 'scale',
+            buttons: {
+              okay: {
+                text: 'Ok, radera.',
+                btnClass: 'btn-blue',
+                action: function(){
+                
+                
+                var data = { nameOfFunction : 'radera_avimeddelande', meddelandeId : meddelandeId }
+                        
+                $.post("./code/util.php", data, function(response){
+
+                      if (response !== ""){
+                          
+                          window.location.reload();
+                      }
+
+                  });
+
+                }
+              }, 
+              nej : {
+                text: 'Avbryt',
+                btnClass: 'btn-red',
+                keys: ['enter', 'shift'],
+                action: function(){
+                    $.alert('Avbrutet.');
+                }
+            }
+            }
+          });
+
+        
+
+      //  });
+    })
+
     //Skapa fakturaunderlag
     $("#btnSkapaFakturaUnderlag").on('click', function(){
 

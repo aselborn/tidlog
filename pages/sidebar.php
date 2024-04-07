@@ -137,7 +137,7 @@
               </li>
               
               <li class="item">
-                <a href="avimeddelande.php?page=1&fastighetId=2">Meddelande T7</a>
+                <a href="avimeddelande.php?page=1&fastighetId=1">Meddelande T7</a>
               </li>
 
               <li class="item">

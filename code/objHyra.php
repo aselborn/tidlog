@@ -23,6 +23,8 @@ class HyresAvisering
     public $fastighet_epost;
     public $bankgiro;
     public $ftgnamn;
+    public $avimeddelande;
+    public $fakturamanad ;
 
     public function __construct($hyresgastId, $fakturaId) {
         $this->hyresgastId = $hyresgastId;
@@ -35,8 +37,8 @@ class HyresAvisering
         $db = new DbManager();
 
         $hyra = $db->query("select fa.fastighet_namn, fa.fastighet_address, fa.post_adress, fa.epost , fa.orgnr , fa.bankgiro, l.fskatt, fa.foretag_namn,
-            h.fnamn, h.enamn, h.adress, f.belopp_hyra as hyra, l.lagenhet_nr, f.belopp_parkering as avgift, 
-            f.faktura_id, f.fakturanummer, f.fakturadatum, f.ocr, f.duedate, f.specifikation, 
+            h.fnamn, h.enamn, h.adress, f.belopp_hyra as hyra, l.lagenhet_nr, f.belopp_parkering as avgift, f.meddelande,
+            f.faktura_id, f.fakturanummer, f.fakturadatum, f.ocr, f.duedate, f.specifikation, f.faktura_month,
             tm.moms_procent, tm.moms
         
         from tidlog_faktura f
@@ -73,6 +75,8 @@ class HyresAvisering
             $this->fskatt = $row["fskatt"] == null ? null : ( intval( $row["fskatt"] / 12));
             $this->bankgiro = $row["bankgiro"];
             $this->ftgnamn = $row["foretag_namn"];
+            $this->avimeddelande = $row['meddelande'];
+            $this->fakturamanad =$row['faktura_month'];
         }
             
     }

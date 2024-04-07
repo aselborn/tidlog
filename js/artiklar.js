@@ -56,47 +56,6 @@ $(document).ready(function() {
         
         window.location.href = url;
 
-        // var data = { nameOfFunction: 'visa_extrakostnader',  hyresgastId : hyresgastId};
-
-        //  $.post("./code/util.php", data, function(response){
-                
-        //     if (response !== "")
-        //     {
-        //         var jsondata = JSON.parse(response);
-
-        //         if (jsondata.extra_artiklar.length > 0){
-        //             $("#tblExtraFaktura").find("tr:gt(0)").remove();
-
-        //             $("#divArtikel").removeClass('d-none');
-
-        //             jsondata.extra_artiklar.forEach(element => {                    
-        //                 console.log(element.artikel);
-
-        //                 var buttonMap = "<td><input type=button class='btn btn-outline-success btn-sm rounded-5 radera_binder' ";
-        //                 buttonMap = buttonMap.concat("id='btnRaderaExtraFaktura' value=radera </input> </td>");
-
-        //                 var tddata = "<tr id='" + element.artikel_id + "'</td>";
-        //                 tddata = tddata.concat("<td>" + element.artikel + "</td>");
-        //                 tddata = tddata.concat("<td>" + element.totalbelopp + "</td>");
-        //                 tddata = tddata.concat("<td>" + element.giltlig_from.replace(' 00:00:00', '') + "</td>");
-        //                 tddata = tddata.concat("<td>" + element.giltlig_tom.replace(' 00:00:00', '') + "</td>");
-        //                 tddata = tddata.concat("<td>" + element.kommentar + "</td>");
-
-        //                 tddata = tddata.concat(buttonMap);
-
-        //                 tddata = tddata.concat("</tr>");
-
-        //                 $("#tblExtraFaktura tbody").append(tddata);
-
-        //             });
-                    
-        //         } else{
-        //             $("#divArtikel").addClass('d-none');
-        //         }
-
-        //     }
-        // });
-
     });
 
     $('.radera_binder').on('click', (event) =>

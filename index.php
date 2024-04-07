@@ -13,7 +13,7 @@ if (!isset($_GET['page'])) {
 }
 
 $db = new DbManager();
-$result_per_page = 15;
+$result_per_page = 12;
 
 $page_first_result = ($page - 1) * $result_per_page;
 $num_rows = $db->getRowCount();
@@ -28,8 +28,8 @@ $number_of_page = ceil($num_rows / $result_per_page);
     <title>Tidsregistrering</title>
     <body>
         
-    <?php require('./pages/sidebar.php'); ?>;
-        
+    
+        <?php require('./pages/sidebar.php'); ?>;
 
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
         <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">

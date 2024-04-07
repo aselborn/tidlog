@@ -41,13 +41,17 @@
     if ($isPostBack){
         $extraArtiklar = $db->query(
             "
-            select  ta.artikel_id, ti.artikel, ta.totalbelopp , ta.giltlig_from , ta.giltlig_tom , ta.kommentar as meddelande, ti.kommentar as kommentar
+            select  ta.artikel_id, ti.artikel, ta.totalbelopp , ta.moms, ta.momsbelopp,ta.nettobelopp,
+            ta.giltlig_from , ta.giltlig_tom , ta.kommentar as meddelande, ti.kommentar as kommentar
             from tidlog_artikel ta 
                        inner join tidlog_item ti on ta.item_id =ti.item_id 
-                           where ta.hyresgast_id = ?
+                           where ta.hyresgast_id = ? order by ta.giltlig_tom desc
             ", array($hyresgastId))->fetchAll();
     }
    
+
+    $firstDateInMonth = date("Y-m-01");
+    $lastDateInMonth = date('Y-m-t');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,7 +101,7 @@
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label id="lblDatum" class="label-primary">Giltlig från</label>
-                                    <input id="job_date" type="date" name="giltlig_fran" class="form-control" placeholder="Ange datum" value="<?php echo date('Y-m-d'); ?>" required="required" data-error="Datum måste anges.">
+                                    <input id="job_date" type="date" name="giltlig_fran" class="form-control" placeholder="Ange datum" value="<?php echo $firstDateInMonth; ?>" required="required" data-error="Datum måste anges.">
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -105,11 +109,14 @@
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label id="lblDatum" class="label-primary">Giltlig till</label>
-                                    <input id="job_date" type="date" name="giltlig_till" class="form-control" placeholder="Ange datum" value="<?php echo date('Y-m-d'); ?>" required="required" data-error="Datum måste anges.">
+                                    <input id="job_date" type="date" name="giltlig_till" class="form-control" placeholder="Ange datum" value="<?php echo  $lastDateInMonth; ?>" required="required" data-error="Datum måste anges.">
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
+                            
+                        </div>
 
+                        <div class="row mt-4">
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label id="lblItem" class="label-primary">Välj artikel</label>
@@ -126,19 +133,6 @@
                                     </select>
                                 </div>
                             </div>
-                            
-                        </div>
-
-                        <!-- <div class="row mt-4">
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="checkbox" value="0" name="chkAllaHyresgaster" />
-                                    <label for="chkAllaHyresgaster">Alla hyresgäster?</label>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <div class="row mt-4">
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label id="lblHyresgaster" class="label-primary">Välj hyresgäst</label>
@@ -156,14 +150,22 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-2">
+                            <div class="col-sm-1">
                                 <div class="form-group">
-                                    <label id="lblPris" class="label-primary">Pris</label>
+                                    <label id="lblPris" class="label-primary" >Pris</label>
                                     <br />
-                                    <input type="number" class="form-control" name="pris" style="width: 120px;" />
+                                    <input type="number" class="form-control" name="pris" style="width: 120px;" required="required" data-error="Pris måste anges."/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
 
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label id="lblPris" class="label-primary">Moms (%)</label>
+                                    <br />
+                                    <input type="number" value="0" required="required" data-error="Ange %." class="form-control" name="moms" style="width: 120px;" />
+                                </div>
+                            </div>
                         </div>
                         
                         
@@ -177,6 +179,8 @@
                                         <tr>
                                             <th scope="col">Artikel</th>
                                             <th scope="col">Pris</th>
+                                            <th scope="col">Moms kr</th>
+                                            <th scope="col">Totalt</th>
                                             <th scope="col">Giltlig från</th>
                                             <th scope="col">Giltlig till</th>
                                             <th scope="col">Meddelande</th>
@@ -198,14 +202,23 @@
     
                                                     $artikelId = $row["artikel_id"];
                                                     $artikel = $row["artikel"];
-                                                    $totalbelopp = $row["totalbelopp"];
                                                     
+                                                    $nettobelopp = $row['nettobelopp'];
+                                                    
+                                                    $moms = $row['moms'] . "%";
+                                                    $momsBelopp = $row['momsbelopp'];
+
+                                                    $totalbeloppmMoms = $row['totalbelopp'];
+                                                    
+
                                                     $kommentar = $row["kommentar"];
                                                     $meddelande = $row["meddelande"];
                                                     
                                                     echo "<tr id='$artikelId'>
                                                         <td>" . $artikel . "</td>
-                                                        <td>" . $totalbelopp . "</td>
+                                                        <td>" . $nettobelopp . "</td>
+                                                        <td>" . $momsBelopp . "</td>
+                                                        <td>" . intval($totalbeloppmMoms) . "</td>
                                                         <td>" . $fran . "</td>
                                                         <td>" . $till . "</td>
                                                         <td>" . $kommentar . "</td>
