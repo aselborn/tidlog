@@ -12,18 +12,20 @@
     }
     
     $db = new DbManager();
-    $parkeringar = $db->query("select * from tidlog_parkering tp2 where tp2.park_id not in (
-        select park_id from tidlog_parkering tp where park_id in (select park_id from tidlog_lagenhet tl)) ")->fetchAll();
-
     $lghInfo = new InfoLagenhet($lagenhetNo);
+
+    $parkeringar = $db->query(" select *   from tidlog_parkering tp 
+    where tp.park_id not in 
+    (select park_id from tidlog_lagenhet tl where park_id is not null)
+    and tp.fastighet_id = ? ", array($lghInfo->fastighetId ) )->fetchAll();
+
+    
 
     $retroHyra = $db->query(
         "select * from tidlog_lagenhet tl 
         left outer join tidlog_retro_hyra trh  on tl.lagenhet_id = trh.lagenhet_id
         where trh.lagenhetNo = ? order by trh.giltlig_datum asc", array($lagenhetNo))->fetchAll();
 
-    $parkeringar = $db->query("select * from tidlog_parkering tp2 where tp2.park_id not in (
-            select park_id from tidlog_parkering tp where park_id in (select park_id from tidlog_lagenhet tl)) ")->fetchAll();
        
    
 

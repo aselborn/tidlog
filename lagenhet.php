@@ -18,7 +18,7 @@
       }
 
       $db = new DbManager();
-      $result_per_page = 20;
+      $result_per_page = 16;
 
       $page_first_result = ($page - 1) * $result_per_page;
       $num_rows = $db->getLagenhetCount($fastighetId);

@@ -5,7 +5,7 @@
     const menuItems = document.querySelectorAll(".submenu-item");
     const subMenuTitles = document.querySelectorAll(".submenu .menu-title");
 
-    //sidebarClose.addEventListener("click", () => sidebar.classList.toggle("close"));
+    sidebarClose.addEventListener("click", () => sidebar.classList.toggle("close"));
 
     menuItems.forEach((item, index) => {
         item.addEventListener("click", () => {

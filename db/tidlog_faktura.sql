@@ -18,4 +18,4 @@ DEFAULT CHARSET=latin1
 COLLATE=latin1_swedish_ci;
 
 ALTER TABLE tidlog_faktura ADD belopp_hyra INT null after faktura_id;
-ALTER TABLE tidlog_faktura ADD belopp_parkering varchar(100) null after belopp_hyra;
+ALTER TABLE tidlog_faktura ADD belopp_parkering int null after belopp_hyra;

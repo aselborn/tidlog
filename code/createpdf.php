@@ -224,7 +224,11 @@ if ($useOnlyArtikelData){
     }
 
     $nettoAttBetala = $artikelSumNetto + $hyresInfo->parkering + $hyresInfo->hyra;
-    $pdfLayout->printNettoMomsAttbetala($nettoAttBetala, $artikelSumMoms);
+    
+    if ($hyresInfo->adress == "Lokal") // OM ADRESS ÄR LOKAL!
+        $pdfLayout->printNettoMomsAttbetala($nettoAttBetala, $artikelSumMoms, true);
+    else
+        $pdfLayout->printNettoMomsAttbetala($nettoAttBetala, $artikelSumMoms);
 }
 
 /********************************************************************************************* */

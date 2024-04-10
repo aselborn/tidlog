@@ -32,7 +32,10 @@ class TextNormalizerFPDF extends FPDF
         // Move to the right
         //$this->Cell(120);
         // Title
-		$this->Text($startPosRight, 15, 'Hyresavi');
+		if ($this->hyresInfo->adress == 'Lokal')
+			$this->Text($startPosRight, 15, 'Faktura');
+		else
+			$this->Text($startPosRight, 15, 'Hyresavi');
 
 		$this->SetFont($fontToUse, '', 8);
 		//$this->Text(130, 20, 'Nisse hult');
@@ -55,11 +58,19 @@ class TextNormalizerFPDF extends FPDF
 		$this->Text($startPosRight, 50, $this->hyresInfo->fullname);
 
 		$this->SetFont('Arial', '', 8);
-       	$this->Text($startPosRight, 54, $this->hyresInfo->fastighetAddress 
+
+		if ($this->hyresInfo->adress == 'Lokal'){
+			$this->Text($startPosRight, 54, $this->hyresInfo->fastighetAddress 
+			. " " . $this->hyresInfo->adress);
+
+		} else {
+			$this->Text($startPosRight, 54, $this->hyresInfo->fastighetAddress 
 			// . " lgh "
 			. " " . $this->hyresInfo->adress
 			. " lgh " . $this->hyresInfo->lagenhetNo);
 
+		}
+       	
 		$this->Text($startPosRight, 57, $this->hyresInfo->fastighet_postadress);
 			
 

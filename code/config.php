@@ -6,7 +6,7 @@ define("DB_SERVER", "localhost");
 
 define("DB_USERNAME", "anders");
 define("DB_PASSWORD", "lytill53");
-define("DB_NAME", "tidlog");
+define("DB_NAME", "selborn_se");
 
 # Connection
 $link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);

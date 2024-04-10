@@ -8,6 +8,7 @@
         public $parkering;
         public $lagenhetId ;
         public $parkNr;
+        public $fastighetId;
 
         public function __construct($lghNo){
             $this->lagenhetNo = $lghNo;
@@ -20,9 +21,10 @@
             $sql =
             "
                 select 
-                l.lagenhet_nr , l.hyra , p.park_id , p.avgift, p.parknr, l.lagenhet_id   
-                from tidlog_lagenhet l
-                left outer join tidlog_parkering p on p.park_id = l.park_id
+                l.lagenhet_nr , l.hyra , p.park_id , p.avgift, p.parknr, l.lagenhet_id, tf.fastighet_id
+                    from tidlog_lagenhet l
+                    left outer join tidlog_parkering p on p.park_id = l.park_id
+                    inner join tidlog_fastighet tf on tf.fastighet_id =l.fastighet_id 
                 where l.lagenhet_nr = ?
             ";
 
@@ -35,6 +37,7 @@
                 $this->parkering = $row["avgift"] == null ? 0 : $row["avgift"];
                 $this->lagenhetId = $row["lagenhet_id"];
                 $this->parkNr = $row["parknr"];
+                $this->fastighetId = $row['fastighet_id'];
                
             }
 

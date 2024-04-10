@@ -121,9 +121,11 @@
         /*
             Skriver rader om netto och moms och belopp
         */
-        function printNettoMomsAttbetala($nettoBelopp, $momsBelopp)
+        function printNettoMomsAttbetala($nettoBelopp, $momsBelopp, $lokal = false)
         {
-            
+            if ($lokal == true)
+                $momsBelopp = $this->hyresInfo->moms;
+
             $this->pdf->SetFont($this->fontToUse, 'B', 10);
             $this->pdf->Text(20, 140, 'Netto'); 
             $this->pdf->SetFont($this->fontToUse, '', 9);
@@ -149,7 +151,7 @@
             $this->pdf->SetFont($this->fontToUse, 'B', 10);
             $this->pdf->Text(180, 140, 'Att betala');
             $this->pdf->SetFont($this->fontToUse, '', 9);
-            $this->pdf ->Text(180, 145, number_format($nettoBelopp + $momsBelopp, 2, ',', ' ') . " kr");     
+            $this->pdf ->Text(180, 145, number_format($nettoBelopp + $momsBelopp + $this->hyresInfo->fskatt, 2, ',', ' ') . " kr");     
         }
 
         function printEndastArtikelNettoMoms($artikelData)
