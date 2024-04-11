@@ -5,10 +5,10 @@
 -- tidlog.tidlog_item definition
 CREATE TABLE `tidlog_item` (
   `item_id` int NOT NULL AUTO_INCREMENT,
-  `artikel` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `artikel` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `kommentar` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`item_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
@@ -48,7 +48,7 @@ CREATE TABLE tidlog_meddelande (
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_0900_ai_ci;
+COLLATE=utf8mb4_unicode_ci;
 
 # tidlog.retrohyra
 drop table tidlog_retro_hyra 
