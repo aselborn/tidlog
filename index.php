@@ -4,7 +4,7 @@ if (!isset($_SESSION)) { session_start(); }
 
 require_once "./code/managesession.php";
 require_once "./code/dbmanager.php";
-require('./pages/depends.html');
+// require('./pages/depends.html');
 
 if (!isset($_GET['page'])) {
     $page = 1;
@@ -27,19 +27,14 @@ $number_of_page = ceil($num_rows / $result_per_page);
     
     <title>Tidsregistrering</title>
     <body>
-        
-    
         <?php require('./pages/sidebar.php'); ?>;
 
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
-        <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">
-        
-        <div class="main ">
 
-            <div class="container-fluid mt-5" >
-                
+        <div class="main">
+            <div class="container-fluid mt-4" >
+
                 <div class="row mt-2">
-                
                     <div class="d-inline-flex">
                         <h3>Tidsregistrering för <strong><?=  htmlspecialchars($_SESSION["username"]); ?></strong> </label></h3>
                     </div>
@@ -87,9 +82,11 @@ $number_of_page = ceil($num_rows / $result_per_page);
                             </table>
                         </div>
 
-                    <form action="addtime.php" method="POST" id="frmInput">
+                    <!--formulär för inmatning-->
+                    <form method="POST" action="./code/timereg.php">
                         <div class="row mt-1">
-
+                            <input type="hidden" id="hidClickedUserName" name="HidClickedUserName" value="">
+                            <input type="hidden" id="hidClickedJobId" name="HidClickedJobId" value="">
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label id="lblDatum" class="label-primary">Datum</label>
@@ -135,8 +132,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                                 </div>
                             </div>
                         </div>
-                        <!--Ny-->
-
+                        
                         <div class="row">
                             <div class="col-md-12 mt-3">
                                 <div class="form-group">
@@ -147,8 +143,8 @@ $number_of_page = ceil($num_rows / $result_per_page);
 
                             </div>
                             <div class="col-md-5 mt-4 ">
-                                <input type="button" id="btnSaveTidsregistrering" class="btn btn-primary btn-send" value="Spara">
-                                <input type="button" id="btnNew" class="btn btn-primary btn-send disabled" value="Registrera ny">
+                                <input type="submit" id="btnSparaTidReg" class="btn btn-primary btn-send" value="Spara">
+                                <input type="submit" id="btnNew" class="btn btn-primary btn-send disabled" value="Registrera ny">
                                 <input type="button" id="btnDelete" class="btn btn-warning btn-send disabled" value="Radera">
 
                             </div>
@@ -160,6 +156,7 @@ $number_of_page = ceil($num_rows / $result_per_page);
                                 <input type="button" id="btnLogOut" class="btn btn-primary btn-send float-right" value="Logga ut">
                             </div> -->
                         </div>
+
                     </form>
                     <div class="mt-3">
                         <nav aria-label="Page navigation">
@@ -192,8 +189,8 @@ $number_of_page = ceil($num_rows / $result_per_page);
                         </nav>
                     </div>
                 </div>
+
             </div>
         </div>
-        
     </body>
 </html>

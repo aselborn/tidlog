@@ -50,7 +50,7 @@ class Artikel
             $this->artikelTotalBelopp = $row["totalbelopp"];
             $this->artikelNettoBelopp = $row['nettobelopp'];
             $this->artikelMomsBelopp = $row['momsbelopp'];
-            $this->artikelMomsProcent = $row['moms'];
+            //$this->artikelMomsProcent = $row['moms'];
             
             $this->resultSet[] = $row;
             

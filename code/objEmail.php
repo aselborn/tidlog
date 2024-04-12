@@ -2,10 +2,12 @@
 class EpostMeddelande
 {
      public $fullname;
+     public $hyresgastId;
      public $fastighetNamn;
      public $fakturaId;
      public $faktura;
      public $specifikation;
+     public $meddelande;
      public $epost;
      public $epostMottagare;
      public $fastighetAddress;
@@ -27,8 +29,8 @@ class EpostMeddelande
         $db = new DbManager();
 
         $faktura = $db->query("select fa.fastighet_id, fa.fastighet_namn, fa.foretag_namn, fa.fastighet_address, fa.post_adress, fa.epost, fa.bankgiro,
-            h.fnamn, h.enamn, h.adress, h.epost as eposthyresgast, l.hyra, l.lagenhet_nr, p.avgift, f.faktura,
-            f.faktura_id, f.fakturanummer, f.fakturadatum, f.ocr, f.duedate, f.specifikation
+            h.fnamn, h.enamn, h.adress, h.epost as eposthyresgast, l.hyra, l.lagenhet_nr, p.avgift, f.faktura, h.hyresgast_id,
+            f.faktura_id, f.fakturanummer, f.fakturadatum, f.ocr, f.duedate, f.specifikation, f.meddelande
         
         from tidlog_faktura f
             inner join tidlog_hyresgaster h on h.hyresgast_id = f.hyresgast_id
@@ -53,6 +55,8 @@ class EpostMeddelande
             $this->avgift = $row["avgift"];
             $this->fastighetId = $row["fastighet_id"];
             $this->bankgiro = $row["bankgiro"];
+            $this->hyresgastId = $row["hyresgast_id"];
+            $this->meddelande = $row["meddelande"];
         }
             
     }

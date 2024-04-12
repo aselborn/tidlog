@@ -5,6 +5,7 @@
       include_once "config.php";
       include_once "objHyra.php";
       include_once "objEmail.php";
+      include_once "objArtikel.php";
       include_once "dbmanager.php";
       
       require '../vendor/autoload.php';
@@ -19,9 +20,31 @@
     use PHPMailer\PHPMailer\Exception;
     use PHPMailer\PHPMailer\PHPMailer as PHPMailerPHPMailer;
 
+    $db = new DbManager();
     $fakturaId = $_POST['faktura'];
     
     $epostMeddelande = new EpostMeddelande($fakturaId);
+    $artikelText = "";
+
+    $dataFakturaMonth = $db->query("select faktura_month from tidlog_faktura where faktura_id = ?", array($fakturaId))->fetchAll();
+    $fakturaMonth = 0;
+    foreach($dataFakturaMonth as $row)
+    {
+        $fakturaMonth = $row["faktura_month"];
+    }
+
+    $artikel = new Artikel($epostMeddelande->hyresgastId, $fakturaMonth);
+    $artikelTotalInkMoms = 0;
+    
+    if (!empty($artikel))
+    {
+        foreach($artikel->resultSet as $extra)
+        {
+            $artikelText .= "&emsp;-" . $extra["artikel"] . " " . $extra["meddelande"]  . ": " . $extra["totalbelopp"] . " kr " . '<br />';
+            $artikelTotalInkMoms += $extra["totalbelopp"];
+        }
+    }
+
     $db = new DbManager();
     
     $mail = new PHPMailerPHPMailer(true);
@@ -63,14 +86,28 @@
     $bodyText .= '<br />';
     $bodyText .= 'Här kommer din hyresavi , <b>' .$epostMeddelande->specifikation ;
     $bodyText .= '<hr />';
-    $bodyText .= '<br />';
+     //Meddelande ?
+     if (strlen($epostMeddelande->meddelande) > 0)
+     {
+         $bodyText .= '<h3><strong><i><p style=color:#FF0000;>' .$epostMeddelande->meddelande . '</p></i></strong></h3>';
+     }
+
     $bodyText .= $epostMeddelande->fastighetAddress . " ".  $epostMeddelande->adress . " " . $epostMeddelande->specifikation;
-    $bodyText .= '<br />  &emsp;-Hyra bostad : <strong>' . $epostMeddelande->hyra . '</strong>' ;
+    $bodyText .= '<br />  &emsp;-Hyra bostad : <strong>' . $epostMeddelande->hyra . " kr" . '</strong><br />' ;
+    
+    
     if ($epostMeddelande->avgift > 0)
     {
-        $bodyText .= '<br /> &emsp;-Avgift parkering : <strong>' . $epostMeddelande->avgift . '</strong>';
+        $bodyText .= '<br /> &emsp;-Avgift parkering : <strong>' . $epostMeddelande->avgift . '</strong><br />';
     }
-    $bodyText .= '<br /> &emsp;Att betala : <strong>' .$epostMeddelande->avgift + $epostMeddelande->hyra . ' kronor </strong>' ;
+
+    if (strlen($artikelText) > 0)
+    {
+        $bodyText .= $artikelText;
+    }
+
+
+    $bodyText .= '<br /> &emsp;Att betala : <strong>' .$epostMeddelande->avgift + $epostMeddelande->hyra + $artikelTotalInkMoms . ' kronor </strong>' ;
     $bodyText .= '<br />';
     $bodyText .= '<br />';
     $bodyText .= '&emsp;Bankgiro : ' . $epostMeddelande->bankgiro;

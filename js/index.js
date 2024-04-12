@@ -13,35 +13,35 @@ $(document).ready(function() {
       job_username : $("#hidUserName").val()
     };
 
-    $.ajax({
-        type: "POST",
-        url: "addtime.php",
-        data: formData,
-        dataType: "json",
-        encode: true,
-    }).done(function (data) {
-        console.log(data);
+    // $.ajax({
+    //     type: "POST",
+    //     url: "addtime.php",
+    //     data: formData,
+    //     dataType: "json",
+    //     encode: true,
+    // }).done(function (data) {
+    //     console.log(data);
 
-        window.location.reload();
+    //     window.location.reload();
 
-    });
+    // });
     event.preventDefault();
 
   });
 
   //Hanterar spara och uppdatera.
-  $("#btnSaveTidsregistrering").on('click', function()
-  {
-    var title = $("#btnSaveTidsregistrering").val();
-    if (title === 'Spara'){
-        saveOrUpdate(true)
-    }
+  // $("#btnSaveTidsregistrering").on('click', function()
+  // {
+  //   var title = $("#btnSaveTidsregistrering").val();
+  //   if (title === 'Spara'){
+  //       saveOrUpdate(true)
+  //   }
 
-    if (title === 'Uppdatera'){
-        saveOrUpdate(false);
-    }
+  //   if (title === 'Uppdatera'){
+  //       saveOrUpdate(false);
+  //   }
 
-  });
+  // });
 
 
   function saveOrUpdate(isSave)
@@ -132,7 +132,10 @@ $(document).ready(function() {
       jobId = $(this).closest('tr').attr('id');
       saved_by = $(this).closest('tr').find("td:eq(1)").text();
       
-      //$(this).addClass('selected').siblings().removeClass('selected'); 
+      $("#hidClickedUserName").val(saved_by);
+      $("#hidClickedJobId").val(jobId);
+
+      
       $(this).addClass('selected');
 
       var formdata = {"jobId" : jobId};

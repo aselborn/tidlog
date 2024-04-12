@@ -11,7 +11,7 @@
 ?>
 
 <nav class="sidebar">
-      <a href="#" class="logo">FastighetSystem</a>
+      <a href="#" class="logo">T7 & U9</a>
 
       <div class="menu-content">
         <ul class="menu-items">
