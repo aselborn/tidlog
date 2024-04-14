@@ -19,6 +19,18 @@
             
         }
 
+        public function get_perioden_hyra($year, $month, $fastighetId)
+        {
+            $sql = "select sum(tf.belopp_hyra) as period_hyra, sum(tf.belopp_parkering) as period_parkering from tidlog_faktura tf 
+                    inner join tidlog_lagenhet tl  on tl.lagenhet_id = tf.lagenhet_id 
+                    inner join tidlog_fastighet tf2  on tf2.fastighet_id =tl.fastighet_id 
+                    where 
+                    tf2.fastighet_id = " . $fastighetId . " and tf.faktura_year = " . $year . " and tf.faktura_month = " . $month . "";
+
+            $period_hyra = $this->query($sql) ->fetchAll();
+            return $period_hyra;
+        }
+
         public function get_faktura_underlag($year, $month, $fastighetId, $page_first_result, $result_per_page)
         {
             $sql = "select             
@@ -35,8 +47,8 @@
             tf.faktura_month as faktura_month,
             tf.status, 
             tf.status_skickad,
-            tp.avgift as avgift,
-            tl.hyra, 
+            case when tf.belopp_parkering = 0 then null else tf.belopp_parkering end as avgift ,
+            tf.belopp_hyra as hyra, 
             th.fnamn, th.enamn, tl.lagenhet_nr,
             tfa.fastighet_id
         from tidlog_faktura tf 

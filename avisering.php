@@ -35,8 +35,13 @@
     $fastighetNamn = $db->get_fastighet_namn($fastighetId);
 
     $fakturor = $db->get_faktura_underlag($yr, $month, $fastighetId, $page_first_result, $result_per_page);
-
-      
+    $periodHyra = $db->get_perioden_hyra($yr, $month, $fastighetId);
+    
+    foreach($periodHyra as $period)
+    {
+        $totalt_perioden_hyra = intval($period["period_hyra"]);
+        $totalt_perioden_park = intval($period["period_parkering"]);
+    }
 
 ?>
 <!DOCTYPE html>
@@ -216,10 +221,8 @@
                     <tfoot>
                         <tr>
                             <th scope="row">Total hyra</th>
-                                <td>Perioden Hyra: <strong><?php echo $totalHyra ?></strong></td>
-                                <td>U9 : <strong><?php echo $hyraU9 ?></strong></td>
-                                <td>T7 : <strong><?php echo $hyraT7 ?></strong></td>
-                                <td>Parkering: <strong><?php echo $totalParkering ?></strong></td>
+                                <td>Perioden Hyra: <strong><?php echo $totalt_perioden_hyra ?></strong></td>
+                                <td>Parkering: <strong><?php echo $totalt_perioden_park ?></strong></td>
                         </tr>
                     </tfoot>
                 </table>

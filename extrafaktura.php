@@ -142,7 +142,7 @@
                                     
                                     foreach($hyresgaster as $row)
                                     {
-                                        echo "<option value='" .$row["hyresgast_id"] ."'>" .$row["fnamn"] . " " . $row["enamn"] . " " . $row["adress"] .  "</option>";
+                                        echo "<option value='" .$row["hyresgast_id"] ."'>" .$row["fnamn"] . " " . $row["enamn"] . " " . $row["adress"] . "(" . $row["lagenhet_nr"] . ")" . "</option>";
                                     }
 
                                     ?>

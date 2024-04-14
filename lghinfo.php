@@ -21,12 +21,16 @@
 
     
 
+    // $retroHyra = $db->query(
+    //     "select * from tidlog_lagenhet tl 
+    //     left outer join tidlog_retro_hyra trh  on tl.lagenhet_id = trh.lagenhet_id
+    //     where trh.lagenhetNo = ? order by trh.giltlig_datum asc", array($lagenhetNo))->fetchAll();
     $retroHyra = $db->query(
-        "select * from tidlog_lagenhet tl 
-        left outer join tidlog_retro_hyra trh  on tl.lagenhet_id = trh.lagenhet_id
-        where trh.lagenhetNo = ? order by trh.giltlig_datum asc", array($lagenhetNo))->fetchAll();
+             "select * from tidlog_retro_hyra trh  
+         where trh.lagenhetNo = ? order by trh.giltlig_datum asc", array($lagenhetNo))->fetchAll();
+    
 
-       
+    $retroCount = count($retroHyra);
    
 
 ?>
@@ -73,13 +77,13 @@
                                         
                                         
                                         $lagenhetId = $row["lagenhet_id"];
-                                        $hyra =$row["hyra"];
+                                        //$hyra =$row["hyra"];
                                         $hyra_retro = $row["hyra_retro"];
                                         // $datum_changed = $row["sparad"];
-                                        if ($cnt == $items)
-                                        {
-                                            $hyra_retro = $hyra;
-                                        }
+                                        // if ($cnt == $items)
+                                        // {
+                                        //     $hyra_retro = $hyra;
+                                        // }
                                         echo 
                                         "
                                             <tr id='$lagenhetId'>
