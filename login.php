@@ -109,9 +109,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           echo "<div class='alert alert-danger'>" . $login_err . "</div>";
         }
         ?>
-        <div class="form-wrap border rounded p-5">
+        <div class="form-wrap border rounded p-5 ">
           <h1>Logga in</h1>
-          <p>För att registrera tid, logga in</p>
+          <!-- <p>För att registrera tid, logga in</p> -->
           <!-- form starts here -->
           <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" novalidate>
             <div class="mb-3">

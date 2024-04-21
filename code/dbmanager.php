@@ -143,6 +143,18 @@
             
         }
 
+        function search_faktura($sql, $faktnr, $fastighet)
+        {
+            $faktnr = "%$faktnr%";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("s", $faktnr);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $rows = $result->fetch_all(MYSQLI_ASSOC);
+
+            return $rows;
+        }
         public function getRowCountForUser($user)
         {
             $sql = "select count(*) as count, sum(job_hour) from tidlog_jobs where job_username = ?";

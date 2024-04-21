@@ -167,6 +167,14 @@
                 <a href="hyreskoll.php?page=1&fastighetId=2">Kontroll U9</a>
               </li>
               
+              <li class="item">
+                    <a href="inbetalning.php?page=1&fastighetId=1">Inbetalning T7</a>
+              </li>
+
+              <li class="item">
+                <a href="inbetalning.php?page=1&fastighetId=2">Inbetalning U9</a>
+              </li>
+
             </ul>
           </li>
 
