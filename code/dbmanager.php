@@ -143,11 +143,47 @@
             
         }
 
-        function search_faktura($sql, $faktnr, $fastighet)
+        function search_faktura($faktnr,  $belopp, $namn, $lagenhetNo)
         {
+            $sql = " select tf.fakturanummer , (tf.belopp_hyra + tf.belopp_parkering) as belopp , concat(th.fnamn , ' ',  + th.enamn) as namn ,
+            tl.lagenhet_nr as lagenhetNo, tf.FakturaDatum as fakturadatum
+                from tidlog_faktura tf 
+                    inner join tidlog_hyresgaster th on th.hyresgast_id =tf.hyresgast_id 
+                    inner join tidlog_lagenhet tl on tf.lagenhet_id = tl.lagenhet_id 
+                    where tf.fakturanummer  like ?
+                    ";
+
+            if (intval($belopp) > 0){
+                $sql .= " and (tf.belopp_hyra + tf.belopp_parkering ) = ? ";
+            } else {
+                $belopp = 1;
+                $sql .= " and 1 = ? ";
+            }
+
+            if (strval($namn) != ""){
+                $sql .= " and concat(th.fnamn , ' ',  + th.enamn) like ? ";
+            } else {
+                $namn = "1";
+                $sql .= " and 1 = ? ";
+            }
+
+            if (intval($lagenhetNo)>0){
+                $sql .= " and tl.lagenhet_nr = ?";
+            } else {
+                $lagenhetNo = 1;
+                $sql .= " and 1 = ? ";
+            }
+
+
             $faktnr = "%$faktnr%";
+
+            if ($namn != "1")
+                $namn = "%$namn%";
+
             $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("s", $faktnr);
+
+            $stmt->bind_param("ssss", $faktnr, $belopp, $namn, $lagenhetNo);
+
             $stmt->execute();
             $result = $stmt->get_result();
             
