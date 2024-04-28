@@ -13,36 +13,12 @@ $(document).ready(function() {
       job_username : $("#hidUserName").val()
     };
 
-    // $.ajax({
-    //     type: "POST",
-    //     url: "addtime.php",
-    //     data: formData,
-    //     dataType: "json",
-    //     encode: true,
-    // }).done(function (data) {
-    //     console.log(data);
-
-    //     window.location.reload();
-
-    // });
+   
     event.preventDefault();
 
   });
 
-  //Hanterar spara och uppdatera.
-  // $("#btnSaveTidsregistrering").on('click', function()
-  // {
-  //   var title = $("#btnSaveTidsregistrering").val();
-  //   if (title === 'Spara'){
-  //       saveOrUpdate(true)
-  //   }
-
-  //   if (title === 'Uppdatera'){
-  //       saveOrUpdate(false);
-  //   }
-
-  // });
-
+ 
 
   function saveOrUpdate(isSave)
   {
@@ -230,7 +206,7 @@ $(document).ready(function() {
    
    
    //Markera den rad som användaren klickar på.
-   $('table tr').each(function(a,b){
+   $('#jobTable tr').each(function(a,b){
 
     var jobId = ($(this).attr('id'));
 

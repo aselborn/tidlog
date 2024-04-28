@@ -117,9 +117,10 @@
                 <!--Plock tabell-->
                 <div class="row mt-3">
                     <div class="d-inline-flex">
-                    <table class="table table table-striped w-auto" id="tblInbetalning" >
+                    <table class="table w-auto" id="tblInbetalning" >
                             <thead>
                                 <tr>
+                                <th scope="col" class="table-primary"></th>
                                     <th scope="col" class="table-primary">Fakturanummer</th>
                                     <th scope="col" class="table-primary">Belopp</th>
                                     <th scope="col" class="table-primary">Efternamn</th>
@@ -138,9 +139,10 @@
                                             $dtdat = date_create($row["fakturadatum"]);
                                             $dt = date_format($dtdat, "Y-m-d");
                                             echo "
-                                            <tr>
+                                            <tr class = 'inp_belopp_binder' belopp=" . $row["belopp"] . ">
+                                                <td><input type='checkbox' belopp=" . $row["belopp"] ." class='inp_checkbox'</input></td>
                                                 <td>"  . $row["fakturanummer"] . "</td>
-                                                <td>"  . $row["belopp"] . "</td>
+                                                <td><input type='number' class='form-control-sm' style='width:120px; text-align:center;' value=" . $row["belopp"] . "></input></td>
                                                 <td>"  . $row["namn"] . "</td>
                                                 <td>"  . $row["lagenhetNo"] . "</td>
                                                 <td>"  . $dt . "</td>
@@ -152,6 +154,13 @@
                                 ?>
 
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th scope="row">Totalt belopp</th>
+                                    <td>Summa : <strong><label id="lblInbetaldSumma"></label></strong></td>
+                                    <td><input type="button" id="btnRegistreraInbetalning"  class="btn btn-outline-success btn-sm rounded-5 d-none" value="registrera"></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

@@ -2,10 +2,10 @@
     table-layout: fixed;
     word-wrap: break-word;
 } */
-
+/* 
 .table-custom tbody tr.highlight td {
     background-color: #7e1919;
-}
+} */
 
 .custom_error {
     white-space: nowrap;

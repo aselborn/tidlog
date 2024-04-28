@@ -1,7 +1,4 @@
 
-$('.inbetald_binder').on('click', (event) =>{
-    const button = $(event.currentTarget)
-});
 
 function DisplayCurrentTime() {
     
@@ -14,80 +11,51 @@ function DisplayCurrentTime() {
     return time;
 };
 
+
+
+
 $(document).ready(function() {
 
-    var faktNr = "";
-   
+    var totalBelopp = parseInt(0);
+    $(document).on('click', "#tblInbetalning tbody tr", function(){
 
-    // $('#idFakturaId').on("input", function(e) {
-        
-    //     e.preventDefault();
-
-    //     var dInput = this.value;
-        
-    //     var toSearch = String(dInput);
-    //     if (toSearch.length >= 5)
-    //     {
-    //         if ($("#txt_belopp").val() == ''){
-    //             $.alert({
-    //                 title: 'Information!',
-    //                 content: 'För att söka, måste du först ange ett totalbelopp',
-    //                 icon: 'fa fa-rocket',
-    //                 animation: 'scale',
-    //                 closeAnimation: 'scale',
-    //                 buttons: {
-    //                   okay: {
-    //                     text: 'Ok, jag anger väl ett totalbelopp, tror jag...',
-    //                     btnClass: 'btn-blue',
-    //                     action: function(){
-    //                         $("#txt_belopp").focus();
-    //                         e.preventDefault();
-    //                         return;
-    //                     }
-    //                   }
-    //                 }
-    //               });
-
-                  
-
-                  
-    //         };
-
-            
-
-    //         var data = { search_for : 'faktura_nummer', faktNr: dInput };
-        
-    //         $.post("./code/sokfaktura.php", data, function(response){
-            
-    //             if (response !== ""){
-
-    //                 $('#tblInbetalning tbody').empty();
-    //                 var jsondata = JSON.parse(response);
+        $(this).toggleClass('selected');
+        $('table tr').css('background','#ffffff');
+        $(this).css('background','#37bade'); //Denna färg sätts.
+    });
     
-    //                 if (jsondata.error !== undefined){
-    //                     alert(jsondata.error); //gör detta till en text på sidan istället.
-    //                     return;
-    //                 }
 
-    //                 var resultSet = "<tr class='faktura_binder'>";
-    //                 jsondata.fakturor.forEach(element => {
-    //                     //console.log(element.fakturanummer);
-    //                     resultSet = resultSet.concat("<td>" + element.fakturanummer + " </td>");
-    //                     resultSet = resultSet.concat("<td>" + element.belopp + " </td>");
-    //                     resultSet = resultSet.concat("<td>" + element.namn + " </td>");
-    //                     resultSet = resultSet.concat("<td>" + element.lagenhetNo + " </td>");
-    //                     resultSet = resultSet.concat("</tr>");
-    //                 });
+    $('.inp_belopp_binder').on('click', (event) =>{
+        const button = $(event.currentTarget)
+        var belopp = button.attr('belopp');
 
-    //                 $("#tblInbetalning tbody").append(resultSet);
-    //                 //var table = $('#tblInbetalning').DataTable();
-    //                 //table.ajax.reload();
-    //                 //$("#tblInbetalning").bootstrapTable();
     
-    //             }
-    //         });
-    //     }
+        console.log(belopp);
+       
+    });
+  
+    $('.inp_checkbox').on('click', (event) =>{
+        
+        var inp_belopp = parseInt($("#txt_belopp").val());
 
-    // });
+        const chkBox = $(event.currentTarget)
+        
+        var belopp = parseInt(chkBox.attr('belopp'));
+        var isChecked = chkBox.prop('checked');
+        if (isChecked === false)
+            totalBelopp -= belopp;
+        else
+            totalBelopp += belopp;
+
+        
+        if (inp_belopp === totalBelopp){
+            $("#btnRegistreraInbetalning").removeClass('d-none');
+        } else {
+            $("#btnRegistreraInbetalning").addClass('d-none');
+        }
+
+        $("#lblInbetaldSumma").text(totalBelopp);
+        console.log("totalbelopp : " + totalBelopp) ;
+    });
 
 });
