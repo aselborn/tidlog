@@ -56,7 +56,7 @@
         <div class="main">
             <div class="container-fluid mt-4">
                 <h2>Kontroll av inkommande hyra</h2>
-            <form method="POST" action="./code/sokfaktura.php">
+            <form id="frmInbetalning" method="POST" action="./code/sokfaktura.php">
                 <div class="row">
                     <div class="d-inline-flex gap-3">
                         <div class="col-auto ">
@@ -134,20 +134,27 @@
                                 <?php 
                                     if ($data != null)
                                     {
+                                        $rowId = 0;
                                         foreach($data as $row )
                                         {
                                             $dtdat = date_create($row["fakturadatum"]);
                                             $dt = date_format($dtdat, "Y-m-d");
                                             echo "
-                                            <tr class = 'inp_belopp_binder' belopp=" . $row["belopp"] . ">
-                                                <td><input type='checkbox' belopp=" . $row["belopp"] ." class='inp_checkbox'</input></td>
+                                            <tr class = 'inp_belopp_binder row_class' belopp=" . $row["belopp"] . ">
+                                                <td>
+                                                    <input type='checkbox' name='chk_inbetalt' belopp=" . $row["belopp"] ." class='inp_checkbox'</input>
+                                                </td>
                                                 <td>"  . $row["fakturanummer"] . "</td>
-                                                <td><input type='number' class='form-control-sm' style='width:120px; text-align:center;' value=" . $row["belopp"] . "></input></td>
+                                                <td>
+                                                    <input name='edited_belopp' type='number' id='row_" . $rowId . "' class='form-control-sm binder_inbetalt_belopp' belopp=" . $row["belopp"] ." style='width:120px; text-align:center;' value=" . $row["belopp"] . "></input>
+                                                </td>
                                                 <td>"  . $row["namn"] . "</td>
                                                 <td>"  . $row["lagenhetNo"] . "</td>
                                                 <td>"  . $dt . "</td>
                                             </tr>
                                             ";
+
+                                            $rowId++;
                                         }
                                     }
                                 
