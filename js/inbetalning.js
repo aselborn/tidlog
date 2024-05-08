@@ -62,7 +62,7 @@ $(document).ready(function() {
         console.log(belopp);
        
     });
-  
+  //https://gridjs.io/docs/examples/css-style
     $('.inp_checkbox').on('click', (event) => {
         
         var inp_belopp = parseInt($("#txt_belopp").val());
