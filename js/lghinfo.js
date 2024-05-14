@@ -147,4 +147,99 @@ $(document).ready(function() {
         
 
      });
+
+
+     //Spara vindsutrymme
+    $("#cboVind").on('change', function(){
+        
+        var lagenhetNo = $("#hidlagenhetNo").val();
+        var lagenhetId = $("#hidLagenhetId").val();
+
+        var vindVal = $("#cboVind").val();
+
+        if (vindVal === "0" || vindVal === "" || vindVal === undefined)
+            return;
+
+        var data = { nameOfFunction : 'update_vind', lagenhetId : lagenhetId, vindVal: vindVal };
+        
+        $.post("./code/util.php", data, function(response){
+
+            if (response !== ""){
+                if (JSON.parse(response).update_vind === 'false'){
+                    alert('Kunde inte spara => ' + JSON.parse(response).orsak);
+                    return;
+                } 
+
+                window.location.reload();
+            }
+
+        });
+    });
+
+     //Spara källareutrymme
+     $("#cboKallare").on('change', function(){
+        
+        var lagenhetNo = $("#hidlagenhetNo").val();
+        var lagenhetId = $("#hidLagenhetId").val();
+
+        var kallareVal = $("#cboKallare").val();
+
+        if (kallareVal === "0" || kallareVal === "" || kallareVal === undefined)
+            return;
+
+        var data = { nameOfFunction : 'update_kallare', lagenhetId : lagenhetId, kallareVal: kallareVal };
+        
+        $.post("./code/util.php", data, function(response){
+
+            if (response !== ""){
+                if (JSON.parse(response).update_vind === 'false'){
+                    alert('Kunde inte spara => ' + JSON.parse(response).orsak);
+                    return;
+                } 
+
+                window.location.reload();
+            }
+
+        });
+    });
+
+    //ta bort vind
+    $("#btnRemoveVind").on('click', function(){
+        
+        var lagenhetNo = $("#hidlagenhetNo").val();
+        var data = { nameOfFunction : 'remove_vind', lagenhetNo: lagenhetNo };
+ 
+        $.post("./code/util.php", data, function(response){
+
+            if (response !== ""){
+                if (JSON.parse(response).remove_vind === 'false'){
+                    alert('Kunde inte spara => ' + JSON.parse(response).orsak);
+                    return;
+                } 
+
+                window.location.reload();
+            }
+
+        });
+    });
+
+    //ta bort källare
+    $("#btnRemoveKallare").on('click', function(){
+        
+        var lagenhetNo = $("#hidlagenhetNo").val();
+        var data = { nameOfFunction : 'remove_kallare', lagenhetNo: lagenhetNo };
+ 
+        $.post("./code/util.php", data, function(response){
+
+            if (response !== ""){
+                if (JSON.parse(response).remove_vind === 'false'){
+                    alert('Kunde inte spara => ' + JSON.parse(response).orsak);
+                    return;
+                } 
+
+                window.location.reload();
+            }
+
+        });
+    });
 })

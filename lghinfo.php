@@ -19,7 +19,18 @@
     (select park_id from tidlog_lagenhet tl where park_id is not null)
     and tp.fastighet_id = ? ", array($lghInfo->fastighetId ) )->fetchAll();
 
+    $vindar = $db->query(" select *   from tidlog_parkering tp 
+    where tp.park_id not in 
+    (select park_id from tidlog_lagenhet tl where park_id is not null)
+    and tp.fastighet_id = ? ", array($lghInfo->fastighetId ) )->fetchAll();
+
+    $vindar = $db->query(" select * from tidlog_vind tv where vind_id not in 
+    (select vind_id from tidlog_lagenhet tl where vind_id is not null)
+    and tv.fastighet_id = ? ", array($lghInfo->fastighetId ) )->fetchAll();
     
+    $kallare = $db->query(" select * from tidlog_kallare tk where kallare_id not in 
+    (select kallare_id from tidlog_lagenhet tl where kallare_id is not null)
+    and tk.fastighet_id = ? ", array($lghInfo->fastighetId ) )->fetchAll();
 
     // $retroHyra = $db->query(
     //     "select * from tidlog_lagenhet tl 
@@ -77,19 +88,15 @@
                                         
                                         
                                         $lagenhetId = $row["lagenhet_id"];
-                                        //$hyra =$row["hyra"];
+                                       
                                         $hyra_retro = $row["hyra_retro"];
-                                        // $datum_changed = $row["sparad"];
-                                        // if ($cnt == $items)
-                                        // {
-                                        //     $hyra_retro = $hyra;
-                                        // }
+                                  
                                         echo 
                                         "
                                             <tr id='$lagenhetId'>
                                                 <td>" . $giltlig_fram . "</td>" . 
                                                 "<td>" . $hyra_retro . "</td>" . 
-                                                // "<td>" . $datum_changed . "</td>" .
+                                             
                                             "</tr>
                                         ";
 
@@ -163,7 +170,7 @@
                                     <td>
                                         <?php 
                                             if ($lghInfo->parkering > 0){
-                                                echo "<input type='button' id='btnRemovePark' class='btn btn-success ' value='Ta bort'> ";
+                                                echo "<input type='button' id='btnRemovePark' class='btn btn-outline-success btn-sm rounded-5' value='Ta bort'> ";
                                             }
                                         ?>
                                     </td>
@@ -189,6 +196,68 @@
                     </div> -->
                 </div>
                 
+                <div class="row mt-3">
+                    <div class="col-12">
+                         <!--TABELL SOM ANGER VIND OCH KÄLLARE-->
+                         <table class="table table-striped w-auto" id="tblWind">
+                         <thead>
+                                <tr >
+                                    <th scope="col" class="table-primary">Vindsutrymme</th>
+                                    <th scope="col" class="table-primary">Källarutrymme</th>
+                                    <!-- <th scope="col" class="table-primary">Tvättlås</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row-cols-auto ">
+                                    <!--VINDSUTRYMME VÄLJ-->
+                                    <td class="mt-1">
+                                        <?php 
+                                            if ($lghInfo->VindNr == 0){
+                                                
+                                                echo '<select id="cboVind" class="form-select" name="Vind">';
+                                                echo "<option value='Välj vind'>--Välj--</option>";
+                                                foreach($vindar as $row)
+                                                {
+                                                    echo "<option value='" .$row["vind_id"] ."'>" .$row["nummer"].  "</option>";
+                                                }
+                                                echo '</select>';
+
+                                            } else {
+                                                echo "<label class='form-label' >". "Vind: " .   $lghInfo->VindNr . " </label>";
+                                                echo "<input type='hidden' id='hidVind' value = '" .$lghInfo->vindId . "' />";
+                                                echo "&nbsp &nbsp <input type='button' id='btnRemoveVind' class='btn btn-outline-success btn-sm rounded-5' value='Ta bort vind'> ";
+                                            }
+                                        ?>
+                                    </td>
+                                    
+                                    <!--Källarutrymme VÄLJ-->
+                                    <td class="mt-1">
+                                        <?php 
+                                            if ($lghInfo->kallareNr == 0){
+                                                
+                                                echo '<select id="cboKallare" class="form-select" name="Kallare">';
+                                                echo "<option value='Välj källare'>--Välj--</option>";
+                                                foreach($kallare as $row)
+                                                {
+                                                    echo "<option value='" .$row["kallare_id"] ."'>" .$row["nummer"].  "</option>";
+                                                }
+                                                echo '</select>';
+
+                                            } else {
+                                                echo "<label class='form-label' >". "Källare: " .   $lghInfo->kallareNr . " </label>";
+                                                echo "<input type='hidden' id='hidKallare' value = '" .$lghInfo->kallareId . "' />";
+                                                echo "&nbsp &nbsp <input type='button' id='btnRemoveKallare' class='btn btn-outline-success btn-sm rounded-5' value='Ta bort källare'> ";
+                                            }
+                                        ?>
+                                    </td>
+                                    
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
 
             </div>
         </div>

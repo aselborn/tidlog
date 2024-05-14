@@ -20,7 +20,14 @@ ADD UNIQUE INDEX `fk_park_id_unique` (`park_id` ASC) VISIBLE;
 ;
 ALTER TABLE tidlog_lagenhet ADD vind_id INT NULL after lagenhet_id;
 
+
 --retro hyra
 ALTER TABLE tidlog_lagenhet ADD retro_hyra_id int null after park_id;
 ALTER TABLE tidlog_lagenhet ADD CONSTRAINT tidlog_lagenhet_tidlog_retro_hyra_FK FOREIGN KEY (retro_hyra_id) REFERENCES tidlog.tidlog_retro_hyra(retro_id);
 ALTER TABLE tidlog_retro_hyra ADD lagenhetNo varchar(100) after lagenhet_id;
+
+
+ALTER TABLE tidlog_lagenhet ADD kallare_id INT NULL after vind_id;
+ALTER TABLE tidlog_lagenhet ADD CONSTRAINT tidlog_lagenhet_tidlog_vind_FK FOREIGN KEY (vind_id) REFERENCES tidlog_vind(vind_id);
+ALTER TABLE tidlog_lagenhet ADD CONSTRAINT tidlog_lagenhet_tidlog_kallare_FK FOREIGN KEY (kallare_id) REFERENCES tidlog_kallare(kallare_id);
+

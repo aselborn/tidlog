@@ -328,6 +328,39 @@
             }
         }
 
+        public function update_vind($vindId, $lagenhetId)
+        {
+            $sql = "UPDATE tidlog_lagenhet SET vind_id = ? WHERE lagenhet_id = ?" ;
+            
+            try{
+            
+                $stmt = $this->connection->prepare($sql);
+                
+                $stmt->bind_param("ss",  $vindId, $lagenhetId);
+                $stmt->execute();
+
+                return true;
+            } catch(Exception $th){
+                throw $th;
+            }
+        }
+
+        public function update_kallare($kallareId, $lagenhetId)
+        {
+            $sql = "UPDATE tidlog_lagenhet SET kallare_id = ? WHERE lagenhet_id = ?" ;
+            
+            try{
+            
+                $stmt = $this->connection->prepare($sql);
+                
+                $stmt->bind_param("ss",  $kallareId, $lagenhetId);
+                $stmt->execute();
+
+                return true;
+            } catch(Exception $th){
+                throw $th;
+            }
+        }
         public function update_hyra($lagenhetId, $lagenhetNo, $hyra, $giltligFran){
             
 
@@ -393,6 +426,39 @@
         public function remove_parkering($lagenhetNo)
         {
             $sql = "UPDATE tidlog_lagenhet set park_id = NULL where lagenhet_nr = ?";
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $lagenhetNo);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+        }
+
+        
+        public function remove_vind($lagenhetNo)
+        {
+            $sql = "UPDATE tidlog_lagenhet set vind_id = NULL where lagenhet_nr = ?";
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $lagenhetNo);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+        }
+
+        public function remove_kallare($lagenhetNo)
+        {
+            $sql = "UPDATE tidlog_lagenhet set kallare_id = NULL where lagenhet_nr = ?";
             try{
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bind_param("s", $lagenhetNo);

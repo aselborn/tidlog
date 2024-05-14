@@ -50,11 +50,25 @@ if (isset($_POST["nameOfFunction"])){
         update_parkering();
     }
 
+    if ($_POST["nameOfFunction"] == "update_vind"){
+        update_vind();
+    }
+
+    if ($_POST["nameOfFunction"] == "update_kallare"){
+        update_kallare();
+    }
 
     if ($_POST["nameOfFunction"] == "remove_parkering") {
         remove_parkering();
     }
 
+    if ($_POST["nameOfFunction"] == "remove_vind") {
+        remove_vind();
+    }
+
+    if ($_POST["nameOfFunction"] == "remove_kallare") {
+        remove_kallare();
+    }
     if ($_POST["nameOfFunction"] == "sag_upp_kontrakt") {
         sag_upp_kontrakt();
     }
@@ -527,6 +541,41 @@ if (isset($_POST["nameOfFunction"])){
             echo json_encode(['update_parkering' => 'false', 'orsak' => $th->getMessage()]);
         }
     }
+
+    function update_vind()
+    {
+        $db = new DbManager();
+        
+        $vindId = $_POST['vindVal'];
+        $lagenhetId = $_POST['lagenhetId'];
+        
+        try {
+            if ($db->update_vind($vindId, $lagenhetId))
+            {
+                echo json_encode(['update_vind' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['update_vind' => 'false', 'orsak' => $th->getMessage()]);
+        }
+    }
+
+    function update_kallare()
+    {
+        $db = new DbManager();
+        
+        $vindId = $_POST['kallareVal'];
+        $lagenhetId = $_POST['lagenhetId'];
+        
+        try {
+            if ($db->update_kallare($vindId, $lagenhetId))
+            {
+                echo json_encode(['update_kallare' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['update_kallare' => 'false', 'orsak' => $th->getMessage()]);
+        }
+    }
+
     function update_hyra()
     {
         $db = new DbManager();
@@ -583,6 +632,39 @@ if (isset($_POST["nameOfFunction"])){
         
     }
 
+    function remove_vind()
+    {
+        $db = new DbManager();
+        
+        $lagenthetNo = $_POST["lagenhetNo"];
+        
+        try {
+            if ($db->remove_vind($lagenthetNo))
+            {
+                echo json_encode(['remove_vind' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['remove_vind' => 'false', 'orsak' => $th->getMessage()]);
+        }
+        
+    }
+
+    function remove_kallare()
+    {
+        $db = new DbManager();
+        
+        $lagenthetNo = $_POST["lagenhetNo"];
+        
+        try {
+            if ($db->remove_kallare($lagenthetNo))
+            {
+                echo json_encode(['remove_kallare' => 'true']);
+            } 
+        } catch (\Throwable $th) {
+            echo json_encode(['remove_kallare' => 'false', 'orsak' => $th->getMessage()]);
+        }
+        
+    }
     function sag_upp_kontrakt()
     {
         $db = new DbManager();

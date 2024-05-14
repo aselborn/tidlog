@@ -13,10 +13,12 @@
       $db = new DbManager();
       $user = $_SESSION['username'];
       
-      $result_per_page = 10;
+      $result_per_page = 12;
       $page_first_result = ($page - 1) * $result_per_page;
       $num_rows = $db->getRowCountForUser($user);
       $total_registrations = $db->total_registrations_for_user($user);
+
+      $allUsers = $db->query("select id, username from tidlog_users")->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -30,12 +32,23 @@
         <?php echo '<input type="hidden" id="totalRowCount" value="' . htmlspecialchars(strval($total_registrations)) . '" />'."\n";?>    
         <div class="main">
             <div class="container-fluid mt-4" >
-                <hr />
+                <br>
                 <h2>Sammanställning för användare : <strong><?= htmlspecialchars($_SESSION["username"]); ?></strong></h2>
+                
+                
                 
                 <div class="row mt-2">
                     <div class="col-10">
                         <div class="d-inline-flex p-1 gap-2">
+                        <label for="cbo_job_user"class="label-primary">Användare</label>
+                                <select id="cbo_job_user" class="form-select" name="job_user">
+                                <?php 
+                                     foreach($allUsers as $row)
+                                     {
+                                         echo "<option value='" .$row["id"] ."'>" .$row["username"].  "</option>";
+                                     }
+                                ?>
+                                </select>
                             <label for="dtFom">Från</label>
                             <input type="text" class="form-control" id="dtFom" ></input>
                             <label for="dtTom">Till</label>
@@ -46,6 +59,8 @@
                                         <option value="U9">U9</option>
                                         <option value="Alla">Alla</option>
                                     </select>
+                            
+
                             <input type="button" id="btnFilter" class="btn btn-success" value="Filtrera">
                             <strong><label for="lblErrorLabel" class="form-label custom_error" id="lblErrorLabel"></label></strong>
                         </div>

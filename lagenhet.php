@@ -54,8 +54,10 @@
                                     <th scope="col" class="table-primary">Lägenhet Nr</th>
                                     <th scope="col" class="table-primary">Hyra</th>
                                     <th scope="col" class="table-primary">Parkering Nr</th>
+                                    <th scope="col" class="table-primary">VindNr</th>
+                                    <th scope="col" class="table-primary">KällareNr</th>
                                     <th scope="col" class="table-primary">Hyrs av</th>
-                                    <th scope="col" class="table-primary">Yta</th>
+                                    <!-- <th scope="col" class="table-primary">Yta</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,10 +67,12 @@
                           
                                 $data = $db->query(
                                     "
-                                        SELECT * from tidlog_lagenhet tl 
+                                        SELECT *, tv.nummer as vindNr, tk.nummer as kallareNr from tidlog_lagenhet tl 
                                         inner join tidlog_fastighet tf on tf.fastighet_id = tl.fastighet_id
                                         left outer join tidlog_hyresgaster th on th.hyresgast_id = tl.hyresgast_id
                                         left outer join tidlog_parkering tp on tp.park_id = tl.park_id 
+                                        left outer join tidlog_vind tv on tv.vind_id = tl.vind_id
+                                        left outer join tidlog_kallare tk on tk.kallare_id = tl.kallare_id
                                         where tf.fastighet_id = " . $fastighetId . "
                                     order by lagenhet_nr asc LIMIT " 
                                     
@@ -87,6 +91,8 @@
                                     "Ledig" : $row["fnamn"] . " " . " " .  $row["enamn"];
                                 $hyresgastId = $row["hyresgast_id"];
                                 $parkering = $row["parknr"]  == null ? "" : $row["parknr"];
+                                $vindNr = $row["vindNr"] == null ? "" : $row["vindNr"];
+                                $kallareNr = $row["kallareNr"] == null ? "" : $row["kallareNr"];
                                 $hyra = $row["hyra"];
 
                                 $link = "<tr id='$lagenhetId'><td>
@@ -97,6 +103,8 @@
                                 </a>
                                 <td>". $hyra . "</td>
                                 <td>". $parkering . "</td>
+                                <td>". $vindNr . "</td>
+                                <td>". $kallareNr . "</td>
                                 <td>";
                                 if ($hyrsAv != "Ledig"){
                                     $link .= "<a href='hyrginfo.php?hyresgast_id=" . $hyresgastId . "'>
@@ -113,7 +121,7 @@
                                 }
                                 
                                 $link .= "</td>
-                                <td>". $yta . "</td>
+                                
                                 </tr>";
 
                                 echo $link;
