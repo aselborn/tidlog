@@ -148,32 +148,62 @@ $(document).ready(function() {
     });
 
 
+
     $('.binder_faktura_skicka').on('click', (event) => {
         
         const button = $(event.currentTarget);
 
         var fakturaId = button.attr('faktura');
         var hyresgastId = button.attr('hyresgast');
+        var isSkickad = button.attr('skickad');
 
-        var data = { faktura : fakturaId};
-
-        $.post("./code/sendmail.php", data, function(response){
-
-            if (response !== ""){
-                // try{
-                //     if (JSON.parse(response).skicka_faktura === true){
-                //         window.location.reload();
-                //     }
-                // } catch (ex)
-                // {
-                //     alert(response);
-                // }
-                window.location.reload();
-                
-            }
+        //Fakturan är redan skickad!
+        if (isSkickad.trim())
+        {
+            $.alert(
+            {
+                title: 'Information!',
+                content: '<strong>Fakturan är redan skickad, vill du skicka den igen?</strong>',
+                icon: 'fa fa-rocket',
+                animation: 'scale',
+                closeAnimation: 'scale',
+                buttons: 
+                {
+                  okay: 
+                  {
+                    text: 'Skicka fakturan igen.',
+                    btnClass: 'btn-blue',
+                    action: function()
+                    {
+                        //Skickar faktura!
+                        var data = { faktura : fakturaId};
+                        $.post("./code/sendmail.php", data, function(response){
+                            if (response !== ""){
+                                window.location.reload();        
+                            }
     
+                        });
+                    }
+                  },
+                  nej : 
+                  {
+                    text: 'Avbryt',
+                    btnClass: 'btn-red',
+                    keys: ['enter', 'shift'],
+                    action: function()
+                    {
+                        $.alert('Avbrutet.');
+                    }
+                  }
+                }
+                
             });
 
+
+
+        }
+
+        
     });
 
     //Hantera hyresgäst, en knapp för varje rad.

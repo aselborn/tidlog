@@ -189,7 +189,7 @@
                                                 </div>
                                         </td>
                                         <td>
-                                            <input type='button' value='Skicka faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skicka_pdf' class='btn btn-sm btn-outline-success rounded-5 binder_faktura_skicka'>
+                                            <input type='button' value='Skicka faktura' skickad='" . $skickad . "' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skicka_pdf' class='btn btn-sm btn-outline-success rounded-5 binder_faktura_skicka'>
                                         </td>
                                         ";
                                         if ($status != null){
@@ -207,7 +207,7 @@
                                     } else {
                                         echo "
                                         <td>
-                                            <input type='button' value='Skapa faktura' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-outline-success btn-sm rounded-5 thebinder'>
+                                            <input type='button' value='Skapa faktura' skickad='" . $skickad . "' faktura='" .$fakturaId . "' hyresgast='" . $hyresgastId . "' name='skapa_pdf' class='btn btn-outline-success btn-sm rounded-5 thebinder'>
                                         </td>
                                        ";
                                     }

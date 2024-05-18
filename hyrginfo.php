@@ -98,8 +98,35 @@
                 </div>
                 <div class="row mt-1">
                 
-                <!--Info om lägenheten-->
+                <!--Info om Hyresgästen-->
                 
+                <!--Deposition?-->
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <table class="table table-striped w-auto" id="tblKontrakt">
+                                    <thead>
+                                        <tr >
+                                            <th scope="col" class="table-primary">Deposition</th>
+                                            <th scope="col" class="table-primary">Datum </th>
+                                            <th scope="col" class="table-primary">Belopp deposition</th>
+                                            <th scope="col" class="table-primary">Datum återbetalt</th>
+                                            <th scope="col" class="table-primary">Belopp återbetalt</th>
+                                            <th scope="col" class="table-primary"></th>
+                                            <th scope="col" class="table-primary"></th>
+                                        </tr>
+                                    </thead>
+                                <tbody>
+
+                                </tbody>
+                        </table>
+                        <!--Visas endast om deposition inte finns sparat!-->
+                        <?php 
+                            if ($hyresGInfo->datumKontrakt == null || $hyresGInfo->datumKontraktUppsagt != null){
+                                echo '<input type="button" id="btnAddKontraktDokument"value="Nytt" class="btn btn-success" />';
+                            }
+                        ?>
+                    </div>
+                </div>
 
                 <!--Kontraktdetaljer-->
                 <div class="row mt-2">
@@ -155,21 +182,21 @@
                           
                             <!--Raden för att lägga till ett kontrakt.-->
                             <form  action="./code/uploadkontrakt.php" method="post" enctype="multipart/form-data">
-                            <tr class="row-cols-auto d-none" id="rowNyttKontrakt">
-                                <td><input type="text" class="form-control-sm" id="idKontraktNamn" name="kontraktNamn" /></td>
-                                <td><input type="date" class="form-control-sm" id="dtDateGoneKontrakt" name="dtFom" /></td>
-                                <td><input type="date" class="form-control-sm d-none" id="txtDateBackKontrakt" name="dtTom" /></td>
-                                <input type="hidden" value=<?php echo $hyresGInfo->hyresgastId ?> name="hdHyresgast"/>
-                                <input type="hidden" value=<?php echo $hyresGInfo->lagenhetId ?> name="hdLagenhetId"/>
-                                <input type="hidden" value=<?php echo $hyresGInfo->lagenhetNo ?> name="hdLagenhetNo"/>
-                                <td>
-                                    <label class=""file-upload>
-                                        <input type="file" name="pdfkontrakt" id="file_kontrakt" accept="application/pdf" id="btnAddKontraktBlob"value="ladda..." class="btn btn-info" />
-                                    </label>
-                                    
-                                </td>
-                                <td><input type="submit" id="btnSparaKontrakt"value="Spara" name="sparakontrakt" class="btn btn-success" /></td>
-                            </tr>
+                                <tr class="row-cols-auto d-none" id="rowNyttKontrakt">
+                                    <td><input type="text" class="form-control-sm" id="idKontraktNamn" name="kontraktNamn" /></td>
+                                    <td><input type="date" class="form-control-sm" id="dtDateGoneKontrakt" name="dtFom" /></td>
+                                    <td><input type="date" class="form-control-sm d-none" id="txtDateBackKontrakt" name="dtTom" /></td>
+                                    <input type="hidden" value=<?php echo $hyresGInfo->hyresgastId ?> name="hdHyresgast"/>
+                                    <input type="hidden" value=<?php echo $hyresGInfo->lagenhetId ?> name="hdLagenhetId"/>
+                                    <input type="hidden" value=<?php echo $hyresGInfo->lagenhetNo ?> name="hdLagenhetNo"/>
+                                    <td>
+                                        <label class=""file-upload>
+                                            <input type="file" name="pdfkontrakt" id="file_kontrakt" accept="application/pdf" id="btnAddKontraktBlob"value="ladda..." class="btn btn-info" />
+                                        </label>
+                                        
+                                    </td>
+                                    <td><input type="submit" id="btnSparaKontrakt"value="Spara" name="sparakontrakt" class="btn btn-success" /></td>
+                                </tr>
                             </form>
                         <table>
                         <!--Visas endast om kontrakt inte finns sparat!-->

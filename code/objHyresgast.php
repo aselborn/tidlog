@@ -23,6 +23,8 @@
         public $moms ;
         public $momsprocent;
         public $fskatt;
+        
+        
 
         public array $kontrakts;
 

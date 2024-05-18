@@ -19,18 +19,14 @@
     (select park_id from tidlog_lagenhet tl where park_id is not null)
     and tp.fastighet_id = ? ", array($lghInfo->fastighetId ) )->fetchAll();
 
-    $vindar = $db->query(" select *   from tidlog_parkering tp 
-    where tp.park_id not in 
-    (select park_id from tidlog_lagenhet tl where park_id is not null)
-    and tp.fastighet_id = ? ", array($lghInfo->fastighetId ) )->fetchAll();
 
     $vindar = $db->query(" select * from tidlog_vind tv where vind_id not in 
     (select vind_id from tidlog_lagenhet tl where vind_id is not null)
-    and tv.fastighet_id = ? ", array($lghInfo->fastighetId ) )->fetchAll();
+    and tv.fastighet_id = ? order by nummer", array($lghInfo->fastighetId ) )->fetchAll();
     
     $kallare = $db->query(" select * from tidlog_kallare tk where kallare_id not in 
     (select kallare_id from tidlog_lagenhet tl where kallare_id is not null)
-    and tk.fastighet_id = ? ", array($lghInfo->fastighetId ) )->fetchAll();
+    and tk.fastighet_id = ? order by nummer", array($lghInfo->fastighetId ) )->fetchAll();
 
     // $retroHyra = $db->query(
     //     "select * from tidlog_lagenhet tl 
