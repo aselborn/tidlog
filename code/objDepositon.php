@@ -1,6 +1,6 @@
 <?php
 
-class ObjDepositon
+class InfoDeposition
 {
     public $hyresgastId;
     public $belopp;
@@ -18,7 +18,7 @@ class ObjDepositon
     {
         $db = new DbManager();
 
-        $sql = "select * from tidlog_depositon where hyresgast_id = ?";
+        $sql = "select * from tidlog_deposition where hyresgast_id = ?";
         $info = $db->query($sql, array($this->hyresgastId))->fetchAll();
 
         foreach($info as $row){

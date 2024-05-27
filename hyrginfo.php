@@ -7,6 +7,8 @@
     require_once "./code/managesession.php";
     require_once "./code/objHyresgast.php";
     require_once "./code/objKontrakt.php";
+    require_once "./code/objDepositon.php";
+    require_once "./code/datum_helper.php";
     
     if (!isset($_GET['hyresgast_id'])) {
         $hyresgastId = null;
@@ -15,12 +17,19 @@
     }
 
     $db = new DbManager();
+    $datumHelper = new DatumHelper();
    
     $hyresGInfo = new InfoHyresgast($hyresgastId);
-
+    
     $kontraktGInfo = null;
-    if ($hyresgastId != null)
+    $depositionInfo = null;
+
+    if ($hyresgastId != null) {
         $kontraktGInfo = new InfoKontrakt($hyresgastId);
+        $depositionInfo = new InfoDeposition($hyresgastId);
+    }
+        
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,12 +48,15 @@
         <?php include("./pages/sidebar.php") ?>
             
             <div class="main">
-                <div class="container-fluid" >
-                <h2>Hantera befintlig hyresgäst</h2>
+                <div class="container-fluid mt-4" >
+                <br/>
+                <!-- <h3>Hantera befintlig hyresgäst i lägenhet, <?php echo $hyresGInfo->lagenhetNo ?></h3> -->
                 <hr />
+                <span><h2>Kontraktbunden hyresgäst <?php echo $hyresGInfo->lagenhetNo ?></h2></span>
                 <div class="d-inline-flex">
                     
                     <table class="table table table-striped w-auto" id="tblHyresgast" >
+                    
                         <thead>
                             <tr>
                                 <th scope="col" class="table-primary">Förnamn</th>
@@ -103,28 +115,73 @@
                 <!--Deposition?-->
                 <div class="row mt-2">
                     <div class="col-12">
-                        <table class="table table-striped w-auto" id="tblKontrakt">
+                        
+                            <table class="table table-striped w-auto" id="tblKontrakt" name="depositonTabell">
                                     <thead>
                                         <tr >
-                                            <th scope="col" class="table-primary">Deposition</th>
+                                        <th scope="col" class="table-primary">Belopp deposition</th>
                                             <th scope="col" class="table-primary">Datum </th>
-                                            <th scope="col" class="table-primary">Belopp deposition</th>
                                             <th scope="col" class="table-primary">Datum återbetalt</th>
                                             <th scope="col" class="table-primary">Belopp återbetalt</th>
                                             <th scope="col" class="table-primary"></th>
                                             <th scope="col" class="table-primary"></th>
                                         </tr>
                                     </thead>
+                                
                                 <tbody>
+                                    <?php 
+                                        if ($depositionInfo->belopp != null)
+                                        {
+                                            echo 
+                                            "
+                                                
+                                                    <tr>
+                                                        <td>" . $depositionInfo->belopp . "</td>
+                                                        <td>" . $datumHelper->GetDatum($depositionInfo->datum_deposition) . "</td>
+                                                        <td>" . $datumHelper->GetDatum($depositionInfo->datum_ater) . "</td>
+                                                        <td>" . $depositionInfo->belopp_ater . "</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+                                                            <input type='button' id='btnChangeDeposition'  class='btn btn-outline-success btn-sm rounded-5' value='Ändra' </input>
+                                                        </td>
+                                                        <td>
+                                                            <input type='submit'   class='btn btn-outline-success btn-sm rounded-5' value='Ta bort' </input>
+                                                        </td>
+                                                    </tr>
+                                                
+                                            ";
+                                        } 
+                                    ?>
+
+                                    <!--Raden för att lägga till en deposition.-->
+                                <form action="./code/deposition.php" method="POST" id="frmDeposition">
+                                    <tr class="row-cols-auto d-none row_deposition" id="rowNyDeposition">
+                                        <td><input type="number" class="form-control-sm" id="idDepositionBelopp" name="DepositionBelopp" style="width: 110px;"/></td>
+                                        <td><input type="date" class="form-control-sm" id="dtDepositionDatum" value="<?php  echo date("Y-m-d")  ?>" name="DepositionDatum" /></td>
+                                        <td><input type="date" class="form-control-sm d-none" id="dtDepositionDatumAter" name="DepositionDatumAter" /></td>
+                                        <td><input type="number" class="form-control-sm d-none" id="idBeloppAter" name="BeloppAter" /></td>
+
+                                        <input type="hidden" value=<?php echo $hyresGInfo->hyresgastId ?> name="hdHyresgast"/>
+                                        <input type="hidden" value=<?php echo $hyresGInfo->lagenhetId ?> name="hdLagenhetId"/>
+                                        <input type="hidden" value=<?php echo $hyresGInfo->lagenhetNo ?> name="hdLagenhetNo"/>
+                                        
+                                        <td>
+                                            <input type="submit" id="btnSparadeposition"value="Spara ny deposition" name="sparakontrakt" class="btn btn-outline-success btn-sm rounded-5" />
+                                        </td>
+                                    </tr>
+                                </form>
 
                                 </tbody>
-                        </table>
+                                
+                            </table>
+                            <?php 
+                                if ($depositionInfo->belopp == null ){
+                                    echo "<input type ='button' id='btnNyDeposition' class='btn btn-outline-success btn-sm rounded-5' name=ny_deposition value='Ny deposition' />";
+                                }
+                            ?>
+                        
                         <!--Visas endast om deposition inte finns sparat!-->
-                        <?php 
-                            if ($hyresGInfo->datumKontrakt == null || $hyresGInfo->datumKontraktUppsagt != null){
-                                echo '<input type="button" id="btnAddKontraktDokument"value="Nytt" class="btn btn-success" />';
-                            }
-                        ?>
                     </div>
                 </div>
 

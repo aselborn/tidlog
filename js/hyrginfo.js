@@ -10,6 +10,8 @@ $(document).ready(function() {
     }
 
     setDateOnInput($("#dtDateBackKontrakt"));
+    setDateOnInput($("#dtDepositionDatum"));
+    setDateOnInput($("#dtDepositionDatumAter"));
 
     $("#chkAndraHand").on('change', function() {
 
@@ -47,6 +49,31 @@ $(document).ready(function() {
             }
 
         });
+    });
+
+    //Visa raden LÄGGA TILL DEPOSITION.
+    
+      $("#btnNyDeposition").on('click', function(){
+        $("#rowNyDeposition").removeClass('d-none');
+        $("#idDepositionBelopp").focus();
+        $(this).addClass('d-none');
+     });
+
+
+     //Ändra depositionen.
+     $("#btnChangeDeposition").on('click', function(){
+        $('.row_deposition').removeClass('d-none');
+        $("#dtDepositionDatumAter").removeClass('d-none');
+        $("#idBeloppAter").removeClass('d-none');
+        $(this).addClass('d-none');
+     });
+
+
+  //Visa raden lägga till kontrakt
+    $("#btnAddKontraktDokument").on('click', function(){
+        $("#rowNyttKontrakt").removeClass('d-none');
+        $("#txtKontraktNamn").focus();
+        $(this).addClass('d-none');
     });
 
 

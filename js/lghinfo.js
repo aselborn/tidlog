@@ -123,14 +123,7 @@ $(document).ready(function() {
         });
     });
 
-    //Visa raden lägga till kontrakt
-    
-    $("#btnAddKontraktDokument").on('click', function(){
-        $("#rowNyttKontrakt").removeClass('d-none');
-        $("#txtKontraktNamn").focus();
-        $(this).addClass('d-none');
-     });
-
+  
     //Visa raden lägga till dokument
      $("#btnAddNyckelDokument").on('click', function(){
         $("#rowNyNyckel").removeClass('d-none');
