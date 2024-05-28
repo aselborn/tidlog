@@ -25,7 +25,7 @@ class InfoDeposition
             $this->datum_deposition = $row["datum_deposition"];
             $this->belopp = $row["belopp"];
             $this->datum_ater = $row["datum_aterbetalt"];
-            $this->belopp_ater = $row["belopp_ater"];
+            $this->belopp_ater = $row["belopp_ater"]  == null ? 0 : $row["belopp_ater"];
             
         }
 

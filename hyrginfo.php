@@ -115,47 +115,60 @@
                 <!--Deposition?-->
                 <div class="row mt-2">
                     <div class="col-12">
-                        
+                                
                             <table class="table table-striped w-auto" id="tblKontrakt" name="depositonTabell">
                                     <thead>
                                         <tr >
-                                        <th scope="col" class="table-primary">Belopp deposition</th>
+                                        <th scope="col" class="table-primary">Belopp</th>
                                             <th scope="col" class="table-primary">Datum </th>
-                                            <th scope="col" class="table-primary">Datum återbetalt</th>
-                                            <th scope="col" class="table-primary">Belopp återbetalt</th>
+                                            <th scope="col" class="table-primary">Belopp åter</th>
+                                            <th scope="col" class="table-primary">Datum åter</th>
                                             <th scope="col" class="table-primary"></th>
                                             <th scope="col" class="table-primary"></th>
                                         </tr>
                                     </thead>
-                                
+                            <form action="./code/deposition.php" method="POST" id="frmDeposition">
                                 <tbody>
+                                        
+                                    <input type="hidden" value=<?php echo $hyresGInfo->hyresgastId ?> name="hdHyresgast"/>
+                                        <input type="hidden" value=<?php echo $hyresGInfo->lagenhetId ?> name="hdLagenhetId"/>
+                                        <input type="hidden" value=<?php echo $hyresGInfo->lagenhetNo ?> name="hdLagenhetNo"/>
+                                        
                                     <?php 
-                                        if ($depositionInfo->belopp != null)
-                                        {
-                                            echo 
-                                            "
-                                                
-                                                    <tr>
-                                                        <td>" . $depositionInfo->belopp . "</td>
-                                                        <td>" . $datumHelper->GetDatum($depositionInfo->datum_deposition) . "</td>
-                                                        <td>" . $datumHelper->GetDatum($depositionInfo->datum_ater) . "</td>
-                                                        <td>" . $depositionInfo->belopp_ater . "</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>
-                                                            <input type='button' id='btnChangeDeposition'  class='btn btn-outline-success btn-sm rounded-5' value='Ändra' </input>
-                                                        </td>
-                                                        <td>
-                                                            <input type='submit'   class='btn btn-outline-success btn-sm rounded-5' value='Ta bort' </input>
-                                                        </td>
-                                                    </tr>
-                                                
-                                            ";
-                                        } 
-                                    ?>
+                                        
+                                        if ($depositionInfo->belopp == null) //NY Deposition
+                                        { ?>
+                                            
+                                            <tr>
+                                            <td><input type="number" style="width: 100px;" required class="form-control-sm" name="deposition_belopp"></td>
+                                            <td><input type="date"  style="width: 120px;" required class="form-control-sm" name="deposition_datum" value="<?php echo date('Y-m-d') ?>"></td>
+                                            <!-- <td><input type="number" style="width: 100px;" class="form-control-sm" name="deposition_ater_belopp"></td>
+                                            <td><input type="date"  style="width: 120px;" class="form-control-sm" required name="deposition_ater_datum" value="<?php echo null ?>"></td> -->
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <input type="submit" id="btnSparadeposition"value="Spara ny deposition" name="spara_deposition" class="btn btn-outline-success btn-sm rounded-5" />
+                                            </td>
+                                        </tr>
+                                        <?php } else { // befintligt depositioN ?>
+                                            <tr>
+                                                <td><input type="number" style="width: 100px;"  class="form-control-sm "  disabled value="<?php  echo $depositionInfo->belopp  ?>" name="deposition_belopp"></td>
+                                                <td><input type="date"  style="width: 120px;" disabled class="form-control-sm" name="deposition_datum" value="<?php echo $datumHelper->GetDatum($depositionInfo->datum_deposition) ?>"></td>
+                                                <td><input type="number" style="width: 100px;" class="form-control-sm" name="deposition_ater_belopp" value="<?php echo $depositionInfo->belopp_ater ?>"></td>
+                                                <td><input type="date"  style="width: 120px;" class="form-control-sm" name="deposition_ater_datum" value="<?php echo $datumHelper->GetDatum($depositionInfo->datum_ater) == "" ? date('Y-m-d') : $datumHelper->GetDatum($depositionInfo->datum_ater) ?>"></td>
+                                                <td>
+                                                    <input type="submit" id="btnUpdatera"value="Uppdatera deposition" name="uppdatera_deposition" class="btn btn-outline-success btn-sm rounded-5" />
+                                                </td>
+                                            </tr>
+                                        <?php 
+                                            } 
+                                        ?>
 
+                                    
+                                    
+                                   
                                     <!--Raden för att lägga till en deposition.-->
-                                <form action="./code/deposition.php" method="POST" id="frmDeposition">
+                                <!-- <form action="./code/deposition.php" method="POST" id="frmDeposition">
                                     <tr class="row-cols-auto d-none row_deposition" id="rowNyDeposition">
                                         <td><input type="number" class="form-control-sm" id="idDepositionBelopp" name="DepositionBelopp" style="width: 110px;"/></td>
                                         <td><input type="date" class="form-control-sm" id="dtDepositionDatum" value="<?php  echo date("Y-m-d")  ?>" name="DepositionDatum" /></td>
@@ -170,16 +183,16 @@
                                             <input type="submit" id="btnSparadeposition"value="Spara ny deposition" name="sparakontrakt" class="btn btn-outline-success btn-sm rounded-5" />
                                         </td>
                                     </tr>
-                                </form>
+                                </form> -->
 
                                 </tbody>
-                                
+                            </form> 
                             </table>
-                            <?php 
+                            <!-- <?php 
                                 if ($depositionInfo->belopp == null ){
                                     echo "<input type ='button' id='btnNyDeposition' class='btn btn-outline-success btn-sm rounded-5' name=ny_deposition value='Ny deposition' />";
                                 }
-                            ?>
+                            ?> -->
                         
                         <!--Visas endast om deposition inte finns sparat!-->
                     </div>
