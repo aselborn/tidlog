@@ -488,7 +488,61 @@
             }
         }
 
+        /*
+            Spara deposition: tabellerna deposition - hyresgäster. (Relation)
+        */
+        public function spara_deposition($hyresgast_id, $deposition_datum, $belopp, $lagenhet_id, $kommentar){
+
+
+            $sql = "insert into tidlog_deposition (hyresgast_id, datum_deposition, belopp, lagenhet_id, kommentar) ";
+            $sql = $sql . " VALUES (?, ?, ?, ?, ?)";
+            
+            try{
+                
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("sssss", $hyresgast_id, $deposition_datum, $belopp, $lagenhet_id, $kommentar);
+            
+                $stmt->execute();
+
+                $depositionId = $this->connection->insert_id;
+                $sql = "Update tidlog_hyresgaster SET deposition_id = ? WHERE hyresgast_id = ?";
+                $stmt2 = $this->connection->prepare($sql);
+                $stmt2->bind_param("ss", $depositionId, $hyresgast_id);
+                $stmt2->execute();
+
+                $stmt->close();
+                $stmt2->close();
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+
+
+        }
         
+        /*
+            Uppdatera en deposition.
+        */  
+        public function uppdatera_deposition($depositionId, $deposition_datum, $belopp, $kommentar_ater ){
+            
+            $sql = "update tidlog_deposition set datum_aterbetalt = ?, belopp_ater = ?, kommentar_ater = ?";
+            $sql = $sql . " Where deposition_id = ?";
+
+            try{
+                
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("ssss", $deposition_datum, $belopp, $kommentar_ater, $depositionId);
+            
+                $stmt->execute();
+                $stmt->close();
+    
+                return true;
+            } catch(Exception $e){
+                throw $e;
+            }
+
+        }
+
         public function spara_artikel($artikel, $kommentar)
         {
             $sql = "INSERT INTO tidlog_item(artikel, kommentar) VALUES (?, ?)";
@@ -704,6 +758,26 @@
             try{
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bind_param("s", $lagenhetId);
+    
+                $stmt->execute();
+                
+            } catch (Exception $e){
+                throw $e;
+            }
+            
+        }
+
+        /*
+            Ta bort deposition
+        */
+
+        public function tabort_deposition($hyresgastId)
+        {
+            $sql = "UPDATE tidlog_hyresgaster SET deposition_id = NULL where hyresgast_id = ?";
+            
+            try{
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bind_param("s", $hyresgastId);
     
                 $stmt->execute();
                 

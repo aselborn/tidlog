@@ -12,3 +12,5 @@ CREATE TABLE `tidlog_deposition` (
 ALTER TABLE tidlog_hyresgaster ADD deposition_id INT NULL after hyresgast_id;
 ALTER TABLE tidlog_hyresgaster ADD CONSTRAINT tidlog_hyresgaster_tidlog_deposition_FK FOREIGN KEY (deposition_id) REFERENCES tidlog_deposition (deposition_id);
 ALTER TABLE tidlog_deposition ADD CONSTRAINT tidlog_deposition_tidlog_lagenhet_FK FOREIGN KEY (lagenhet_id) REFERENCES tidlog_lagenhet(lagenhet_id);
+ALTER TABLE tidlog_deposition ADD kommentar varchar(200) NULL;
+ALTER TABLE tidlog_deposition ADD kommentar_ater varchar(200) NULL;

@@ -111,9 +111,48 @@ $(document).ready(function() {
 
     });
 
-    function spara_hyresgast(upd){
-        
-    }
+   
+    $("#btnRaderaDeposition").on('click', function(){
+
+        var hyresgastId = $("#hidHyresgastId").val();
+        var lagenhetId = $("#hidlagenhetId").val();
+
+        $.confirm({
+            title: 'Bekräfta att registrerad deposition skall tas bort!',
+            content: 'Du kan registrera ny deposition senare.',
+            buttons: {
+               
+                ok : {
+                    text: 'Ta bort deposition?',
+                    btnClass: 'btn-blue',
+                    keys: ['enter', 'shift'],
+                    action: function(){
+
+                        var data = { nameOfFunction : 'tabort_deposition', hyresgastId : hyresgastId, lagenhetId : lagenhetId }
+                        
+                        $.post("./code/util.php", data, function(response){
+
+                            if (response !== ""){
+                                $.alert('Depositionen togs bort.');
+                                window.location.reload();
+                            }
+
+                        });
+
+                        
+                    }
+                },
+                nej : {
+                    text: 'Avbryt',
+                    btnClass: 'btn-red',
+                    keys: ['enter', 'shift'],
+                    action: function(){
+                        //$.alert('Avbrutet.');
+                    }
+                }
+            }
+        });
+    });
 
     $('.alert_me').on('click', function(){
         var hyresgastId = $("#hidHyresgastId").val();

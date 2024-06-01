@@ -85,6 +85,10 @@ if (isset($_POST["nameOfFunction"])){
         tabort_hyresgast();
     }
 
+    if ($_POST["nameOfFunction"] == "tabort_deposition") {
+        tabort_deposition();
+    }
+    
     if ($_POST["nameOfFunction"] == "remove_timereg") {
         tabort_tidsregistrering();
     }
@@ -162,6 +166,26 @@ if (isset($_POST["nameOfFunction"])){
             echo json_encode(['tabort_hyresgast' => 'true']);
         } catch (Exception $e){
             echo json_encode(['tabort_hyresgast' => 'false']);
+        }
+        
+    }
+
+    function tabort_deposition()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+        include_once "./config.php";
+        include_once "./dbmanager.php";
+        $db = new DbManager();
+
+        $hyresgastId = $_POST['hyresgastId'];
+
+        $db = new DbManager();
+
+        try{
+            $db->tabort_deposition($hyresgastId);
+            echo json_encode(['tabort_deposition' => 'true']);
+        } catch (Exception $e){
+            echo json_encode(['tabort_deposition' => 'false']);
         }
         
     }
