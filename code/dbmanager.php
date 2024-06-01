@@ -720,11 +720,11 @@
                 $monthMeddelandeFran = date('m', strtotime($row['giltlig_fran']));
                 $monthMeddelandeTill = date('m', strtotime($row['giltlig_till']));
 
-                if (!intval($monthMeddelandeFran) == intval($monthNo))
+                if ( (intval($monthMeddelandeFran) - intval($monthNo)) != 0 )
                 {
                     $meddelande = "";
                 }
-                if (!intval($monthMeddelandeTill) == intval($monthNo))
+                if ( (intval($monthMeddelandeTill) - intval($monthNo)) != 0 )
                 {
                     $meddelande = "";
                 }

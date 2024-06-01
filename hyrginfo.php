@@ -160,7 +160,7 @@
                                                 <td><input type="date"  style="width: 120px;" disabled class="form-control-sm" name="deposition_datum" value="<?php echo $datumHelper->GetDatum($depositionInfo->datum_deposition) ?>"></td>
                                                 <td><input type="number" style="width: 100px;" class="form-control-sm" name="deposition_ater_belopp" value="<?php echo $depositionInfo->belopp_ater ?>"></td>
                                                 <td><input type="date"  style="width: 120px;" class="form-control-sm" name="deposition_ater_datum" value="<?php echo $datumHelper->GetDatum($depositionInfo->datum_ater) == "" ? date('Y-m-d') : $datumHelper->GetDatum($depositionInfo->datum_ater) ?>"></td>
-                                                <td><input type="text"  style="width: 200px;" class="form-control-sm" name="deposition_ater_kommentar" value="<?php echo $depositionInfo->deposition_kommentar  ?>"></td>
+                                                <td><input type="text"  style="width: 200px;" class="form-control-sm" name="deposition_ater_kommentar" value="<?php echo $depositionInfo->deposition_kommentar_ater  ?>"></td>
                                                 <td>
                                                     <input type="submit" id="btnUpdatera"value="Uppdatera deposition" name="uppdatera_deposition" class="btn btn-outline-success btn-sm rounded-5" />
                                                 </td>

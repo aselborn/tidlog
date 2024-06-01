@@ -200,7 +200,17 @@ $(document).ready(function() {
             });
 
 
+        //SKICKA NY FAKTURA
+        } else {
+            //Skickar faktura!
+                var data = { faktura : fakturaId};
+            $.post("./code/sendmail.php", data, function(response){
+                
+                if (response !== ""){
+                    window.location.reload();        
+                }
 
+            });
         }
 
         

@@ -8,6 +8,7 @@ class InfoDeposition
     public $datum_deposition;
     public $datum_ater;
     public $deposition_kommentar;
+    public $deposition_kommentar_ater;
     public $belopp_ater;
     public $lagenhetId;
 
@@ -30,6 +31,7 @@ class InfoDeposition
             $this->datum_ater = $row["datum_aterbetalt"];
             $this->belopp_ater = $row["belopp_ater"]  == null ? 0 : $row["belopp_ater"];
             $this->deposition_kommentar = $row["kommentar"] == null ?  "" : $row["kommentar"];
+            $this->deposition_kommentar_ater = $row["kommentar_ater"] == null ?  "" : $row["kommentar_ater"];
         }
 
     }
