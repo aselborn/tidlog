@@ -129,12 +129,13 @@
                                         </tr>
                                     </thead>
                             <form action="./code/deposition.php" method="POST" id="frmDeposition">
+                                
                                 <tbody>
                                         
-                                    <input type="hidden" value=<?php echo $hyresGInfo->hyresgastId ?> name="hdHyresgast"/>
+                                        <input type="hidden" value=<?php echo $hyresGInfo->hyresgastId ?> name="hdHyresgast"/>
                                         <input type="hidden" value=<?php echo $hyresGInfo->lagenhetId ?> name="hdLagenhetId"/>
                                         <input type="hidden" value=<?php echo $hyresGInfo->lagenhetNo ?> name="hdLagenhetNo"/>
-                                        <input type="hidden" value=<?php echo $depositionInfo->depositionId ?> name="hdDepositionid"/>
+                                        <input type="hidden" value=<?php echo $depositionInfo->depositionId == null ? 0 :  $depositionInfo->depositionId ?> name="hdDepositionid"/>
                                         
                                     <?php 
                                         
@@ -155,6 +156,7 @@
                                             </td>
                                         </tr>
                                         <?php } else { // befintligt depositioN ?>
+                                            
                                             <tr>
                                                 <td><input type="number" style="width: 100px;"  class="form-control-sm "  disabled value="<?php  echo $depositionInfo->belopp  ?>" name="deposition_belopp"></td>
                                                 <td><input type="date"  style="width: 120px;" disabled class="form-control-sm" name="deposition_datum" value="<?php echo $datumHelper->GetDatum($depositionInfo->datum_deposition) ?>"></td>

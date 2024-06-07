@@ -118,7 +118,19 @@ $(document).ready(function() {
     //Registrera inbetalning
     $("#btnRegistreraInbetalning").on('click', function(e){
 
-        alert('inbetalning !');
+        //alert('inbetalning !');
+
+        $("#tblInbetalning > tbody > tr").each(function () {
+            var $tr = $(this);
+            if ($tr.find(".inp_checkbox").is(":checked")) {
+              var $td = $tr.find("td");
+              console.log($td.eq(1).text() + " " + $td.eq(2).text());
+
+            }
+
+
+
+          });
 
     });
 

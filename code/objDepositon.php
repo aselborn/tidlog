@@ -25,7 +25,7 @@ class InfoDeposition
         $info = $db->query($sql, array($this->hyresgastId))->fetchAll();
 
         foreach($info as $row){
-            $this->depositionId = $row["deposition_id"];
+            $this->depositionId = $row["deposition_id"] == null ? 0 :  $row["deposition_id"] ;
             $this->datum_deposition = $row["datum_deposition"];
             $this->belopp = $row["belopp"];
             $this->datum_ater = $row["datum_aterbetalt"];

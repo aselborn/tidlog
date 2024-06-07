@@ -150,7 +150,7 @@
                 from tidlog_faktura tf 
                     inner join tidlog_hyresgaster th on th.hyresgast_id =tf.hyresgast_id 
                     inner join tidlog_lagenhet tl on tf.lagenhet_id = tl.lagenhet_id 
-                    where tf.fakturanummer  like ?
+                    where tf.fakturanummer  like ? AND tf.Faktura is not null
                     ";
 
             if (intval($belopp) > 0){
