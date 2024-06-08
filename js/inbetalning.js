@@ -62,10 +62,22 @@ $(document).ready(function() {
         console.log(belopp);
        
     });
+
+    //När man checkar / uncheckar.
   //https://gridjs.io/docs/examples/css-style
     $('.inp_checkbox').on('click', (event) => {
         
+        var noChecked = numberChecked();
+
         var inp_belopp = parseInt($("#txt_belopp").val());
+
+        if (noChecked === 0){
+            totalBelopp = 0;
+            $("#lblInbetaldSumma").text("0");
+            return;
+        }
+
+        
 
         const chkBox = $(event.currentTarget)
         
@@ -115,22 +127,45 @@ $(document).ready(function() {
         
     });
 
+
+    //hur många är checkade?
+    function numberChecked()
+    {
+        var checkedItems = 0;
+        $("#tblInbetalning > tbody > tr").each(function () {
+            var $tr = $(this);
+            if ($tr.find(".inp_checkbox").is(":checked")) {
+                checkedItems++;
+            }
+
+          });
+
+          return checkedItems;
+    }
+
     //Registrera inbetalning
+
     $("#btnRegistreraInbetalning").on('click', function(e){
 
-        //alert('inbetalning !');
+        var totInbetaltBelopp = 0;
 
         $("#tblInbetalning > tbody > tr").each(function () {
             var $tr = $(this);
             if ($tr.find(".inp_checkbox").is(":checked")) {
-              var $td = $tr.find("td");
-              console.log($td.eq(1).text() + " " + $td.eq(2).text());
+                $(this).find(".binder_inbetalt_belopp").each( function() {
+
+                var inp = $(this).val();
+                console.log(inp);
+                totInbetaltBelopp += parseInt(inp);
+
+              });
 
             }
 
-
-
           });
+
+          console.log('Totalt inbetalt: ' + totInbetaltBelopp);
+
 
     });
 

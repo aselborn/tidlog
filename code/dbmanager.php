@@ -145,7 +145,7 @@
 
         function search_faktura($faktnr,  $belopp, $namn, $lagenhetNo)
         {
-            $sql = " select tf.fakturanummer , (tf.belopp_hyra + tf.belopp_parkering) as belopp , concat(th.fnamn , ' ',  + th.enamn) as namn ,
+            $sql = " select tf.faktura_id, tf.fakturanummer , (tf.belopp_hyra + tf.belopp_parkering) as belopp , concat(th.fnamn , ' ',  + th.enamn) as namn ,
             tl.lagenhet_nr as lagenhetNo, tf.FakturaDatum as fakturadatum
                 from tidlog_faktura tf 
                     inner join tidlog_hyresgaster th on th.hyresgast_id =tf.hyresgast_id 

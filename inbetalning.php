@@ -139,14 +139,16 @@
                                         {
                                             $dtdat = date_create($row["fakturadatum"]);
                                             $dt = date_format($dtdat, "Y-m-d");
+                                            $fakturaId = $row["faktura_id"];
+
                                             echo "
-                                            <tr class = 'inp_belopp_binder row_class' belopp=" . $row["belopp"] . ">
+                                            <tr class = 'inp_belopp_binder row_class' belopp=" . $row["belopp"] .  " id = $fakturaId>
                                                 <td>
                                                     <input type='checkbox' name='chk_inbetalt' belopp=" . $row["belopp"] ." class='inp_checkbox'</input>
                                                 </td>
                                                 <td>"  . $row["fakturanummer"] . "</td>
                                                 <td>
-                                                    <input name='edited_belopp' type='number' id='row_" . $rowId . "' class='form-control-sm binder_inbetalt_belopp' belopp=" . $row["belopp"] ." style='width:120px; text-align:center;' value=" . $row["belopp"] . "></input>
+                                                    <input name='edited_belopp' type='text' id='row_" . $rowId . "' class='form-control-sm binder_inbetalt_belopp' belopp=" . $row["belopp"] ." style='width:120px; text-align:center;' value=" . $row["belopp"] . "></input>
                                                 </td>
                                                 <td>"  . $row["namn"] . "</td>
                                                 <td>"  . $row["lagenhetNo"] . "</td>
