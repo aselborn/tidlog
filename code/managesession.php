@@ -2,7 +2,7 @@
 
 # If user is not logged in then redirect him to login page
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== TRUE) {
-    echo "<script>" . "window.location.href='./login.php';" . "</script>";
+    echo "<script>" . "window.location.href='./logon.php';" . "</script>";
     exit;
   }
   
@@ -11,7 +11,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== TRUE) {
     // last request was more than 15 minutes ago
     session_unset(); // unset $_SESSION variable for the run-time
     session_destroy(); // destroy session data in storage
-    header("Location: login.php"); // redirect to login page
+    header("Location: logon.php"); // redirect to login page
   }
   $_SESSION['last_activity'] = time(); // update last activity time stamp
   
