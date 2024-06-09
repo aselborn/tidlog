@@ -102,23 +102,23 @@ $(document).ready(function() {
 
     });
 
-    $('.binder_inbetalt_belopp').on('change', (event) =>{
+    $('.binder_inbetalt_belopp').on('input', (event) =>{
 
         const txtBelopp = $(event.currentTarget);
         
         var belopp = event.currentTarget.valueAsNumber;
         var rowId = parseInt(event.currentTarget.id.replace("row_", ""));
       
-        var diff = parseInt(event.currentTarget.value) - parseInt(event.currentTarget.defaultValue);
+        // var diff = parseInt(event.currentTarget.value) - parseInt(event.currentTarget.defaultValue);
 
-        var isChecked = isRowChecked(rowId);
+        // var isChecked = isRowChecked(rowId);
 
-        var aktuellSumma = parseInt($("#lblInbetaldSumma").text());
+        // var aktuellSumma = parseInt($("#lblInbetaldSumma").text());
 
-        if (isChecked && diff !== 0){
-            aktuellSumma += (diff)
-            $("#lblInbetaldSumma").text(aktuellSumma);
-        }
+        // if (isChecked && diff !== 0){
+        //     aktuellSumma += (diff)
+        //     $("#lblInbetaldSumma").text(aktuellSumma);
+        // }
 
         setInbetalningEnabled(belopp, aktuellSumma);
 

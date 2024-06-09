@@ -122,7 +122,8 @@
                                 <tr>
                                 <th scope="col" class="table-primary"></th>
                                     <th scope="col" class="table-primary">Fakturanummer</th>
-                                    <th scope="col" class="table-primary">Belopp</th>
+                                    <th scope="col" class="table-primary">Fakturerat Belopp</th>
+                                    <th scope="col" class="table-primary">Inbetalt belopp</th>
                                     <th scope="col" class="table-primary">Efternamn</th>
                                     <th scope="col" class="table-primary">Lägenhetsnr</th>
                                     
@@ -132,32 +133,56 @@
                             <tbody>
 
                                 <?php 
+                                
                                     if ($data != null)
                                     {
                                         $rowId = 0;
+                                        $sumRadBelopp = 0;
                                         foreach($data as $row )
                                         {
+                                            
                                             $dtdat = date_create($row["fakturadatum"]);
                                             $dt = date_format($dtdat, "Y-m-d");
                                             $fakturaId = $row["faktura_id"];
-
+                                            $faktBelopp =  $row["belopp"];
+                                            $sumRadBelopp += $faktBelopp;
                                             echo "
                                             <tr class = 'inp_belopp_binder row_class' belopp=" . $row["belopp"] .  " id = $fakturaId>
                                                 <td>
                                                     <input type='checkbox' name='chk_inbetalt' belopp=" . $row["belopp"] ." class='inp_checkbox'</input>
                                                 </td>
                                                 <td>"  . $row["fakturanummer"] . "</td>
-                                                <td>
-                                                    <input name='edited_belopp' type='text' id='row_" . $rowId . "' class='form-control-sm binder_inbetalt_belopp' belopp=" . $row["belopp"] ." style='width:120px; text-align:center;' value=" . $row["belopp"] . "></input>
+                                                <td class='text-center'>
+                                                    "  . $faktBelopp . "
+                                                </td>
+                                                <td class='text-center'>
+                                                    <span>
+                                                        <input name='edited_belopp' type='number' id='row_" . $rowId . "' class='form-control-sm binder_inbetalt_belopp' belopp=" . $row["belopp"] ." style='width:80px; text-align:center;' value=" .$faktBelopp . "></input>
+                                                    </span>
                                                 </td>
                                                 <td>"  . $row["namn"] . "</td>
                                                 <td>"  . $row["lagenhetNo"] . "</td>
                                                 <td>"  . $dt . "</td>
                                             </tr>
+                                            
                                             ";
 
                                             $rowId++;
                                         }
+                                        echo "
+                                        <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td class='text-center'>
+                                                    <span>
+                                                        <strong> "  . $sumRadBelopp . "</strong>
+                                                    </span>
+                                                </td>
+                                                <td id='sumNyttBelopp' class='text-center binder_inbetalt_belopp'>
+                                                    
+                                                </td>
+                                            </tr>
+                                        ";
                                     }
                                 
                                 ?>
@@ -167,7 +192,7 @@
                                 <tr>
                                     <th scope="row">Totalt belopp</th>
                                     <td>Summa : <strong><label id="lblInbetaldSumma"></label></strong></td>
-                                    <td><input type="button" id="btnRegistreraInbetalning"  class="btn btn-outline-success btn-sm rounded-5 d-none" value="registrera"></td>
+                                    <td><input type="button" id="btnRegistreraInbetalning"  class="btn btn-outline-success btn-sm rounded-5 d-none" value="registrera inbetalning"></td>
                                 </tr>
                             </tfoot>
                         </table>
