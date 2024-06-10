@@ -17,25 +17,9 @@ function DisplayCurrentTime() {
 $(document).ready(function() {
 
     var totalBelopp = parseInt(0);
-    createSums();
-    var dataInbetalning = {};
+    
+    var sumarized = {};
 
-    function createSums()
-    {
-        // $('input:checkbox[name=chk_inbetalt]').each( function() {
-            
-        //     if (this.checked){
-                
-        //     }
-
-        // });
-
-        $("#tblInbetalning tr").each( function (e){
-            var data = e.currentTarget;
-        });
-
-                     
-    }
 
     function setInbetalningEnabled(inp_belopp, aktuellSumma)
     {
@@ -67,11 +51,12 @@ $(document).ready(function() {
   //https://gridjs.io/docs/examples/css-style
     $('.inp_checkbox').on('click', (event) => {
         
-        var noChecked = numberChecked();
+        var sumarized = numberChecked();
 
-        var inp_belopp = parseInt($("#txt_belopp").val());
+        totalBelopp = parseInt($("#txt_belopp").val());
+        
 
-        if (noChecked === 0){
+        if (sumarized.noChecked === 0){
             totalBelopp = 0;
             $("#lblInbetaldSumma").text("0");
             return;
@@ -83,47 +68,28 @@ $(document).ready(function() {
         
         var origValue = event.currentTarget.defaultValue;
         var currentValue = event.currentTarget.value;
-
-         var belopp = parseInt(chkBox.attr('belopp'));
-         var isChecked = chkBox.prop('checked');
-         if (isChecked === false)
-             totalBelopp -= belopp;
-         else
-             totalBelopp += belopp;
-
-        //totalBelopp = calculate_totalsumma(true);
         
 
-        $("#lblInbetaldSumma").text(totalBelopp);
-        console.log("totalbelopp : " + totalBelopp) ;
+        $("#lblInbetaldSumma").text(sumarized.totalSum);
+        console.log("antal markerade = " + sumarized.noChecked + " totalbelopp : " + sumarized.totalSum) ;
 
-        setInbetalningEnabled(inp_belopp, totalBelopp);
+        setInbetalningEnabled(totalBelopp, sumarized.totalSum);
         
 
     });
 
     $('.binder_inbetalt_belopp').on('input', (event) =>{
 
-        const txtBelopp = $(event.currentTarget);
         
         var belopp = event.currentTarget.valueAsNumber;
         var rowId = parseInt(event.currentTarget.id.replace("row_", ""));
       
-        // var diff = parseInt(event.currentTarget.value) - parseInt(event.currentTarget.defaultValue);
+        var sumarized = numberChecked();
 
-        // var isChecked = isRowChecked(rowId);
-
-        // var aktuellSumma = parseInt($("#lblInbetaldSumma").text());
-
-        // if (isChecked && diff !== 0){
-        //     aktuellSumma += (diff)
-        //     $("#lblInbetaldSumma").text(aktuellSumma);
-        // }
-
-        setInbetalningEnabled(belopp, aktuellSumma);
-
+        console.log("NoChecked = " + sumarized.noChecked + " SUMMA = " + sumarized.totalSum);
         
-        console.log(belopp);
+        $("#lblInbetaldSumma").text(sumarized.totalSum);
+        setInbetalningEnabled(totalBelopp, sumarized.totalSum);
         
     });
 
@@ -132,15 +98,25 @@ $(document).ready(function() {
     function numberChecked()
     {
         var checkedItems = 0;
+        var sumOfChecked =0;
+        
         $("#tblInbetalning > tbody > tr").each(function () {
             var $tr = $(this);
             if ($tr.find(".inp_checkbox").is(":checked")) {
                 checkedItems++;
+
+                var newValue = parseInt($tr.find(".binder_inbetalt_belopp ").val());
+                sumOfChecked += newValue;
             }
 
           });
 
-          return checkedItems;
+          var sumarized = {
+            noChecked: checkedItems,
+            totalSum: sumOfChecked
+          };
+
+          return (sumarized);
     }
 
     //Registrera inbetalning
@@ -175,7 +151,7 @@ $(document).ready(function() {
 
         var aktuellSumma = parseInt($("#lblInbetaldSumma").text());
 
-        setInbetalningEnabled(totalBelopp, aktuellSumma);
+        setInbetalningEnabled(totalBelopp, sumarized.totalSum);
 
         console.log(" Totalbelopp : " + totalBelopp);
 

@@ -157,7 +157,7 @@
                                                 </td>
                                                 <td class='text-center'>
                                                     <span>
-                                                        <input name='edited_belopp' type='number' id='row_" . $rowId . "' class='form-control-sm binder_inbetalt_belopp' belopp=" . $row["belopp"] ." style='width:80px; text-align:center;' value=" .$faktBelopp . "></input>
+                                                        <input name='edited_belopp' type='number' id='row_" . $rowId . "' class='form-control-sm binder_inbetalt_belopp' belopp=0 style='width:80px; text-align:center;' value=" .$faktBelopp . "></input>
                                                     </span>
                                                 </td>
                                                 <td>"  . $row["namn"] . "</td>
@@ -178,7 +178,7 @@
                                                         <strong> "  . $sumRadBelopp . "</strong>
                                                     </span>
                                                 </td>
-                                                <td id='sumNyttBelopp' class='text-center binder_inbetalt_belopp'>
+                                                <td id='sumNyttBelopp' class='text-center binder_nytt_belopp'>
                                                     
                                                 </td>
                                             </tr>
@@ -190,7 +190,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th scope="row">Totalt belopp</th>
+                                    <th scope="row">Totalt inbetalt belopp</th>
                                     <td>Summa : <strong><label id="lblInbetaldSumma"></label></strong></td>
                                     <td><input type="button" id="btnRegistreraInbetalning"  class="btn btn-outline-success btn-sm rounded-5 d-none" value="registrera inbetalning"></td>
                                 </tr>

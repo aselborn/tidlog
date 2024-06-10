@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         ?>
                         
                         <div class="form-wrap  rounded p-5 ">
-                            <img src="../bilder/t7_logo_3.0.png" alt="center" width="150" height="100" style="align-content: center"; />
+                            <img src="./bilder/t7_logo_3.0.png" alt="center" width="150" height="100" style="align-content: center"; />
                             <h1>Logga in</h1>
                         
                             <!-- form starts here -->
