@@ -30,6 +30,8 @@ $(document).ready(function() {
         } else {
             $("#btnRegistreraInbetalning").addClass('d-none');
         }
+
+        $("#hidInbetaldDatum").val($("#bg_date").val());
     }
 
     $(document).on('click', "#tblInbetalning tbody tr", function(){
@@ -102,6 +104,7 @@ $(document).ready(function() {
         var checkedItems = 0;
         var sumOfChecked =0;
         sumMatrix = [];
+        var dtInbetald = $("#hidInbetaldDatum").val();
         $("#tblInbetalning > tbody > tr").each(function () {
             var $tr = $(this);
             if ($tr.find(".inp_checkbox").is(":checked")) {
@@ -113,7 +116,8 @@ $(document).ready(function() {
 
                 radSumma = {
                     fakturaId : faktId,
-                    radSumma : newValue
+                    radSumma : newValue,
+                    datum : dtInbetald
                 }
 
                 sumMatrix.push(radSumma)
@@ -150,7 +154,12 @@ $(document).ready(function() {
         $.post("./code/reginbet.php", data, function(response){
                 
             if (response !== ""){
-                window.location.reload();        
+                if (JSON.parse(response).reg_inbet === 'true'){
+                    $("#tblInbetalning tbody > tr").empty();
+                    
+                    setInbetalningEnabled(-1, 2);
+                }
+                //window.location.reload();        
             }
 
         });

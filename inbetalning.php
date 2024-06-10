@@ -50,6 +50,7 @@
     <body>
 
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
+        <input type="hidden" id="hidInbetaldDatum" name="HidInbetaldDatum" >
 
         <!-- <?php include("./pages/sidebar.php") ?> -->
 
@@ -128,6 +129,7 @@
                                     <th scope="col" class="table-primary">Lägenhetsnr</th>
                                     
                                     <th scope="col" class="table-primary">Fakturadatum</th> 
+                                    <th scope="col" class="table-primary">Förfallodatum</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -146,6 +148,9 @@
                                             $fakturaId = $row["faktura_id"];
                                             $faktBelopp =  $row["belopp"];
                                             $sumRadBelopp += $faktBelopp;
+                                            $dtdat = date_create($row["duedate"]);
+                                            $duedate = date_format($dtdat, "Y-m-d");
+                                            
                                             echo "
                                             <tr class = 'inp_belopp_binder row_class' belopp=" . $row["belopp"] .  " id = $fakturaId>
                                                 <td>
@@ -163,6 +168,7 @@
                                                 <td>"  . $row["namn"] . "</td>
                                                 <td>"  . $row["lagenhetNo"] . "</td>
                                                 <td>"  . $dt . "</td>
+                                                <td>"  . $duedate . "</td>
                                             </tr>
                                             
                                             ";

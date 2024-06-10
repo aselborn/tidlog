@@ -5,7 +5,7 @@ define("DB_SERVER", "localhost");
 // define("DB_NAME", "selborn_se");
 
 define("DB_USERNAME", "anders");
-define("DB_PASSWORD", "kalleanka");
+define("DB_PASSWORD", "lytill53");
 define("DB_NAME", "selborn_se");
 
 # Connection

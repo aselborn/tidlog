@@ -143,14 +143,28 @@
             
         }
 
+        public function registrera_inbetalning($faktId, $summa, $dtInbet)
+        {
+
+            $sql = "INSERT INTO tidlog_inbetalningar(faktura_id, inbetald , belopp , diff_belopp , diff_datum_days) ";
+            $sql .= "select faktura_id, '$dtInbet', $summa, ($summa - (belopp_hyra + belopp_parkering)), DATEDIFF('$dtInbet', duedate) ";
+            $sql .= " from tidlog_faktura where faktura_id = ?";
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("s", $faktId);
+            $stmt->execute();
+
+        }
+
         function search_faktura($faktnr,  $belopp, $namn, $lagenhetNo)
         {
             $sql = " select tf.faktura_id, tf.fakturanummer , (tf.belopp_hyra + tf.belopp_parkering) as belopp , concat(th.fnamn , ' ',  + th.enamn) as namn ,
-            tl.lagenhet_nr as lagenhetNo, tf.FakturaDatum as fakturadatum
+            tl.lagenhet_nr as lagenhetNo, tf.FakturaDatum as fakturadatum, tf.duedate
                 from tidlog_faktura tf 
                     inner join tidlog_hyresgaster th on th.hyresgast_id =tf.hyresgast_id 
                     inner join tidlog_lagenhet tl on tf.lagenhet_id = tl.lagenhet_id 
                     where tf.fakturanummer  like ? AND tf.Faktura is not null
+                    and faktura_id not in (select faktura_id from tidlog_inbetalningar ti)
                     ";
 
             if (intval($belopp) > 0){
