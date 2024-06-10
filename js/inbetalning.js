@@ -19,6 +19,8 @@ $(document).ready(function() {
     var totalBelopp = parseInt(0);
     
     var sumarized = {};
+    var sumMatrix = [];
+    var radSumma = {};
 
 
     function setInbetalningEnabled(inp_belopp, aktuellSumma)
@@ -99,14 +101,22 @@ $(document).ready(function() {
     {
         var checkedItems = 0;
         var sumOfChecked =0;
-        
+        sumMatrix = [];
         $("#tblInbetalning > tbody > tr").each(function () {
             var $tr = $(this);
             if ($tr.find(".inp_checkbox").is(":checked")) {
                 checkedItems++;
 
+                var faktId = parseInt($tr.attr('id'));
                 var newValue = parseInt($tr.find(".binder_inbetalt_belopp ").val());
                 sumOfChecked += newValue;
+
+                radSumma = {
+                    fakturaId : faktId,
+                    radSumma : newValue
+                }
+
+                sumMatrix.push(radSumma)
             }
 
           });
@@ -116,6 +126,8 @@ $(document).ready(function() {
             totalSum: sumOfChecked
           };
 
+          console.log(sumMatrix);
+
           return (sumarized);
     }
 
@@ -123,24 +135,26 @@ $(document).ready(function() {
 
     $("#btnRegistreraInbetalning").on('click', function(e){
 
-        var totInbetaltBelopp = 0;
 
-        $("#tblInbetalning > tbody > tr").each(function () {
-            var $tr = $(this);
-            if ($tr.find(".inp_checkbox").is(":checked")) {
-                $(this).find(".binder_inbetalt_belopp").each( function() {
+        if (sumMatrix.length === 0){
+            console.log('Listan är tom, konstigt nog.');
+            return;
+        }
 
-                var inp = $(this).val();
-                console.log(inp);
-                totInbetaltBelopp += parseInt(inp);
+        sumMatrix.forEach((item) => {
+            console.log(item.fakturaId + " " +  item.radSumma);
+        });
 
-              });
+        var data = {"inbet": JSON.stringify(sumMatrix)};
 
+        $.post("./code/reginbet.php", data, function(response){
+                
+            if (response !== ""){
+                window.location.reload();        
             }
 
-          });
-
-          console.log('Totalt inbetalt: ' + totInbetaltBelopp);
+        });
+        
 
 
     });
@@ -149,7 +163,7 @@ $(document).ready(function() {
 
         totalBelopp = parseInt($("#txt_belopp").val());
 
-        var aktuellSumma = parseInt($("#lblInbetaldSumma").text());
+        var sumarized = numberChecked();
 
         setInbetalningEnabled(totalBelopp, sumarized.totalSum);
 
@@ -181,24 +195,6 @@ $(document).ready(function() {
          return isChecked;
     }
     
-    function calc_sum()
-    {
-        var sum_checked = 0;
-        $("#tblInbetalning > tbody > tr").each(function () {
-            var $tr = $(this);
-            if ($tr.find(".inp_checkbox").is(":checked")) {
-              var $td = $tr.find("td");
-              console.log($td.eq(1).text() + " " + $td.eq(2).text());
-
-              sum_checked += parseInt($td.eq(2).text());
-            }
-
-
-
-          });
-
-          return sum_checked;
-
-    }
+    
 
 });
