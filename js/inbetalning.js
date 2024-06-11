@@ -23,6 +23,17 @@ $(document).ready(function() {
     var radSumma = {};
 
 
+        
+    function setSearchTableVisible(status){
+        if (status === true){
+            $("#tblInbetalning").removeClass('d-none');
+        } else{
+            $("#tblInbetalning").addClass('d-none');
+        }
+    }
+
+
+
     function setInbetalningEnabled(inp_belopp, aktuellSumma)
     {
         if ( (inp_belopp === totalBelopp) && (aktuellSumma == totalBelopp)){
@@ -63,10 +74,12 @@ $(document).ready(function() {
         if (sumarized.noChecked === 0){
             totalBelopp = 0;
             $("#lblInbetaldSumma").text("0");
+            $("#lblTotSum").addClass("d-none");
             return;
         }
 
-        
+        $("#lblTotSum").removeClass("d-none");
+        $("#lblTotSum").text("Antal markerade : " + sumarized.noChecked + " total summa : " + sumarized.totalSum);
 
         const chkBox = $(event.currentTarget)
         
@@ -145,24 +158,81 @@ $(document).ready(function() {
             return;
         }
 
-        sumMatrix.forEach((item) => {
-            console.log(item.fakturaId + " " +  item.radSumma);
-        });
+        //Kontrollera datum. Om dagens datum måste detta verifieras.
 
-        var data = {"inbet": JSON.stringify(sumMatrix)};
+        var inputDate = new Date(($("#bg_date").val()));
+        var todaysDate = new Date();
 
-        $.post("./code/reginbet.php", data, function(response){
-                
-            if (response !== ""){
-                if (JSON.parse(response).reg_inbet === 'true'){
-                    $("#tblInbetalning tbody > tr").empty();
+        
+        if(inputDate.setHours(0,0,0,0) == todaysDate.setHours(0,0,0,0)) {
+            
+            $.alert({
+                title: 'Information!',
+                content: 'Du registrerar inbetalning på dagens datum! Är det korrekt??',
+                icon: 'fa fa-rocket',
+                animation: 'scale',
+                closeAnimation: 'scale',
+                buttons: {
+                  okay: {
+                    text: 'Ok, fortsätt registrera.',
+                    btnClass: 'btn-blue',
+                    action: function(){
                     
-                    setInbetalningEnabled(-1, 2);
+                        var data = {"inbet": JSON.stringify(sumMatrix)};
+                            
+                    $.post("./code/reginbet.php", data, function(response){
+    
+                        if (response !== ""){
+                            if (JSON.parse(response).reg_inbet === 'true'){
+                                $("#tblInbetalning tbody > tr").empty();
+                                
+                                setInbetalningEnabled(-1, 2);
+                                $("#lblTotSum").addClass("d-none");
+                            }
+                        }
+    
+                      });
+    
+                    }
+                  }, 
+                  nej : {
+                    text: 'Avbryt',
+                    btnClass: 'btn-red',
+                    keys: ['enter', 'shift'],
+                    action: function(){
+                        $.alert('Ingen registrering gjordes!.');
+                    }
                 }
-                //window.location.reload();        
-            }
+                }
+              });
 
-        });
+
+
+        } else {
+
+            sumMatrix.forEach((item) => {
+                console.log(item.fakturaId + " " +  item.radSumma);
+            });
+    
+            var data = {"inbet": JSON.stringify(sumMatrix)};
+    
+            $.post("./code/reginbet.php", data, function(response){
+                    
+                if (response !== ""){
+                    if (JSON.parse(response).reg_inbet === 'true'){
+                        $("#tblInbetalning tbody > tr").empty();
+                        
+                        setInbetalningEnabled(-1, 2);
+                        $("#lblTotSum").addClass("d-none");
+                    }
+                    //window.location.reload();        
+                }
+    
+            });
+
+        }
+
+        
         
 
 

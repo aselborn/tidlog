@@ -8,3 +8,5 @@ CREATE TABLE `tidlog_inbetalningar` (
   KEY `tidlog_inbetalningar_tidlog_faktura_FK` (`faktura_id`),
   CONSTRAINT `tidlog_inbetalningar_tidlog_faktura_FK` FOREIGN KEY (`faktura_id`) REFERENCES `tidlog_faktura` (`faktura_id`)
 ) ENGINE=InnoDB
+
+ALTER TABLE tidlog_inbetalningar ADD diff_datum_days INT; 

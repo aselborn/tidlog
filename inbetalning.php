@@ -32,6 +32,9 @@
       if (isset($_SESSION["faktura_search"]))
       {
         $data = $_SESSION["faktura_search"];
+
+        //echo '<script type="text/javascript">setSearchTableVisible(true);</script>';
+
       }
       
       if (!$isPostBack){
@@ -46,7 +49,8 @@
     <head>
         <title>Inbetalningar</title>
     </head>
-
+    
+    
     <body>
 
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
@@ -69,6 +73,10 @@
                         <div class="col-auto ">
                             <label class="form-label">Totalt belopp</label>
                             <input id="txt_belopp" type="number" name="inbetalt_belopp" value="<?php echo $totalBelopp ?>"  style="width:150px; text-align:center" class="form-control" required>
+                        </div>
+                        <div class="col-auto mt-2">
+                            <br />
+                            <label id="lblTotSum" class="d-none">total summa : </label>
                         </div>
                     </div>
                 </div>
@@ -104,6 +112,9 @@
                                         <td>
                                             <input type="submit" class="btn btn-outline-success btn rounded-5" name="sok_faktura" value="sök" />
                                         </td>
+                                        <td>
+                                            <input type="button" id="btnEndastMarkerade" class="btn btn-outline-success btn rounded-5"  value="visa bara markerade" />
+                                        </td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,7 +129,7 @@
                 <!--Plock tabell-->
                 <div class="row mt-3">
                     <div class="d-inline-flex">
-                    <table class="table w-auto" id="tblInbetalning" >
+                    <table class="table w-auto " id="tblInbetalning" >
                             <thead>
                                 <tr>
                                 <th scope="col" class="table-primary"></th>
@@ -154,7 +165,7 @@
                                             echo "
                                             <tr class = 'inp_belopp_binder row_class' belopp=" . $row["belopp"] .  " id = $fakturaId>
                                                 <td>
-                                                    <input type='checkbox' name='chk_inbetalt' belopp=" . $row["belopp"] ." class='inp_checkbox'</input>
+                                                    <input type='checkbox' name='chk_inbetalt' belopp=" . $row["belopp"] ." class='inp_checkbox'> </input>
                                                 </td>
                                                 <td>"  . $row["fakturanummer"] . "</td>
                                                 <td class='text-center'>
@@ -190,6 +201,7 @@
                                             </tr>
                                         ";
                                     }
+
                                 
                                 ?>
 
