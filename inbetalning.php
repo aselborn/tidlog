@@ -60,7 +60,7 @@
 
         <div class="main">
             <div class="container-fluid mt-4">
-                <h2>Kontroll av inkommande hyra</h2>
+                <h2>Registrera inbetalad hyra</h2>
             <form id="frmInbetalning" method="POST" action="./code/sokfaktura.php">
                 <div class="row">
                     <div class="d-inline-flex gap-3">

@@ -150,7 +150,7 @@
           <!--Hyres KOLL-->
           <li class="item">
             <div class="submenu-item">
-            <i class="fa fs-3 fa-money"></i><span>Hyreskoll</span>
+            <i class="fa fs-3 fa-money"></i><span>Inbetalningar</span>
               <i class="fa-solid fa-chevron-right"></i>
             </div>
 
@@ -159,21 +159,23 @@
                 <i class="fa-solid fa-chevron-left"></i>
                 Tillbaka till menyn
               </div>
+
               <li class="item">
-                    <a href="hyreskoll.php?page=1&fastighetId=1">Kontroll T7</a>
+                    <a href="inbetalning.php?page=1&fastighetId=1">Registrera inbetalning</a>
               </li>
 
               <li class="item">
-                <a href="hyreskoll.php?page=1&fastighetId=2">Kontroll U9</a>
+                    <a href="visainbetalningar.php">Visa inbetalningar</a>
               </li>
               
-              <li class="item">
-                    <a href="inbetalning.php?page=1&fastighetId=1">Inbetalning T7</a>
+
+              <!-- <li class="item">
+                <a href="inbetalning.php?page=1&fastighetId=2">Registrera inbetalningar för U9</a>
               </li>
 
               <li class="item">
-                <a href="inbetalning.php?page=1&fastighetId=2">Inbetalning U9</a>
-              </li>
+                <a href="visainbetalning.php?fastighetId=2">Visa inbetalningar för U9</a>
+              </li> -->
 
             </ul>
           </li>
