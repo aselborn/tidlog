@@ -174,9 +174,9 @@
                                             
 
                                             echo "
-                                            <tr class = 'inp_belopp_binder row_class' belopp=" . $row["belopp"] .  " id = $fakturaId>
+                                            <tr class = 'inp_belopp_binder row_class' belopp=" . $faktBelopp . " id = $fakturaId>
                                                 <td>
-                                                    <input type='checkbox' name='chk_inbetalt' belopp=" . $row["belopp"] ." class='inp_checkbox'> </input>
+                                                    <input type='checkbox' name='chk_inbetalt' belopp=" . $faktBelopp ." class='inp_checkbox'> </input>
                                                 </td>
                                                 <td>"  . $row["fakturanummer"] . "</td>
                                                 <td class='text-center'>
