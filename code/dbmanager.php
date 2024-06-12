@@ -159,10 +159,11 @@
         function search_faktura($faktnr,  $belopp, $namn, $lagenhetNo)
         {
             $sql = " select tf.faktura_id, tf.fakturanummer , (tf.belopp_hyra + tf.belopp_parkering) as belopp , concat(th.fnamn , ' ',  + th.enamn) as namn ,
-            tl.lagenhet_nr as lagenhetNo, tf.FakturaDatum as fakturadatum, tf.duedate
+            tl.lagenhet_nr as lagenhetNo, tf.FakturaDatum as fakturadatum, tf.duedate, m.moms, tl.fskatt
                 from tidlog_faktura tf 
                     inner join tidlog_hyresgaster th on th.hyresgast_id =tf.hyresgast_id 
                     inner join tidlog_lagenhet tl on tf.lagenhet_id = tl.lagenhet_id 
+                    left outer join tidlog_moms m on m.lagenhet_id = tl.lagenhet_id
                     where tf.fakturanummer  like ? AND tf.Faktura is not null
                     and faktura_id not in (select faktura_id from tidlog_inbetalningar ti)
                     ";

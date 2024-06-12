@@ -72,7 +72,8 @@ class HyresAvisering
             $this->fakturaDatum = $dt;
             $this->fastighet_epost = $row["epost"];
             $this->orgNr = $row["orgnr"];
-            $this->fskatt = $row["fskatt"] == null ? null : ( intval( $row["fskatt"] / 12));
+            //$this->fskatt = $row["fskatt"] == null ? null :  round( ($row["fskatt"] / 12), 0); //DETTA ÄR KORREKT. SKALL ÄNDRAS SEDAN
+            $this->fskatt = $row["fskatt"] == null ? null :   intval ($row["fskatt"] / 12); 
             $this->bankgiro = $row["bankgiro"];
             $this->ftgnamn = $row["foretag_namn"];
             $this->avimeddelande = $row['meddelande'];

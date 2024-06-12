@@ -162,10 +162,17 @@
                                             $dt = date_format($dtdat, "Y-m-d");
                                             $fakturaId = $row["faktura_id"];
                                             $faktBelopp =  $row["belopp"];
+
+                                            $faktBelopp += $row["moms"] == null ? 0 : $row["moms"];
+                                            //$faktBelopp += $row["fskatt"] == null ? 0 : (round($row["fskatt"] /12, 0)); //DETTA ÄR KORREKT, SKALL ÄNDRAS TILL DETTA NÄR objHyra (fskatt) är ändrad korrekt
+                                            $faktBelopp += $row["fskatt"] == null ? 0 : intval ($row["fskatt"] / 12); 
+
                                             $sumRadBelopp += $faktBelopp;
                                             $dtdat = date_create($row["duedate"]);
                                             $duedate = date_format($dtdat, "Y-m-d");
                                             
+                                            
+
                                             echo "
                                             <tr class = 'inp_belopp_binder row_class' belopp=" . $row["belopp"] .  " id = $fakturaId>
                                                 <td>
