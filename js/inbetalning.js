@@ -22,7 +22,7 @@ $(document).ready(function() {
     var sumMatrix = [];
     var radSumma = {};
 
-
+    setBgDate();
         
     function setSearchTableVisible(status){
         if (status === true){
@@ -33,6 +33,14 @@ $(document).ready(function() {
     }
 
 
+    function setBgDate(){
+        var dtSetDate = $("#hidInbetaldDatum").val();
+        if (dtSetDate !== ""){
+            $("#bg_date").val(dtSetDate);
+        }
+
+        console.log(dtSetDate);
+    }
 
     function setInbetalningEnabled(inp_belopp, aktuellSumma)
     {
@@ -61,6 +69,41 @@ $(document).ready(function() {
         console.log(belopp);
        
     });
+
+    //Man ändrar datum.
+    $("#bg_date").on('change', function(e){
+    //        alert($("#bg_date").val());
+        var sumarized = numberChecked();
+    });
+
+    //SÖK - Faktura
+    $("#idFakturaId").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#btnSearchInbetalningar").click();
+        }
+    });
+  
+    //SÖK - belopp
+    $("#idBelopp").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#btnSearchInbetalningar").click();
+        }
+    });
+  
+    //SÖK EFTERNAMN 
+    $("#idEfternamn").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#btnSearchInbetalningar").click();
+        }
+    });
+    
+    //SÖK LÄGNR
+    $("#idLagenhet").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#btnSearchInbetalningar").click();
+        }
+    });
+    
 
     //När man checkar / uncheckar.
   //https://gridjs.io/docs/examples/css-style
@@ -117,7 +160,7 @@ $(document).ready(function() {
         var checkedItems = 0;
         var sumOfChecked =0;
         sumMatrix = [];
-        var dtInbetald = $("#hidInbetaldDatum").val();
+        var dtInbetald = $("#bg_date").val();
         $("#tblInbetalning > tbody > tr").each(function () {
             var $tr = $(this);
             if ($tr.find(".inp_checkbox").is(":checked")) {

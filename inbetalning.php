@@ -9,7 +9,7 @@
     $belopp = null;
     $lagenhetNo = null;
     $efternamn = null;
-
+    $dtInbetald = null;
       if (isset($_GET["fakturanummer"])){
         $fakturaNummer = $_GET["fakturanummer"];
         $isPostBack = true;
@@ -26,7 +26,10 @@
       if (isset($_GET["namn"])){
         $efternamn = $_GET["namn"];
       }  
-        
+    
+      if (isset($_GET["dtInbetald"])){
+        $dtInbetald = $_GET["dtInbetald"];
+      }
       $data = null;  
 
       if (isset($_SESSION["faktura_search"]))
@@ -54,7 +57,7 @@
     <body>
 
         <input type="hidden" id="hidUserName" name="HidUsername" value="<?php echo $_SESSION["username"] ?>">
-        <input type="hidden" id="hidInbetaldDatum" name="HidInbetaldDatum" >
+        <input type="hidden" id="hidInbetaldDatum" name="HidInbetaldDatum" value="<?php  echo $dtInbetald ?>" >
 
         <!-- <?php include("./pages/sidebar.php") ?> -->
 
@@ -110,10 +113,11 @@
                                             <input id="idLagenhet" type="number" style="width: 100px; text-align:center" name="lagenhet" value="<?php echo $lagenhetNo ?>" />
                                         </td>
                                         <td>
-                                            <input type="submit" class="btn btn-outline-success btn rounded-5" name="sok_faktura" value="sök" />
+                                            <input type="submit" class="btn btn-outline-success btn rounded-5" name="sok_faktura" value="sök" id="btnSearchInbetalningar"/>
                                         </td>
                                         <td>
-                                            <input type="button" id="btnEndastMarkerade" class="btn btn-outline-success btn rounded-5"  value="visa bara markerade" />
+                                            <!-- <input type="button" id="btnEndastMarkerade" class="btn btn-outline-success btn rounded-5"  value="visa bara markerade" /> -->
+                                            <td><input type="button" id="btnRegistreraInbetalning"  class="btn btn-outline-success  rounded-5 d-none" value="registrera inbetalning"></td>
                                         </td>
                                     </tr>
                                 </thead>
@@ -210,7 +214,7 @@
                                 <tr>
                                     <th scope="row">Totalt inbetalt belopp</th>
                                     <td>Summa : <strong><label id="lblInbetaldSumma"></label></strong></td>
-                                    <td><input type="button" id="btnRegistreraInbetalning"  class="btn btn-outline-success btn-sm rounded-5 d-none" value="registrera inbetalning"></td>
+                                    
                                 </tr>
                             </tfoot>
                         </table>

@@ -12,7 +12,7 @@ $fakturaNr = $_POST["faktura_nummer"];
 $belopp = $_POST["belopp"];
 $efternamn = $_POST["efternamn"];
 $lagenhetNo =$_POST["lagenhet"];
-
+$dtInbetalt = $_POST["bg_datum"];
 $db = new DbManager();
 
 
@@ -22,5 +22,5 @@ $data = $db->search_faktura($fakturaNr,  $belopp, $efternamn, $lagenhetNo);
 
 $_SESSION["faktura_search"] = $data;
 
-header("Location: ../inbetalning.php?fakturanummer=".$fakturaNr . "&totalbelopp=" .$totalbelopp . "&belopp=".$belopp . "&namn=" . $efternamn . "&lagenhetNo=" . $lagenhetNo);
+header("Location: ../inbetalning.php?fakturanummer=".$fakturaNr . "&totalbelopp=" .$totalbelopp . "&belopp=".$belopp . "&namn=" . $efternamn . "&lagenhetNo=" . $lagenhetNo . "&dtInbetald=" . $dtInbetalt);
 ?>
