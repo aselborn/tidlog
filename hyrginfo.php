@@ -115,7 +115,7 @@
                 <!--Deposition?-->
                 <div class="row mt-2">
                     <div class="col-12">
-                                
+                            <h2>Deposition</h2>
                             <table class="table table-striped w-auto" id="tblKontrakt" name="depositonTabell">
                                     <thead>
                                         <tr >
@@ -211,6 +211,7 @@
                 <!--Kontraktdetaljer-->
                 <div class="row mt-2">
                     <!--UPPGIFTER OM KONTRAKT-->
+                    <h2>Kontrakt</h2>
                     <div class="col-12">
                     <table class="table table-striped w-auto" id="tblKontrakt">
                             <thead>
@@ -291,6 +292,7 @@
 
                 <!--Nyckekvitton.-->
                 <div class="row mt-2">
+                    <h2>Nyckelkvitton</h2>
                     <div class="col-4 ">
                         <label class="form-label">Nyckelkvitton: </label>
                         
