@@ -19,15 +19,15 @@
             <div class="container-fluid mt-4" >
                 <br>
                 <h2>Registrerade inbetalningar</h2>
-                <form method="POST" action="./code/sokfaktura.php">
+                <form method="POST" action="./code/reginbetview.php">
                     <input type="hidden" value="sok_inbetalda" name="sok_inbetalda" />
                     <div class="row mt-2">
                     
                         <div class="d-inline-flex p-1 gap-2">
                             <label for="dtFom">Från</label>
-                            <input type="text" class="form-control-sm" id="dtFom" ></input>
+                            <input type="text" class="form-control-sm" id="dtFom" name="dt_fom"></input>
                             <label for="dtTom">Till</label>
-                            <input type="text" class="form-control-sm" id="dtTom" ></input>
+                            <input type="text" class="form-control-sm" id="dtTom" name="dt_tom" ></input>
                             <button name="sok_inbetalningar" class="btn btn-outline-success  rounded-5" >Sök inbetalningar</button>
                             <input type="button" id="btnRegistreraInbetalning"  class="btn btn-outline-success  rounded-5 d-none" value="registrera inbetalning">
                         </div>
