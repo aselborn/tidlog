@@ -31,6 +31,97 @@
             return $period_hyra;
         }
 
+        public function GetInbetalningar($dtFom, $dtTom)
+        {
+            $sql = "
+                select tf.faktura_id , ti.belopp , ti.diff_belopp , ti.inbetald , ti.diff_datum_days ,
+                    th.fnamn , th.enamn , tl.lagenhet_nr 
+                    from tidlog_inbetalningar ti 
+                    inner join tidlog_faktura tf on ti.faktura_id = tf.faktura_id 
+                    inner join tidlog_hyresgaster th on th.hyresgast_id = tf.hyresgast_id 
+                    inner join tidlog_lagenhet tl on tl.hyresgast_id = tf.hyresgast_id 
+                    where ti.inbetald between ? and ?
+                    order by ti.inbetald desc 
+                ";
+
+            $data = $this->query($sql, array($dtFom, $dtTom))->fetchAll();
+            return $data;
+
+        }
+
+        public function sok_extra_faktura($faktnr)
+        {
+            $sql = 
+            "
+                select 
+                    ti.faktura_id,
+                    tfe.extrabelopp,
+                    tfe.extradatum ,
+                    tf.fakturanummer , 
+                    th.enamn , th.fnamn, tion.belopp, tion.diff_belopp , tion.inbetald, tl.lagenhet_nr
+                from tidlog_inbetalningar ti 
+	            inner join tidlog_faktura tf on tf.faktura_id =ti.faktura_id 
+	            inner join tidlog_inbetalningar tion on tion.faktura_id =ti.faktura_id
+                inner join tidlog_hyresgaster th on th.hyresgast_id =tf.hyresgast_id
+                inner join tidlog_lagenhet tl on tl.hyresgast_id =th.hyresgast_id 
+                left outer join tidlog_faktura_extra tfe on tfe.faktura_id =tf.faktura_id 
+	            where tf.fakturanummer = ? and ti.diff_belopp != 0
+	            order by tion.inbetald,  tfe.extradatum 
+            ";
+
+            $faktura = $this->query($sql, array($faktnr))->fetchAll();
+
+            return $faktura;
+        }
+
+        public function registrera_extra_betalning($fakturaId, $datum, $belopp)
+        {
+            $sql = "insert into tidlog_faktura_extra(faktura_id, extrabelopp, extradatum) VALUES (?, ?, ?)";
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("sss", $fakturaId, $belopp, $datum);
+            $stmt->execute();
+
+        }
+        public function GetObetaldaFakturor()
+        {
+            $sql = "
+                select tf.faktura_id, tf.fakturanummer, (tf.belopp_hyra + tf.belopp_parkering) as belopp,
+                    th.fnamn as namn, th.enamn as efternamn,
+                    tf.status_skickad as skickad, tf.duedate as ffdatum
+                    from tidlog_faktura tf  
+                    inner join tidlog_hyresgaster th on th.hyresgast_id = tf.hyresgast_id 
+                    inner join tidlog_lagenhet tl on tl.hyresgast_id = tf.hyresgast_id 
+                where tf.faktura_id not in (select faktura_id from tidlog_inbetalningar ti)
+                order by tf.duedate desc                    
+                ";
+
+            $data = $this->query($sql)->fetchAll();
+            return $data;
+
+        }
+
+        public function GetDiffBeloppFakturor()
+        {
+            $sql = 
+            "
+                select tf.fakturanummer,tf.faktura_id , ti.belopp , ti.diff_belopp , ti.inbetald , ti.diff_datum_days ,
+                    th.fnamn , th.enamn , tl.lagenhet_nr, tf2.fastighet_namn , tf.duedate as ffdatum
+                    from tidlog_inbetalningar ti 
+                    inner join tidlog_faktura tf on ti.faktura_id = tf.faktura_id 
+                    inner join tidlog_hyresgaster th on th.hyresgast_id = tf.hyresgast_id 
+                    inner join tidlog_lagenhet tl on tl.hyresgast_id = tf.hyresgast_id 
+                    inner join tidlog_fastighet tf2 on tf2.fastighet_id = tl.fastighet_id  
+                where 
+                ti.diff_belopp != 0
+                            order by tf2.foretag_namn , ti.inbetald desc 
+                    
+            ";
+
+            $data = $this->query($sql)->fetchAll();
+            return $data;
+        }
+
         public function get_faktura_underlag($year, $month, $fastighetId, $page_first_result, $result_per_page)
         {
             $sql = "select             

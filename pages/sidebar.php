@@ -165,7 +165,15 @@
               </li>
 
               <li class="item">
-                    <a href="visainbetalningar.php">Visa inbetalningar</a>
+                    <a href="extrainbetalning.php">Registrera Extra inbetalning</a>
+              </li>
+
+
+              <li class="item">
+                    <a href="obetaldafakturor.php">Obetalda fakturor</a>
+              </li>
+              <li class="item">
+                    <a href="felaktigafakturor.php">Felaktiga fakturor</a>
               </li>
               
 

@@ -4,13 +4,16 @@
       require_once "./code/dbmanager.php";
       require_once "./code/managesession.php";
 
+      $db = new DbManager();
+      $obetalda = $db->GetObetaldaFakturor();
 
+      //$obetalda = 
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Inbetalningar</title>
+        <title>Obetalda fakturor</title>
     </head>
     <body>
         
@@ -19,8 +22,8 @@
         <div class="main">
             <div class="container-fluid mt-4" >
                 <br>
-                <h2>Registrerade inbetalningar</h2>
-                <form method="POST" action="./code/reginbetview.php">
+                <h2>Obetalda fakturor</h2>
+                <!-- <form method="POST" action="./code/reginbetview.php">
                     <input type="hidden" value="sok_inbetalda" name="sok_inbetalda" />
                     <div class="row mt-2">
                     
@@ -33,18 +36,23 @@
                         </div>
                     </div>
                     
-                </form>
-                <?php 
-                    
-                    $data = $_SESSION["inbet_search"];
-                    if ($data != null)
-                    {
-                        
+                </form> -->
+                
+                <table class="table table-hover table-striped mt-2" id="tblObetaldaFakturor">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col" class="table-primary">FakturaNummer</th>
+                            <th scope="col" class="table-primary">Namn</th>
+                            <th scope="col" class="table-primary">Efternamn</th>
+                            <th scope="col" class="table-primary">Belopp</th>
+                            <th scope="col" class="table-primary">Lägenhet</th>
+                            <th scope="col" class="table-primary">Skickad</th>
+                            <th scope="col" class="table-primary">Förfallodatum</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
 
-                    }
-                ?>
-                
-                
             </div>
 
             
