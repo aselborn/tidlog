@@ -87,7 +87,7 @@
         {
             $sql = "
                 select tf.faktura_id, tf.fakturanummer, (tf.belopp_hyra + tf.belopp_parkering) as belopp,
-                    th.fnamn as namn, th.enamn as efternamn,
+                    th.fnamn as namn, th.enamn as efternamn, tl.lagenhet_nr,
                     tf.status_skickad as skickad, tf.duedate as ffdatum
                     from tidlog_faktura tf  
                     inner join tidlog_hyresgaster th on th.hyresgast_id = tf.hyresgast_id 
@@ -101,6 +101,7 @@
 
         }
 
+        //LOKALEN KOLLAS INTE!
         public function GetDiffBeloppFakturor()
         {
             $sql = 
@@ -113,7 +114,7 @@
                     inner join tidlog_lagenhet tl on tl.hyresgast_id = tf.hyresgast_id 
                     inner join tidlog_fastighet tf2 on tf2.fastighet_id = tl.fastighet_id  
                 where 
-                ti.diff_belopp != 0
+                ti.diff_belopp != 0 and th.adress != 'Lokal'
                             order by tf2.foretag_namn , ti.inbetald desc 
                     
             ";

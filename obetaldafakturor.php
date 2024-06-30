@@ -3,8 +3,11 @@
       
       require_once "./code/dbmanager.php";
       require_once "./code/managesession.php";
+      require_once "./code/datum_helper.php";
+
 
       $db = new DbManager();
+      $dtHelper = new DatumHelper();
       $obetalda = $db->GetObetaldaFakturor();
 
       //$obetalda = 
@@ -23,20 +26,7 @@
             <div class="container-fluid mt-4" >
                 <br>
                 <h2>Obetalda fakturor</h2>
-                <!-- <form method="POST" action="./code/reginbetview.php">
-                    <input type="hidden" value="sok_inbetalda" name="sok_inbetalda" />
-                    <div class="row mt-2">
-                    
-                        <div class="d-inline-flex p-1 gap-2">
-                            <label for="dtFom">Från</label>
-                            <input type="text" class="form-control-sm" id="dtFom" name="dt_fom"></input>
-                            <label for="dtTom">Till</label>
-                            <input type="text" class="form-control-sm" id="dtTom" name="dt_tom" ></input>
-                            <button name="sok_inbetalningar" class="btn btn-outline-success  rounded-5" >Sök inbetalningar</button>
-                        </div>
-                    </div>
-                    
-                </form> -->
+               
                 
                 <table class="table table-hover table-striped mt-2" id="tblObetaldaFakturor">
                     <thead class="table-dark">
@@ -50,7 +40,34 @@
                             <th scope="col" class="table-primary">Förfallodatum</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        <?php 
+                            foreach($obetalda as $row){
+                                
+                                $faktNr = $row["fakturanummer"];
+                                $belopp = $row["belopp"];
+                                $namn = $row["namn"];
+                                $enamn = $row["efternamn"];
+                                $lagenhetNr = $row["lagenhet_nr"];
+                                $skickad = $dtHelper->GetDatum(($row["skickad"]));
+                                $ffdatum = $dtHelper->GetDatum($row["ffdatum"]);
+
+                                echo 
+                                "   
+                                    <tr>
+                                        <td>$faktNr</td>
+                                        <td>$namn</td>
+                                        <td>$enamn</td>
+                                        <td>$belopp</td>
+                                        <td>$lagenhetNr</td>
+                                        <td>$skickad</td>
+                                        <td>$ffdatum</td>
+
+                                    </tr>
+                                ";
+                            }
+                        ?>
+                    </tbody>
                 </table>
 
             </div>
