@@ -114,8 +114,8 @@
                     inner join tidlog_lagenhet tl on tl.hyresgast_id = tf.hyresgast_id 
                     inner join tidlog_fastighet tf2 on tf2.fastighet_id = tl.fastighet_id  
                 where 
-                ti.diff_belopp != 0 and th.adress != 'Lokal'
-                            order by tf2.foretag_namn , ti.inbetald desc 
+                    ti.diff_belopp != 0 and th.adress != 'Lokal'
+                    order by tf2.foretag_namn , ti.inbetald desc 
                     
             ";
 
@@ -722,8 +722,15 @@
                 $stmt2->bind_param("ss", $hyresgastId, $lagenhetId);
                 $stmt2->execute();
 
+                $sql = "UPDATE tidlog_hyresgaster SET LghNo = (select lagenhet_nr from tidlog_lagenhet where lagenhet_id = ?)";
+                $stmt3 = $this->connection->prepare($sql);
+                $stmt3->bind_param("s", $lagenhetId);
+                $stmt3->execute();
+
+
                 $stmt->close();
                 $stmt2->close();
+                $stmt3->close();
                 return true;
             } catch(Exception $e){
                 throw $e;

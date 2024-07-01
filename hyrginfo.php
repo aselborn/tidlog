@@ -40,6 +40,7 @@
     <body>
         <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $hyresGInfo->lagenhetNo ?>" />
         <input type="hidden" id="hidlagenhetId" name="HidLagenhetId" value="<?php echo $hyresGInfo->lagenhetId ?>" />
+        <input type="hidden" id="hidFastighetId" name="HidFastighetId" value="<?php echo $hyresGInfo->fastighetid ?>" />
         <input type="hidden" id="hidHyra" name="HidHyra" value="<?php echo $hyresGInfo->hyra ?>" />
         <input type="hidden" id="hidHyresgastId" name="HidHyresgastId" value="<?php echo $hyresGInfo->hyresgastId ?>" />
         <input type="hidden" id="hidFskatt" name="HidFskatt" value="<?php echo $hyresGInfo->fskatt ?>" />
@@ -100,7 +101,7 @@
                                 <input type="button" name="uppdateraHyresgast" id="btnUppdateraHyresgast" value="Uppdatera"class="btn btn-success" />
                             </td>
                             <td>
-                               <input type="button" name="sag_up_hyresgast" id="btnSagUppHyresgast"  value="Säg upp"class="btn btn-warning alert_me" />
+                               <input type="button" name="sag_up_hyresgast" id="btnSagUppHyresgast"  value="Säg upp" class="btn btn-warning alert_me" />
                                
                             </td>
                         </tr>

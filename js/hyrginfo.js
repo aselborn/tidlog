@@ -157,6 +157,7 @@ $(document).ready(function() {
     $('.alert_me').on('click', function(){
         var hyresgastId = $("#hidHyresgastId").val();
         var lagenhetId = $("#hidlagenhetId").val();
+        var fastihgetId = $("#hidFastighetId").val();
         $.confirm({
             title: 'Bekräfta att du vill säga upp hyresgästen!',
             content: 'När hyresgästen tas bort, kommer historiken finnas kvar. Lägenheten kan nu hyras ut till annan person',
@@ -174,7 +175,7 @@ $(document).ready(function() {
 
                             if (response !== ""){
                                 $.alert('Hyresgästen togs bort.');
-                                window.location.href = "./hyresgaster.php";
+                                window.location.href = "./hyresgaster.php?page=1&fastighetId=" + fastihgetId;
                             }
 
                         });

@@ -26,21 +26,7 @@
             <div class="container-fluid mt-4" >
                 <br>
                 <h2>Felaktiga fakturor</h2>
-                <!-- <form method="POST" action="./code/reginbetview.php">
-                    <input type="hidden" value="sok_inbetalda" name="sok_inbetalda" />
-                    <div class="row mt-2">
-                    
-                        <div class="d-inline-flex p-1 gap-2">
-                            <label for="dtFom">Från</label>
-                            <input type="text" class="form-control-sm" id="dtFom" name="dt_fom"></input>
-                            <label for="dtTom">Till</label>
-                            <input type="text" class="form-control-sm" id="dtTom" name="dt_tom" ></input>
-                            <button name="sok_inbetalningar" class="btn btn-outline-success  rounded-5" >Sök fakturor</button>
-                        </div>
-                    </div>
-                    
-                </form> -->
-                
+
                 <table class="table table-hover table-striped mt-3" id="tblObetaldaFakturor">
                     <thead class="table-dark">
                         <tr>
