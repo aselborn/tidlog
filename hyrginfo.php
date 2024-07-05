@@ -109,10 +109,24 @@
                     </table>
 
                 </div>
-                <div class="row mt-1">
+                
                 
                 <!--Info om Hyresgästen-->
                 
+                <!--Inbetalningar, historik.-->
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <h2>Analys av inbetalningar, för <?php echo $hyresGInfo->fnamn . " " . $hyresGInfo->enamn ?></h2>
+                            <form method="POST" action="./hyresgastanalys.php" >
+                                <input type="hidden" id="hidHyresgastId2" name="HidHyresgastId2" value="<?php echo $hyresGInfo->hyresgastId ?>" />
+                                <input type="submit" name="visa_analys_hyresgast" class="btn btn-outline-success rounded-5" value="Analysera hyror">
+                            </form>
+                            
+                        
+                    </div>
+                </div>
+
+                </br>
                 <!--Deposition?-->
                 <div class="row mt-2">
                     <div class="col-12">
