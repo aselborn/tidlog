@@ -142,12 +142,14 @@
             case when tf.belopp_parkering = 0 then null else tf.belopp_parkering end as avgift ,
             tf.belopp_hyra as hyra, 
             th.fnamn, th.enamn, tl.lagenhet_nr,
-            tfa.fastighet_id
+            tfa.fastighet_id,
+            ti.inbetald 
         from tidlog_faktura tf 
                 inner join tidlog_hyresgaster th on tf.hyresgast_id = th.hyresgast_id 
                 inner join tidlog_lagenhet tl on tl.lagenhet_id = tf.lagenhet_id 
                 inner join tidlog_fastighet tfa on tfa.fastighet_id = tl.fastighet_id
                 left outer join tidlog_parkering tp on tp.park_id = tl.park_id 
+                left outer join tidlog_inbetalningar ti on ti.faktura_id =tf.faktura_id 
                 where tfa.fastighet_id = " . $fastighetId . " and tf.faktura_year = " . $year ."
                 and tf.faktura_month = " . $month . " 
                 ORDER BY tl.lagenhet_nr 

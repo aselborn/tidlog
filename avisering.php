@@ -2,8 +2,11 @@
       if (!isset($_SESSION)) { session_start(); }
       require_once "./code/dbmanager.php";
       require_once "./code/managesession.php";
+      require_once "./code/datum_helper.php";
 
       $db = new DbManager();
+      $dtHelper = new DatumHelper();
+
       $isPostBack = false;
       if (!isset($_GET['page'])) 
       {
@@ -137,6 +140,7 @@
                             <th scope="col" class="table-primary"></th>
                             <th scope="col" class="table-primary">Status</th>
                             <th scope="col" class="table-primary">Skickad</th>
+                            <th scope="col" class="table-primary">Betald</th>
                         </tr>
                     </thead>
                     <?php $totalHyra = 0; $totalParkering=0; $tableRows = 0; $status = null; $skickad = null; $hyraT7=0; $hyraU9=0;?>
@@ -161,6 +165,7 @@
                                 
                                 $status = $row["status"] == null ? null : $row["status"];
                                 $skickad = $row["status_skickad"];
+                                $inbetald = $row["inbetald"] == null ? null : $dtHelper->GetDatum($row["inbetald"]);
 
                                 $totalHyra += intval($row["hyra"]);
 
@@ -202,6 +207,14 @@
                                             <td>
                                                 " . $skickad . "
                                             </td>";
+                                        }
+                                        if ($inbetald != null){
+                                            echo 
+                                            "
+                                                <td>
+                                                    " . $inbetald . "
+                                                </td>
+                                            ";
                                         }
 
                                     } else {
