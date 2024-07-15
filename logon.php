@@ -11,9 +11,11 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == TRUE) {
 # Include connection
 require_once "./code/config.php";
 
+
 # Define variables and initialize with empty values
 $user_login_err = $user_password_err = $login_err = "";
 $user_login = $user_password = "";
+
 
 # Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -54,12 +56,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           if (mysqli_stmt_fetch($stmt)) {
             # Check if password is correct
             if (password_verify($user_password, $hashed_password)) {
-
+              $ipAddr = $_SERVER['REMOTE_ADDR'];
               # Store data in session variables
               $_SESSION["id"] = $id;
               $_SESSION["username"] = $username;
               $_SESSION["loggedin"] = TRUE;
               $_SESSION["last_activity"] = time();
+              $_SESSION["ip_adress"] = $ipAddr;
+
+              //Logga inlogg!
+              $today = new DateTime("now", new DateTimeZone('Europe/Stockholm'));
+              $today = $today->format('Y-m-d H:i:s');
+              $sqlLog =  "insert into tidlog_inlogg(username, ipadress, logdate) values(?, ?, ?);";
+
+              if ($stmt_sql = mysqli_prepare($link, $sqlLog)) {
+                mysqli_stmt_bind_param($stmt_sql, "sss", $username, $ipAddr, $today);
+                mysqli_stmt_execute($stmt_sql);
+              }
+
               # Redirect user to index page
               echo "<script>" . "window.location.href='./'" . "</script>";
               exit;
@@ -82,6 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       mysqli_stmt_close($stmt);
     }
   }
+
 
   # Close connection
   mysqli_close($link);

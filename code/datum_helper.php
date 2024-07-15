@@ -20,6 +20,12 @@
 
             return $this->datum_formated ;
         }
+
+        public function GetTodayDatum()
+        {
+            $myDate = date("d-m-y h:i:s"); 
+            return $myDate;
+        }
     }
 
 ?>
