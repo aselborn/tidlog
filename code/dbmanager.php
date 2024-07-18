@@ -252,7 +252,9 @@
 
         function search_faktura($faktnr,  $belopp, $namn, $lagenhetNo)
         {
-            $sql = " select tf.faktura_id, tf.fakturanummer , (tf.belopp_hyra + tf.belopp_parkering + ta.totalbelopp) as belopp , concat(th.fnamn , ' ',  + th.enamn) as namn ,
+            $sql = " select tf.faktura_id, tf.fakturanummer , 
+            case when m.moms is null then (tf.belopp_hyra + tf.belopp_parkering + ta.totalbelopp) else 
+	        ROUND((tf.belopp_hyra + tf.belopp_parkering + m.moms + (tl.fskatt / 12) ), 0) end as belopp  , concat(th.fnamn , ' ',  + th.enamn) as namn ,
             tl.lagenhet_nr as lagenhetNo, tf.FakturaDatum as fakturadatum, tf.duedate, m.moms, tl.fskatt
                 from tidlog_faktura tf 
                     inner join tidlog_hyresgaster th on th.hyresgast_id =tf.hyresgast_id 
