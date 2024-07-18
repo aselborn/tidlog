@@ -250,10 +250,10 @@
 
         }
 
-        function search_faktura($faktnr,  $belopp, $namn, $lagenhetNo)
+        function search_faktura($dtInbetalt, $faktnr,  $belopp, $namn, $lagenhetNo)
         {
             $sql = " select tf.faktura_id, tf.fakturanummer , 
-            case when m.moms is null then (tf.belopp_hyra + tf.belopp_parkering + ta.totalbelopp) else 
+            case when m.moms is null then (tf.belopp_hyra + tf.belopp_parkering + case when ta.giltlig_tom < $dtInbetalt then ta.totalbelopp else 0 end) else 
 	        ROUND((tf.belopp_hyra + tf.belopp_parkering + m.moms + (tl.fskatt / 12) ), 0) end as belopp  , concat(th.fnamn , ' ',  + th.enamn) as namn ,
             tl.lagenhet_nr as lagenhetNo, tf.FakturaDatum as fakturadatum, tf.duedate, m.moms, tl.fskatt
                 from tidlog_faktura tf 

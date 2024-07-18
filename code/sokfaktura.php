@@ -17,7 +17,7 @@ $db = new DbManager();
 
 
 
-$data = $db->search_faktura($fakturaNr,  $belopp, $efternamn, $lagenhetNo);
+$data = $db->search_faktura($dtInbetalt, $fakturaNr,  $belopp, $efternamn, $lagenhetNo);
 
 
 $_SESSION["faktura_search"] = $data;
