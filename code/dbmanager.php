@@ -250,10 +250,23 @@
 
         }
 
-        function search_faktura($dtInbetalt, $faktnr,  $belopp, $namn, $lagenhetNo)
+        function search_faktura($faktnr,  $belopp, $namn, $lagenhetNo)
         {
+            
+
+            $year = intval(substr($faktnr, 0, 4)); //"2024"
+            $month = substr($faktnr, 4, 1); //"4"
+           
+
+            $firstday = 1;
+            
+            $startDate = date_create_from_format("j-m-Y", "$firstday-$month-$year");
+            $startDateFrm = date_format($startDate, "Y-m-d");
+            $endDateFmr = date("Y-m-t", strtotime($startDateFrm));
+            
+
             $sql = " select tf.faktura_id, tf.fakturanummer , 
-            case when m.moms is null then (tf.belopp_hyra + tf.belopp_parkering + case when ta.giltlig_tom < $dtInbetalt then ta.totalbelopp else 0 end) else 
+            case when m.moms is null then (tf.belopp_hyra + tf.belopp_parkering + case when ta.giltlig_tom between '$startDateFrm' and '$endDateFmr' then ta.totalbelopp else 0 end) else 
 	        ROUND((tf.belopp_hyra + tf.belopp_parkering + m.moms + (tl.fskatt / 12) ), 0) end as belopp  , concat(th.fnamn , ' ',  + th.enamn) as namn ,
             tl.lagenhet_nr as lagenhetNo, tf.FakturaDatum as fakturadatum, tf.duedate, m.moms, tl.fskatt
                 from tidlog_faktura tf 
