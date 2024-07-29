@@ -93,9 +93,9 @@
                     inner join tidlog_hyresgaster th on th.hyresgast_id = tf.hyresgast_id 
                     inner join tidlog_lagenhet tl on tl.hyresgast_id = tf.hyresgast_id 
                 where tf.faktura_id not in (select faktura_id from tidlog_inbetalningar ti)
-                and tf.faktura is not null 
+                and tf.faktura is not null and tf.status_skickad is not null 
                 and duedate < now() 
-                order by tf.duedate desc                    
+                order by tf.duedate desc                  
                 ";
 
             $data = $this->query($sql)->fetchAll();
