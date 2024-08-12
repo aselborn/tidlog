@@ -242,9 +242,16 @@
         public function registrera_inbetalning($faktId, $summa, $dtInbet)
         {
 
+            // $sql = "INSERT INTO tidlog_inbetalningar(faktura_id, inbetald , belopp , diff_belopp , diff_datum_days) ";
+            // $sql .= "select faktura_id, '$dtInbet', $summa, ($summa - (belopp_hyra + belopp_parkering)), DATEDIFF('$dtInbet', duedate) ";
+            // $sql .= " from tidlog_faktura where faktura_id = ?";
+
             $sql = "INSERT INTO tidlog_inbetalningar(faktura_id, inbetald , belopp , diff_belopp , diff_datum_days) ";
-            $sql .= "select faktura_id, '$dtInbet', $summa, ($summa - (belopp_hyra + belopp_parkering)), DATEDIFF('$dtInbet', duedate) ";
-            $sql .= " from tidlog_faktura where faktura_id = ?";
+            $sql .= " select faktura_id, '$dtInbet', $summa, ($summa - (belopp_hyra + belopp_parkering + case when ta.giltlig_tom between DATE_ADD(tf.duedate, interval 1 day) and DATE_ADD(tf.duedate, interval 32 day)  then ta.totalbelopp else 0 end )), DATEDIFF('$dtInbet', duedate)  ";
+            $sql .= " from tidlog_faktura tf ";
+            $sql .= " inner join tidlog_hyresgaster th on th.hyresgast_id =tf.hyresgast_id ";
+            $sql .= " left outer join tidlog_artikel ta on ta.hyresgast_id = th.hyresgast_id ";
+            $sql .= " where faktura_id = ?";
 
             $stmt = $this->connection->prepare($sql);
             $stmt->bind_param("s", $faktId);

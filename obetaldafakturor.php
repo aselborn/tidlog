@@ -10,7 +10,7 @@
       $dtHelper = new DatumHelper();
       $obetalda = $db->GetObetaldaFakturor();
 
-      //$obetalda = 
+      $obetaldaCount = sizeof($obetalda);
 
 ?>
 <!DOCTYPE html>
@@ -25,7 +25,7 @@
         <div class="main">
             <div class="container-fluid mt-4" >
                 <br>
-                <h2>Obetalda fakturor</h2>
+                <h2><?php echo  $obetaldaCount . " obetalda fakturor" ?> </h2>
                
                 
                 <table class="table table-hover table-striped mt-2" id="tblObetaldaFakturor">
