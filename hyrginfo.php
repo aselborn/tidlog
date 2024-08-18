@@ -19,6 +19,11 @@
     $db = new DbManager();
     $datumHelper = new DatumHelper();
    
+    if ($hyresgastId == null){
+        echo "<script>location.href='../index.php';</script>"; 
+        return;
+    }
+
     $hyresGInfo = new InfoHyresgast($hyresgastId);
     
     $kontraktGInfo = null;
@@ -37,6 +42,15 @@
         <title>Hantera befintlig hyresgäst</title>
     </head>
     
+    <style>
+
+        #over img {
+            margin-left: auto;
+            margin-right: auto;
+            
+        }
+    </style>
+
     <body>
         <input type="hidden" id="hidlagenhetNo" name="HidLagenhetNo" value="<?php echo $hyresGInfo->lagenhetNo ?>" />
         <input type="hidden" id="hidlagenhetId" name="HidLagenhetId" value="<?php echo $hyresGInfo->lagenhetId ?>" />
@@ -121,8 +135,6 @@
                                 <input type="hidden" id="hidHyresgastId2" name="HidHyresgastId2" value="<?php echo $hyresGInfo->hyresgastId ?>" />
                                 <input type="submit" name="visa_analys_hyresgast" class="btn btn-outline-success rounded-5" value="Analysera hyror">
                             </form>
-                            
-                        
                     </div>
                 </div>
 
@@ -240,13 +252,12 @@
                                 </tr>
                             </thead>
 
-                            <!--Sparade kontrakt-->
+                            <!--Kontrakt för aktuell hyresgäst -->
                             <?php 
                                 if ($kontraktGInfo->kontraktId != null){
                                     
-                                    foreach ($kontraktGInfo as $row) {
-
-                                    $lnkPdf = "/bilder/pdf.png";
+                                    //$lnkPdf = "/bilder/pdf.png";
+                                    $lnkPdf = "/bilder/pdf-file.png";
                                     
                                         echo "
                                             <tr class='row-cols-auto'>
@@ -256,7 +267,7 @@
                                                 
                                                 <td>
                                                     <a href='visakontrakt.php?kontraktId=" . $kontraktGInfo->kontraktId . "'>
-                                                    <div style='height:100%;width:100%'>
+                                                    <div style='display:table-cell; vertical-align:middle; text-align:center'>
                                                         <img src= .$lnkPdf . ></a>
                                                     </div>
                                                 </td>
@@ -268,11 +279,10 @@
                                             </tr>
                                             
                                         ";
-                                    }
+                                    
                                 }
                                 //if ($hyresGInfo->datumKontrakt != null){
                                    
-                                    
                                 //}
                             ?>
                           

@@ -47,6 +47,13 @@
         <title>Lägenhetinformation</title>
     </head>
     
+    <style>
+        h3 {
+            color: #3281a8;
+            font-style: italic;
+        }
+    </style>
+
     <?php include("./pages/sidebar.php") ?>
 
     <body>
@@ -59,20 +66,19 @@
             <div class="container-fluid mt-5" >
                 <div class="row mt-2">
                     <div class="d-inline-flex ">
-                        <h3><strong>Information om lägenhet nr <?php echo $lghInfo->lagenhetNo ?></strong></h3>
+                        <h2><strong>Information om lägenhet nr <?php echo $lghInfo->lagenhetNo ?></strong></h2>
                     </div>
                 </div>
             
                 <div class="row">
+                    <h3>Tidigare</h3>
                     <div class="d-inline-flex">
+                        
                         <table class="table table-sm table-striped w-auto" id="tblRetroHyra" >
-                            <thead>
                                 <tr>
                                     <th scope="col" class="table-primary">Tidigare</th>
                                     <th scope="col" class="table-primary">Hyra</th>
-                                    
                                 </tr>
-                            </thead>
                             <tbody>
                                 <?php 
                                     $items = sizeof($retroHyra);
@@ -106,8 +112,7 @@
 
                 <div class="row mt-3">
 
-                
-                    
+                <h3>Nuvarande hyra</h3>
                     <div class="col-12 ">
                         <!--TABELL SOM ANGER HYRA OCH PARKERING-->
                         <table class="table table-striped w-auto">
@@ -117,8 +122,6 @@
                                     <th scope="col" class="table-primary">Hyra</th>
                                     <th scope="col" class="table-primary">Ny Hyra</th>
                                     
-                                    
-                                    
                                     <?php 
                                         if ($lghInfo->parkering == 0){
                                             echo "<th scope='col' class='table-primary'>Välj parkering</th>";
@@ -126,9 +129,7 @@
                                             echo "<th scope='col' class='table-primary'>Parkering</th>";
                                         }
                                     ?>
-
                                     <th scope="col" class="table-primary"></th>
-                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -193,6 +194,7 @@
                 </div>
                 
                 <div class="row mt-3">
+                    <h3 class="cc">Vind och Källare för lägenhet <?php echo $lghInfo->lagenhetNo ?></h3>
                     <div class="col-12">
                          <!--TABELL SOM ANGER VIND OCH KÄLLARE-->
                          <table class="table table-striped w-auto" id="tblWind">
@@ -255,6 +257,18 @@
                     </div>
                 </div>
 
+                                        <!--tidigare kontrakt för lägenheten-->
+                <div class="row mt-3">
+                    <h3 class="cc">Tidigare kontrakt för lägenhet <?php echo $lghInfo->lagenhetNo ?></h3>
+                        
+
+                </div>
+
+                <div class="row mt-3">
+                    <h3 class="cc">Utförda renoveringar för lägenhet <?php echo $lghInfo->lagenhetNo ?></h3>
+                        
+
+                </div>
             </div>
         </div>
     </body>
