@@ -402,6 +402,29 @@
             return $stmt;
         }
 
+        public function GetLagenhetNoFromLagenhetId($lagenhetid){
+            $sql = "SELECT lagenhet_nr FROM tidlog.tidlog_lagenhet where lagenhet_id =  ?";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("s",  $lagenhetid);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            
+            
+            $row = $result->fetch_column();
+            return $row;
+        }
+        public function insert_old_kontrakt($lagenhetId, $datum_from, $datum_tom, $kontraktBlob, $kontraktNamn)
+        {
+            $sql = "INSERT INTO tidlog_kontrakt (lagenhet_id, datum, datum_uppsagd, kontrakt, kontrakt_namn) VALUES(?, ?, ?, ?, ?)";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bind_param("sssss",  $lagenhetId,  $datum_from, $datum_tom, $kontraktBlob, $kontraktNamn);
+            $stmt->execute();
+
+            return $stmt;
+        }
+
+
         public function spara_hyreskoll($hyresgastId, $fakturaId, $dtKollad, $dtInbetald, $diff, $kolladav)
         {
             $sql = "INSERT INTO tidlog_fakturakoll(faktura_id, dt_inbetald, dt_kollad, kollad_av, diff, hyresgast_id) VALUES(?, ?, ?, ?, ?, ?)";

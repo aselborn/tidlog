@@ -21,3 +21,5 @@ ADD CONSTRAINT `fk_lagenhet_id`
   ON UPDATE NO ACTION;
 
 ALTER TABLE tidlog.tidlog_kontrakt ADD datum_uppsagd DATETIME NULL;
+#20240820. Kontrakt utan hyresgäst (gammalt kontrakt)
+ALTER TABLE selborn_se.tidlog_kontrakt MODIFY COLUMN hyresgast_id int NULL;

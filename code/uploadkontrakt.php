@@ -5,17 +5,30 @@
     require_once "managesession.php";
 
     $dbM = new DbManager(); 
+
     $kontraktNamn = $_POST["kontraktNamn"];
     $user = $_SESSION["username"];
     
     
     $datum = $_POST["dtFom"];
+    $dtTom = null;
+    if (isset($_POST["dtTom"])){
+        $dtTom = $_POST["dtTom"];
+    }
+
+    if (isset($_GET['fastighetId'])){
+        $fastighetid = $_GET['fastighetId'];
+    }
+
     $hyresgastId = $_POST["hdHyresgast"];
     $lagenhetid = $_POST["hdLagenhetId"];
     $lagenhetNo = $_POST["hdLagenhetNo"];
 
-    if(isset($_POST["sparakontrakt"])){ 
+    if(isset($_POST["sparakontrakt"]) || isset($_POST['spara_gammalt_kontrakt'])){ 
         $status = 'error'; 
+        
+        $isNyttKontrakt = isset($_POST["sparakontrakt"]);
+
         if(!empty($_FILES["pdfkontrakt"]["name"])) { 
             // Get file info 
             $fileName = basename($_FILES["pdfkontrakt"]["name"]); 
@@ -29,7 +42,16 @@
              
                 // Insert image content into database 
                 //$insert = $db->query("UPDATE tidlog_jobs SET tidlog(image, created) VALUES ('$imgContent', NOW())"); 
-                $insert= $dbM->insert_new_kontrakt($lagenhetid, $hyresgastId, $datum, $pfdContent, $kontraktNamn);
+                if ($isNyttKontrakt){
+                    $insert= $dbM->insert_new_kontrakt($lagenhetid, $hyresgastId, $datum, $pfdContent, $kontraktNamn);
+                } else {
+                    $lagenhetid = $_POST['lagenhet'];
+                    $lagenhetNo = $dbM->GetLagenhetNoFromLagenhetId($lagenhetid);
+                    $kontraktNamn = $lagenhetNo . "_" . $_POST['fnamn'] . "_" . $_POST['enamn'];
+                    $insert = $dbM->insert_old_kontrakt($lagenhetid, $datum, $dtTom, $pfdContent, $kontraktNamn);
+                }
+                
+
                 if($insert){ 
                     $status = 'success'; 
                     $statusMsg = "Filen laddades upp."; 
@@ -46,5 +68,8 @@
      
     // Display status message 
     //echo $statusMsg;
-    header("Location: ../hyrginfo.php?hyresgast_id=" . $hyresgastId ); // redirect to login page
+    if ($isNyttKontrakt)
+        header("Location: ../hyrginfo.php?hyresgast_id=" . $hyresgastId ); // redirect to login page
+    else
+        header("Location: ../kontrakt.php?page=1&fastighetId=" . $fastighetid ); // redirect to login page
 ?>

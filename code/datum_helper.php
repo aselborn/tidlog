@@ -23,7 +23,9 @@
 
         public function GetTodayDatum()
         {
-            $myDate = date("d-m-y h:i:s"); 
+            //$myDate = date("d-m-y h:i:s"); 
+            $today = new DateTime();
+            $myDate = date_format($today, "Y-m-d"); 
             return $myDate;
         }
     }

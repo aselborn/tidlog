@@ -58,6 +58,7 @@
                </li>
             </ul>
           </li>
+          <!--Hyresgäster-->
           <li class="item">
             <div class="submenu-item">
             <i class="fa fs-3 bi-people"></i><span>Hyresgäster</span>
@@ -80,6 +81,30 @@
               
             </ul>
           </li>
+          
+          <!--Kontrakt-->
+          <li class="item">
+            <div class="submenu-item">
+              <i class="bi fs-3 bi-card-text"></i><span>Kontrakt</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+            <ul class="menu-items submenu">
+              <div class="menu-title">
+                <i class="fa-solid fa-chevron-left"></i>
+                Tillbaka till menyn
+              </div>
+              <li class="item">
+                    <a href="kontrakt.php?page=1&fastighetId=1">Tryckaren 7</a>
+              </li>
+
+              <li class="item">
+                <a href="kontrakt.php?page=1&fastighetId=2">Uttern 9</a>
+              </li>
+              
+            </ul>
+          </li>
+        
 
           <li class="item">
             <div class="submenu-item">
