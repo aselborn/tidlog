@@ -6,9 +6,12 @@
 
     $dbM = new DbManager(); 
 
-    $kontraktNamn = $_POST["kontraktNamn"];
     $user = $_SESSION["username"];
     
+    if ($user == null){
+        echo "<script>location.href='../index.php';</script>"; 
+        return;
+    }
     
     $datum = $_POST["dtFom"];
     $dtTom = null;
@@ -20,9 +23,7 @@
         $fastighetid = $_GET['fastighetId'];
     }
 
-    $hyresgastId = $_POST["hdHyresgast"];
-    $lagenhetid = $_POST["hdLagenhetId"];
-    $lagenhetNo = $_POST["hdLagenhetNo"];
+    
 
     if(isset($_POST["sparakontrakt"]) || isset($_POST['spara_gammalt_kontrakt'])){ 
         $status = 'error'; 
@@ -43,12 +44,22 @@
                 // Insert image content into database 
                 //$insert = $db->query("UPDATE tidlog_jobs SET tidlog(image, created) VALUES ('$imgContent', NOW())"); 
                 if ($isNyttKontrakt){
-                    $insert= $dbM->insert_new_kontrakt($lagenhetid, $hyresgastId, $datum, $pfdContent, $kontraktNamn);
+                    $hyresgastId = $_POST["hdHyresgast"];
+                    $lagenhetid = $_POST["hdLagenhetId"];
+                    $lagenhetNo = $_POST["hdLagenhetNo"];
+                    $fnamn = $_POST["hdFnamn"];
+                    $enamn = $_POST["hdEnamn"];
+
+                    $insert= $dbM->insert_new_kontrakt($lagenhetid, $hyresgastId, $datum, $pfdContent, $fnamn, $enamn);
+
                 } else {
                     $lagenhetid = $_POST['lagenhet'];
                     $lagenhetNo = $dbM->GetLagenhetNoFromLagenhetId($lagenhetid);
-                    $kontraktNamn = $lagenhetNo . "_" . $_POST['fnamn'] . "_" . $_POST['enamn'];
-                    $insert = $dbM->insert_old_kontrakt($lagenhetid, $datum, $dtTom, $pfdContent, $kontraktNamn);
+                    $typ_av_kontrakt = $_POST['typ_av_kontrakt'];
+                    $fnamn = $_POST["fnamn"];
+                    $enamn = $_POST["enamn"];
+                    
+                    $insert = $dbM->insert_old_kontrakt($typ_av_kontrakt,$lagenhetid, $datum, $dtTom, $pfdContent, $fnamn, $enamn);
                 }
                 
 

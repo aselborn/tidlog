@@ -9,7 +9,7 @@ $(document).ready(function() {
         $("#btnContractNoValid").addClass('d-none');
     }
 
-    setDateOnInput($("#dtDateBackKontrakt"));
+    //setDateOnInput($("#dtDateBackKontrakt"));
     setDateOnInput($("#dtDepositionDatum"));
     setDateOnInput($("#dtDepositionDatumAter"));
 
@@ -201,6 +201,27 @@ $(document).ready(function() {
     $("#btnContractNoValid").on('click', function(){
         
         var uppsagd_datum = $("#dtDateBackKontrakt").val();
+
+        if (uppsagd_datum === ""){
+            $.confirm({
+                title: 'Datum är felaktigt angivet',
+                content: 'Ange korrekt datum för uppsägning.',
+                buttons: {
+                   
+                    ok : {
+                        text: 'Ok',
+                        btnClass: 'btn-blue',
+                        keys: ['enter', 'shift'],
+                        action: function(e){
+                            $("#dtDateBackKontrakt").focus();
+                            
+                            return ;
+                        }
+                    }
+                }
+            });
+            return;
+        }
 
         var data = { nameOfFunction : 'sag_upp_kontrakt', hyresgastId : hyresgastId, datum : uppsagd_datum };
 

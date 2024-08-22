@@ -9,14 +9,14 @@
 
      $kontraktId = $_GET["kontraktId"];
 
-     $mittKontrakt = $db->query("select kontrakt, kontrakt_namn from tidlog_kontrakt where kontrakt_id = ?", array($kontraktId))->fetchAll();
+     $mittKontrakt = $db->query("select kontrakt, fnamn, enamn from tidlog_kontrakt where kontrakt_id = ?", array($kontraktId))->fetchAll();
 
      $theKontrakt = null;
      $kontraktNamn = null;
      foreach($mittKontrakt as $row)
      {
         $theKontrakt = $row["kontrakt"];
-        $kontraktNamn = $row["kontrakt_namn"];
+        $kontraktNamn = $row["fnamn"] . "_" . $row["enamn"];
      }
 
      if ($theKontrakt == null)

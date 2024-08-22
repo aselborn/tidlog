@@ -33,9 +33,15 @@
                     </h2>
                 </div>
                 <div class="row mt-1">
-                <form  action=<?php echo "./code/uploadkontrakt.php?fastighetId=$fastighetId" ?> method="post" enctype="multipart/form-data">
-                    <div class="d-inline-flex align-bottom p-1 gap-2">
-                        
+                    <form  action=<?php echo "./code/uploadkontrakt.php?fastighetId=$fastighetId" ?> method="post" enctype="multipart/form-data">
+                        <div class="d-inline-flex align-bottom p-1 gap-2">
+                            <div class="form-group">
+                                <label class="label-primary">Typ av kontrakt</label>
+                                <select id="KontraktTyp" class="form-select" name="typ_av_kontrakt" style="width:150px">
+                                    <option value="0">Första Hand</option>
+                                    <option value="1">Andra hand</option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label id="lblFnamn" class="label-primary">Förnamn</label>
                                 <input id="fnamn" type="text" name="fnamn" class="form-control" style="width:200px" required>
@@ -67,6 +73,7 @@
                                 </select>
                             </div>
                             
+                            
                             <div class="form-group">
                                 <label id="lblGiltTill" class="label-primary">Giltlig från</label>
                                 <input id="giltFran" required type="date" name="dtFom" value="<?php echo $datumHelper->GetTodayDatum(); ?>" class="form-control"  >
@@ -78,7 +85,9 @@
                                 <label id="lblGiltTill" class="label-primary">Giltlig till</label>
                                 <input id="giltTill" required type="date" value="<?php echo $datumHelper->GetTodayDatum(); ?>" name="dtTom" class="form-control"  >
                             </div>
-                            
+
+                              
+
                             <div class="form-group">
                                 <!-- <label id="lblEpost" class="label-primary">Scannat kontrakt</label> -->
                                 <!-- <input id="epost" type="text" name="epost" class="form-control"  > -->
@@ -90,13 +99,16 @@
 
                             <div class="form-group col-sm-4">
                                 <br />
+                                
                                 <input type="submit" name="spara_gammalt_kontrakt"  class="btn btn-outline-success btn rounded-5" value="Spara"> 
                             </div>
-                        
 
-                    </div>
+
+                        </div>
+                         
                     </form>
                 </div>
+                
             </div>
         </div>
     </body>

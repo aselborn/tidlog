@@ -212,7 +212,17 @@
             $row = $result->fetch_assoc();
             return (int)$row["count"];
         }
-
+        public function getContratCount($perFastighet)
+        {
+            $sql = "select count(*) as count from tidlog_kontrakt tk 
+            inner join tidlog_lagenhet tl on tl.lagenhet_id =tk.lagenhet_id 
+            inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id 
+            where tf.fastighet_id=" . $perFastighet ;
+            
+            $result = $this->connection->query($sql);
+            $row = $result->fetch_assoc();
+            return (int)$row["count"];
+        }
         public function getfakturaCountPerFastighet($yr, $mn, $perFastighet)
         {
             $sql = "select count(*) as count from tidlog_faktura ta
@@ -392,11 +402,14 @@
             return $stmt;
         }
 
-        public function insert_new_kontrakt($lagenhetId, $hyresgastId, $datum, $kontraktBlob, $kontraktNamn)
+        public function insert_new_kontrakt($lagenhetId, $hyresgastId, $datum, $kontraktBlob, $fnamn, $enamn)
         {
-            $sql = "INSERT INTO tidlog_kontrakt (lagenhet_id, hyresgast_id, datum, kontrakt, kontrakt_namn) VALUES(?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO tidlog_kontrakt (andra_hand, lagenhet_id, hyresgast_id, datum, kontrakt, fnamn, enamn) VALUES(?, ?, ?, ?, ?,?,?)";
+
+            $andraHand = 0;
+
             $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("sssss",  $lagenhetId, $hyresgastId, $datum, $kontraktBlob, $kontraktNamn);
+            $stmt->bind_param("sssssss", $andraHand, $lagenhetId, $hyresgastId, $datum, $kontraktBlob, $fnamn, $enamn);
             $stmt->execute();
 
             return $stmt;
@@ -414,11 +427,14 @@
             $row = $result->fetch_column();
             return $row;
         }
-        public function insert_old_kontrakt($lagenhetId, $datum_from, $datum_tom, $kontraktBlob, $kontraktNamn)
+        public function insert_old_kontrakt($typAvKontrakt , $lagenhetId, $datum_from, $datum_tom, $kontraktBlob, $fnamn, $enamn)
         {
-            $sql = "INSERT INTO tidlog_kontrakt (lagenhet_id, datum, datum_uppsagd, kontrakt, kontrakt_namn) VALUES(?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO tidlog_kontrakt (andra_hand, lagenhet_id, datum, datum_uppsagd, kontrakt, fnamn, enamn) VALUES(?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param("sssss",  $lagenhetId,  $datum_from, $datum_tom, $kontraktBlob, $kontraktNamn);
+            
+            $typAvKontrakt =(int)$typAvKontrakt;
+
+            $stmt->bind_param("sssssss", $typAvKontrakt, $lagenhetId,  $datum_from, $datum_tom, $kontraktBlob, $fnamn, $enamn);
             $stmt->execute();
 
             return $stmt;
@@ -631,7 +647,7 @@
 
         public function sag_upp_kontrakt($hyresgastId, $datum)
         {
-            $sql = "UPDATE tidlog_kontrakt set datum_uppsagd = ? where hyresgast_id = ?";
+            $sql = "UPDATE tidlog_kontrakt set datum_uppsagd = ?, hyresgast_id = null where hyresgast_id = ?";
             try{
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bind_param("ss", $datum, $hyresgastId);

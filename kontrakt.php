@@ -2,8 +2,11 @@
       if (!isset($_SESSION)) { session_start(); }
       require_once "./code/dbmanager.php";
       require_once "./code/managesession.php";
+      require_once "./code/datum_helper.php";
 
+    
       $db = new DbManager();
+      $dtHelper = new DatumHelper();
 
       if (isset($_GET['fastighetId']))
       {
@@ -20,14 +23,19 @@
       $result_per_page = 12;
       
       $page_first_result = ($page - 1) * $result_per_page;
-      $num_rows = $db->getHyresgastCount($fastighetId);
+      $num_rows = $db->getContratCount($fastighetId);
       $number_of_page = ceil($num_rows / $result_per_page);
 
       $lagenheter = $db->query("select * from tidlog_lagenhet order by lagenhet_nr")->fetchAll();
-      $hyresgaster = $db->query("
-        SELECT h.hyresgast_id, h.adress, h.epost, h.enamn, h.fnamn, h.telefon, l.lagenhet_nr, tf.fastighet_id FROM  tidlog_hyresgaster h 
+      
+      $kontrakt = $db->query("
+        SELECT h.hyresgast_id,  h.enamn, h.fnamn,  l.lagenhet_nr, tf.fastighet_id, tk.kontrakt_id,
+        tk.datum , tk.datum_uppsagd , tk.kontrakt, tk.andra_hand, tk.enamn as efternamn, tk.fnamn as fornamn
+          FROM  tidlog_hyresgaster h 
             inner join tidlog_lagenhet l on l.hyresgast_id = h.hyresgast_id 
             inner join tidlog_fastighet tf on tf.fastighet_id = l.fastighet_id
+            inner join tidlog_kontrakt tk on tk.lagenhet_id = l.lagenhet_id
+
             where tf.fastighet_id = " . $fastighetId . "
         order by lagenhet_nr  LIMIT 
         " . $page_first_result . ',' . $result_per_page)->fetchAll();
@@ -62,6 +70,7 @@
                                     <th scope="col" class="table-primary">Giltligt från</th>
                                     <th scope="col" class="table-primary">Giltligt till</th>
                                     <th scope="col" class="table-primary">Kontrakt</th>
+                                    <th scope="col" class="table-primary">Status</th>
                                     
                                 </tr>
                             </thead>
@@ -69,40 +78,56 @@
                                 
                                 <?php 
                                     //iconer finns här : https://www.flaticon.com/
-                                    // foreach($hyresgaster as $row)
-                                    // {
-                                    //     $hyresgastId = $row["hyresgast_id"];
-                                    //     $namn = $row["fnamn"];
-                                    //     $enamn = $row["enamn"];
-                                    //     $lagenhetNo = $row["lagenhet_nr"];
-                                    //     $telefon = $row["telefon"];
-                                    //     $epost = $row["epost"];
-                                    //     $upg = $row["adress"];
-                                    //     $lnk = "./bilder/people.png";
-                                        
-                                    //     echo "<tr id='$hyresgastId'>
-                                    //         <td>
-                                    //         <div>
-                                    //             <img src='". $lnk . "' alt='' />
-                                    //         </div>
-                                    //         </td>
-                                    //         <td>" . $namn . "</td>"
-                                    //         . "<td>" . $enamn . "</td>"
-                                    //         . "<td><a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
-                                    //         <div  class='align-items-center'>
-                                    //             " . $lagenhetNo . "</a>
-                                    //         </div></td>"
-                                    //         . "<td>" . $upg . "</td>"
-                                    //         . "<td>" . $epost . "</td>"
-                                    //         . "<td>" . $telefon . "</td>"
-                                    //         . "<td>
-                                    //             <div class='align-items-center'>
-                                    //                 <input type='button'  class='btn btn-link binder' hyresgast='" . $hyresgastId . "' value='Hantera hyresgäst'></input>
-                                    //             </div>
-                                    //             </td>"
-                                    //         . "</tr>";
+                                    foreach($kontrakt as $row)
+                                    {
+                                        $statusText = "";
+                                        $hyresgastId = $row["hyresgast_id"];
+                                        $kontraktId = $row["kontrakt_id"];
+                                        $namn = $row["fornamn"] == null ? $row["fnamn"] : $row["fornamn"];
+                                        $enamn = $row["efternamn"] == null ? $row["enamn"] : $row["efternamn"];
 
-                                    // }
+                                        $lagenhetNo = $row["lagenhet_nr"];
+                                        
+                                        $giltFran = $row["datum"];
+                                        $giltligTill = $row["datum_uppsagd"] == null ? "" : $dtHelper->GetDatum($row["datum_uppsagd"]);
+
+                                        if ($row["andra_hand"] == 1)
+                                            $statusText = "<label class='text-bg-warning'><span>Andra Hand</span></label>";
+
+                                        if ($row["andra_hand"] == 0 && $giltligTill == null)
+                                            $statusText = "<label class='text-bg-info'><span>Aktuellt kontrakt</span></label>";
+
+                                        if ($row["datum_uppsagd"] != null && $row["andra_hand"] == 0){
+                                            $statusText = "<label class='text-bg-success'><span>Avslutat kontrakt</span></label>";
+                                        }
+
+                                        $lnk = "./bilder/contract.png";
+                                        $lnkPdf = "/bilder/pdf-file.png";
+                                        
+                                        echo "<tr id='$hyresgastId'>
+                                            <td>
+                                            <div>
+                                                <img src='". $lnk . "' alt='' />
+                                            </div>
+                                            </td>
+                                            <td>" . $namn . "</td>"
+                                            . "<td>" . $enamn . "</td>"
+                                            . "<td><a href='lghinfo.php?lagenhetNo=" . $lagenhetNo . "'>
+                                            <div  class='align-items-center'>
+                                                " . $lagenhetNo . "</a>
+                                            </div></td>"
+                                            . "<td>" . $dtHelper->GetDatum($giltFran) . "</td>"
+                                            . "<td>" . $giltligTill . "</td>"
+                                            . "<td>
+                                                <a href='visakontrakt.php?kontraktId=" . $kontraktId . "'>
+                                                    <div style='display:table-cell; vertical-align:middle; text-align:center'>
+                                                        <img src= .$lnkPdf . ></a>
+                                                    </div>
+                                                </td>"
+                                            . "<td>" . $statusText . "</td>"
+                                            . "</tr>";
+
+                                    }
                                 ?>
                             </tbody>
                         </table>
@@ -126,18 +151,18 @@
                                         if ($total_pages > 1) {
 
                                             if ($page >= 2) {
-                                                echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . ($page - 1) . "&fastighetId=" . $fastighetId . "'>Föregående</a></li>";
+                                                echo "<li class='page-item'><a class='page-link' href='kontrakt.php?page=" . ($page - 1) . "&fastighetId=" . $fastighetId . "'>Föregående</a></li>";
                                             }
                                             for ($i = 1; $i <= $total_pages; $i++) {
                                                 if ($i == $page) {
-                                                    echo "<li class='page-item active'><a class='page-link' href='hyresgaster.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
+                                                    echo "<li class='page-item active'><a class='page-link' href='kontrakt.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
                                                 } else {
-                                                    echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
+                                                    echo "<li class='page-item'><a class='page-link' href='kontrakt.php?page=" . $i . "&fastighetId=" . $fastighetId . "'>" . $i . "</a></li>";
                                                 }
                                             }
 
                                             if ($total_pages > $page) {
-                                                echo "<li class='page-item'><a class='page-link' href='hyresgaster.php?page=" . ($page + 1) . "&fastighetId=" . $fastighetId . "'>Nästa</a></li>";
+                                                echo "<li class='page-item'><a class='page-link' href='kontrakt.php?page=" . ($page + 1) . "&fastighetId=" . $fastighetId . "'>Nästa</a></li>";
                                             }
                                         }
                                         ?>

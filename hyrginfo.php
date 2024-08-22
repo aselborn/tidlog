@@ -79,7 +79,7 @@
                                 <th scope="col" class="table-primary">Adress</th>
                                 <th scope="col" class="table-primary">Epost</th>
                                 <th scope="col" class="table-primary">Telefon</th>
-                                <th scope="col" class="table-primary">Andrahand?</th>
+                                <th scope="col" class="table-primary"></th> 
                                 <th scope="col" class="table-primary"></th> 
                             </tr>
                         </thead>
@@ -100,17 +100,7 @@
                             <td>
                                 <input id="telefon" type="text"  value="<?php echo $hyresGInfo->telefon ?>" name="telefon" />
                             </td>
-                            <td>
-                                <!-- <input type="checkbox" name="chkAndraHand" id="chkAndraHand" value="<?php echo $hyresGInfo->andrahand ?>" checked  /> -->
-                                <?php 
-                                    if ($hyresGInfo->andrahand == 1){
-                                        echo '<input type="checkbox" name="chkAndraHand" id="chkAndraHand" checked value=1 />';
-                                    } else{
-                                        echo '<input type="checkbox" name="chkAndraHand" id="chkAndraHand" value=0 />';
-                                    }
-                                ?>
-                                
-                            </td>
+                           
                             <td>
                                 <input type="button" name="uppdateraHyresgast" id="btnUppdateraHyresgast" value="Uppdatera"class="btn btn-success" />
                             </td>
@@ -202,25 +192,7 @@
                                         ?>
 
                                     
-                                    
-                                   
-                                    <!--Raden för att lägga till en deposition.-->
-                                <!-- <form action="./code/deposition.php" method="POST" id="frmDeposition">
-                                    <tr class="row-cols-auto d-none row_deposition" id="rowNyDeposition">
-                                        <td><input type="number" class="form-control-sm" id="idDepositionBelopp" name="DepositionBelopp" style="width: 110px;"/></td>
-                                        <td><input type="date" class="form-control-sm" id="dtDepositionDatum" value="<?php  echo date("Y-m-d")  ?>" name="DepositionDatum" /></td>
-                                        <td><input type="date" class="form-control-sm d-none" id="dtDepositionDatumAter" name="DepositionDatumAter" /></td>
-                                        <td><input type="number" class="form-control-sm d-none" id="idBeloppAter" name="BeloppAter" /></td>
-
-                                        <input type="hidden" value=<?php echo $hyresGInfo->hyresgastId ?> name="hdHyresgast"/>
-                                        <input type="hidden" value=<?php echo $hyresGInfo->lagenhetId ?> name="hdLagenhetId"/>
-                                        <input type="hidden" value=<?php echo $hyresGInfo->lagenhetNo ?> name="hdLagenhetNo"/>
-                                        
-                                        <td>
-                                            <input type="submit" id="btnSparadeposition"value="Spara ny deposition" name="sparakontrakt" class="btn btn-outline-success btn-sm rounded-5" />
-                                        </td>
-                                    </tr>
-                                </form> -->
+                              
 
                                 </tbody>
                             </form> 
@@ -243,7 +215,7 @@
                     <table class="table table-striped w-auto" id="tblKontrakt">
                             <thead>
                                 <tr >
-                                    <th scope="col" class="table-primary">Kontrakt</th>
+                                    
                                     <th scope="col" class="table-primary">Datum skapat</th>
                                     <th scope="col" class="table-primary">Datum uppsagt</th>
                                     <th scope="col" class="table-primary">Scannat dokument</th>
@@ -261,7 +233,7 @@
                                     
                                         echo "
                                             <tr class='row-cols-auto'>
-                                                <td><label class='form-control-sm'>" . $kontraktGInfo->kontraktNamn . " </label></td>
+                                                
                                                 <td><label class='form-control-sm'>" . $kontraktGInfo->datumKontrakt . " </label></td>
                                                 <td><input type='date' class='form-control-sm'  id='dtDateBackKontrakt' name='dtTom'  /></td>
                                                 
@@ -289,10 +261,12 @@
                             <!--Raden för att lägga till ett kontrakt.-->
                             <form  action="./code/uploadkontrakt.php" method="post" enctype="multipart/form-data">
                                 <tr class="row-cols-auto d-none" id="rowNyttKontrakt">
-                                    <td><input type="text" class="form-control-sm" id="idKontraktNamn" name="kontraktNamn" /></td>
+                                    
                                     <td><input type="date" class="form-control-sm" id="dtDateGoneKontrakt" name="dtFom" /></td>
                                     <td><input type="date" class="form-control-sm d-none" id="txtDateBackKontrakt" name="dtTom" /></td>
                                     <input type="hidden" value=<?php echo $hyresGInfo->hyresgastId ?> name="hdHyresgast"/>
+                                    <input type="hidden" value=<?php echo $hyresGInfo->fnamn ?> name="hdFnamn"/>
+                                    <input type="hidden" value=<?php echo $hyresGInfo->enamn ?> name="hdEnamn"/>
                                     <input type="hidden" value=<?php echo $hyresGInfo->lagenhetId ?> name="hdLagenhetId"/>
                                     <input type="hidden" value=<?php echo $hyresGInfo->lagenhetNo ?> name="hdLagenhetNo"/>
                                     <td>

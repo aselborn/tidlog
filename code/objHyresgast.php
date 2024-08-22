@@ -10,7 +10,6 @@
         public $epost;
         public $hyra;
         public $datumKontrakt;
-        public $kontraktNamn;
         public $kontrakt;
         public $andrahand;
         public $avgift;
@@ -37,7 +36,7 @@
         function setInformation(){
             $db = new DbManager();
 
-            $sql = "select h.adress, h.fnamn , h.enamn, l.hyra , k.datum , k.kontrakt_namn , k.kontrakt_id, 
+            $sql = "select h.adress, h.fnamn , h.enamn, l.hyra , k.datum ,  k.kontrakt_id, 
             k.kontrakt, k.datum_uppsagd, h.andrahand , tf.fastighet_id ,
             p.avgift, 
             l.lagenhet_id , l.lagenhet_nr, l.fskatt,
@@ -62,7 +61,6 @@
                 $this->telefon = $row["telefon"] ;
                 $this->epost = $row["epost"] ;
                 $this->hyra = $row["hyra"] ;
-                $this->kontraktNamn= $row["kontrakt_namn"] ;
                 $this->kontrakt = $row["kontrakt"] ;
                 $this->andrahand = $row["andrahand"] ;
                 $this->avgift = $row["avgift"] ;
