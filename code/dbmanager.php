@@ -218,7 +218,7 @@
             inner join tidlog_lagenhet tl on tl.lagenhet_id =tk.lagenhet_id 
             inner join tidlog_fastighet tf on tf.fastighet_id =tl.fastighet_id 
             where tf.fastighet_id=" . $perFastighet ;
-            
+
             $result = $this->connection->query($sql);
             $row = $result->fetch_assoc();
             return (int)$row["count"];
@@ -416,16 +416,25 @@
         }
 
         public function GetLagenhetNoFromLagenhetId($lagenhetid){
-            $sql = "SELECT lagenhet_nr FROM tidlog.tidlog_lagenhet where lagenhet_id =  ?";
+            $sql = "SELECT lagenhet_nr FROM tidlog_lagenhet where lagenhet_id =  ?";
             $stmt = $this->connection->prepare($sql);
             $stmt->bind_param("s",  $lagenhetid);
             $stmt->execute();
 
             $result = $stmt->get_result();
             
+            $theResult = 0;
             
-            $row = $result->fetch_column();
-            return $row;
+            //$row = $result->fetch_column();
+
+            $theResult = $result->fetch_assoc();
+            $theResult = $theResult["lagenhet_nr"];
+            // while ($row = $result->fetch_assoc()){
+            //     $theResult =  $row;
+            // }
+            
+            return $theResult;
+            
         }
         public function insert_old_kontrakt($typAvKontrakt , $lagenhetId, $datum_from, $datum_tom, $kontraktBlob, $fnamn, $enamn)
         {

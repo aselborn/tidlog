@@ -219,8 +219,8 @@
                                     <th scope="col" class="table-primary">Datum skapat</th>
                                     <th scope="col" class="table-primary">Datum uppsagt</th>
                                     <th scope="col" class="table-primary">Scannat dokument</th>
-                                    <th scope="col" class="table-primary"></th>
-                                    <th scope="col" class="table-primary"></th>
+                                    <th scope="col" class="table-primary">Hej</th>
+                                    
                                 </tr>
                             </thead>
 
@@ -244,9 +244,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <td>
-                                                        <input type='button' id='btnContractNoValid' value='Säg upp' class='btn btn-danger' />
-                                                    </td>
+                                                    <input type='button' id='btnContractNoValid' value='Säg upp' class='btn btn-danger' />
                                                 </td>
                                             </tr>
                                             

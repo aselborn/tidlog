@@ -27,7 +27,7 @@ ALTER TABLE tidlog.tidlog_kontrakt ADD datum_uppsagd DATETIME NULL;
 ALTER TABLE selborn_se.tidlog_kontrakt MODIFY COLUMN hyresgast_id int NULL;
 ALTER TABLE selborn_se.tidlog_kontrakt ADD andra_hand TINYINT NULL;
 ALTER TABLE selborn_se.tidlog_kontrakt ADD enamn varchar(100) NOT NULL;
-ALTER TABLE selborn_se.tidlog_kontrakt ADD enamn varchar(100) NOT NULL;
+ALTER TABLE selborn_se.tidlog_kontrakt ADD fnamn varchar(100) NOT NULL;
 ALTER TABLE selborn_se.tidlog_kontrakt DROP COLUMN kontrakt_namn;
 
 

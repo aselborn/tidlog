@@ -45,7 +45,7 @@
             tm.moms_procent , tm.moms
             from tidlog_hyresgaster h inner join tidlog_lagenhet l on h.hyresgast_id = l.hyresgast_id
             		inner join tidlog_fastighet tf on tf.fastighet_id =l.fastighet_id 
-                    left outer join tidlog_kontrakt k on k.lagenhet_id = l.lagenhet_id
+                    left outer join tidlog_kontrakt k on k.hyresgast_id  = l.hyresgast_id 
                     left outer join tidlog_parkering p on p.park_id = l.park_id
                     left outer join tidlog_nycklar tn on tn.hyresgast_id = h.hyresgast_id 
                     left outer join tidlog_moms tm on tm.lagenhet_id  = l.lagenhet_id
