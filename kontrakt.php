@@ -91,8 +91,12 @@
                                         $giltFran = $row["datum"];
                                         $giltligTill = $row["datum_uppsagd"] == null ? "" : $dtHelper->GetDatum($row["datum_uppsagd"]);
 
-                                        if ($row["andra_hand"] == 1)
-                                            $statusText = "<label class='text-bg-warning'><span>Andra Hand</span></label>";
+                                        if ($row["andra_hand"] == 1 && $giltligTill != null)
+                                            $statusText = "<label class='text-bg-warning'><span>Andra Hand, Avslutat</span></label>";
+
+
+                                        if ($row["andra_hand"] == 1 && $giltligTill == null)
+                                            $statusText = "<label class='text-bg-danger'><span>Uthyrd i andra hand.</span></label>";
 
                                         if ($row["andra_hand"] == 0 && $giltligTill == null)
                                             $statusText = "<label class='text-bg-info'><span>Aktuellt kontrakt</span></label>";

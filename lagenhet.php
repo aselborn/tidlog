@@ -56,7 +56,8 @@
                                     <th scope="col" class="table-primary">Parkering Nr</th>
                                     <th scope="col" class="table-primary">VindNr</th>
                                     <th scope="col" class="table-primary">KällareNr</th>
-                                    <th scope="col" class="table-primary">Hyrs av</th>
+                                    <th scope="col" class="table-primary">Kontrakt har</th>
+                                    <th scope="col" class="table-primary">I andra hand</th>
                                     <!-- <th scope="col" class="table-primary">Yta</th> -->
                                 </tr>
                             </thead>
@@ -67,29 +68,41 @@
                           
                                 $data = $db->query(
                                     "
-                                        SELECT *, tv.nummer as vindNr, tk.nummer as kallareNr from tidlog_lagenhet tl 
+                                        SELECT tkr.enamn as kenamn, tkr.fnamn as kfnamn, tkr.andra_hand, 
+                                        th.hyresgast_id, th.fnamn, th.enamn, tf.fastighet_id, tl.lagenhet_id, tl.yta, tl.hyra,
+                                        tl.lagenhet_nr, tp.parknr,
+                                        tv.nummer as vindNr, tk.nummer as kallareNr from tidlog_lagenhet tl 
                                         inner join tidlog_fastighet tf on tf.fastighet_id = tl.fastighet_id
                                         left outer join tidlog_hyresgaster th on th.hyresgast_id = tl.hyresgast_id
                                         left outer join tidlog_parkering tp on tp.park_id = tl.park_id 
                                         left outer join tidlog_vind tv on tv.vind_id = tl.vind_id
                                         left outer join tidlog_kallare tk on tk.kallare_id = tl.kallare_id
-                                        where tf.fastighet_id = " . $fastighetId . "
-                                    order by lagenhet_nr asc LIMIT " 
-                                    
-                                . $page_first_result . ',' . $result_per_page)->fetchAll();
+                                        left outer join tidlog_kontrakt tkr on tkr.lagenhet_id = tl.lagenhet_id
+                                        where tf.fastighet_id = " . $fastighetId . " and tkr.datum_uppsagd IS null
+                                    order by lagenhet_nr asc LIMIT " . $page_first_result . ',' . $result_per_page)->fetchAll();
                          
                                
 
                             foreach ($data as $row) {
+                                $hyresgastId = $row["hyresgast_id"];
+
                                 $yta = $row["yta"];
                                 $lagenhetNo = $row["lagenhet_nr"];
                                 $lagenhetId = $row["lagenhet_id"];
+                                $iAndraHand = $row["andra_hand"] == null ? 0 : 1;
 
                                 $fastighet = $row["fastighet_id"] == "1" ? "T7" : "U9";
 
                                 $hyrsAv = ($row["fnamn"] . " " .  $row["enamn"]) == " " ?
                                     "Ledig" : $row["fnamn"] . " " . " " .  $row["enamn"];
-                                $hyresgastId = $row["hyresgast_id"];
+
+
+                                $hyrsIAndrahandAv = "";
+                                if ($iAndraHand == 1){
+                                    $hyrsIAndrahandAv = $row["fnamn"] . " " . $row["enamn"];
+                                }
+
+                                
                                 $parkering = $row["parknr"]  == null ? "" : $row["parknr"];
                                 $vindNr = $row["vindNr"] == null ? "" : $row["vindNr"];
                                 $kallareNr = $row["kallareNr"] == null ? "" : $row["kallareNr"];
@@ -106,20 +119,29 @@
                                 <td>". $vindNr . "</td>
                                 <td>". $kallareNr . "</td>
                                 <td>";
-                                if ($hyrsAv != "Ledig"){
+
+                                if ($hyrsAv != "Ledig" && $hyresgastId != null){
                                     $link .= "<a href='hyrginfo.php?hyresgast_id=" . $hyresgastId . "'>
                                                 <div style='height:100%;width:100%'>
                                                 " . $hyrsAv . "
                                                 </div>
                                             </a>";
-                                } else {
+                                } else if ($hyrsAv != "Ledig" && $hyresgastId ==  null) {
                                     $link .= "<a href='nyhyresgast.php'>
                                                 <div style='height:100%;width:100%'>
                                                 " . $hyrsAv . "
                                                 </div>
                                             </a>";
+                                } else {
+                                    $hyrsAv != "Ledig";
+                                        $link .= "<a href='nyhyresgast.php'>
+                                                    <div style='height:100%;width:100%'>
+                                                    " . $hyrsAv . "
+                                                    </div>
+                                                </a>";
                                 }
-                                
+
+                                $link .= "<td>$hyrsIAndrahandAv</td>";
                                 $link .= "</td>
                                 
                                 </tr>";
